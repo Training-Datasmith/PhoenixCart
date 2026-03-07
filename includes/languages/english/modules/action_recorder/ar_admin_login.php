@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_ACTION_RECORDER_ADMIN_LOGIN_TITLE = 'Administration Tool Login';
-  const MODULE_ACTION_RECORDER_ADMIN_LOGIN_DESCRIPTION = 'Record Administration Tool logins.';
+const MODULE_ACTION_RECORDER_ADMIN_LOGIN_TITLE = 'Administration Tool Login';
+const MODULE_ACTION_RECORDER_ADMIN_LOGIN_DESCRIPTION = 'Record Administration Tool logins.';

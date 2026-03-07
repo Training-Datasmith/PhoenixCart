@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -26,16 +28,15 @@ namespace Stripe;
  */
 class ShippingRate extends ApiResource
 {
-    const OBJECT_NAME = 'shipping_rate';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Retrieve;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'shipping_rate';
 
-    const TAX_BEHAVIOR_EXCLUSIVE = 'exclusive';
-    const TAX_BEHAVIOR_INCLUSIVE = 'inclusive';
-    const TAX_BEHAVIOR_UNSPECIFIED = 'unspecified';
+    public const TAX_BEHAVIOR_EXCLUSIVE = 'exclusive';
+    public const TAX_BEHAVIOR_INCLUSIVE = 'inclusive';
+    public const TAX_BEHAVIOR_UNSPECIFIED = 'unspecified';
 
-    const TYPE_FIXED_AMOUNT = 'fixed_amount';
+    public const TYPE_FIXED_AMOUNT = 'fixed_amount';
 }

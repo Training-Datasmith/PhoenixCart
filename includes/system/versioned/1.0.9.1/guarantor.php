@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,31 +12,34 @@
   Released under the GNU General Public License
 */
 
-  class Guarantor {
+class Guarantor
+{
+    public static function &ensure_global($class, ...$parameters)
+    {
+        if (!(($GLOBALS[$class] ?? null) instanceof $class)) {
+            $GLOBALS[$class] = new $class(...$parameters);
+        }
 
-    public static function &ensure_global($class, ...$parameters) {
-      if (!(($GLOBALS[$class] ?? null) instanceof $class)) {
-        $GLOBALS[$class] = new $class(...$parameters);
-      }
-
-      return $GLOBALS[$class];
+        return $GLOBALS[$class];
     }
 
-    public static function &guarantee_subarray(&$data, $key) {
-      if (!isset($data[$key]) || !is_array($data[$key])) {
-        $data[$key] = [];
-      }
+    public static function &guarantee_subarray(array &$data, $key)
+    {
+        if (!isset($data[$key]) || !is_array($data[$key])) {
+            $data[$key] = [];
+        }
 
-      return $data[$key];
+        return $data[$key];
     }
 
-    public static function &guarantee_all(&$data, ...$keys) {
-      $current = &$data;
-      foreach ($keys as $key) {
-        $current = &Guarantor::guarantee_subarray($current, $key);
-      }
+    public static function &guarantee_all(&$data, ...$keys)
+    {
+        $current = &$data;
+        foreach ($keys as $key) {
+            $current = &Guarantor::guarantee_subarray($current, $key);
+        }
 
-      return $current;
+        return $current;
     }
 
-  }
+}

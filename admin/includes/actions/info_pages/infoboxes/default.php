@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($table_definition['info']->pages_id)) {
+if (isset($table_definition['info']->pages_id)) {
     $pInfo = $table_definition['info'];
     $heading = $pInfo->pages_title;
     $link = $GLOBALS['link']->set_parameter('pID', (int)$pInfo->pages_id);
@@ -22,7 +24,7 @@
     ];
     $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, Date::abridge($pInfo->date_added))];
     if (!Text::is_empty($pInfo->last_modified)) {
-      $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, Date::abridge($pInfo->last_modified))];
+        $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, Date::abridge($pInfo->last_modified))];
     }
     $contents[] = ['text' => sprintf(TEXT_INFO_PAGE_SIZE, str_word_count($pInfo->pages_text))];
-  }
+}

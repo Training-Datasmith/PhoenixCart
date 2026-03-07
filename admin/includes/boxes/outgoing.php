@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,6 +12,5 @@
   Released under the GNU General Public License
 */
 
-  $cl_box_groups[] = ['sort' => 35, 'heading' => BOX_HEADING_OUTGOING_EMAIL,
-                      'apps' => []];
-                      
+$cl_box_groups[] = ['sort' => 35, 'heading' => BOX_HEADING_OUTGOING_EMAIL,
+                    'apps' => []];

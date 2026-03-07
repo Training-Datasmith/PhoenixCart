@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,16 +12,16 @@
   Released under the GNU General Public License
 */
 
-  $store_logo = new upload('store_logo');
-  $store_logo->set_extensions(['png', 'gif', 'jpg', 'jpeg', 'svg', 'webp']);
-  $store_logo->set_destination(DIR_FS_CATALOG . 'images/');
-  $admin_hooks->cat('saveValidation', $store_logo);
+$store_logo = new upload('store_logo');
+$store_logo->set_extensions(['png', 'gif', 'jpg', 'jpeg', 'svg', 'webp']);
+$store_logo->set_destination(DIR_FS_CATALOG . 'images/');
+$admin_hooks->cat('saveValidation', $store_logo);
 
-  if (!$store_logo->parse() || !$store_logo->save()) {
+if (!$store_logo->parse() || !$store_logo->save()) {
     return;
-  }
+}
 
-  $messageStack->add_session(SUCCESS_LOGO_UPDATED, 'success');
-  $db->query("UPDATE configuration SET configuration_value = '" . $db->escape($store_logo->filename) . "' WHERE configuration_key = 'STORE_LOGO'");
+$messageStack->add_session(SUCCESS_LOGO_UPDATED, 'success');
+$db->query("UPDATE configuration SET configuration_value = '" . $db->escape($store_logo->filename) . "' WHERE configuration_key = 'STORE_LOGO'");
 
-  return $Admin->link('store_logo.php');
+return $Admin->link('store_logo.php');

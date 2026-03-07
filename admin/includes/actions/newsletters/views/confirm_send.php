@@ -10,12 +10,12 @@
   Released under the GNU General Public License
 */
 
-    $newsletter = $db->query("SELECT newsletters_id, title, content, module FROM newsletters WHERE newsletters_id = " . (int)$newsletter_id)->fetch_assoc();
+$newsletter = $db->query('SELECT newsletters_id, title, content, module FROM newsletters WHERE newsletters_id = ' . (int)$newsletter_id)->fetch_assoc();
 
-    $nInfo = new objectInfo($newsletter);
+$nInfo = new objectInfo($newsletter);
 
-    $module_name = $nInfo->module;
-    $module = new $module_name($nInfo->title, $nInfo->content);
+$module_name = $nInfo->module;
+$module = new $module_name($nInfo->title, $nInfo->content);
 ?>
 
   <div class="alert alert-info">
@@ -26,8 +26,8 @@
 
 <?php
   System::set_time_limit(0);
-  flush();
-  $module->send($nInfo->newsletters_id);
+flush();
+$module->send($nInfo->newsletters_id);
 ?>
 
   <div class="alert alert-success">

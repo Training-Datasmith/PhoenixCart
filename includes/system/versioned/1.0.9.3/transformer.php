@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,8 +37,8 @@ THE SOFTWARE.
  *
  * @internal
  */
-abstract class Transformer {
-
+abstract class Transformer
+{
     /**
      * Format a value using a configured DateTime as date/time source.
      *
@@ -65,7 +67,8 @@ abstract class Transformer {
      *
      * @return array An associative array
      */
-    public function extractDateOptions(string $matched, int $length): array {
+    public function extractDateOptions(string $matched, int $length): array
+    {
         return [];
     }
 
@@ -77,7 +80,8 @@ abstract class Transformer {
      *
      * @return string The padded string
      */
-    protected function padLeft(string $value, int $length): string {
+    protected function padLeft(string $value, int $length): string
+    {
         return str_pad($value, $length, '0', \STR_PAD_LEFT);
     }
 }

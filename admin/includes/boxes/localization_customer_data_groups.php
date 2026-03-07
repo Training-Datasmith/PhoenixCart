@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,14 +12,14 @@
   Released under the GNU General Public License
 */
 
-  foreach ( $cl_box_groups as &$group ) {
-    if ( $group['heading'] == BOX_HEADING_LOCALIZATION ) {
-      $group['apps'][] = [
-        'code' => 'customer_data_groups.php',
-        'title' => BOX_LOCALIZATION_CUSTOMER_DATA_GROUPS,
-        'link' => $GLOBALS['Admin']->link('customer_data_groups.php'),
-      ];
+foreach ($cl_box_groups as &$group) {
+    if ($group['heading'] == BOX_HEADING_LOCALIZATION) {
+        $group['apps'][] = [
+          'code' => 'customer_data_groups.php',
+          'title' => BOX_LOCALIZATION_CUSTOMER_DATA_GROUPS,
+          'link' => $GLOBALS['Admin']->link('customer_data_groups.php'),
+        ];
 
-      break;
+        break;
     }
-  }
+}

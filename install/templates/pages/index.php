@@ -10,38 +10,32 @@
   Released under the GNU General Public License
 */
 
-  $unwritable_files = Installer::find_unwritable_files(dirname(__FILE__, 4));
+$unwritable_files = Installer::find_unwritable_files(dirname(__FILE__, 4));
 
-  $errors = [];
-  $warnings = [];
+$errors = [];
+$warnings = [];
 
-  if (!extension_loaded('mysqli')) {
+if (!extension_loaded('mysqli')) {
     $errors['mysql'] = TEXT_MYSQLI_REQUIRED;
-  }
+}
 
-  $php_version_thumb = ICON_THUMB_SUCCESS;
+$php_version_thumb = ICON_THUMB_SUCCESS;
 
-  if (version_compare(PHP_VERSION, PHP_VERSION_MIN, '<')) {
-    $errors['php_version'] = sprintf(TEXT_MINIMUM_VERSION, PHP_VERSION_MIN, PHP_VERSION);
-    $php_version_thumb = ICON_THUMB_DANGER;
-  }
+$warnings['php_version'] = sprintf(TEXT_MAXIMUM_VERSION, PHP_VERSION_MAX, PHP_VERSION);
 
-  if (version_compare(PHP_VERSION, PHP_VERSION_MAX, '>=')) {
-    $warnings['php_version'] = sprintf(TEXT_MAXIMUM_VERSION, PHP_VERSION_MAX, PHP_VERSION);
-    $php_version_thumb = ICON_THUMB_WARNING;
-  }
+$php_version_thumb = ICON_THUMB_WARNING;
 
-  if ((int)ini_get('allow_url_fopen') == 0) {
+if ((int)ini_get('allow_url_fopen') == 0) {
     $warnings['allow_url_fopen'] = TEXT_FOPEN_WRAPPERS_REQUIRED;
-  }
+}
 
-  if (!extension_loaded('cURL')) {
+if (!extension_loaded('cURL')) {
     $warnings['curl'] = TEXT_CURL_REQUIRED;
-  }
-  
-  if (!extension_loaded('intl')) {
+}
+
+if (!extension_loaded('intl')) {
     $warnings['intl'] = TEXT_INTL_PREFERRED;
-  }
+}
 ?>
 
 <div class="alert alert-info" role="alert">
@@ -57,34 +51,30 @@
 
 <?php
   if (!empty($unwritable_files) || !empty($errors) || !empty($warnings)) {
-?>
+      ?>
 
     <table class="table table-condensed table-striped">
 <?php
-    if (!empty($errors)) {
-      foreach ( $errors as $key => $value ) {
-        echo '<tr class="table-danger">';
-          echo '<th>' . $key . '</th>';
-          echo '<td>' . $value . '</td>';
-        echo '</tr>';
-      }
-    }
+          foreach ($errors as $key => $value) {
+              echo '<tr class="table-danger">';
+              echo '<th>' . $key . '</th>';
+              echo '<td>' . $value . '</td>';
+              echo '</tr>';
+          }
 
-    if (!empty($warnings)) {
-      foreach ( $warnings as $key => $value ) {
-        echo '<tr class="table-warning">';
+      foreach ($warnings as $key => $value) {
+          echo '<tr class="table-warning">';
           echo '<th>' . $key . '</th>';
           echo '<td>' . $value . '</td>';
-        echo '</tr>';
+          echo '</tr>';
       }
-    }
-?>
+      ?>
 
     </table>
 
 <?php
-    if (!empty($unwritable_files)) {
-?>
+          if (!empty($unwritable_files)) {
+              ?>
 
     <div class="alert alert-danger" role="alert">
       <?= TEXT_CONFIGURATION_NOT_WRITABLE ?>
@@ -94,20 +84,20 @@
     </div>
 
 <?php
-    }
+          }
   }
 
-  if (!empty($unwritable_files) || !empty($errors)) {
+if (!empty($unwritable_files) || !empty($errors)) {
     if (!empty($errors)) {
-      echo '<div class="alert alert-info" role="alert"><i>' . TEXT_CHANGE_MAY_NEED_REBOOT . "</i></div>\n";
+        echo '<div class="alert alert-info" role="alert"><i>' . TEXT_CHANGE_MAY_NEED_REBOOT . "</i></div>\n";
     }
-?>
+    ?>
 
     <p class="d-grid"><a href="index.php" class="btn btn-danger" role="button"><?= BUTTON_RETRY ?></a></p>
 
 <?php
-  } else {
-?>
+} else {
+    ?>
 
     
 
@@ -129,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <?php
-  }
+}
 ?>
 
   </div>

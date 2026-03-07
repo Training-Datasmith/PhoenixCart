@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  $id = Text::input($_GET['oID']);
+$id = Text::input($_GET['oID']);
 
-  $db->query("DELETE FROM outgoing WHERE id = " . (int)$id);
+$db->query('DELETE FROM outgoing WHERE id = ' . (int)$id);
 
-  return $link;
+return $link;

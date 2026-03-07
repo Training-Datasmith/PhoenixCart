@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Treasury;
@@ -38,17 +40,16 @@ namespace Stripe\Treasury;
  */
 class OutboundPayment extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'treasury.outbound_payment';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Retrieve;
+    public const OBJECT_NAME = 'treasury.outbound_payment';
 
-    const STATUS_CANCELED = 'canceled';
-    const STATUS_FAILED = 'failed';
-    const STATUS_POSTED = 'posted';
-    const STATUS_PROCESSING = 'processing';
-    const STATUS_RETURNED = 'returned';
+    public const STATUS_CANCELED = 'canceled';
+    public const STATUS_FAILED = 'failed';
+    public const STATUS_POSTED = 'posted';
+    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_RETURNED = 'returned';
 
     /**
      * @param null|array $params
@@ -58,10 +59,10 @@ class OutboundPayment extends \Stripe\ApiResource
      *
      * @return \Stripe\Treasury\OutboundPayment the canceled outbound payment
      */
-    public function cancel($params = null, $opts = null)
+    public function cancel($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/cancel';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

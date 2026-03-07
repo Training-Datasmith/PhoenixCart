@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -11,33 +13,33 @@
 */
 
 // start the timer for the page parse time log
-  define('PAGE_PARSE_START_TIME', microtime(true));
+define('PAGE_PARSE_START_TIME', microtime(true));
 
-  include 'includes/configure.php';
+include 'includes/configure.php';
 
-  require 'includes/system/autoloader.php';
-  $class_index = catalog_autoloader::register();
+require 'includes/system/autoloader.php';
+$class_index = catalog_autoloader::register();
 
 // make a connection to the database... now
-  $db = new Database() or die('Unable to connect to database server!');
+$db = new Database() or die('Unable to connect to database server!');
 
-  $hooks = new hooks('shop');
-  $all_hooks =& $hooks;
-  $hooks->register('system');
-  foreach ($hooks->generate('startApplication') as $result) {
+$hooks = new hooks('shop');
+$all_hooks = & $hooks;
+$hooks->register('system');
+foreach ($hooks->generate('startApplication') as $result) {
     if (!isset($result)) {
-      continue;
+        continue;
     }
 
     if (is_string($result)) {
-      $result = [ $result ];
+        $result = [ $result ];
     }
 
     if (is_array($result)) {
-      foreach ($result as $path) {
-        if (is_string($path ?? null) && file_exists($path)) {
-          require $path;
+        foreach ($result as $path) {
+            if (is_string($path ?? null) && file_exists($path)) {
+                require $path;
+            }
         }
-      }
     }
-  }
+}

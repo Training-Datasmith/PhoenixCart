@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,18 +12,19 @@
   Released under the GNU General Public License
 */
 
-  class n_checkout extends abstract_module {
+class n_checkout extends abstract_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_NOTIFICATIONS_CHECKOUT_';
 
-    const CONFIG_KEY_BASE = 'MODULE_NOTIFICATIONS_CHECKOUT_';
+    public const TRIGGERS = [ 'checkout' ];
+    public const REQUIRES = [ 'address', 'greeting', 'name', 'email_address' ];
 
-    const TRIGGERS = [ 'checkout' ];
-    const REQUIRES = [ 'address', 'greeting', 'name', 'email_address' ];
+    public function notify($order)
+    {
+        global $order_id, $customer;
 
-    public function notify($order) {
-      global $order_id, $customer;
-
-      if (DOWNLOAD_ENABLED == 'true') {
-        $attributes_sql = <<<'EOSQL'
+        if (DOWNLOAD_ENABLED == 'true') {
+            $attributes_sql = <<<'EOSQL'
 SELECT popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix,
        pad.products_attributes_maxdays, pad.products_attributes_maxcount , pad.products_attributes_filename
   FROM products_options popt, products_options_values poval, products_attributes pa
@@ -34,8 +37,8 @@ SELECT popt.products_options_name, poval.products_options_values_name, pa.option
     AND popt.language_id = %d
     AND poval.language_id = %d
 EOSQL;
-      } else {
-        $attributes_sql = <<<'EOSQL'
+        } else {
+            $attributes_sql = <<<'EOSQL'
 SELECT popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix
   FROM products_options popt, products_options_values poval, products_attributes pa
   WHERE pa.products_id = %d
@@ -46,35 +49,35 @@ SELECT popt.products_options_name, poval.products_options_values_name, pa.option
     AND popt.language_id = %d
     AND poval.language_id = %d
 EOSQL;
-      }
+        }
 
-      ob_start();
-      include Guarantor::ensure_global('Template')->map(__FILE__);
-      $email_order = ob_get_clean();
+        ob_start();
+        include Guarantor::ensure_global('Template')->map(__FILE__);
+        $email_order = ob_get_clean();
 
-      $parameters = ['order' => $order, 'email' => &$email_order];
-      echo $GLOBALS['hooks']->cat('orderMail', $parameters);
+        $parameters = ['order' => $order, 'email' => &$email_order];
+        echo $GLOBALS['hooks']->cat('orderMail', $parameters);
 
-      $accepted = Notifications::mail($order->customer['name'], $order->customer['email_address'], MODULE_NOTIFICATIONS_CHECKOUT_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+        $accepted = Notifications::mail($order->customer['name'], $order->customer['email_address'], MODULE_NOTIFICATIONS_CHECKOUT_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
-      // send emails to other people
-      if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
-        Notifications::mail('', SEND_EXTRA_ORDER_EMAILS_TO, MODULE_NOTIFICATIONS_CHECKOUT_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-      }
+        // send emails to other people
+        if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
+            Notifications::mail('', SEND_EXTRA_ORDER_EMAILS_TO, MODULE_NOTIFICATIONS_CHECKOUT_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+        }
 
-      return $accepted;
+        return $accepted;
     }
 
-    protected function get_parameters() {
-      return [
-        static::CONFIG_KEY_BASE . 'STATUS' => [
-          'title' => 'Enable Checkout Notification module',
-          'value' => 'True',
-          'desc' => 'Do you want to add the module to your shop?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          static::CONFIG_KEY_BASE . 'STATUS' => [
+            'title' => 'Enable Checkout Notification module',
+            'value' => 'True',
+            'desc' => 'Do you want to add the module to your shop?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+        ];
     }
 
-  }
-
+}

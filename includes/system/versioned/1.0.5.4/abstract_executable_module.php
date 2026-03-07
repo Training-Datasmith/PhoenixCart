@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,23 +12,25 @@
   Released under the GNU General Public License
 */
 
-  abstract class abstract_executable_module extends abstract_module {
+abstract class abstract_executable_module extends abstract_module
+{
+    protected string $group;
 
-    protected $group;
+    public function __construct($filename)
+    {
+        parent::__construct();
 
-    function __construct($filename) {
-      parent::__construct();
-
-      $this->group = basename(dirname($filename));
-      if (isset($this->get_parameters()[static::CONFIG_KEY_BASE . 'CONTENT_WIDTH'])) {
-        $this->description .= '<div class="alert alert-warning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
-      }
+        $this->group = basename(dirname((string) $filename));
+        if (isset($this->get_parameters()[static::CONFIG_KEY_BASE . 'CONTENT_WIDTH'])) {
+            $this->description .= '<div class="alert alert-warning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
+        }
     }
 
-    public function get_group() {
-      return $this->group;
+    public function get_group()
+    {
+        return $this->group;
     }
 
     abstract public function execute();
 
-  }
+}

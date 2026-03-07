@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe;
 
 /**
@@ -15,9 +17,8 @@ namespace Stripe;
  */
 class Collection extends StripeObject implements \Countable, \IteratorAggregate
 {
-    const OBJECT_NAME = 'list';
-
     use ApiOperations\Request;
+    public const OBJECT_NAME = 'list';
 
     /** @var array */
     protected $filters = [];
@@ -45,7 +46,7 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      *
      * @param array $filters the filters
      */
-    public function setFilters($filters)
+    public function setFilters($filters): void
     {
         $this->filters = $filters;
     }
@@ -75,16 +76,16 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      *
      * @return Collection<TStripeObject>
      */
-    public function all($params = null, $opts = null)
+    public function all($params = null, $opts = null): self
     {
         self::_validateParams($params);
-        list($url, $params) = $this->extractPathAndUpdateParams($params);
+        [$url, $params] = $this->extractPathAndUpdateParams($params);
 
-        list($response, $opts) = $this->_request('get', $url, $params, $opts);
+        [$response, $opts] = $this->_request('get', $url, $params, $opts);
         $obj = Util\Util::convertToStripeObject($response, $opts);
         if (!($obj instanceof \Stripe\Collection)) {
             throw new \Stripe\Exception\UnexpectedValueException(
-                'Expected type ' . \Stripe\Collection::class . ', got "' . \get_class($obj) . '" instead.'
+                'Expected type ' . \Stripe\Collection::class . ', got "' . $obj::class . '" instead.'
             );
         }
         $obj->setFilters($params);
@@ -103,9 +104,9 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
     public function create($params = null, $opts = null)
     {
         self::_validateParams($params);
-        list($url, $params) = $this->extractPathAndUpdateParams($params);
+        [$url, $params] = $this->extractPathAndUpdateParams($params);
 
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
 
         return Util\Util::convertToStripeObject($response, $opts);
     }
@@ -122,11 +123,11 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
     public function retrieve($id, $params = null, $opts = null)
     {
         self::_validateParams($params);
-        list($url, $params) = $this->extractPathAndUpdateParams($params);
+        [$url, $params] = $this->extractPathAndUpdateParams($params);
 
         $id = Util\Util::utf8($id);
-        $extn = \urlencode($id);
-        list($response, $opts) = $this->_request(
+        $extn = \urlencode((string) $id);
+        [$response, $opts] = $this->_request(
             'get',
             "{$url}/{$extn}",
             $params,
@@ -140,7 +141,7 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      * @return int the number of objects in the current page
      */
     #[\ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return \count($this->data);
     }
@@ -159,7 +160,7 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      * @return \ArrayIterator an iterator that can be used to iterate
      *    backwards across objects in the current page
      */
-    public function getReverseIterator()
+    public function getReverseIterator(): \ArrayIterator
     {
         return new \ArrayIterator(\array_reverse($this->data));
     }
@@ -211,10 +212,8 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
 
     /**
      * Returns true if the page object contains no element.
-     *
-     * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return empty($this->data);
     }
@@ -295,7 +294,7 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
         return \count($this->data) > 0 ? $this->data[\count($this->data) - 1] : null;
     }
 
-    private function extractPathAndUpdateParams($params)
+    private function extractPathAndUpdateParams($params): array
     {
         $url = \parse_url($this->url);
         if (!isset($url['path'])) {

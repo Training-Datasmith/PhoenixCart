@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($_POST['categories_id'])) {
+if (isset($_POST['categories_id'])) {
     $categories_id = Text::input($_POST['categories_id']);
 
     $category_tree = new category_tree();
@@ -23,12 +25,12 @@ SELECT c1.products_id
    ON c1.products_id = c2.products_id AND c1.categories_id != c2.categories_id
  WHERE c1.categories_id IN (%s) AND c2.categories_id IS NULL
 EOSQL
-      , implode(', ', array_map('intval', $descendants)))), 'products_id');
+        , implode(', ', array_map(intval(...), $descendants)))), 'products_id');
 
-// removing categories can be a lengthy process
+    // removing categories can be a lengthy process
     System::set_time_limit(0);
-    array_filter($products_delete, 'Products::remove');
-    array_filter($descendants, 'Categories::remove');
-  }
+    array_filter($products_delete, Products::remove(...));
+    array_filter($descendants, Categories::remove(...));
+}
 
-  return $Admin->link('catalog.php', ['cPath' => $cPath]);
+return $Admin->link('catalog.php', ['cPath' => $cPath]);

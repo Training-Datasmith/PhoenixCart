@@ -31,7 +31,7 @@
 
 <?php
   if (isset($_SESSION['admin']) && file_exists('includes/header.php')) {
-    require 'includes/header.php';
+      require 'includes/header.php';
   }
 ?>
 
@@ -39,6 +39,6 @@
 
     <?php
     if ($messageStack->size > 0) {
-      echo $messageStack->output();
+        echo $messageStack->output();
     }
-    ?>
+?>

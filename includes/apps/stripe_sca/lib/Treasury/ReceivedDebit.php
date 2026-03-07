@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Treasury;
@@ -28,20 +30,19 @@ namespace Stripe\Treasury;
  */
 class ReceivedDebit extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'treasury.received_debit';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Retrieve;
+    public const OBJECT_NAME = 'treasury.received_debit';
 
-    const FAILURE_CODE_ACCOUNT_CLOSED = 'account_closed';
-    const FAILURE_CODE_ACCOUNT_FROZEN = 'account_frozen';
-    const FAILURE_CODE_INSUFFICIENT_FUNDS = 'insufficient_funds';
-    const FAILURE_CODE_OTHER = 'other';
+    public const FAILURE_CODE_ACCOUNT_CLOSED = 'account_closed';
+    public const FAILURE_CODE_ACCOUNT_FROZEN = 'account_frozen';
+    public const FAILURE_CODE_INSUFFICIENT_FUNDS = 'insufficient_funds';
+    public const FAILURE_CODE_OTHER = 'other';
 
-    const NETWORK_ACH = 'ach';
-    const NETWORK_CARD = 'card';
-    const NETWORK_STRIPE = 'stripe';
+    public const NETWORK_ACH = 'ach';
+    public const NETWORK_CARD = 'card';
+    public const NETWORK_STRIPE = 'stripe';
 
-    const STATUS_FAILED = 'failed';
-    const STATUS_SUCCEEDED = 'succeeded';
+    public const STATUS_FAILED = 'failed';
+    public const STATUS_SUCCEEDED = 'succeeded';
 }

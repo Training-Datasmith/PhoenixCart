@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,11 +12,12 @@
   Released under the GNU General Public License
 */
 
-  class url_query {
-
-    public static function parse(string $query) : array {
-      parse_str($query, $parameters);
-      return $parameters;
+class url_query
+{
+    public static function parse(string $query): array
+    {
+        parse_str($query, $parameters);
+        return $parameters;
     }
 
-  }
+}

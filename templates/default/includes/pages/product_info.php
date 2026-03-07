@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 
@@ -18,7 +18,7 @@
 
 <?php
   if ($messageStack->size('product_action') > 0) {
-    echo $messageStack->output('product_action');
+      echo $messageStack->output('product_action');
   }
 ?>
 

@@ -10,12 +10,12 @@
   Released under the GNU General Public License
 */
 
-  require 'includes/application_top.php';
+require 'includes/application_top.php';
 
-  $link = $Admin->link()->retain_query_except(['iID', 'action']);
-  require 'includes/segments/process_action.php';
+$link = $Admin->link()->retain_query_except(['iID', 'action']);
+require 'includes/segments/process_action.php';
 
-  require 'includes/template_top.php';
+require 'includes/template_top.php';
 ?>
 
   <div class="row">
@@ -25,17 +25,17 @@
     <div class="col-12 col-lg-8 text-start text-lg-end align-self-center pb-1">
       <?=
       $Admin->button(GET_HELP, '', 'btn-dark me-2', GET_HELP_LINK, ['newwindow' => true]),
-      $admin_hooks->cat('extraButtons'),
-      empty($action)
-      ? $Admin->button(BUTTON_INSERT_NEW_IMPORTER, 'fas fa-id-card', 'btn-danger', $Admin->link('importers.php', ['action' => 'new']))
-      : $Admin->button(IMAGE_BACK, 'fas fa-angle-left', 'btn-light', $link)
-      ?>
+$admin_hooks->cat('extraButtons'),
+empty($action)
+? $Admin->button(BUTTON_INSERT_NEW_IMPORTER, 'fas fa-id-card', 'btn-danger', $Admin->link('importers.php', ['action' => 'new']))
+: $Admin->button(IMAGE_BACK, 'fas fa-angle-left', 'btn-light', $link)
+?>
     </div>
   </div>
 
 <?php
   if ($view_file = $Admin->locate('/views', $action)) {
-    require $view_file;
+      require $view_file;
   }
 ?>
 
@@ -55,5 +55,5 @@
 
 <?php
   require 'includes/template_bottom.php';
-  require 'includes/application_bottom.php';
+require 'includes/application_bottom.php';
 ?>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\ApiOperations;
 
 /**
@@ -36,10 +38,10 @@ trait Request
      *
      * @return array tuple containing (the JSON response, $options)
      */
-    protected function _request($method, $url, $params = [], $options = null)
+    protected function _request($method, $url, $params = [], $options = null): array
     {
         $opts = $this->_opts->merge($options);
-        list($resp, $options) = static::_staticRequest($method, $url, $params, $opts);
+        [$resp, $options] = static::_staticRequest($method, $url, $params, $opts);
         $this->setLastResponse($resp);
 
         return [$resp->json, $options];
@@ -70,12 +72,12 @@ trait Request
      *
      * @return array tuple containing (the JSON response, $options)
      */
-    protected static function _staticRequest($method, $url, $params, $options)
+    protected static function _staticRequest($method, $url, $params, $options): array
     {
         $opts = \Stripe\Util\RequestOptions::parse($options);
-        $baseUrl = isset($opts->apiBase) ? $opts->apiBase : static::baseUrl();
+        $baseUrl = $opts->apiBase ?? static::baseUrl();
         $requestor = new \Stripe\ApiRequestor($opts->apiKey, $baseUrl);
-        list($response, $opts->apiKey) = $requestor->request($method, $url, $params, $opts->headers);
+        [$response, $opts->apiKey] = $requestor->request($method, $url, $params, $opts->headers);
         $opts->discardNonPersistentHeaders();
 
         return [$response, $opts];
@@ -93,7 +95,7 @@ trait Request
     protected static function _staticStreamingRequest($method, $url, $readBodyChunk, $params, $options)
     {
         $opts = \Stripe\Util\RequestOptions::parse($options);
-        $baseUrl = isset($opts->apiBase) ? $opts->apiBase : static::baseUrl();
+        $baseUrl = $opts->apiBase ?? static::baseUrl();
         $requestor = new \Stripe\ApiRequestor($opts->apiKey, $baseUrl);
         $requestor->requestStream($method, $url, $readBodyChunk, $params, $opts->headers);
     }

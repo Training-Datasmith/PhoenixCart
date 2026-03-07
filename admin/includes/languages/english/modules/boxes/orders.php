@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,4 +12,4 @@
   Released under the GNU General Public License
 */
 
-  const BOX_HEADING_ORDERS = '<i title="Orders" class="fas fa-credit-card fa-fw me-1"></i><span title="Orders" class="d-xl-none">Orders</span>';
+const BOX_HEADING_ORDERS = '<i title="Orders" class="fas fa-credit-card fa-fw me-1"></i><span title="Orders" class="d-xl-none">Orders</span>';

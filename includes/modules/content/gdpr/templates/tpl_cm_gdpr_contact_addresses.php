@@ -11,10 +11,10 @@
         <td>
           <ul class="list-group">
             <?php
-            foreach ($port_my_data['YOU']['CONTACT']['ADDRESS']['OTHER']['LIST'] as $k => $v) {
-              echo '<li class="list-group-item">' . $v['ADDRESS'] . '</li>';
+            foreach ($port_my_data['YOU']['CONTACT']['ADDRESS']['OTHER']['LIST'] as $v) {
+                echo '<li class="list-group-item">' . $v['ADDRESS'] . '</li>';
             }
-            ?>
+?>
           </ul>
         </td>
       </tr>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -52,25 +54,24 @@ namespace Stripe;
  */
 class Person extends ApiResource
 {
-    const OBJECT_NAME = 'person';
-
     use ApiOperations\Delete;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'person';
 
-    const GENDER_FEMALE = 'female';
-    const GENDER_MALE = 'male';
+    public const GENDER_FEMALE = 'female';
+    public const GENDER_MALE = 'male';
 
-    const POLITICAL_EXPOSURE_EXISTING = 'existing';
-    const POLITICAL_EXPOSURE_NONE = 'none';
+    public const POLITICAL_EXPOSURE_EXISTING = 'existing';
+    public const POLITICAL_EXPOSURE_NONE = 'none';
 
-    const VERIFICATION_STATUS_PENDING = 'pending';
-    const VERIFICATION_STATUS_UNVERIFIED = 'unverified';
-    const VERIFICATION_STATUS_VERIFIED = 'verified';
+    public const VERIFICATION_STATUS_PENDING = 'pending';
+    public const VERIFICATION_STATUS_UNVERIFIED = 'unverified';
+    public const VERIFICATION_STATUS_VERIFIED = 'verified';
 
     /**
      * @return string the API URL for this Stripe account reversal
      */
-    public function instanceUrl()
+    public function instanceUrl(): string
     {
         $id = $this['id'];
         $account = $this['account'];
@@ -85,8 +86,8 @@ class Person extends ApiResource
         $account = Util\Util::utf8($account);
 
         $base = Account::classUrl();
-        $accountExtn = \urlencode($account);
-        $extn = \urlencode($id);
+        $accountExtn = \urlencode((string) $account);
+        $extn = \urlencode((string) $id);
 
         return "{$base}/{$accountExtn}/persons/{$extn}";
     }
@@ -97,7 +98,7 @@ class Person extends ApiResource
      *
      * @throws \Stripe\Exception\BadMethodCallException
      */
-    public static function retrieve($_id, $_opts = null)
+    public static function retrieve($_id, $_opts = null): never
     {
         $msg = 'Persons cannot be retrieved without an account ID. Retrieve ' .
                "a person using `Account::retrievePerson('account_id', " .
@@ -113,7 +114,7 @@ class Person extends ApiResource
      *
      * @throws \Stripe\Exception\BadMethodCallException
      */
-    public static function update($_id, $_params = null, $_options = null)
+    public static function update($_id, $_params = null, $_options = null): never
     {
         $msg = 'Persons cannot be updated without an account ID. Update ' .
                "a person using `Account::updatePerson('account_id', " .

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -47,20 +49,19 @@ namespace Stripe;
  */
 class Quote extends ApiResource
 {
-    const OBJECT_NAME = 'quote';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Retrieve;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'quote';
 
-    const COLLECTION_METHOD_CHARGE_AUTOMATICALLY = 'charge_automatically';
-    const COLLECTION_METHOD_SEND_INVOICE = 'send_invoice';
+    public const COLLECTION_METHOD_CHARGE_AUTOMATICALLY = 'charge_automatically';
+    public const COLLECTION_METHOD_SEND_INVOICE = 'send_invoice';
 
-    const STATUS_ACCEPTED = 'accepted';
-    const STATUS_CANCELED = 'canceled';
-    const STATUS_DRAFT = 'draft';
-    const STATUS_OPEN = 'open';
+    public const STATUS_ACCEPTED = 'accepted';
+    public const STATUS_CANCELED = 'canceled';
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_OPEN = 'open';
 
     /**
      * @param callable $readBodyChunkCallable
@@ -69,7 +70,7 @@ class Quote extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
-    public function pdf($readBodyChunkCallable, $params = null, $opts = null)
+    public function pdf($readBodyChunkCallable, $params = null, $opts = null): void
     {
         $opts = \Stripe\Util\RequestOptions::parse($opts);
         if (null === $opts->apiBase) {
@@ -88,10 +89,10 @@ class Quote extends ApiResource
      *
      * @return \Stripe\Quote the accepted quote
      */
-    public function accept($params = null, $opts = null)
+    public function accept($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/accept';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -105,10 +106,10 @@ class Quote extends ApiResource
      *
      * @return \Stripe\Quote the canceled quote
      */
-    public function cancel($params = null, $opts = null)
+    public function cancel($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/cancel';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -122,10 +123,10 @@ class Quote extends ApiResource
      *
      * @return \Stripe\Quote the finalized quote
      */
-    public function finalizeQuote($params = null, $opts = null)
+    public function finalizeQuote($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/finalize';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -143,7 +144,7 @@ class Quote extends ApiResource
     public static function allComputedUpfrontLineItems($id, $params = null, $opts = null)
     {
         $url = static::resourceUrl($id) . '/computed_upfront_line_items';
-        list($response, $opts) = static::_staticRequest('get', $url, $params, $opts);
+        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
 
@@ -162,7 +163,7 @@ class Quote extends ApiResource
     public static function allLineItems($id, $params = null, $opts = null)
     {
         $url = static::resourceUrl($id) . '/line_items';
-        list($response, $opts) = static::_staticRequest('get', $url, $params, $opts);
+        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
 

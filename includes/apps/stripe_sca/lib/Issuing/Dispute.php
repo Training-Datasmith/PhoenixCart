@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Issuing;
@@ -28,12 +30,11 @@ namespace Stripe\Issuing;
  */
 class Dispute extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'issuing.dispute';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
+    public const OBJECT_NAME = 'issuing.dispute';
 
     /**
      * @param null|array $params
@@ -43,10 +44,10 @@ class Dispute extends \Stripe\ApiResource
      *
      * @return \Stripe\Issuing\Dispute the submited dispute
      */
-    public function submit($params = null, $opts = null)
+    public function submit($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/submit';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

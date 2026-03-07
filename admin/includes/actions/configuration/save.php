@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,9 +12,9 @@
   Released under the GNU General Public License
 */
 
-  $configuration_value = Text::prepare($_POST['configuration_value'] ?? '');
-  $cID = Text::input($_GET['cID']);
+$configuration_value = Text::prepare($_POST['configuration_value'] ?? '');
+$cID = Text::input($_GET['cID']);
 
-  $db->query("UPDATE configuration SET configuration_value = '" . $db->escape($configuration_value) . "', last_modified = NOW() WHERE configuration_id = " . (int)$cID);
+$db->query("UPDATE configuration SET configuration_value = '" . $db->escape($configuration_value) . "', last_modified = NOW() WHERE configuration_id = " . (int)$cID);
 
-  return $link->set_parameter('cID', (int)$cID);
+return $link->set_parameter('cID', (int)$cID);

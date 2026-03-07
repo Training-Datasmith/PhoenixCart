@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -13,9 +15,9 @@
                                    Copyright Stephane Garin <sgarin@sgarin.com> (detect_language.php v0.1 04/02/2002)
 */
 
-  class language {
-
-    const LANGUAGES = [
+class language
+{
+    public const LANGUAGES = [
       'af' => 'af|afrikaans',
       'ar' => 'ar([-_][[:alpha:]]{2})?|arabic',
       'be' => 'be|belarusian',
@@ -76,119 +78,130 @@
       'zu' => 'zu|zulu',
     ];
 
-    public static function parse_browser_languages() {
-      $acceptable_locales = [];
-      foreach (explode(',', str_replace(' ', '', getenv('HTTP_ACCEPT_LANGUAGE'))) as $entry) {
-        $locale_qualities = explode(';q=', $entry);
-        switch ($locale_qualities[0]) {
-          case '':
-            continue 2;
-          case '*':
-            $locale_qualities[0] = DEFAULT_LANGUAGE;
-            break;
-        }
-
-        $acceptable_locales[] = [
-          'locale' => $locale_qualities[0],
-          'quality' => $locale_qualities[1] ?? 1,
-          'codes' => explode('-', $locale_qualities[0]),
-        ];
-      }
-
-      usort($acceptable_locales, function ($a, $b) {
-        $result = $b['quality'] <=> $a['quality'];
-        if ((0 === $result) && ($b['codes'][0] === $a['codes'][0])) {
-          return count($b['codes']) <=> count($a['codes']);
-        }
-
-        return $result;
-      });
-
-      return array_filter(
-        array_map('strtolower', array_column($acceptable_locales, 'locale')),
-        function ($v) {
-          if (isset(static::LANGUAGES[$v]) || ('*' === $v)) {
-            return true;
-          }
-
-          foreach (static::LANGUAGES as $language) {
-            if (preg_match("{\A(?:$language)\z}", $v)) {
-              return true;
+    public static function parse_browser_languages(): array
+    {
+        $acceptable_locales = [];
+        foreach (explode(',', str_replace(' ', '', getenv('HTTP_ACCEPT_LANGUAGE'))) as $entry) {
+            $locale_qualities = explode(';q=', $entry);
+            switch ($locale_qualities[0]) {
+                case '':
+                    continue 2;
+                case '*':
+                    $locale_qualities[0] = DEFAULT_LANGUAGE;
+                    break;
             }
-          }
 
-          return false;
+            $acceptable_locales[] = [
+              'locale' => $locale_qualities[0],
+              'quality' => $locale_qualities[1] ?? 1,
+              'codes' => explode('-', $locale_qualities[0]),
+            ];
+        }
+
+        usort($acceptable_locales, function (array $a, array $b): int {
+            $result = $b['quality'] <=> $a['quality'];
+            if ((0 === $result) && ($b['codes'][0] === $a['codes'][0])) {
+                return count($b['codes']) <=> count($a['codes']);
+            }
+
+            return $result;
         });
+
+        return array_filter(
+            array_map(strtolower(...), array_column($acceptable_locales, 'locale')),
+            function ($v): bool {
+                if (isset(static::LANGUAGES[$v]) || ('*' === $v)) {
+                    return true;
+                }
+
+                foreach (static::LANGUAGES as $language) {
+                    if (preg_match("{\A(?:$language)\z}", $v)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        );
     }
 
-    public static function load_all() {
-      $languages = [];
+    /**
+     * @return mixed[]
+     */
+    public static function load_all(): array
+    {
+        $languages = [];
 
-      $languages_query = $GLOBALS['db']->query("SELECT languages_id AS id, name, code, image, directory FROM languages ORDER BY sort_order");
-      while ($language = $languages_query->fetch_assoc()) {
-        $languages[$language['code']] = $language;
-      }
-
-      return $languages;
-    }
-
-    public static function negotiate($languages) {
-      $fallback = null;
-      foreach (static::parse_browser_languages() as $locale) {
-        if (isset($languages[$locale])) {
-          return $locale;
+        $languages_query = $GLOBALS['db']->query('SELECT languages_id AS id, name, code, image, directory FROM languages ORDER BY sort_order');
+        while ($language = $languages_query->fetch_assoc()) {
+            $languages[$language['code']] = $language;
         }
 
-        if (is_null($fallback) && isset($languages[$locale = substr($locale, 0, 2)])) {
-// if we do not yet have a fallback in case no locale matches, create one
-          $fallback = $locale;
+        return $languages;
+    }
+
+    public static function negotiate(array $languages)
+    {
+        $fallback = null;
+        foreach (static::parse_browser_languages() as $locale) {
+            if (isset($languages[$locale])) {
+                return $locale;
+            }
+
+            if (is_null($fallback) && isset($languages[$locale = substr((string) $locale, 0, 2)])) {
+                // if we do not yet have a fallback in case no locale matches, create one
+                $fallback = $locale;
+            }
         }
-      }
 
-      return $fallback ?? DEFAULT_LANGUAGE;
+        return $fallback ?? DEFAULT_LANGUAGE;
     }
 
-    public static function build() {
-      $languages = static::load_all();
-      $locale = empty($_GET['language'])
-              ? static::negotiate($languages)
-              : $_GET['language'];
+    public static function build(): static
+    {
+        $languages = static::load_all();
+        $locale = empty($_GET['language'])
+                ? static::negotiate($languages)
+                : $_GET['language'];
 
-      $language = new static($locale, $languages);
+        $language = new static($locale, $languages);
 
-      $_SESSION['language'] = $language->language['directory'];
-      $_SESSION['languages_id'] = $language->language['id'];
+        $_SESSION['language'] = $language->language['directory'];
+        $_SESSION['languages_id'] = $language->language['id'];
 
-      return $language;
+        return $language;
     }
 
-    public static function map_to_translation($page, $language = null) {
-      if (is_null($language)) {
-        $language = $_SESSION['language'];
-      }
+    public static function map_to_translation($page, $language = null)
+    {
+        if (is_null($language)) {
+            $language = $_SESSION['language'];
+        }
 
-      $page = ('.php' === $page)
-            ? "includes/languages/$language.php"
-            : "includes/languages/$language/$page";
-      $Template =& Guarantor::ensure_global('Template');
-      $translation = $Template->map($page, 'translation')
-                  ?? DIR_FS_CATALOG . $page;
+        $page = ('.php' === $page)
+              ? "includes/languages/$language.php"
+              : "includes/languages/$language/$page";
+        $Template = & Guarantor::ensure_global('Template');
+        $translation = $Template->map($page, 'translation')
+                    ?? DIR_FS_CATALOG . $page;
 
-      return file_exists($translation) ? $translation : DIR_FS_CATALOG . $page;
+        return file_exists($translation) ? $translation : DIR_FS_CATALOG . $page;
     }
 
     public $catalog_languages;
     public $language;
 
-    public function __construct($selection = null, $languages = null) {
-      $this->catalog_languages = $languages ?? static::load_all();
+    public function __construct($selection = null, $languages = null)
+    {
+        $this->catalog_languages = $languages ?? static::load_all();
 
-      $this->set_language($selection);
+        $this->set_language($selection);
     }
 
-    public function set_language($language) {
-      $this->language = $this->catalog_languages[$language ?? DEFAULT_LANGUAGE]
-                     ?? $this->catalog_languages[DEFAULT_LANGUAGE];
+    public function set_language($language): void
+    {
+        $this->language = $this->catalog_languages[$language ?? DEFAULT_LANGUAGE]
+                       ?? $this->catalog_languages[DEFAULT_LANGUAGE];
     }
 
-  }
+}

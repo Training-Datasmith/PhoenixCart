@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  $discountables = Products::list_discountable();
-  if (!$discountables) {
+$discountables = Products::list_discountable();
+if (!$discountables) {
     $messageStack->add_session(WARNING_NO_PRODUCTS, 'warning');
     Href::redirect($Admin->link('catalog.php'));
-  }
+}

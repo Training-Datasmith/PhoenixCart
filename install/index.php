@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,7 @@
   Released under the GNU General Public License
 */
 
-  $page_contents = basename(__FILE__);
+$page_contents = basename(__FILE__);
 
-  require 'includes/application.php';
-  require 'templates/main_page.php';
-?>
+require 'includes/application.php';
+require 'templates/main_page.php';

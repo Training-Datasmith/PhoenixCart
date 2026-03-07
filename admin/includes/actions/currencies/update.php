@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  $converter = pathinfo(MODULE_ADMIN_CURRENCIES_INSTALLED, PATHINFO_FILENAME);
-  call_user_func([$converter, 'execute']);
+$converter = pathinfo(MODULE_ADMIN_CURRENCIES_INSTALLED, PATHINFO_FILENAME);
+call_user_func([$converter, 'execute']);
 
-  return $Admin->link();
+return $Admin->link();

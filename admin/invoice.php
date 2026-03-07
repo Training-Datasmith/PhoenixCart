@@ -10,14 +10,14 @@
   Released under the GNU General Public License
 */
 
-  require 'includes/application_top.php';
+require 'includes/application_top.php';
 
-  $currencies = new currencies();
+$currencies = new currencies();
 
-  $order = new order(Text::input($_GET['oID']));
-  $address = $customer_data->get_module('address');
+$order = new order(Text::input($_GET['oID']));
+$address = $customer_data->get_module('address');
 
-  require 'includes/template_top.php';
+require 'includes/template_top.php';
 ?>
 
   <div class="row align-items-center">
@@ -27,9 +27,9 @@
       <p class="my-1 p-0">
         <?php
         if (!Text::is_empty(STORE_PHONE)) {
-          echo '<i class="fas fa-phone fa-fw me-1"></i>' . STORE_PHONE;
+            echo '<i class="fas fa-phone fa-fw me-1"></i>' . STORE_PHONE;
         }
-        ?>
+?>
         <i class="fas fa-at fa-fw me-1"></i><?= STORE_OWNER_EMAIL_ADDRESS ?>
       </p>
       <p class="my-1 p-0"><i class="fas fa-home fa-fw me-1"></i><?= $GLOBALS['Admin']->catalog('') ?></p>
@@ -39,9 +39,9 @@
       <h6 class="lead fw-bold m-0"><?= ENTRY_INVOICE ?></h6>
       <?php
       if (!Text::is_empty(STORE_TAX_ID)) {
-        echo '<p class="mt-1 mb-2 p-0">' . sprintf(ENTRY_INVOICE_TAX_ID, STORE_TAX_ID) . '</p>';
+          echo '<p class="mt-1 mb-2 p-0">' . sprintf(ENTRY_INVOICE_TAX_ID, STORE_TAX_ID) . '</p>';
       }
-      ?>
+?>
     </div>
   </div>
 
@@ -60,11 +60,11 @@
         <li class="list-group-item border-0"><?= $address->format($order->billing, 1, '', '<br>') ?></li>
         <li class="list-group-item border-0">
           <?php
-          if (!Text::is_empty($customer_data->get('telephone', $order->customer))) {
-            echo '<i class="fas fa-phone fa-fw me-1"></i>', $customer_data->get('telephone', $order->customer), '<br>';
-          }
-          echo '<i class="fas fa-at fa-fw me-1"></i>', $customer_data->get('email_address', $order->customer);
-          ?>
+    if (!Text::is_empty($customer_data->get('telephone', $order->customer))) {
+        echo '<i class="fas fa-phone fa-fw me-1"></i>', $customer_data->get('telephone', $order->customer), '<br>';
+    }
+echo '<i class="fas fa-at fa-fw me-1"></i>', $customer_data->get('email_address', $order->customer);
+?>
         </li>
      </ul>
     </div>
@@ -94,15 +94,15 @@
     <tbody>
       <?php
       foreach ($order->products as $product) {
-        echo '<tr>';
+          echo '<tr>';
           echo '<td>' . $product['qty'] . '</td>';
           echo '<th>' . $product['name'];
           foreach (($product['attributes'] ?? []) as $attribute) {
-            echo '<br><small><i> - ' . $attribute['option'] . ': ' . $attribute['value'];
-            if ($attribute['price'] != '0') {
-              echo ' (' . $attribute['prefix'] . $currencies->format($attribute['price'] * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . ')';
-            }
-            echo '</i></small>';
+              echo '<br><small><i> - ' . $attribute['option'] . ': ' . $attribute['value'];
+              if ($attribute['price'] != '0') {
+                  echo ' (' . $attribute['prefix'] . $currencies->format($attribute['price'] * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . ')';
+              }
+              echo '</i></small>';
           }
           echo '</th>';
           echo '<td>' . $product['model'] . '</td>';
@@ -111,16 +111,16 @@
           echo '<td class="text-end">' . $currencies->format(Tax::add($product['final_price'], $product['tax']), true, $order->info['currency'], $order->info['currency_value']) . '</td>';
           echo '<td class="text-end">' . $currencies->format($product['final_price'] * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . '</td>';
           echo '<th class="text-end">' . $currencies->format(Tax::add($product['final_price'], $product['tax']) * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . '</th>';
-        echo '</tr>';
+          echo '</tr>';
       }
 
-      foreach ($order->totals as $order_total) {
-        echo '<tr>';
-          echo '<th colspan="7" class="text-end bg-white border-0" scope="row">' . $order_total['title'] . '</th>';
-          echo '<th class="text-end bg-white border-0">' . $order_total['text'] . '</th>';
-        echo '</tr>';
-      }
-      ?>
+foreach ($order->totals as $order_total) {
+    echo '<tr>';
+    echo '<th colspan="7" class="text-end bg-white border-0" scope="row">' . $order_total['title'] . '</th>';
+    echo '<th class="text-end bg-white border-0">' . $order_total['text'] . '</th>';
+    echo '</tr>';
+}
+?>
     </tbody>
   </table>
 
@@ -128,5 +128,5 @@
 
 <?php
   require 'includes/template_bottom.php';
-  require 'includes/application_bottom.php';
+require 'includes/application_bottom.php';
 ?>

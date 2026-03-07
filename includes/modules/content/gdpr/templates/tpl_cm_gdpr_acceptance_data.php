@@ -2,13 +2,13 @@
 
   <?php
   foreach ($agreed_pages as $slug) {
-    $key = strtoupper($slug);
-    if (!isset($port_my_data['YOU']['ACCEPTED']['DOCUMENT'][$key])) {
-      continue;
-    }
+      $key = strtoupper((string) $slug);
+      if (!isset($port_my_data['YOU']['ACCEPTED']['DOCUMENT'][$key])) {
+          continue;
+      }
 
-    $doc = $port_my_data['YOU']['ACCEPTED']['DOCUMENT'][$key];
-    ?>
+      $doc = $port_my_data['YOU']['ACCEPTED']['DOCUMENT'][$key];
+      ?>
     <table class="table table-striped">
       <thead class="table-dark">
         <tr>
@@ -29,37 +29,37 @@
         </tr>
         <tr>
           <th><?= MODULE_CONTENT_GDPR_ACCEPTANCE_LANGUAGE ?></th>
-          <td><?= ucfirst($doc['LANGUAGE']) ?></td>
+          <td><?= ucfirst((string) $doc['LANGUAGE']) ?></td>
         </tr>
       </tbody>
     </table>
     <?php
   }
-  ?>
+?>
 
 </div>
 
 <?php
 foreach ($agreed_pages as $slug) {
-  $key = strtoupper($slug);
+    $key = strtoupper((string) $slug);
 
-  if (!isset($port_my_data['YOU']['ACCEPTED']['DOCUMENT'][$key])) {
-    continue; 
-  }
+    if (!isset($port_my_data['YOU']['ACCEPTED']['DOCUMENT'][$key])) {
+        continue;
+    }
 
-  $doc = $port_my_data['YOU']['ACCEPTED']['DOCUMENT'][$key];
+    $doc = $port_my_data['YOU']['ACCEPTED']['DOCUMENT'][$key];
 
-  $modal = [
-    'name' => $slug . 'Modal',
-    'title' => $doc['TITLE'],
-    'text' => $doc['TEXT'],
-    'close_button' => MATC_BUTTON_CLOSE,
-  ];
+    $modal = [
+      'name' => $slug . 'Modal',
+      'title' => $doc['TITLE'],
+      'text' => $doc['TEXT'],
+      'close_button' => MATC_BUTTON_CLOSE,
+    ];
 
-  ob_start();
-  include Guarantor::ensure_global('Template')->map('modal.php', 'component');
+    ob_start();
+    include Guarantor::ensure_global('Template')->map('modal.php', 'component');
 
-  $GLOBALS['Template']->add_block(ob_get_clean(), 'footer_scripts');
+    $GLOBALS['Template']->add_block(ob_get_clean(), 'footer_scripts');
 }
 
 /*

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_ACTION_RECORDER_RESET_PASSWORD_TITLE = 'Customer Password Reset';
-  const MODULE_ACTION_RECORDER_RESET_PASSWORD_DESCRIPTION = 'Record customer password resets actions.';
+const MODULE_ACTION_RECORDER_RESET_PASSWORD_TITLE = 'Customer Password Reset';
+const MODULE_ACTION_RECORDER_RESET_PASSWORD_DESCRIPTION = 'Record customer password resets actions.';

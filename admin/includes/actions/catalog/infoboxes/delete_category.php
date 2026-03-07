@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  $subcategory_products_check = $db->query(sprintf(<<<'EOSQL'
+$subcategory_products_check = $db->query(sprintf(<<<'EOSQL'
 SELECT COUNT(*) AS total
  FROM (
    SELECT categories_id AS id FROM categories WHERE parent_id = %1$d
@@ -22,21 +24,21 @@ SELECT COUNT(*) AS total
 EOSQL
     , (int)$_GET['cID']))->fetch_assoc();
 
-  $heading = TEXT_INFO_HEADING_DELETE_CATEGORY;
+$heading = TEXT_INFO_HEADING_DELETE_CATEGORY;
 
-  $contents = ['form' => (new Form('categories', $Admin->link('catalog.php', ['action' => 'delete_category_confirm', 'cPath' => $cPath])))->hide('categories_id', $cInfo->categories_id)];
-  $contents[] = ['text' => TEXT_DELETE_CATEGORY_INTRO];
-  $contents[] = ['text' => '<strong>' . $cInfo->categories_name . '</strong>'];
-  if ($subcategory_products_check['total'] > 0) {
+$contents = ['form' => (new Form('categories', $Admin->link('catalog.php', ['action' => 'delete_category_confirm', 'cPath' => $cPath])))->hide('categories_id', $cInfo->categories_id)];
+$contents[] = ['text' => TEXT_DELETE_CATEGORY_INTRO];
+$contents[] = ['text' => '<strong>' . $cInfo->categories_name . '</strong>'];
+if ($subcategory_products_check['total'] > 0) {
     $contents[] = ['text' => TEXT_DELETE_WARNING];
-  }
-  
-  $contents[] = [
-    'class' => 'd-grid',
-    'text' => new Button(IMAGE_DELETE, 'fas fa-trash', 'btn-danger btn-lg mb-1'),
-  ];
-  
-  $contents[] = [
-    'class' => 'text-center',
-    'text' => $Admin->button(IMAGE_CANCEL, 'fas fa-times', 'btn-light', $Admin->link('catalog.php', ['cPath' => $cPath, 'cID' => $cInfo->categories_id])),
-  ];
+}
+
+$contents[] = [
+  'class' => 'd-grid',
+  'text' => new Button(IMAGE_DELETE, 'fas fa-trash', 'btn-danger btn-lg mb-1'),
+];
+
+$contents[] = [
+  'class' => 'text-center',
+  'text' => $Admin->button(IMAGE_CANCEL, 'fas fa-times', 'btn-light', $Admin->link('catalog.php', ['cPath' => $cPath, 'cID' => $cInfo->categories_id])),
+];

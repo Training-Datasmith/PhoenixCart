@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,11 +37,11 @@ THE SOFTWARE.
  *
  * @internal
  */
-abstract class IntlGlobals {
-
-   /**
-     * Indicates that no error occurred.
-     */
+abstract class IntlGlobals
+{
+    /**
+      * Indicates that no error occurred.
+      */
     public const U_ZERO_ERROR = 0;
 
     /**
@@ -64,19 +66,20 @@ abstract class IntlGlobals {
     /**
      * The error code of the last operation.
      */
-    private static $errorCode = self::U_ZERO_ERROR;
+    private static int $errorCode = self::U_ZERO_ERROR;
 
     /**
      * The error code of the last operation.
      */
-    private static $errorMessage = 'U_ZERO_ERROR';
+    private static string $errorMessage = 'U_ZERO_ERROR';
 
     /**
      * Returns whether the error code indicates a failure.
      *
      * @param int $errorCode The error code returned by IntlGlobals::getErrorCode()
      */
-    public static function isFailure(int $errorCode) : bool {
+    public static function isFailure(int $errorCode): bool
+    {
         return isset(self::ERROR_CODES[$errorCode])
             && $errorCode > self::U_ZERO_ERROR;
     }
@@ -88,7 +91,8 @@ abstract class IntlGlobals {
      *
      * @return int
      */
-    public static function getErrorCode() {
+    public static function getErrorCode()
+    {
         return self::$errorCode;
     }
 
@@ -97,7 +101,8 @@ abstract class IntlGlobals {
      *
      * Returns "U_ZERO_ERROR" if no error occurred.
      */
-    public static function getErrorMessage(): string {
+    public static function getErrorMessage(): string
+    {
         return self::$errorMessage;
     }
 
@@ -106,7 +111,8 @@ abstract class IntlGlobals {
      *
      * @param int $code The error code returned by IntlGlobals::getErrorCode()
      */
-    public static function getErrorName(int $code): string {
+    public static function getErrorName(int $code): string
+    {
         return self::ERROR_CODES[$code] ?? '[BOGUS UErrorCode]';
     }
 
@@ -118,7 +124,8 @@ abstract class IntlGlobals {
      *
      * @throws \InvalidArgumentException If the code is not one of the error constants in this class
      */
-    public static function setError(int $code, string $message = '') {
+    public static function setError(int $code, string $message = ''): void
+    {
         if (!isset(self::ERROR_CODES[$code])) {
             throw new \InvalidArgumentException(sprintf('No such error code: "%s".', $code));
         }

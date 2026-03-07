@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  $server = parse_url(HTTP_SERVER);
+$server = parse_url(HTTP_SERVER);
 ?>
 
   <div class="table-responsive">

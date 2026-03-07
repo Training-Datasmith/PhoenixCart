@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Gumlet;
 
 use Exception;
@@ -6,18 +9,18 @@ use Exception;
 /**
  * PHP class to resize and scale images
  */
-class ImageResize
+class ImageResize implements \Stringable
 {
-    const CROPTOP = 1;
-    const CROPCENTRE = 2;
-    const CROPCENTER = 2;
-    const CROPBOTTOM = 3;
-    const CROPLEFT = 4;
-    const CROPRIGHT = 5;
-    const CROPTOPCENTER = 6;
-    const IMG_FLIP_HORIZONTAL = 0;
-    const IMG_FLIP_VERTICAL = 1;
-    const IMG_FLIP_BOTH = 2;
+    public const CROPTOP = 1;
+    public const CROPCENTRE = 2;
+    public const CROPCENTER = 2;
+    public const CROPBOTTOM = 3;
+    public const CROPLEFT = 4;
+    public const CROPRIGHT = 5;
+    public const CROPTOPCENTER = 6;
+    public const IMG_FLIP_HORIZONTAL = 0;
+    public const IMG_FLIP_VERTICAL = 1;
+    public const IMG_FLIP_BOTH = 2;
 
     public $quality_jpg = 85;
     public $quality_webp = 85;
@@ -54,26 +57,22 @@ class ImageResize
      * Create instance from a strng
      *
      * @param string $image_data
-     * @return ImageResize
      * @throws ImageResizeException
      */
-    public static function createFromString($image_data)
+    public static function createFromString($image_data): self
     {
         if (empty($image_data) || $image_data === null) {
             throw new ImageResizeException('image_data must not be empty');
         }
-        $resize = new self('data://application/octet-stream;base64,' . base64_encode($image_data));
-        return $resize;
+        return new self('data://application/octet-stream;base64,' . base64_encode($image_data));
     }
-
 
     /**
      * Add filter function for use right before save image to file.
      *
-     * @param callable $filter
      * @return $this
      */
-    public function addFilter(callable $filter)
+    public function addFilter(callable $filter): static
     {
         $this->filters[] = $filter;
         return $this;
@@ -109,22 +108,22 @@ class ImageResize
             define('IMAGETYPE_BMP', 6);
         }
 
-        if ($filename === null || empty($filename) || (substr($filename, 0, 5) !== 'data:' && !is_file($filename))) {
+        if ($filename === null || empty($filename) || (!str_starts_with($filename, 'data:') && !is_file($filename))) {
             throw new ImageResizeException('File does not exist');
         }
 
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $checkWebp = false;
-        if (strstr(finfo_file($finfo, $filename), 'image') === false) {
-            if (version_compare(PHP_VERSION, '7.0.0', '<=') && strstr(file_get_contents($filename), 'WEBPVP8') !== false) {
+        if (!str_contains(finfo_file($finfo, $filename), 'image')) {
+            if (version_compare(PHP_VERSION, '7.0.0', '<=') && str_contains(file_get_contents($filename), 'WEBPVP8')) {
                 $checkWebp = true;
                 $this->source_type = IMAGETYPE_WEBP;
             } else {
                 throw new ImageResizeException('Unsupported file type');
             }
-        } elseif(strstr(finfo_file($finfo, $filename), 'image/webp') !== false) {
-          $checkWebp = true;
-          $this->source_type = IMAGETYPE_WEBP;
+        } elseif (str_contains(finfo_file($finfo, $filename), 'image/webp')) {
+            $checkWebp = true;
+            $this->source_type = IMAGETYPE_WEBP;
         }
 
         if (!$image_info = getimagesize($filename, $this->source_info)) {
@@ -133,7 +132,7 @@ class ImageResize
 
         if (!$checkWebp) {
             if (!$image_info) {
-                if (strstr(finfo_file($finfo, $filename), 'image') !== false) {
+                if (str_contains(finfo_file($finfo, $filename), 'image')) {
                     throw new ImageResizeException('Unsupported image type');
                 }
 
@@ -146,39 +145,36 @@ class ImageResize
         }
 
         switch ($this->source_type) {
-        case IMAGETYPE_GIF:
-            $this->source_image = imagecreatefromgif($filename);
-            break;
+            case IMAGETYPE_GIF:
+                $this->source_image = imagecreatefromgif($filename);
+                break;
 
-        case IMAGETYPE_JPEG:
-            $this->source_image = $this->imageCreateJpegfromExif($filename);
+            case IMAGETYPE_JPEG:
+                $this->source_image = $this->imageCreateJpegfromExif($filename);
 
-            // set new width and height for image, maybe it has changed
-            $this->original_w = imagesx($this->source_image);
-            $this->original_h = imagesy($this->source_image);
+                // set new width and height for image, maybe it has changed
+                $this->original_w = imagesx($this->source_image);
+                $this->original_h = imagesy($this->source_image);
 
-            break;
+                break;
 
-        case IMAGETYPE_PNG:
-            $this->source_image = imagecreatefrompng($filename);
-            break;
+            case IMAGETYPE_PNG:
+                $this->source_image = imagecreatefrompng($filename);
+                break;
 
-        case IMAGETYPE_WEBP:
-            $this->source_image = imagecreatefromwebp($filename);
-            $this->original_w = imagesx($this->source_image);
-            $this->original_h = imagesy($this->source_image);
+            case IMAGETYPE_WEBP:
+                $this->source_image = imagecreatefromwebp($filename);
+                $this->original_w = imagesx($this->source_image);
+                $this->original_h = imagesy($this->source_image);
 
-            break;
+                break;
 
-        case IMAGETYPE_BMP:
-            if (version_compare(PHP_VERSION, '7.2.0', '<')) {
-                throw new ImageResizeException('For bmp support PHP >= 7.2.0 is required');
-            }
-            $this->source_image = imagecreatefrombmp($filename);
-            break;
+            case IMAGETYPE_BMP:
+                $this->source_image = imagecreatefrombmp($filename);
+                break;
 
-        default:
-            throw new ImageResizeException('Unsupported image type');
+            default:
+                throw new ImageResizeException('Unsupported image type');
         }
 
         if (!$this->source_image) {
@@ -191,17 +187,17 @@ class ImageResize
     }
 
     // http://stackoverflow.com/a/28819866
-    public function imageCreateJpegfromExif($filename)
+    public function imageCreateJpegfromExif($filename): \GdImage|false
     {
         $img = imagecreatefromjpeg($filename);
 
-        if (!function_exists('exif_read_data') || !isset($this->source_info['APP1'])  || strpos($this->source_info['APP1'], 'Exif') !== 0) {
+        if (!function_exists('exif_read_data') || !isset($this->source_info['APP1'])  || !str_starts_with($this->source_info['APP1'], 'Exif')) {
             return $img;
         }
 
         try {
             $exif = @exif_read_data($filename);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $exif = null;
         }
 
@@ -234,96 +230,77 @@ class ImageResize
      * @param integer $quality
      * @param integer $permissions
      * @param boolean $exact_size
-     * @return static
      */
-    public function save($filename, $image_type = null, $quality = null, $permissions = null, $exact_size = false)
+    public function save($filename, $image_type = null, $quality = null, $permissions = null, $exact_size = false): static
     {
         $image_type = $image_type ?: $this->source_type;
-        $quality = is_numeric($quality) ? (int) abs($quality) : null;
+        $quality = is_numeric($quality) ? abs($quality) : null;
 
         switch ($image_type) {
-        case IMAGETYPE_GIF:
-            if( !empty($exact_size) && is_array($exact_size) ){
-                $dest_image = imagecreatetruecolor($exact_size[0], $exact_size[1]);
-            } else{
-                $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
-            }
-
-            $background = imagecolorallocatealpha($dest_image, 255, 255, 255, 1);
-            imagecolortransparent($dest_image, $background);
-            imagefill($dest_image, 0, 0, $background);
-            imagesavealpha($dest_image, true);
-            break;
-
-        case IMAGETYPE_JPEG:
-            if( !empty($exact_size) && is_array($exact_size) ){
-                $dest_image = imagecreatetruecolor($exact_size[0], $exact_size[1]);
-                $background = imagecolorallocate($dest_image, 255, 255, 255);
-                imagefilledrectangle($dest_image, 0, 0, $exact_size[0], $exact_size[1], $background);
-            } else{
-                $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
-                $background = imagecolorallocate($dest_image, 255, 255, 255);
-                imagefilledrectangle($dest_image, 0, 0, $this->getDestWidth(), $this->getDestHeight(), $background);
-            }
-            break;
-
-        case IMAGETYPE_WEBP:
-            if (version_compare(PHP_VERSION, '5.5.0', '<')) {
-                throw new ImageResizeException('For WebP support PHP >= 5.5.0 is required');
-            }
-            if( !empty($exact_size) && is_array($exact_size) ){
-                $dest_image = imagecreatetruecolor($exact_size[0], $exact_size[1]);
-                $background = imagecolorallocate($dest_image, 255, 255, 255);
-                imagefilledrectangle($dest_image, 0, 0, $exact_size[0], $exact_size[1], $background);
-            } else{
-                $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
-                $background = imagecolorallocate($dest_image, 255, 255, 255);
-                imagefilledrectangle($dest_image, 0, 0, $this->getDestWidth(), $this->getDestHeight(), $background);
-            }
-                
-            imagealphablending($dest_image, false);
-            imagesavealpha($dest_image, true);
-                
-            break;
-
-        case IMAGETYPE_PNG:
-            if (!$this->quality_truecolor || !imageistruecolor($this->source_image)) {
-                if( !empty($exact_size) && is_array($exact_size) ){
-                    $dest_image = imagecreate($exact_size[0], $exact_size[1]);
-                } else{
-                    $dest_image = imagecreate($this->getDestWidth(), $this->getDestHeight());
-                }
-            } else {
-                if( !empty($exact_size) && is_array($exact_size) ){
+            case IMAGETYPE_GIF:
+                if (!empty($exact_size) && is_array($exact_size)) {
                     $dest_image = imagecreatetruecolor($exact_size[0], $exact_size[1]);
-                } else{
+                } else {
                     $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
                 }
-            }
 
-            imagealphablending($dest_image, false);
-            imagesavealpha($dest_image, true);
+                $background = imagecolorallocatealpha($dest_image, 255, 255, 255, 1);
+                imagecolortransparent($dest_image, $background);
+                imagefill($dest_image, 0, 0, $background);
+                imagesavealpha($dest_image, true);
+                break;
 
-            $background = imagecolorallocatealpha($dest_image, 255, 255, 255, 127);
-            imagecolortransparent($dest_image, $background);
-            imagefill($dest_image, 0, 0, $background);
-            break;
+            case IMAGETYPE_JPEG:
+            case IMAGETYPE_BMP:
+                if (!empty($exact_size) && is_array($exact_size)) {
+                    $dest_image = imagecreatetruecolor($exact_size[0], $exact_size[1]);
+                    $background = imagecolorallocate($dest_image, 255, 255, 255);
+                    imagefilledrectangle($dest_image, 0, 0, $exact_size[0], $exact_size[1], $background);
+                } else {
+                    $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
+                    $background = imagecolorallocate($dest_image, 255, 255, 255);
+                    imagefilledrectangle($dest_image, 0, 0, $this->getDestWidth(), $this->getDestHeight(), $background);
+                }
+                break;
 
-        case IMAGETYPE_BMP:
-            if (version_compare(PHP_VERSION, '7.2.0', '<')) {
-                throw new ImageResizeException('For WebP support PHP >= 7.2.0 is required');
-            }
+            case IMAGETYPE_WEBP:
+                if (!empty($exact_size) && is_array($exact_size)) {
+                    $dest_image = imagecreatetruecolor($exact_size[0], $exact_size[1]);
+                    $background = imagecolorallocate($dest_image, 255, 255, 255);
+                    imagefilledrectangle($dest_image, 0, 0, $exact_size[0], $exact_size[1], $background);
+                } else {
+                    $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
+                    $background = imagecolorallocate($dest_image, 255, 255, 255);
+                    imagefilledrectangle($dest_image, 0, 0, $this->getDestWidth(), $this->getDestHeight(), $background);
+                }
 
-            if(!empty($exact_size) && is_array($exact_size)) {
-                $dest_image = imagecreatetruecolor($exact_size[0], $exact_size[1]);
-                $background = imagecolorallocate($dest_image, 255, 255, 255);
-                imagefilledrectangle($dest_image, 0, 0, $exact_size[0], $exact_size[1], $background);
-            } else {
-                $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
-                $background = imagecolorallocate($dest_image, 255, 255, 255);
-                imagefilledrectangle($dest_image, 0, 0, $this->getDestWidth(), $this->getDestHeight(), $background);
-            }
-            break;
+                imagealphablending($dest_image, false);
+                imagesavealpha($dest_image, true);
+
+                break;
+
+            case IMAGETYPE_PNG:
+                if (!$this->quality_truecolor || !imageistruecolor($this->source_image)) {
+                    if (!empty($exact_size) && is_array($exact_size)) {
+                        $dest_image = imagecreate($exact_size[0], $exact_size[1]);
+                    } else {
+                        $dest_image = imagecreate($this->getDestWidth(), $this->getDestHeight());
+                    }
+                } else {
+                    if (!empty($exact_size) && is_array($exact_size)) {
+                        $dest_image = imagecreatetruecolor($exact_size[0], $exact_size[1]);
+                    } else {
+                        $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
+                    }
+                }
+
+                imagealphablending($dest_image, false);
+                imagesavealpha($dest_image, true);
+
+                $background = imagecolorallocatealpha($dest_image, 255, 255, 255, 127);
+                imagecolortransparent($dest_image, $background);
+                imagefill($dest_image, 0, 0, $background);
+                break;
         }
 
         imageinterlace($dest_image, $this->interlace);
@@ -332,7 +309,7 @@ class ImageResize
             imagegammacorrect($this->source_image, 2.2, 1.0);
         }
 
-        if( !empty($exact_size) && is_array($exact_size) ) {
+        if (!empty($exact_size) && is_array($exact_size)) {
             if ($this->getSourceHeight() < $this->getSourceWidth()) {
                 $this->dest_x = 0;
                 $this->dest_y = ($exact_size[1] - $this->getDestHeight()) / 2;
@@ -360,44 +337,40 @@ class ImageResize
             imagegammacorrect($dest_image, 1.0, 2.2);
         }
 
-
         $this->applyFilter($dest_image);
 
         switch ($image_type) {
-        case IMAGETYPE_GIF:
-            imagegif($dest_image, $filename);
-            break;
+            case IMAGETYPE_GIF:
+                imagegif($dest_image, $filename);
+                break;
 
-        case IMAGETYPE_JPEG:
-            if ($quality === null || $quality > 100) {
-                $quality = $this->quality_jpg;
-            }
+            case IMAGETYPE_JPEG:
+                if ($quality === null || $quality > 100) {
+                    $quality = $this->quality_jpg;
+                }
 
-            imagejpeg($dest_image, $filename, $quality);
-            break;
+                imagejpeg($dest_image, $filename, $quality);
+                break;
 
-        case IMAGETYPE_WEBP:
-            if (version_compare(PHP_VERSION, '5.5.0', '<')) {
-                throw new ImageResizeException('For WebP support PHP >= 5.5.0 is required');
-            }
-            if ($quality === null) {
-                $quality = $this->quality_webp;
-            }
+            case IMAGETYPE_WEBP:
+                if ($quality === null) {
+                    $quality = $this->quality_webp;
+                }
 
-            imagewebp($dest_image, $filename, $quality);
-            break;
+                imagewebp($dest_image, $filename, $quality);
+                break;
 
-        case IMAGETYPE_PNG:
-            if ($quality === null || $quality > 9) {
-                $quality = $this->quality_png;
-            }
+            case IMAGETYPE_PNG:
+                if ($quality === null || $quality > 9) {
+                    $quality = $this->quality_png;
+                }
 
-            imagepng($dest_image, $filename, $quality);
-            break;
+                imagepng($dest_image, $filename, $quality);
+                break;
 
-        case IMAGETYPE_BMP:
-            imagebmp($dest_image, $filename, $quality);
-            break;
+            case IMAGETYPE_BMP:
+                imagebmp($dest_image, $filename, $quality);
+                break;
         }
 
         if ($permissions) {
@@ -416,7 +389,7 @@ class ImageResize
      * @param int $quality
      * @return string
      */
-    public function getImageAsString($image_type = null, $quality = null)
+    public function getImageAsString($image_type = null, $quality = null): string|false
     {
         $string_temp = tempnam(sys_get_temp_dir(), '');
 
@@ -431,10 +404,8 @@ class ImageResize
 
     /**
      * Convert the image to string with the current settings
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getImageAsString();
     }
@@ -444,7 +415,7 @@ class ImageResize
      * @param string $image_type
      * @param integer $quality
      */
-    public function output($image_type = null, $quality = null)
+    public function output($image_type = null, $quality = null): void
     {
         $image_type = $image_type ?: $this->source_type;
 
@@ -458,9 +429,8 @@ class ImageResize
      *
      * @param integer $max_short
      * @param boolean $allow_enlarge
-     * @return static
      */
-    public function resizeToShortSide($max_short, $allow_enlarge = false)
+    public function resizeToShortSide($max_short, $allow_enlarge = false): static
     {
         if ($this->getSourceHeight() < $this->getSourceWidth()) {
             $ratio = $max_short / $this->getSourceHeight();
@@ -482,9 +452,8 @@ class ImageResize
      *
      * @param integer $max_long
      * @param boolean $allow_enlarge
-     * @return static
      */
-    public function resizeToLongSide($max_long, $allow_enlarge = false)
+    public function resizeToLongSide($max_long, $allow_enlarge = false): static
     {
         if ($this->getSourceHeight() > $this->getSourceWidth()) {
             $ratio = $max_long / $this->getSourceHeight();
@@ -506,9 +475,8 @@ class ImageResize
      *
      * @param integer $height
      * @param boolean $allow_enlarge
-     * @return static
      */
-    public function resizeToHeight($height, $allow_enlarge = false)
+    public function resizeToHeight($height, $allow_enlarge = false): static
     {
         $ratio = $height / $this->getSourceHeight();
         $width = (int) round($this->getSourceWidth() * $ratio);
@@ -523,9 +491,8 @@ class ImageResize
      *
      * @param integer $width
      * @param boolean $allow_enlarge
-     * @return static
      */
-    public function resizeToWidth($width, $allow_enlarge = false)
+    public function resizeToWidth($width, $allow_enlarge = false): static
     {
         $ratio  = $width / $this->getSourceWidth();
         $height = (int) round($this->getSourceHeight() * $ratio);
@@ -565,9 +532,8 @@ class ImageResize
      * Resizes image according to given scale (proportionally)
      *
      * @param integer|float $scale
-     * @return static
      */
-    public function scale($scale)
+    public function scale($scale): static
     {
         $width  = (int) round($this->getSourceWidth() * $scale / 100);
         $height = (int) round($this->getSourceHeight() * $scale / 100);
@@ -583,9 +549,8 @@ class ImageResize
      * @param integer $width
      * @param integer $height
      * @param boolean $allow_enlarge
-     * @return static
      */
-    public function resize($width, $height, $allow_enlarge = false)
+    public function resize($width, $height, $allow_enlarge = false): static
     {
         if (!$allow_enlarge) {
             // if the user hasn't explicitly allowed enlarging,
@@ -617,9 +582,8 @@ class ImageResize
      * @param integer $height
      * @param boolean $allow_enlarge
      * @param integer $position
-     * @return static
      */
-    public function crop($width, $height, $allow_enlarge = false, $position = self::CROPCENTER)
+    public function crop($width, $height, $allow_enlarge = false, $position = self::CROPCENTER): static
     {
         if (!$allow_enlarge) {
             // this logic is slightly different to resize(),
@@ -739,23 +703,22 @@ class ImageResize
      *
      * @param integer $expectedSize
      * @param integer $position
-     * @return integer
      */
-    protected function getCropPosition($expectedSize, $position = self::CROPCENTER)
+    protected function getCropPosition($expectedSize, $position = self::CROPCENTER): int
     {
         $size = 0;
         switch ($position) {
-        case self::CROPBOTTOM:
-        case self::CROPRIGHT:
-            $size = $expectedSize;
-            break;
-        case self::CROPCENTER:
-        case self::CROPCENTRE:
-            $size = $expectedSize / 2;
-            break;
-        case self::CROPTOPCENTER:
-            $size = $expectedSize / 4;
-            break;
+            case self::CROPBOTTOM:
+            case self::CROPRIGHT:
+                $size = $expectedSize;
+                break;
+            case self::CROPCENTER:
+            case self::CROPCENTRE:
+                $size = $expectedSize / 2;
+                break;
+            case self::CROPTOPCENTER:
+                $size = $expectedSize / 4;
+                break;
         }
         return (int) round($size);
     }
@@ -764,9 +727,8 @@ class ImageResize
      * Enable or not the gamma color correction on the image, enabled by default
      *
      * @param bool $enable
-     * @return static
      */
-    public function gamma($enable = false)
+    public function gamma($enable = false): static
     {
         $this->gamma_correct = $enable;
 

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  if (isset($GLOBALS['table_definition']['info']->countries_id)) {
-    $cInfo =& $GLOBALS['table_definition']['info'];
+if (isset($GLOBALS['table_definition']['info']->countries_id)) {
+    $cInfo = & $GLOBALS['table_definition']['info'];
     $heading = $cInfo->countries_name;
 
     $link = $GLOBALS['link']->set_parameter('cID', $cInfo->countries_id);
@@ -25,4 +27,4 @@
     $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY_CODE_2, $cInfo->countries_iso_code_2)];
     $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY_CODE_3, $cInfo->countries_iso_code_3)];
     $contents[] = ['text' => sprintf(TEXT_INFO_ADDRESS_FORMAT, $cInfo->address_format_id)];
-  }
+}

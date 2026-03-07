@@ -23,13 +23,13 @@
       </div>
       <?php
       if ($modal['show_footer'] ?? true === true) {
-        ?>
+          ?>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= $modal['close_button'] ?></button>
         </div>
         <?php
       }
-      ?>
+?>
     </div>
   </div>
 </div>

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,10 +12,10 @@
   Released under the GNU General Public License
 */
 
-  $zone_country_id = Text::input($_POST['zone_country_id']);
-  $zone_code = Text::input($_POST['zone_code']);
-  $zone_name = Text::prepare($_POST['zone_name']);
+$zone_country_id = Text::input($_POST['zone_country_id']);
+$zone_code = Text::input($_POST['zone_code']);
+$zone_name = Text::prepare($_POST['zone_name']);
 
-  $db->query("INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (" . (int)$zone_country_id . ", '" . $db->escape($zone_code) . "', '" . $db->escape($zone_name) . "')");
+$db->query('INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (' . (int)$zone_country_id . ", '" . $db->escape($zone_code) . "', '" . $db->escape($zone_name) . "')");
 
-  return $Admin->link();
+return $Admin->link();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -32,19 +34,18 @@ namespace Stripe;
  */
 class TaxRate extends ApiResource
 {
-    const OBJECT_NAME = 'tax_rate';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Retrieve;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'tax_rate';
 
-    const TAX_TYPE_GST = 'gst';
-    const TAX_TYPE_HST = 'hst';
-    const TAX_TYPE_JCT = 'jct';
-    const TAX_TYPE_PST = 'pst';
-    const TAX_TYPE_QST = 'qst';
-    const TAX_TYPE_RST = 'rst';
-    const TAX_TYPE_SALES_TAX = 'sales_tax';
-    const TAX_TYPE_VAT = 'vat';
+    public const TAX_TYPE_GST = 'gst';
+    public const TAX_TYPE_HST = 'hst';
+    public const TAX_TYPE_JCT = 'jct';
+    public const TAX_TYPE_PST = 'pst';
+    public const TAX_TYPE_QST = 'qst';
+    public const TAX_TYPE_RST = 'rst';
+    public const TAX_TYPE_SALES_TAX = 'sales_tax';
+    public const TAX_TYPE_VAT = 'vat';
 }

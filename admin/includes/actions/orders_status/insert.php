@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,10 +12,10 @@
   Released under the GNU General Public License
 */
 
-  $next_id = $db->query("SELECT MAX(orders_status_id) AS orders_status_id FROM orders_status")->fetch_assoc();
-  $orders_status_id = $next_id['orders_status_id'] + 1;
+$next_id = $db->query('SELECT MAX(orders_status_id) AS orders_status_id FROM orders_status')->fetch_assoc();
+$orders_status_id = $next_id['orders_status_id'] + 1;
 
-  foreach (array_column(language::load_all(), 'id') as $language_id) {
+foreach (array_column(language::load_all(), 'id') as $language_id) {
     $sql_data = [
       'orders_status_id' => $orders_status_id,
       'language_id' => $language_id,
@@ -23,10 +25,10 @@
     ];
 
     $db->perform('orders_status', $sql_data);
-  }
+}
 
-  if (isset($_POST['default']) && ('on' === $_POST['default'])) {
+if (isset($_POST['default']) && ('on' === $_POST['default'])) {
     $db->query("UPDATE configuration SET configuration_value = '" . $db->escape($orders_status_id) . "' WHERE configuration_key = 'DEFAULT_ORDERS_STATUS_ID'");
-  }
+}
 
-  return $link->set_parameter('oID', $orders_status_id);
+return $link->set_parameter('oID', $orders_status_id);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -17,18 +19,18 @@ namespace Stripe;
  */
 class CashBalance extends ApiResource
 {
-    const OBJECT_NAME = 'cash_balance';
+    public const OBJECT_NAME = 'cash_balance';
 
     /**
      * @return string the API URL for this balance transaction
      */
-    public function instanceUrl()
+    public function instanceUrl(): string
     {
         $customer = $this['customer'];
         $customer = Util\Util::utf8($customer);
 
         $base = Customer::classUrl();
-        $customerExtn = \urlencode($customer);
+        $customerExtn = \urlencode((string) $customer);
 
         return "{$base}/{$customerExtn}/cash_balance";
     }
@@ -39,7 +41,7 @@ class CashBalance extends ApiResource
      *
      * @throws \Stripe\Exception\BadMethodCallException
      */
-    public static function retrieve($_id, $_opts = null)
+    public static function retrieve($_id, $_opts = null): never
     {
         $msg = 'Customer Cash Balance cannot be retrieved without a ' .
                'customer ID. Retrieve a Customer Cash Balance using ' .
@@ -55,7 +57,7 @@ class CashBalance extends ApiResource
      *
      * @throws \Stripe\Exception\BadMethodCallException
      */
-    public static function update($_id, $_params = null, $_options = null)
+    public static function update($_id, $_params = null, $_options = null): never
     {
         $msg = 'Customer Cash Balance cannot be updated without a ' .
         'customer ID. Retrieve a Customer Cash Balance using ' .

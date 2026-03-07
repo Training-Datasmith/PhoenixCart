@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,10 +12,10 @@
   Released under the GNU General Public License
 */
 
-  $country_id = Text::input($_GET['cID']);
+$country_id = Text::input($_GET['cID']);
 
-  $db->query("DELETE FROM countries WHERE countries_id = " . (int)$country_id);
-  $db->query("DELETE FROM zones WHERE zone_country_id = " . (int)$country_id);
-  $db->query("DELETE FROM zones_to_geo_zones WHERE zone_country_id = " . (int)$country_id);
+$db->query('DELETE FROM countries WHERE countries_id = ' . (int)$country_id);
+$db->query('DELETE FROM zones WHERE zone_country_id = ' . (int)$country_id);
+$db->query('DELETE FROM zones_to_geo_zones WHERE zone_country_id = ' . (int)$country_id);
 
-  return $link;
+return $link;

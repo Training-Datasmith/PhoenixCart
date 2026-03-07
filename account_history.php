@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,12 +12,12 @@
   Released under the GNU General Public License
 */
 
-  require 'includes/application_top.php';
+require 'includes/application_top.php';
 
-  $hooks->register_pipeline('loginRequired');
+$hooks->register_pipeline('loginRequired');
 
-  require language::map_to_translation('account_history.php');
+require language::map_to_translation('account_history.php');
 
-  require $Template->map(__FILE__, 'page');
+require $Template->map(__FILE__, 'page');
 
-  require 'includes/application_bottom.php';
+require 'includes/application_bottom.php';

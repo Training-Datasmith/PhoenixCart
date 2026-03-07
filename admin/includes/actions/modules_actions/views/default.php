@@ -24,11 +24,11 @@
       <tbody>
         <?php
         foreach (array_diff(scandir($directory), ['.', '..']) as $file) {
-          $action = pathinfo($file, PATHINFO_FILENAME);
-          $class = "\\Phoenix\\Actions\\$action";
+            $action = pathinfo($file, PATHINFO_FILENAME);
+            $class = "\\Phoenix\\Actions\\$action";
 
-          foreach (get_class_methods($class) as $method) {
-            ?>
+            foreach (get_class_methods($class) as $method) {
+                ?>
             <tr>
               <td><?= $file ?></td>
               <td><?= $action ?></td>
@@ -36,9 +36,9 @@
               <td><?= $method ?></td>
             </tr>
           <?php
-          }
+            }
         }
-        ?>
+?>
       </tbody>
     </table>
   </div>

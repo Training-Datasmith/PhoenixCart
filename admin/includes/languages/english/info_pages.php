@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -22,7 +24,6 @@ const TABLE_HEADING_STATUS = 'Status';
 const ENTRY_FROM_NICKNAME = 'Name/Nickname';
 const ENTRY_DATE = 'Date';
 
-
 const TEXT_INFO_DATE_ADDED = 'Date Added: %s';
 const TEXT_INFO_LAST_MODIFIED = 'Last Modified: %s';
 
@@ -39,7 +40,6 @@ const NAVBAR_TITLE = 'Navbar Title';
 
 const TEXT_HEADING_DELETE_PAGE = 'Delete Page: %s';
 const TEXT_DELETE_PAGE_INTRO = 'Are you sure you want to delete this Page?';
-
 
 const TEXT_DISPLAY_NUMBER_OF_PAGES = 'Displaying <b>%s</b> to <b>%s</b> (of <b>%s</b> Pages)';
 

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_PI_NAME_TITLE        = 'Name';
-  const MODULE_CONTENT_PI_NAME_DESCRIPTION  = 'Shows the Products Name on the product_info Page.';
+const MODULE_CONTENT_PI_NAME_TITLE        = 'Name';
+const MODULE_CONTENT_PI_NAME_DESCRIPTION  = 'Shows the Products Name on the product_info Page.';
 
-  const MODULE_CONTENT_PI_NAME_DISPLAY_NAME = '%s';
+const MODULE_CONTENT_PI_NAME_DISPLAY_NAME = '%s';

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($table_definition['info']->orders_status_id)) {
+if (isset($table_definition['info']->orders_status_id)) {
     $oInfo = &$table_definition['info'];
     $heading = $oInfo->orders_status_name;
     $link = $GLOBALS['link']->set_parameter('oID', $oInfo->orders_status_id);
@@ -23,9 +25,9 @@
 
     $orders_status_inputs_string = '';
     foreach (language::load_all() as $l) {
-      $orders_status_inputs_string .= '<br>' . $GLOBALS['Admin']->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", [], $l['name'])
-                                    . '&nbsp;' . order_status::fetch_name($oInfo->orders_status_id, $l['id']);
+        $orders_status_inputs_string .= '<br>' . $GLOBALS['Admin']->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", [], $l['name'])
+                                      . '&nbsp;' . order_status::fetch_name($oInfo->orders_status_id, $l['id']);
     }
 
     $contents[] = ['text' => $orders_status_inputs_string];
-  }
+}

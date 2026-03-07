@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe;
 
 /**
@@ -27,9 +29,8 @@ namespace Stripe;
  */
 class SearchResult extends StripeObject implements \Countable, \IteratorAggregate
 {
-    const OBJECT_NAME = 'search_result';
-
     use ApiOperations\Request;
+    public const OBJECT_NAME = 'search_result';
 
     /** @var array */
     protected $filters = [];
@@ -57,7 +58,7 @@ class SearchResult extends StripeObject implements \Countable, \IteratorAggregat
      *
      * @param array $filters the filters
      */
-    public function setFilters($filters)
+    public function setFilters($filters): void
     {
         $this->filters = $filters;
     }
@@ -87,16 +88,16 @@ class SearchResult extends StripeObject implements \Countable, \IteratorAggregat
      *
      * @return SearchResult<TStripeObject>
      */
-    public function all($params = null, $opts = null)
+    public function all($params = null, $opts = null): self
     {
         self::_validateParams($params);
-        list($url, $params) = $this->extractPathAndUpdateParams($params);
+        [$url, $params] = $this->extractPathAndUpdateParams($params);
 
-        list($response, $opts) = $this->_request('get', $url, $params, $opts);
+        [$response, $opts] = $this->_request('get', $url, $params, $opts);
         $obj = Util\Util::convertToStripeObject($response, $opts);
         if (!($obj instanceof \Stripe\SearchResult)) {
             throw new \Stripe\Exception\UnexpectedValueException(
-                'Expected type ' . \Stripe\SearchResult::class . ', got "' . \get_class($obj) . '" instead.'
+                'Expected type ' . \Stripe\SearchResult::class . ', got "' . $obj::class . '" instead.'
             );
         }
         $obj->setFilters($params);
@@ -108,7 +109,7 @@ class SearchResult extends StripeObject implements \Countable, \IteratorAggregat
      * @return int the number of objects in the current page
      */
     #[\ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return \count($this->data);
     }
@@ -162,10 +163,8 @@ class SearchResult extends StripeObject implements \Countable, \IteratorAggregat
 
     /**
      * Returns true if the page object contains no element.
-     *
-     * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return empty($this->data);
     }
@@ -216,7 +215,7 @@ class SearchResult extends StripeObject implements \Countable, \IteratorAggregat
         return \count($this->data) > 0 ? $this->data[\count($this->data) - 1] : null;
     }
 
-    private function extractPathAndUpdateParams($params)
+    private function extractPathAndUpdateParams($params): array
     {
         $url = \parse_url($this->url);
 

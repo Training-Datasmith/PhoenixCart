@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,18 +12,20 @@
   Released under the GNU General Public License
 */
 
-  class geo_zone {
+class geo_zone
+{
+    public static function fetch_name($geo_zone_id)
+    {
+        if ($geo_zone_id == '0') {
+            return TEXT_NONE;
+        }
 
-    public static function fetch_name($geo_zone_id) {
-      if ($geo_zone_id == '0') {
-        return TEXT_NONE;
-      }
-
-      return $GLOBALS['db']->query("SELECT geo_zone_name FROM geo_zones WHERE geo_zone_id = " . (int)$geo_zone_id)->fetch_assoc()['geo_zone_name'] ?? $geo_zone_id;
+        return $GLOBALS['db']->query('SELECT geo_zone_name FROM geo_zones WHERE geo_zone_id = ' . (int)$geo_zone_id)->fetch_assoc()['geo_zone_name'] ?? $geo_zone_id;
     }
 
-    public static function fetch_options() {
-      return $GLOBALS['db']->fetch_all("SELECT geo_zone_id AS id, geo_zone_name AS text FROM geo_zones ORDER BY geo_zone_name");
+    public static function fetch_options()
+    {
+        return $GLOBALS['db']->fetch_all('SELECT geo_zone_id AS id, geo_zone_name AS text FROM geo_zones ORDER BY geo_zone_name');
     }
 
-  }
+}

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,18 +12,20 @@
   Released under the GNU General Public License
 */
 
-class hook_admin_languages_add_pages {
+class hook_admin_languages_add_pages
+{
+    public function listen_insertAction(): void
+    {
+        global $lID;
 
-  public function listen_insertAction() {
-    global $lID;
+        $GLOBALS['db']->query('INSERT INTO pages_description (pages_id, languages_id) SELECT pages_id, ' . (int)$lID . ' FROM pages_description WHERE languages_id = ' . (int)$_SESSION['languages_id']);
+    }
 
-    $GLOBALS['db']->query("INSERT INTO pages_description (pages_id, languages_id) SELECT pages_id, " . (int)$lID . " FROM pages_description WHERE languages_id = " . (int)$_SESSION['languages_id']);
-  }
+    public function listen_deleteConfirmAction(): void
+    {
+        global $lID;
 
-  public function listen_deleteConfirmAction() {
-    global $lID;
-
-    $GLOBALS['db']->query("DELETE FROM pages_description WHERE languages_id = " . (int)$lID);
-  }
+        $GLOBALS['db']->query('DELETE FROM pages_description WHERE languages_id = ' . (int)$lID);
+    }
 
 }

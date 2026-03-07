@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,6 +12,6 @@
   Released under the GNU General Public License
 */
 
-  $db->query("UPDATE products SET products_status = " . (int)$_GET['flag'] . ", products_last_modified = NOW() WHERE products_id = " . (int)$_GET['pID']);
+$db->query('UPDATE products SET products_status = ' . (int)$_GET['flag'] . ', products_last_modified = NOW() WHERE products_id = ' . (int)$_GET['pID']);
 
-  return $Admin->link('catalog.php', ['cPath' => $_GET['cPath'], 'pID' => (int)$_GET['pID']]);
+return $Admin->link('catalog.php', ['cPath' => $_GET['cPath'], 'pID' => (int)$_GET['pID']]);

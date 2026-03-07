@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\Service;
 
 class OAuthService extends \Stripe\Service\AbstractService
@@ -30,7 +32,7 @@ class OAuthService extends \Stripe\Service\AbstractService
      *
      * @return string the URL to Stripe's OAuth form
      */
-    public function authorizeUrl($params = null, $opts = null)
+    public function authorizeUrl($params = null, $opts = null): string
     {
         $params = $params ?: [];
 
@@ -143,8 +145,6 @@ class OAuthService extends \Stripe\Service\AbstractService
      */
     private function _getBase($opts)
     {
-        return isset($opts->apiBase) ?
-          $opts->apiBase :
-          $this->client->getConnectBase();
+        return $opts->apiBase ?? $this->client->getConnectBase();
     }
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,10 +12,11 @@
   Released under the GNU General Public License
 */
 
-  class global_eraser {
-
-    public function __call($name, $arguments) {
-      unset($GLOBALS[$name]);
+class global_eraser
+{
+    public function __call(string $name, array $arguments)
+    {
+        unset($GLOBALS[$name]);
     }
 
-  }
+}

@@ -10,44 +10,44 @@
   Released under the GNU General Public License
 */
 
-  $form_link = (clone $link)->set_parameter('action', 'insert');
-  $form = new Form('newsletter', $form_link);
+$form_link = (clone $link)->set_parameter('action', 'insert');
+$form = new Form('newsletter', $form_link);
 
-  $parameters = ['title' => '', 'content' => '', 'module' => ''];
+$parameters = ['title' => '', 'content' => '', 'module' => ''];
 
-  $nInfo = new objectInfo($parameters);
+$nInfo = new objectInfo($parameters);
 
-  if (isset($_GET['nID'])) {
+if (isset($_GET['nID'])) {
     $form->hide('newsletter_id', (int)$newsletter_id);
     $form_link->set_parameter('action', 'update')->set_parameter('nID', (int)$newsletter_id);
 
-    $newsletter = $db->query("SELECT title, content, module FROM newsletters WHERE newsletters_id = " . (int)$newsletter_id)->fetch_assoc();
+    $newsletter = $db->query('SELECT title, content, module FROM newsletters WHERE newsletters_id = ' . (int)$newsletter_id)->fetch_assoc();
 
     $nInfo->objectInfo($newsletter);
-  } elseif ($_POST) {
+} elseif ($_POST) {
     $nInfo->objectInfo($_POST);
-  }
+}
 
-  $classes = [];
-  if ($dir = dir('includes/modules/newsletters/')) {
+$classes = [];
+if ($dir = dir('includes/modules/newsletters/')) {
     while ($file = $dir->read()) {
-      if (!is_dir('includes/modules/newsletters/' . $file)) {
-        if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
-          $classes[] = pathinfo($file, PATHINFO_FILENAME);
+        if (!is_dir('includes/modules/newsletters/' . $file)) {
+            if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+                $classes[] = pathinfo($file, PATHINFO_FILENAME);
+            }
         }
-      }
     }
 
     sort($classes);
     $dir->close();
-  }
+}
 
-  $modules = [];
-  foreach ($classes as $class) {
+$modules = [];
+foreach ($classes as $class) {
     $modules[] = ['id' => $class, 'text' => $class];
-  }
+}
 
-  echo $form;
+echo $form;
 ?>
 
     <div class="row mb-2" id="zModule">

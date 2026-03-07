@@ -10,10 +10,10 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('account.php'));
-  $breadcrumb->add(NAVBAR_TITLE_2, $Linker->build());
+$breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('account.php'));
+$breadcrumb->add(NAVBAR_TITLE_2, $Linker->build());
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <h1 class="display-4 mb-4"><?= HEADING_TITLE ?></h1>

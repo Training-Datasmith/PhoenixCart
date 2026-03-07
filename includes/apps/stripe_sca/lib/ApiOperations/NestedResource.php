@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\ApiOperations;
 
 /**
@@ -21,7 +23,7 @@ trait NestedResource
     {
         self::_validateParams($params);
 
-        list($response, $opts) = static::_staticRequest($method, $url, $params, $options);
+        [$response, $opts] = static::_staticRequest($method, $url, $params, $options);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
 
@@ -30,12 +32,10 @@ trait NestedResource
 
     /**
      * @param string $id
-     * @param string $nestedPath
      * @param null|string $nestedId
      *
-     * @return string
      */
-    protected static function _nestedResourceUrl($id, $nestedPath, $nestedId = null)
+    protected static function _nestedResourceUrl($id, string $nestedPath, $nestedId = null): string
     {
         $url = static::resourceUrl($id) . $nestedPath;
         if (null !== $nestedId) {

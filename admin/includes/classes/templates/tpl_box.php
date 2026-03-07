@@ -1,7 +1,7 @@
 <div class="table-responsive">
   <?php
   if ('' !== $form_start) {
-    echo $form_start;
+      echo $form_start;
   }
   ?>
   <table class="table table-striped table-hover">
@@ -16,7 +16,7 @@
   </table>
   <?php
   if ('' !== $form_close) {
-    echo $form_close;
+      echo $form_close;
   }
   ?>
 </div>
@@ -32,4 +32,4 @@
 
   Released under the GNU General Public License
 */
-?>
+  ?>

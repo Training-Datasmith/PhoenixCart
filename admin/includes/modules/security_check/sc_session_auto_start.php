@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,16 +12,18 @@
   Released under the GNU General Public License
 */
 
-  class sc_session_auto_start {
-
+class sc_session_auto_start
+{
     public $type = 'warning';
 
-    public function pass() {
-      return ((bool)ini_get('session.auto_start') == false);
+    public function pass(): bool
+    {
+        return ((bool)ini_get('session.auto_start') == false);
     }
 
-    public function get_message() {
-      return WARNING_SESSION_AUTO_START;
+    public function get_message(): string
+    {
+        return WARNING_SESSION_AUTO_START;
     }
 
-  }
+}

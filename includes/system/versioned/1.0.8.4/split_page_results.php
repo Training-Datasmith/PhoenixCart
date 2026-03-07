@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,178 +12,173 @@
   Released under the GNU General Public License
 */
 
-  class splitPageResults {
-
-    public $sql_query;
+class splitPageResults
+{
     public $number_of_rows;
 
     protected $current_page_number;
-    protected $number_of_pages;
-    protected $number_of_rows_per_page;
-    protected $page_name;
+    protected float $number_of_pages;
 
-    public function __construct($query, $max_rows, $count_key = '*', $page_holder = 'page') {
-      $this->sql_query = $query;
-      $this->page_name = $page_holder;
+    public function __construct(public $sql_query, protected $number_of_rows_per_page, $count_key = '*', protected $page_name = 'page')
+    {
+        $page = $_GET[$this->page_name] ?? $_POST[$this->page_name] ?? '';
 
-      $page = $_GET[$this->page_name] ?? $_POST[$this->page_name] ?? '';
+        if (empty($page) || !is_numeric($page)) {
+            $page = 1;
+        }
+        $this->current_page_number = $page;
 
-      if (empty($page) || !is_numeric($page)) {
-        $page = 1;
-      }
-      $this->current_page_number = $page;
+        $pos_to = strlen((string) $this->sql_query);
+        $pos_from = stripos((string) $this->sql_query, ' FROM');
+        $pos_where = strripos((string) $this->sql_query, ' WHERE') ?: $pos_from;
 
-      $this->number_of_rows_per_page = $max_rows;
-
-      $pos_to = strlen($this->sql_query);
-      $pos_from = stripos($this->sql_query, ' FROM');
-      $pos_where = strripos($this->sql_query, ' WHERE') ?: $pos_from;
-
-      $pos_group_by = stripos($this->sql_query, ' GROUP BY', $pos_where);
-      if ($pos_group_by && ($pos_group_by < $pos_to)) {
-        $pos_to = $pos_group_by;
-      }
-
-      $pos_having = stripos($this->sql_query, ' HAVING', $pos_where);
-      if ($pos_having && ($pos_having < $pos_to)) {
-        $pos_to = $pos_having;
-      }
-
-      $pos_order_by = stripos($this->sql_query, ' ORDER BY', $pos_where);
-      if ($pos_order_by && ($pos_order_by < $pos_to)) {
-        $pos_to = $pos_order_by;
-      }
-
-      if (stripos($this->sql_query, 'DISTINCT') || stripos($this->sql_query, 'GROUP BY', $pos_where)) {
-        $count_string = 'DISTINCT ' . $GLOBALS['db']->escape($count_key);
-      } else {
-        $count_string = $GLOBALS['db']->escape($count_key);
-      }
-
-      $count_query = $GLOBALS['db']->query("SELECT COUNT(" . $count_string . ") AS total " . substr($this->sql_query, $pos_from, ($pos_to - $pos_from)));
-      $count = $count_query->fetch_assoc();
-
-      $this->number_of_rows = $count['total'];
-
-      $this->number_of_pages = ceil($this->number_of_rows / $this->number_of_rows_per_page);
-
-      if ($this->current_page_number > $this->number_of_pages) {
-        $this->current_page_number = $this->number_of_pages;
-      }
-
-      $offset = ($this->number_of_rows_per_page * ($this->current_page_number - 1));
-
-      $this->sql_query .= " LIMIT " . max($offset, 0) . ", " . $this->number_of_rows_per_page;
-    }
-
-    public function display_links($max_page_links, $link = null) {
-      if (is_null($link)) {
-        $link = $GLOBALS['Linker']->build()->retain_query_except(['page', 'info']);
-      } else if (is_string($link)) {
-        $link = $GLOBALS['Linker']->build(null, phoenix_parameterize(rtrim($link, '&')));
-      }
-
-      $display_links_string = '<nav aria-label="...">';
-        $display_links_string .= '<ul class="pagination pagination-lg justify-content-end">';
-
-// previous button - not displayed on first page
-        if ($this->current_page_number > 1) {
-          $display_links_string .= '<li class="page-item">';
-            $display_links_string .= '<a class="page-link" href="' . $link->set_parameter($this->page_name, $this->current_page_number - 1) . '" title=" ' . PREVNEXT_TITLE_PREVIOUS_PAGE . ' "><i class="fas fa-angle-left"></i></a>';
-          $display_links_string .= '</li>';
-        } else {
-          $display_links_string .= '<li class="page-item disabled">';
-            $display_links_string .= '<a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a>';
-          $display_links_string .= '</li>';
+        $pos_group_by = stripos((string) $this->sql_query, ' GROUP BY', $pos_where);
+        if ($pos_group_by && ($pos_group_by < $pos_to)) {
+            $pos_to = $pos_group_by;
         }
 
-// check if number_of_pages > $max_page_links
+        $pos_having = stripos((string) $this->sql_query, ' HAVING', $pos_where);
+        if ($pos_having && ($pos_having < $pos_to)) {
+            $pos_to = $pos_having;
+        }
+
+        $pos_order_by = stripos((string) $this->sql_query, ' ORDER BY', $pos_where);
+        if ($pos_order_by && ($pos_order_by < $pos_to)) {
+            $pos_to = $pos_order_by;
+        }
+
+        if (stripos((string) $this->sql_query, 'DISTINCT') || stripos((string) $this->sql_query, 'GROUP BY', $pos_where)) {
+            $count_string = 'DISTINCT ' . $GLOBALS['db']->escape($count_key);
+        } else {
+            $count_string = $GLOBALS['db']->escape($count_key);
+        }
+
+        $count_query = $GLOBALS['db']->query('SELECT COUNT(' . $count_string . ') AS total ' . substr((string) $this->sql_query, $pos_from, ($pos_to - $pos_from)));
+        $count = $count_query->fetch_assoc();
+
+        $this->number_of_rows = $count['total'];
+
+        $this->number_of_pages = ceil($this->number_of_rows / $this->number_of_rows_per_page);
+
+        if ($this->current_page_number > $this->number_of_pages) {
+            $this->current_page_number = $this->number_of_pages;
+        }
+
+        $offset = ($this->number_of_rows_per_page * ($this->current_page_number - 1));
+
+        $this->sql_query .= ' LIMIT ' . max($offset, 0) . ', ' . $this->number_of_rows_per_page;
+    }
+
+    public function display_links($max_page_links, $link = null): string
+    {
+        if (is_null($link)) {
+            $link = $GLOBALS['Linker']->build()->retain_query_except(['page', 'info']);
+        } elseif (is_string($link)) {
+            $link = $GLOBALS['Linker']->build(null, phoenix_parameterize(rtrim($link, '&')));
+        }
+
+        $display_links_string = '<nav aria-label="...">';
+        $display_links_string .= '<ul class="pagination pagination-lg justify-content-end">';
+
+        // previous button - not displayed on first page
+        if ($this->current_page_number > 1) {
+            $display_links_string .= '<li class="page-item">';
+            $display_links_string .= '<a class="page-link" href="' . $link->set_parameter($this->page_name, $this->current_page_number - 1) . '" title=" ' . PREVNEXT_TITLE_PREVIOUS_PAGE . ' "><i class="fas fa-angle-left"></i></a>';
+            $display_links_string .= '</li>';
+        } else {
+            $display_links_string .= '<li class="page-item disabled">';
+            $display_links_string .= '<a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a>';
+            $display_links_string .= '</li>';
+        }
+
+        // check if number_of_pages > $max_page_links
         $cur_window_num = (int)($this->current_page_number / $max_page_links);
         if ($this->current_page_number % $max_page_links) {
-          $cur_window_num++;
+            $cur_window_num++;
         }
 
         $max_window_num = (int)($this->number_of_pages / $max_page_links);
         if ($this->number_of_pages % $max_page_links) {
-          $max_window_num++;
+            $max_window_num++;
         }
 
-// previous window of pages
+        // previous window of pages
         if ($cur_window_num > 1) {
-          $display_links_string .= '<li class="page-item">';
-            $display_links_string .= '<a class="page-link" href="' . $link->set_parameter($this->page_name, ($cur_window_num - 1) * $max_page_links) . '" title=" ' . sprintf(PREVNEXT_TITLE_PREV_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>';
-          $display_links_string .= '</li>';
-        }
-
-// page nn button
-        for ($jump_to_page = 1 + (($cur_window_num - 1) * $max_page_links); ($jump_to_page <= ($cur_window_num * $max_page_links)) && ($jump_to_page <= $this->number_of_pages); $jump_to_page++) {
-          if ($jump_to_page == $this->current_page_number) {
-            $display_links_string .= '<li class="page-item active">';
-              $display_links_string .= '<a class="page-link" href="' . $link->set_parameter($this->page_name, $jump_to_page) . '" title=" ' . sprintf(PREVNEXT_TITLE_PAGE_NO, $jump_to_page) . ' ">' . $jump_to_page . '<span class="sr-only">(current)</span></a>';
-            $display_links_string .= '</li>';
-          } else {
             $display_links_string .= '<li class="page-item">';
-              $display_links_string .= '<a class="page-link" href="' . $link->set_parameter($this->page_name, $jump_to_page) . '" title=" ' . sprintf(PREVNEXT_TITLE_PAGE_NO, $jump_to_page) . ' ">' . $jump_to_page . '</a>';
+            $display_links_string .= '<a class="page-link" href="' . $link->set_parameter($this->page_name, ($cur_window_num - 1) * $max_page_links) . '" title=" ' . sprintf(PREVNEXT_TITLE_PREV_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>';
             $display_links_string .= '</li>';
-          }
         }
 
-// next window of pages
+        // page nn button
+        for ($jump_to_page = 1 + (($cur_window_num - 1) * $max_page_links); ($jump_to_page <= ($cur_window_num * $max_page_links)) && ($jump_to_page <= $this->number_of_pages); $jump_to_page++) {
+            if ($jump_to_page == $this->current_page_number) {
+                $display_links_string .= '<li class="page-item active">';
+                $display_links_string .= '<a class="page-link" href="' . $link->set_parameter($this->page_name, $jump_to_page) . '" title=" ' . sprintf(PREVNEXT_TITLE_PAGE_NO, $jump_to_page) . ' ">' . $jump_to_page . '<span class="sr-only">(current)</span></a>';
+                $display_links_string .= '</li>';
+            } else {
+                $display_links_string .= '<li class="page-item">';
+                $display_links_string .= '<a class="page-link" href="' . $link->set_parameter($this->page_name, $jump_to_page) . '" title=" ' . sprintf(PREVNEXT_TITLE_PAGE_NO, $jump_to_page) . ' ">' . $jump_to_page . '</a>';
+                $display_links_string .= '</li>';
+            }
+        }
+
+        // next window of pages
         if ($cur_window_num < $max_window_num) {
-          $display_links_string .= '<li class="page-item">';
+            $display_links_string .= '<li class="page-item">';
             $display_links_string .= '<a class="page-link" href="' . $link->set_parameter($this->page_name, $cur_window_num * $max_page_links + 1) . '" title=" ' . sprintf(PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>';
-          $display_links_string .= '</li>';
+            $display_links_string .= '</li>';
         }
 
-// next button
+        // next button
         if (($this->current_page_number < $this->number_of_pages) && ($this->number_of_pages != 1)) {
-          $display_links_string .= '<li class="page-item">';
+            $display_links_string .= '<li class="page-item">';
             $display_links_string .= '<a class="page-link" href="' . $link->set_parameter($this->page_name, $this->current_page_number + 1) . '" aria-label=" ' . PREVNEXT_TITLE_NEXT_PAGE . ' "><span aria-hidden="true"><i class="fas fa-angle-right"></i></span></a>';
             $display_links_string .= '<span class="sr-only">' . PREVNEXT_TITLE_NEXT_PAGE . '</span>';
-          $display_links_string .= '</li>';
+            $display_links_string .= '</li>';
         } else {
-          $display_links_string .= '<li class="page-item disabled">';
+            $display_links_string .= '<li class="page-item disabled">';
             $display_links_string .= '<a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-right"></i></a>';
-          $display_links_string .= '</li>';
+            $display_links_string .= '</li>';
         }
 
         $display_links_string .= '</ul>';
-      $display_links_string .= '</nav>';
 
-      return $display_links_string;
+        return $display_links_string . '</nav>';
     }
 
-    public function display_count($text_output) {
-      $to_num = ($this->number_of_rows_per_page * $this->current_page_number);
-      if ($to_num > $this->number_of_rows) {
-        $to_num = $this->number_of_rows;
-      }
+    public function display_count($text_output): string
+    {
+        $to_num = ($this->number_of_rows_per_page * $this->current_page_number);
+        if ($to_num > $this->number_of_rows) {
+            $to_num = $this->number_of_rows;
+        }
 
-      if ($to_num == 0) {
-        $from_num = 0;
-      } else {
-        $from_num = $this->number_of_rows_per_page * ($this->current_page_number - 1);
+        if ($to_num == 0) {
+            $from_num = 0;
+        } else {
+            $from_num = $this->number_of_rows_per_page * ($this->current_page_number - 1);
 
-        $from_num++;
-      }
+            $from_num++;
+        }
 
-      return sprintf($text_output, $from_num, $to_num, $this->number_of_rows);
+        return sprintf($text_output, $from_num, $to_num, $this->number_of_rows);
     }
 
-    public static function create_sort_heading($sortby, $colnum, $heading, $class = 'dropdown-item') {
-      if (!$sortby) {
-        return $heading;
-      }
+    public static function create_sort_heading($sortby, string $colnum, $heading, string $class = 'dropdown-item')
+    {
+        if (!$sortby) {
+            return $heading;
+        }
 
-      $link = $GLOBALS['Linker']->build()->retain_query_except(['info', 'page']);
-      $link->set_parameter('sort', $colnum . ($sortby == $colnum . 'a' ? 'd' : 'a'));
+        $link = $GLOBALS['Linker']->build()->retain_query_except(['info', 'page']);
+        $link->set_parameter('sort', $colnum . ($sortby == $colnum . 'a' ? 'd' : 'a'));
 
-      $selected = substr($sortby, 0, -1) == $colnum;
-      $ascending = substr($sortby, -1) === 'a';
-      $title = sprintf(($selected && $ascending) ? TEXT_DESCENDINGLY : TEXT_ASCENDINGLY, $heading);
-      $text = sprintf(($selected ? ($ascending ? LISTING_SORT_DOWN : LISTING_SORT_UP) : LISTING_SORT_UNSELECTED), $heading);
+        $selected = substr((string) $sortby, 0, -1) == $colnum;
+        $ascending = str_ends_with((string) $sortby, 'a');
+        $title = sprintf(($selected && $ascending) ? TEXT_DESCENDINGLY : TEXT_ASCENDINGLY, $heading);
+        $text = sprintf(($selected ? ($ascending ? LISTING_SORT_DOWN : LISTING_SORT_UP) : LISTING_SORT_UNSELECTED), $heading);
 
-      return '<a href="' . $link. '" title="' . Text::output($title) . '" class="' . $class . '" rel="nofollow">' . $text . '</a>';
+        return '<a href="' . $link. '" title="' . Text::output($title) . '" class="' . $class . '" rel="nofollow">' . $text . '</a>';
     }
 
-  }
+}

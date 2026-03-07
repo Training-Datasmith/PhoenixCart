@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  $reviews_id = Text::input($_GET['rID']);
+$reviews_id = Text::input($_GET['rID']);
 
-  $db->query("DELETE r, rd FROM reviews r INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id WHERE r.reviews_id = " . (int)$reviews_id);
+$db->query('DELETE r, rd FROM reviews r INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id WHERE r.reviews_id = ' . (int)$reviews_id);
 
-  return $link;
+return $link;

@@ -10,59 +10,59 @@
   Released under the GNU General Public License
 */
 
-  require 'includes/application_top.php';
-  $link = $Admin->link()->retain_query_except(['action', 'saction', 'zID', 'sID']);
+require 'includes/application_top.php';
+$link = $Admin->link()->retain_query_except(['action', 'saction', 'zID', 'sID']);
 
-  $saction = $_GET['saction'] ?? '';
+$saction = $_GET['saction'] ?? '';
 
-  $admin_hooks->call('geo_zones', 'preSaction');
+$admin_hooks->call('geo_zones', 'preSaction');
 
-  if (!Text::is_empty($saction)) {
+if (!Text::is_empty($saction)) {
     switch ($saction) {
-      case 'insert_sub':
-        $zID = Text::input($_GET['zID']);
-        $zone_country_id = Text::input($_POST['zone_country_id']);
-        $zone_id = Text::input($_POST['zone_id']);
+        case 'insert_sub':
+            $zID = Text::input($_GET['zID']);
+            $zone_country_id = Text::input($_POST['zone_country_id']);
+            $zone_id = Text::input($_POST['zone_id']);
 
-        $db->query("INSERT INTO zones_to_geo_zones (zone_country_id, zone_id, geo_zone_id, date_added) VALUES (" . (int)$zone_country_id . ", " . (int)$zone_id . ", " . (int)$zID . ", NOW())");
-        $new_subzone_id = mysqli_insert_id($db);
+            $db->query('INSERT INTO zones_to_geo_zones (zone_country_id, zone_id, geo_zone_id, date_added) VALUES (' . (int)$zone_country_id . ', ' . (int)$zone_id . ', ' . (int)$zID . ', NOW())');
+            $new_subzone_id = mysqli_insert_id($db);
 
-        $admin_hooks->call('geo_zones', 'insertSubSaction');
+            $admin_hooks->call('geo_zones', 'insertSubSaction');
 
-        Href::redirect($link->set_parameter('zID', (int)$zID)->set_parameter('action', 'list')->set_parameter('sID', $new_subzone_id));
-        break;
-      case 'save_sub':
-        $sID = Text::input($_GET['sID']);
-        $zID = Text::input($_GET['zID']);
-        $zone_country_id = Text::input($_POST['zone_country_id']);
-        $zone_id = Text::input($_POST['zone_id']);
+            Href::redirect($link->set_parameter('zID', (int)$zID)->set_parameter('action', 'list')->set_parameter('sID', $new_subzone_id));
+            break;
+        case 'save_sub':
+            $sID = Text::input($_GET['sID']);
+            $zID = Text::input($_GET['zID']);
+            $zone_country_id = Text::input($_POST['zone_country_id']);
+            $zone_id = Text::input($_POST['zone_id']);
 
-        $db->query("UPDATE zones_to_geo_zones SET geo_zone_id = " . (int)$zID . ", zone_country_id = " . (int)$zone_country_id . ", zone_id = " . (Text::is_empty($zone_id) ? 'NULL' : (int)$zone_id) . ", last_modified = NOW() WHERE association_id = " . (int)$sID);
+            $db->query('UPDATE zones_to_geo_zones SET geo_zone_id = ' . (int)$zID . ', zone_country_id = ' . (int)$zone_country_id . ', zone_id = ' . (Text::is_empty($zone_id) ? 'NULL' : (int)$zone_id) . ', last_modified = NOW() WHERE association_id = ' . (int)$sID);
 
-        $admin_hooks->call('geo_zones', 'saveSubSaction');
+            $admin_hooks->call('geo_zones', 'saveSubSaction');
 
-        Href::redirect($link->set_parameter('zID', (int)$zID)->set_parameter('action', 'list')->set_parameter('sID', $_GET['sID']));
-        break;
-      case 'delete_confirm_sub':
-        $sID = Text::input($_GET['sID']);
+            Href::redirect($link->set_parameter('zID', (int)$zID)->set_parameter('action', 'list')->set_parameter('sID', $_GET['sID']));
+            break;
+        case 'delete_confirm_sub':
+            $sID = Text::input($_GET['sID']);
 
-        $db->query("DELETE FROM zones_to_geo_zones WHERE association_id = " . (int)$sID);
+            $db->query('DELETE FROM zones_to_geo_zones WHERE association_id = ' . (int)$sID);
 
-        $admin_hooks->call('geo_zones', 'deleteConfirmSubSaction');
+            $admin_hooks->call('geo_zones', 'deleteConfirmSubSaction');
 
-        Href::redirect($link->set_parameter('zID', (int)$_GET['zID'])->set_parameter('action', 'list'));
-        break;
+            Href::redirect($link->set_parameter('zID', (int)$_GET['zID'])->set_parameter('action', 'list'));
+            break;
     }
-  }
+}
 
-  $admin_hooks->call('geo_zones', 'postSaction');
+$admin_hooks->call('geo_zones', 'postSaction');
 
-  require 'includes/segments/process_action.php';
+require 'includes/segments/process_action.php';
 
-  require 'includes/template_top.php';
+require 'includes/template_top.php';
 
-  if (isset($_GET['zID']) && (('edit' === $saction) || ('new' === $saction))) {
-?>
+if (isset($_GET['zID']) && (('edit' === $saction) || ('new' === $saction))) {
+    ?>
 <script><!--
 function update_zone(theForm) {
   var NumState = theForm.zone_id.options.length;
@@ -80,7 +80,7 @@ function update_zone(theForm) {
 }
 //--></script>
 <?php
-  }
+}
 ?>
 
   <div class="row">
@@ -90,19 +90,19 @@ function update_zone(theForm) {
     <div class="col-12 col-lg-8 text-start text-lg-end align-self-center pb-1">
       <?=
       $Admin->button(GET_HELP, '', 'btn-dark me-2', GET_HELP_LINK, ['newwindow' => true]),
-      $admin_hooks->cat('extraButtons'),
-      empty($action)
-      ? $Admin->button(TEXT_INFO_HEADING_NEW_ZONE, 'fas fa-atlas', 'btn-danger', (clone $link)->set_parameter('action', 'new_zone'))
-      : $Admin->button(IMAGE_BACK, 'fas fa-angle-left', 'btn-light', isset($_GET['zID']) ? $Admin->link()->set_parameter('zID', (int)$_GET['zID']) : $Admin->link())
-      ?>
+$admin_hooks->cat('extraButtons'),
+empty($action)
+? $Admin->button(TEXT_INFO_HEADING_NEW_ZONE, 'fas fa-atlas', 'btn-danger', (clone $link)->set_parameter('action', 'new_zone'))
+: $Admin->button(IMAGE_BACK, 'fas fa-angle-left', 'btn-light', isset($_GET['zID']) ? $Admin->link()->set_parameter('zID', (int)$_GET['zID']) : $Admin->link())
+?>
     </div>
   </div>
 
 <?php
   if ($view_file = $Admin->locate('/views', $action)) {
-    require $view_file;
+      require $view_file;
   }
 
-  require 'includes/template_bottom.php';
-  require 'includes/application_bottom.php';
+require 'includes/template_bottom.php';
+require 'includes/application_bottom.php';
 ?>

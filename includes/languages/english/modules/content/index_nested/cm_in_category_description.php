@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_TITLE = 'Category Description';
-  const MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_DESCRIPTION = 'Show the category description in index.php';
+const MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_TITLE = 'Category Description';
+const MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_DESCRIPTION = 'Show the category description in index.php';

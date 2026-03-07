@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,16 +12,18 @@
   Released under the GNU General Public License
 */
 
-  class sc_file_uploads {
-
+class sc_file_uploads
+{
     public $type = 'warning';
 
-    public function pass() {
-      return (bool)ini_get('file_uploads');
+    public function pass(): bool
+    {
+        return (bool)ini_get('file_uploads');
     }
 
-    public function get_message() {
-      return WARNING_FILE_UPLOADS_DISABLED;
+    public function get_message(): string
+    {
+        return WARNING_FILE_UPLOADS_DISABLED;
     }
 
-  }
+}

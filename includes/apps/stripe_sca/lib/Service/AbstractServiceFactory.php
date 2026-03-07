@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\Service;
 
 /**
@@ -14,18 +16,14 @@ namespace Stripe\Service;
  */
 abstract class AbstractServiceFactory
 {
-    /** @var \Stripe\StripeClientInterface */
-    private $client;
-
     /** @var array<string, AbstractService|AbstractServiceFactory> */
-    private $services;
+    private array $services;
 
     /**
      * @param \Stripe\StripeClientInterface $client
      */
-    public function __construct($client)
+    public function __construct(private $client)
     {
-        $this->client = $client;
         $this->services = [];
     }
 
@@ -37,21 +35,17 @@ abstract class AbstractServiceFactory
     abstract protected function getServiceClass($name);
 
     /**
-     * @param string $name
-     *
      * @return null|AbstractService|AbstractServiceFactory
      */
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         return $this->getService($name);
     }
 
     /**
-     * @param string $name
-     *
      * @return null|AbstractService|AbstractServiceFactory
      */
-    public function getService($name)
+    public function getService(string $name)
     {
         $serviceClass = $this->getServiceClass($name);
         if (null !== $serviceClass) {

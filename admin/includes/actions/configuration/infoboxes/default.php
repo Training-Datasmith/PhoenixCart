@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($GLOBALS['table_definition']['info']->configuration_id)) {
+if (isset($GLOBALS['table_definition']['info']->configuration_id)) {
     $cInfo = &$GLOBALS['table_definition']['info'];
     $GLOBALS['link']->set_parameter('cID', (int)$cInfo->configuration_id);
     $heading = $cInfo->configuration_title;
@@ -22,6 +24,6 @@
     $contents[] = ['text' => $cInfo->configuration_description];
     $contents[] = ['text' => TEXT_INFO_DATE_ADDED . ' ' . Date::abridge($cInfo->date_added)];
     if (!Text::is_empty($cInfo->last_modified)) {
-      $contents[] = ['text' => TEXT_INFO_LAST_MODIFIED . ' ' . Date::abridge($cInfo->last_modified)];
+        $contents[] = ['text' => TEXT_INFO_LAST_MODIFIED . ' ' . Date::abridge($cInfo->last_modified)];
     }
-  }
+}

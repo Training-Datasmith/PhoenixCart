@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,4 +12,4 @@
   Released under the GNU General Public License
 */
 
-  $cl_box_groups[] = ['sort' => 30, 'heading' => BOX_HEADING_ORDERS, 'apps' => []];
+$cl_box_groups[] = ['sort' => 30, 'heading' => BOX_HEADING_ORDERS, 'apps' => []];

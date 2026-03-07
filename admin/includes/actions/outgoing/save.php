@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,17 +12,17 @@
   Released under the GNU General Public License
 */
 
-  $id = Text::input($_GET['oID']);
-  
-  $sql_data = [
-    'send_at' => Text::input($_POST['send_at']),
-    'slug' => Text::input($_POST['slug']),
-    'email_address' => Text::input($_POST['email_address']),
-    'merge_tags' => Text::prepare($_POST['text']),
-    'languages_id' => (int)$_POST['language_id'],
-    'last_modified' => 'NOW()',
-  ];
+$id = Text::input($_GET['oID']);
 
-  $db->perform('outgoing', $sql_data, 'update', "id = " . (int)$id);
+$sql_data = [
+  'send_at' => Text::input($_POST['send_at']),
+  'slug' => Text::input($_POST['slug']),
+  'email_address' => Text::input($_POST['email_address']),
+  'merge_tags' => Text::prepare($_POST['text']),
+  'languages_id' => (int)$_POST['language_id'],
+  'last_modified' => 'NOW()',
+];
 
-  return $link->set_parameter('oID', (int)$id);
+$db->perform('outgoing', $sql_data, 'update', 'id = ' . (int)$id);
+
+return $link->set_parameter('oID', (int)$id);

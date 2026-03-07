@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  $tax_class_id = Text::input($_GET['tID']);
+$tax_class_id = Text::input($_GET['tID']);
 
-  $db->query("DELETE FROM tax_class WHERE tax_class_id = " . (int)$tax_class_id);
+$db->query('DELETE FROM tax_class WHERE tax_class_id = ' . (int)$tax_class_id);
 
-  return $link;
+return $link;

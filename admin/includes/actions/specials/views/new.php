@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  echo new Form('review', $Admin->link('specials.php', ['action' => 'insert']), 'post');
+echo new Form('review', $Admin->link('specials.php', ['action' => 'insert']), 'post');
 ?>
 
     <div class="row mb-2" id="zProduct">

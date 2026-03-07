@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe;
 
 /**
@@ -7,11 +9,6 @@ namespace Stripe;
  */
 class ApiRequestor
 {
-    /**
-     * @var null|string
-     */
-    private $_apiKey;
-
     /**
      * @var string
      */
@@ -26,22 +23,18 @@ class ApiRequestor
      */
     private static $_streamingHttpClient;
 
-    /**
-     * @var RequestTelemetry
-     */
-    private static $requestTelemetry;
+    private static ?\Stripe\RequestTelemetry $requestTelemetry = null;
 
-    private static $OPTIONS_KEYS = ['api_key', 'idempotency_key', 'stripe_account', 'stripe_version', 'api_base'];
+    private static array $OPTIONS_KEYS = ['api_key', 'idempotency_key', 'stripe_account', 'stripe_version', 'api_base'];
 
     /**
      * ApiRequestor constructor.
      *
-     * @param null|string $apiKey
+     * @param null|string $_apiKey
      * @param null|string $apiBase
      */
-    public function __construct($apiKey = null, $apiBase = null)
+    public function __construct(private $_apiKey = null, $apiBase = null)
     {
-        $this->_apiKey = $apiKey;
         if (!$apiBase) {
             $apiBase = Stripe::$apiBase;
         }
@@ -54,10 +47,8 @@ class ApiRequestor
      * @static
      *
      * @param RequestTelemetry $requestTelemetry
-     *
-     * @return string
      */
-    private static function _telemetryJson($requestTelemetry)
+    private static function _telemetryJson($requestTelemetry): string
     {
         $payload = [
             'last_request_metrics' => [
@@ -115,11 +106,11 @@ class ApiRequestor
      *
      * @return array tuple containing (ApiReponse, API key)
      */
-    public function request($method, $url, $params = null, $headers = null)
+    public function request($method, $url, $params = null, $headers = null): array
     {
         $params = $params ?: [];
         $headers = $headers ?: [];
-        list($rbody, $rcode, $rheaders, $myApiKey) =
+        [$rbody, $rcode, $rheaders, $myApiKey] =
         $this->_requestRaw($method, $url, $params, $headers);
         $json = $this->_interpretResponse($rbody, $rcode, $rheaders);
         $resp = new ApiResponse($rbody, $rcode, $rheaders, $json);
@@ -136,11 +127,11 @@ class ApiRequestor
      *
      * @throws Exception\ApiErrorException
      */
-    public function requestStream($method, $url, $readBodyChunkCallable, $params = null, $headers = null)
+    public function requestStream($method, $url, $readBodyChunkCallable, $params = null, $headers = null): void
     {
         $params = $params ?: [];
         $headers = $headers ?: [];
-        list($rbody, $rcode, $rheaders, $myApiKey) =
+        [$rbody, $rcode, $rheaders, $myApiKey] =
         $this->_requestRawStreaming($method, $url, $params, $headers, $readBodyChunkCallable);
         if ($rcode >= 300) {
             $this->_interpretResponse($rbody, $rcode, $rheaders);
@@ -156,7 +147,7 @@ class ApiRequestor
      * @throws Exception\UnexpectedValueException
      * @throws Exception\ApiErrorException
      */
-    public function handleErrorResponse($rbody, $rcode, $rheaders, $resp)
+    public function handleErrorResponse($rbody, $rcode, $rheaders, $resp): void
     {
         if (!\is_array($resp) || !isset($resp['error'])) {
             $msg = "Invalid response object from API: {$rbody} "
@@ -185,17 +176,16 @@ class ApiRequestor
      * @param int    $rcode
      * @param array  $rheaders
      * @param array  $resp
-     * @param array  $errorData
      *
      * @return Exception\ApiErrorException
      */
-    private static function _specificAPIError($rbody, $rcode, $rheaders, $resp, $errorData)
+    private static function _specificAPIError($rbody, $rcode, $rheaders, $resp, array $errorData)
     {
-        $msg = isset($errorData['message']) ? $errorData['message'] : null;
-        $param = isset($errorData['param']) ? $errorData['param'] : null;
-        $code = isset($errorData['code']) ? $errorData['code'] : null;
-        $type = isset($errorData['type']) ? $errorData['type'] : null;
-        $declineCode = isset($errorData['decline_code']) ? $errorData['decline_code'] : null;
+        $msg = $errorData['message'] ?? null;
+        $param = $errorData['param'] ?? null;
+        $code = $errorData['code'] ?? null;
+        $type = $errorData['type'] ?? null;
+        $declineCode = $errorData['decline_code'] ?? null;
 
         switch ($rcode) {
             case 400:
@@ -235,37 +225,22 @@ class ApiRequestor
      * @param bool|string $rbody
      * @param int         $rcode
      * @param array       $rheaders
-     * @param array       $resp
-     * @param string      $errorCode
      *
      * @return Exception\OAuth\OAuthErrorException
      */
-    private static function _specificOAuthError($rbody, $rcode, $rheaders, $resp, $errorCode)
+    private static function _specificOAuthError($rbody, $rcode, $rheaders, array $resp, string $errorCode)
     {
-        $description = isset($resp['error_description']) ? $resp['error_description'] : $errorCode;
+        $description = $resp['error_description'] ?? $errorCode;
 
-        switch ($errorCode) {
-            case 'invalid_client':
-                return Exception\OAuth\InvalidClientException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode);
-
-            case 'invalid_grant':
-                return Exception\OAuth\InvalidGrantException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode);
-
-            case 'invalid_request':
-                return Exception\OAuth\InvalidRequestException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode);
-
-            case 'invalid_scope':
-                return Exception\OAuth\InvalidScopeException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode);
-
-            case 'unsupported_grant_type':
-                return Exception\OAuth\UnsupportedGrantTypeException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode);
-
-            case 'unsupported_response_type':
-                return Exception\OAuth\UnsupportedResponseTypeException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode);
-
-            default:
-                return Exception\OAuth\UnknownOAuthErrorException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode);
-        }
+        return match ($errorCode) {
+            'invalid_client' => Exception\OAuth\InvalidClientException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode),
+            'invalid_grant' => Exception\OAuth\InvalidGrantException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode),
+            'invalid_request' => Exception\OAuth\InvalidRequestException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode),
+            'invalid_scope' => Exception\OAuth\InvalidScopeException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode),
+            'unsupported_grant_type' => Exception\OAuth\UnsupportedGrantTypeException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode),
+            'unsupported_response_type' => Exception\OAuth\UnsupportedResponseTypeException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode),
+            default => Exception\OAuth\UnknownOAuthErrorException::factory($description, $rcode, $rbody, $resp, $rheaders, $errorCode),
+        };
     }
 
     /**
@@ -275,21 +250,16 @@ class ApiRequestor
      *
      * @return null|string
      */
-    private static function _formatAppInfo($appInfo)
+    private static function _formatAppInfo(array $appInfo)
     {
-        if (null !== $appInfo) {
-            $string = $appInfo['name'];
-            if (null !== $appInfo['version']) {
-                $string .= '/' . $appInfo['version'];
-            }
-            if (null !== $appInfo['url']) {
-                $string .= ' (' . $appInfo['url'] . ')';
-            }
-
-            return $string;
+        $string = $appInfo['name'];
+        if (null !== $appInfo['version']) {
+            $string .= '/' . $appInfo['version'];
         }
-
-        return null;
+        if (null !== $appInfo['url']) {
+            $string .= ' (' . $appInfo['url'] . ')';
+        }
+        return $string;
     }
 
     /**
@@ -297,10 +267,8 @@ class ApiRequestor
      *
      * @param string $disableFunctionsOutput - String value of the 'disable_function' setting, as output by \ini_get('disable_functions')
      * @param string $functionName - Name of the function we are interesting in seeing whether or not it is disabled
-     *
-     * @return bool
      */
-    private static function _isDisabled($disableFunctionsOutput, $functionName)
+    private static function _isDisabled(string|bool $disableFunctionsOutput, string $functionName): bool
     {
         $disabledFunctions = \explode(',', $disableFunctionsOutput);
         foreach ($disabledFunctions as $disabledFunction) {
@@ -315,12 +283,9 @@ class ApiRequestor
     /**
      * @static
      *
-     * @param string $apiKey
-     * @param null   $clientInfo
      *
-     * @return array
      */
-    private static function _defaultHeaders($apiKey, $clientInfo = null)
+    private static function _defaultHeaders(string $apiKey, $clientInfo = null): array
     {
         $uaString = 'Stripe/v1 PhpBindings/' . Stripe::VERSION;
 
@@ -351,7 +316,7 @@ class ApiRequestor
         ];
     }
 
-    private function _prepareRequest($method, $url, $params, $headers)
+    private function _prepareRequest(string $url, $params, $headers): array
     {
         $myApiKey = $this->_apiKey;
         if (!$myApiKey) {
@@ -378,9 +343,7 @@ class ApiRequestor
         if ($params && \is_array($params)) {
             $optionKeysInParams = \array_filter(
                 static::$OPTIONS_KEYS,
-                function ($key) use ($params) {
-                    return \array_key_exists($key, $params);
-                }
+                fn ($key) => \array_key_exists($key, $params)
             );
             if (\count($optionKeysInParams) > 0) {
                 $message = \sprintf('Options found in $params: %s. Options should '
@@ -392,7 +355,7 @@ class ApiRequestor
 
         $absUrl = $this->_apiBase . $url;
         $params = self::_encodeObjects($params);
-        $defaultHeaders = $this->_defaultHeaders($myApiKey, $clientUAInfo);
+        $defaultHeaders = self::_defaultHeaders($myApiKey, $clientUAInfo);
         if (Stripe::$apiVersion) {
             $defaultHeaders['Stripe-Version'] = Stripe::$apiVersion;
         }
@@ -439,16 +402,14 @@ class ApiRequestor
      *
      * @throws Exception\AuthenticationException
      * @throws Exception\ApiConnectionException
-     *
-     * @return array
      */
-    private function _requestRaw($method, $url, $params, $headers)
+    private function _requestRaw($method, $url, $params, $headers): array
     {
-        list($absUrl, $rawHeaders, $params, $hasFile, $myApiKey) = $this->_prepareRequest($method, $url, $params, $headers);
+        [$absUrl, $rawHeaders, $params, $hasFile, $myApiKey] = $this->_prepareRequest($url, $params, $headers);
 
         $requestStartMs = Util\Util::currentTimeMillis();
 
-        list($rbody, $rcode, $rheaders) = $this->httpClient()->request(
+        [$rbody, $rcode, $rheaders] = $this->httpClient()->request(
             $method,
             $absUrl,
             $rawHeaders,
@@ -477,16 +438,14 @@ class ApiRequestor
      *
      * @throws Exception\AuthenticationException
      * @throws Exception\ApiConnectionException
-     *
-     * @return array
      */
-    private function _requestRawStreaming($method, $url, $params, $headers, $readBodyChunkCallable)
+    private function _requestRawStreaming($method, $url, $params, $headers, $readBodyChunkCallable): array
     {
-        list($absUrl, $rawHeaders, $params, $hasFile, $myApiKey) = $this->_prepareRequest($method, $url, $params, $headers);
+        [$absUrl, $rawHeaders, $params, $hasFile, $myApiKey] = $this->_prepareRequest($url, $params, $headers);
 
         $requestStartMs = Util\Util::currentTimeMillis();
 
-        list($rbody, $rcode, $rheaders) = $this->streamingHttpClient()->requestStream(
+        [$rbody, $rcode, $rheaders] = $this->streamingHttpClient()->requestStream(
             $method,
             $absUrl,
             $rawHeaders,
@@ -514,7 +473,7 @@ class ApiRequestor
      *
      * @return \CURLFile|string
      */
-    private function _processResourceParam($resource)
+    private function _processResourceParam($resource): \CURLFile
     {
         if ('stream' !== \get_resource_type($resource)) {
             throw new Exception\InvalidArgumentException(
@@ -566,7 +525,7 @@ class ApiRequestor
      *
      * @param HttpClient\ClientInterface $client
      */
-    public static function setHttpClient($client)
+    public static function setHttpClient($client): void
     {
         self::$_httpClient = $client;
     }
@@ -576,7 +535,7 @@ class ApiRequestor
      *
      * @param HttpClient\StreamingClientInterface $client
      */
-    public static function setStreamingHttpClient($client)
+    public static function setStreamingHttpClient($client): void
     {
         self::$_streamingHttpClient = $client;
     }
@@ -586,7 +545,7 @@ class ApiRequestor
      *
      * Resets any stateful telemetry data
      */
-    public static function resetTelemetry()
+    public static function resetTelemetry(): void
     {
         self::$requestTelemetry = null;
     }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,4 +12,4 @@
   Released under the GNU General Public License
 */
 
-  const BOX_HEADING_MODULES = '<i title="Modules" class="fas fa-folder-open fa-fw me-1"></i><span title="Modules" class="d-xl-none">Modules</span>';
+const BOX_HEADING_MODULES = '<i title="Modules" class="fas fa-folder-open fa-fw me-1"></i><span title="Modules" class="d-xl-none">Modules</span>';

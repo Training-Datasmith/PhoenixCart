@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
   <div class="row">

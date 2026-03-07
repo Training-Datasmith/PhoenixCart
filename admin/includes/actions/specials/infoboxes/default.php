@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (is_object($table_definition['info'] ?? null)) {
+if (is_object($table_definition['info'] ?? null)) {
     $sInfo = $table_definition['info'];
     $heading = $sInfo->products_name;
 
@@ -30,6 +32,10 @@
     $contents[] = ['text' => TEXT_INFO_NEW_PRICE . ' ' . $GLOBALS['currencies']->format($sInfo->specials_new_products_price)];
     $contents[] = ['text' => TEXT_INFO_PERCENTAGE . ' ' . number_format(100 - (($sInfo->specials_new_products_price / $sInfo->products_price) * 100)) . '%'];
 
-    if (!empty($sInfo->expires_date)) $contents[] = ['text' => TEXT_INFO_EXPIRES_DATE . ' ' . Date::abridge($sInfo->expires_date)];
-    if (!empty($sInfo->date_status_change)) $contents[] = ['text' => TEXT_INFO_STATUS_CHANGE . ' ' . Date::abridge($sInfo->date_status_change)];
-  }
+    if (!empty($sInfo->expires_date)) {
+        $contents[] = ['text' => TEXT_INFO_EXPIRES_DATE . ' ' . Date::abridge($sInfo->expires_date)];
+    }
+    if (!empty($sInfo->date_status_change)) {
+        $contents[] = ['text' => TEXT_INFO_STATUS_CHANGE . ' ' . Date::abridge($sInfo->date_status_change)];
+    }
+}

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,14 +12,14 @@
   Released under the GNU General Public License
 */
 
-  $filename = 'stats_customers.csv';
-  header('Content-Type: text/csv; charset=utf-8');
-  header('Content-Disposition: attachment; filename=' . $filename);
+$filename = 'stats_customers.csv';
+header('Content-Type: text/csv; charset=utf-8');
+header('Content-Disposition: attachment; filename=' . $filename);
 
-  $output = fopen('php://output', 'w');
-  fputcsv($output, CSV_HEADERS);
+$output = fopen('php://output', 'w');
+fputcsv($output, CSV_HEADERS);
 
-  $history_query = $db->query(sprintf(<<<'EOSQL'
+$history_query = $db->query(sprintf(<<<'EOSQL'
 SELECT o.customers_id, o.orders_id, o.date_purchased, ot.value AS order_total, s.orders_status_name
  FROM orders o
    INNER JOIN orders_total ot ON o.orders_id = ot.orders_id
@@ -27,11 +29,11 @@ SELECT o.customers_id, o.orders_id, o.date_purchased, ot.value AS order_total, s
 EOSQL
     , (int)$_SESSION['languages_id'], (int)$_GET['cID']));
 
-  while ($history = $history_query->fetch_row()) {
+while ($history = $history_query->fetch_row()) {
     fputcsv($output, $history);
-  }
+}
 
-  $admin_hooks->cat('doCsvAction');
-  fclose($output);
+$admin_hooks->cat('doCsvAction');
+fclose($output);
 
-  exit();
+exit();

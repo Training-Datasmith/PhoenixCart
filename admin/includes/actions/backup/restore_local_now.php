@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,15 +12,15 @@
   Released under the GNU General Public License
 */
 
-  System::set_time_limit(0);
+System::set_time_limit(0);
 
-  $sql_file = new upload('sql_file', DIR_FS_BACKUP);
-  $sql_file->set_extensions(['sql']);
+$sql_file = new upload('sql_file', DIR_FS_BACKUP);
+$sql_file->set_extensions(['sql']);
 
-  if ($sql_file->parse()) {
-    $pathinfo = pathinfo($sql_file->tmp_filename);
+if ($sql_file->parse()) {
+    $pathinfo = pathinfo((string) $sql_file->tmp_filename);
     $sql_runner = new sql_file($pathinfo['basename'], $pathinfo['dirname'], $sql_file->filename);
     $sql_runner->restore();
-  }
+}
 
-  return $Admin->link();
+return $Admin->link();

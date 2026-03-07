@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -9,7 +11,6 @@
 
   Released under the GNU General Public License
 */
-
 
 const HEADING_TITLE = 'Zones';
 
@@ -29,4 +30,3 @@ const TEXT_INFO_HEADING_EDIT_ZONE = 'Edit Zone';
 const TEXT_INFO_HEADING_DELETE_ZONE = 'Delete Zone';
 
 const GET_HELP_LINK = 'https://phoenixcart.org/phoenixcartwiki/index.php?title=Zones';
-

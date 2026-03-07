@@ -10,23 +10,23 @@
   Released under the GNU General Public License
 */
 
-  $aID = Text::input($_GET['aID']);
+$aID = Text::input($_GET['aID']);
 
-  $advert_query = $db->query(sprintf(<<<'EOSQL'
+$advert_query = $db->query(sprintf(<<<'EOSQL'
 SELECT a.*, ai.*
  FROM advert a INNER JOIN advert_info ai ON a.advert_id = ai.advert_id
  WHERE a.advert_id = %d
 EOSQL
     , (int)$aID));
-  $advert = $advert_query->fetch_assoc();
+$advert = $advert_query->fetch_assoc();
 
-  $aInfo = new objectInfo($advert);
-  $link->set_parameter('aID', (string)(int)$aID);
+$aInfo = new objectInfo($advert);
+$link->set_parameter('aID', (string)(int)$aID);
 
-  $groups_array = $db->fetch_all("SELECT DISTINCT advert_group AS id, advert_group AS text FROM advert ORDER BY advert_group");
+$groups_array = $db->fetch_all('SELECT DISTINCT advert_group AS id, advert_group AS text FROM advert ORDER BY advert_group');
 
-  $form = new Form('edit_advert', $link->set_parameter('action', 'update'), 'post', ['enctype' => 'multipart/form-data']);
-  $form->hide('advert_id', $aInfo->advert_id);
+$form = new Form('edit_advert', $link->set_parameter('action', 'update'), 'post', ['enctype' => 'multipart/form-data']);
+$form->hide('advert_id', $aInfo->advert_id);
 ?>
 
   <?= $form ?>
@@ -103,9 +103,9 @@ EOSQL
 
     <?php
     foreach (language::load_all() as $l) {
-      $advert_text = adverts::advert_get_html_text($aInfo->advert_id, $l['id']) ?? '';
-      $language_icon = $Admin->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", [], $l['name']);
-      ?>
+        $advert_text = adverts::advert_get_html_text($aInfo->advert_id, $l['id']) ?? '';
+        $language_icon = $Admin->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", [], $l['name']);
+        ?>
       <div class="row mb-2" id="zText_<?= $l['code'] ?>">
         <label for="aText-<?= $l['code'] ?>" class="col-form-label col-sm-3 text-start text-sm-end"><?= TEXT_ADVERT_HTML_TEXT ?></label>
         <div class="col-sm-9">
@@ -118,8 +118,8 @@ EOSQL
       <?php
     }
 
-    echo $admin_hooks->cat('editForm');
-    ?>
+echo $admin_hooks->cat('editForm');
+?>
     
     <div class="d-grid mt-2">
       <?= new Button(IMAGE_SAVE, 'fas fa-save', 'btn-success btn-lg') ?>

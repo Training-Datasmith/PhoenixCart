@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  header('Content-type: text/plain');
-  header('Content-disposition: attachment; filename=server_info-' . date('YmdHis') . '.txt');
-  
-  echo $system_info;
-  exit();
+header('Content-type: text/plain');
+header('Content-disposition: attachment; filename=server_info-' . date('YmdHis') . '.txt');
+
+echo $system_info;
+exit();

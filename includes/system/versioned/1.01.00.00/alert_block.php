@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,32 +12,30 @@
   Released under the GNU General Public License
 */
 
-  class alertBlock {
+class alertBlock
+{
+    public function __construct($alerts, $alert_output = false): string
+    {
+        $alertBox_string = '';
 
-  	public function __construct() {
-  	}
+        foreach ($alerts as $alert) {
+            $alertBox_string .= '<div';
 
-    public function alertBlock($alerts, $alert_output = false) {
-	  $alertBox_string = '';
+            if (isset($alert['params']) && !Text::is_empty($alert['params'])) {
+                $alertBox_string .= ' ' . $alert['params'];
+            }
 
-      foreach ($alerts as $alert) {
-        $alertBox_string .= '<div';
-
-        if (isset($alert['params']) && !Text::is_empty($alert['params'])) {
-          $alertBox_string .= ' ' . $alert['params'];
+            $alertBox_string .= '>' . PHP_EOL;
+            $alertBox_string .= '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' . PHP_EOL;
+            $alertBox_string .= $alert['text'];
+            $alertBox_string .= '</div>' . PHP_EOL;
         }
 
-        $alertBox_string .= '>' . PHP_EOL;
-          $alertBox_string .= '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' . PHP_EOL;
-          $alertBox_string .= $alert['text'];
-        $alertBox_string .= '</div>' . PHP_EOL;
-      }
+        if ($alert_output) {
+            echo $alertBox_string;
+        }
 
-      if ($alert_output) {
-        echo $alertBox_string;
-      }
-
-      return $alertBox_string;
+        return $alertBox_string;
     }
 
-  }
+}

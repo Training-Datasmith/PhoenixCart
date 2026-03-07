@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,9 +12,9 @@
   Released under the GNU General Public License
 */
 
-  $products_options_id = Text::input($_POST['products_options_id']);
+$products_options_id = Text::input($_POST['products_options_id']);
 
-  foreach ($languages as $l) {
+foreach ($languages as $l) {
     $option_name = Text::prepare($_POST['option_name'][$l['id']]);
     $sort_order = Text::input($_POST['sort_order'][$l['id']]);
 
@@ -22,6 +24,6 @@
       'language_id' => (int)$l['id'],
       'sort_order' => $sort_order,
     ]);
-  }
+}
 
-  return $link;
+return $link;

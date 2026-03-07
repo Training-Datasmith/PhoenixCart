@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -24,72 +26,71 @@ namespace Stripe;
  */
 class TaxId extends ApiResource
 {
-    const OBJECT_NAME = 'tax_id';
-
     use ApiOperations\Delete;
+    public const OBJECT_NAME = 'tax_id';
 
-    const TYPE_AE_TRN = 'ae_trn';
-    const TYPE_AU_ABN = 'au_abn';
-    const TYPE_AU_ARN = 'au_arn';
-    const TYPE_BG_UIC = 'bg_uic';
-    const TYPE_BR_CNPJ = 'br_cnpj';
-    const TYPE_BR_CPF = 'br_cpf';
-    const TYPE_CA_BN = 'ca_bn';
-    const TYPE_CA_GST_HST = 'ca_gst_hst';
-    const TYPE_CA_PST_BC = 'ca_pst_bc';
-    const TYPE_CA_PST_MB = 'ca_pst_mb';
-    const TYPE_CA_PST_SK = 'ca_pst_sk';
-    const TYPE_CA_QST = 'ca_qst';
-    const TYPE_CH_VAT = 'ch_vat';
-    const TYPE_CL_TIN = 'cl_tin';
-    const TYPE_EG_TIN = 'eg_tin';
-    const TYPE_ES_CIF = 'es_cif';
-    const TYPE_EU_OSS_VAT = 'eu_oss_vat';
-    const TYPE_EU_VAT = 'eu_vat';
-    const TYPE_GB_VAT = 'gb_vat';
-    const TYPE_GE_VAT = 'ge_vat';
-    const TYPE_HK_BR = 'hk_br';
-    const TYPE_HU_TIN = 'hu_tin';
-    const TYPE_ID_NPWP = 'id_npwp';
-    const TYPE_IL_VAT = 'il_vat';
-    const TYPE_IN_GST = 'in_gst';
-    const TYPE_IS_VAT = 'is_vat';
-    const TYPE_JP_CN = 'jp_cn';
-    const TYPE_JP_RN = 'jp_rn';
-    const TYPE_JP_TRN = 'jp_trn';
-    const TYPE_KE_PIN = 'ke_pin';
-    const TYPE_KR_BRN = 'kr_brn';
-    const TYPE_LI_UID = 'li_uid';
-    const TYPE_MX_RFC = 'mx_rfc';
-    const TYPE_MY_FRP = 'my_frp';
-    const TYPE_MY_ITN = 'my_itn';
-    const TYPE_MY_SST = 'my_sst';
-    const TYPE_NO_VAT = 'no_vat';
-    const TYPE_NZ_GST = 'nz_gst';
-    const TYPE_PH_TIN = 'ph_tin';
-    const TYPE_RU_INN = 'ru_inn';
-    const TYPE_RU_KPP = 'ru_kpp';
-    const TYPE_SA_VAT = 'sa_vat';
-    const TYPE_SG_GST = 'sg_gst';
-    const TYPE_SG_UEN = 'sg_uen';
-    const TYPE_SI_TIN = 'si_tin';
-    const TYPE_TH_VAT = 'th_vat';
-    const TYPE_TR_TIN = 'tr_tin';
-    const TYPE_TW_VAT = 'tw_vat';
-    const TYPE_UA_VAT = 'ua_vat';
-    const TYPE_UNKNOWN = 'unknown';
-    const TYPE_US_EIN = 'us_ein';
-    const TYPE_ZA_VAT = 'za_vat';
+    public const TYPE_AE_TRN = 'ae_trn';
+    public const TYPE_AU_ABN = 'au_abn';
+    public const TYPE_AU_ARN = 'au_arn';
+    public const TYPE_BG_UIC = 'bg_uic';
+    public const TYPE_BR_CNPJ = 'br_cnpj';
+    public const TYPE_BR_CPF = 'br_cpf';
+    public const TYPE_CA_BN = 'ca_bn';
+    public const TYPE_CA_GST_HST = 'ca_gst_hst';
+    public const TYPE_CA_PST_BC = 'ca_pst_bc';
+    public const TYPE_CA_PST_MB = 'ca_pst_mb';
+    public const TYPE_CA_PST_SK = 'ca_pst_sk';
+    public const TYPE_CA_QST = 'ca_qst';
+    public const TYPE_CH_VAT = 'ch_vat';
+    public const TYPE_CL_TIN = 'cl_tin';
+    public const TYPE_EG_TIN = 'eg_tin';
+    public const TYPE_ES_CIF = 'es_cif';
+    public const TYPE_EU_OSS_VAT = 'eu_oss_vat';
+    public const TYPE_EU_VAT = 'eu_vat';
+    public const TYPE_GB_VAT = 'gb_vat';
+    public const TYPE_GE_VAT = 'ge_vat';
+    public const TYPE_HK_BR = 'hk_br';
+    public const TYPE_HU_TIN = 'hu_tin';
+    public const TYPE_ID_NPWP = 'id_npwp';
+    public const TYPE_IL_VAT = 'il_vat';
+    public const TYPE_IN_GST = 'in_gst';
+    public const TYPE_IS_VAT = 'is_vat';
+    public const TYPE_JP_CN = 'jp_cn';
+    public const TYPE_JP_RN = 'jp_rn';
+    public const TYPE_JP_TRN = 'jp_trn';
+    public const TYPE_KE_PIN = 'ke_pin';
+    public const TYPE_KR_BRN = 'kr_brn';
+    public const TYPE_LI_UID = 'li_uid';
+    public const TYPE_MX_RFC = 'mx_rfc';
+    public const TYPE_MY_FRP = 'my_frp';
+    public const TYPE_MY_ITN = 'my_itn';
+    public const TYPE_MY_SST = 'my_sst';
+    public const TYPE_NO_VAT = 'no_vat';
+    public const TYPE_NZ_GST = 'nz_gst';
+    public const TYPE_PH_TIN = 'ph_tin';
+    public const TYPE_RU_INN = 'ru_inn';
+    public const TYPE_RU_KPP = 'ru_kpp';
+    public const TYPE_SA_VAT = 'sa_vat';
+    public const TYPE_SG_GST = 'sg_gst';
+    public const TYPE_SG_UEN = 'sg_uen';
+    public const TYPE_SI_TIN = 'si_tin';
+    public const TYPE_TH_VAT = 'th_vat';
+    public const TYPE_TR_TIN = 'tr_tin';
+    public const TYPE_TW_VAT = 'tw_vat';
+    public const TYPE_UA_VAT = 'ua_vat';
+    public const TYPE_UNKNOWN = 'unknown';
+    public const TYPE_US_EIN = 'us_ein';
+    public const TYPE_ZA_VAT = 'za_vat';
 
-    const VERIFICATION_STATUS_PENDING = 'pending';
-    const VERIFICATION_STATUS_UNAVAILABLE = 'unavailable';
-    const VERIFICATION_STATUS_UNVERIFIED = 'unverified';
-    const VERIFICATION_STATUS_VERIFIED = 'verified';
+    public const VERIFICATION_STATUS_PENDING = 'pending';
+    public const VERIFICATION_STATUS_UNAVAILABLE = 'unavailable';
+    public const VERIFICATION_STATUS_UNVERIFIED = 'unverified';
+    public const VERIFICATION_STATUS_VERIFIED = 'verified';
 
     /**
      * @return string the API URL for this tax id
      */
-    public function instanceUrl()
+    public function instanceUrl(): string
     {
         $id = $this['id'];
         $customer = $this['customer'];
@@ -102,8 +103,8 @@ class TaxId extends ApiResource
         $customer = Util\Util::utf8($customer);
 
         $base = Customer::classUrl();
-        $customerExtn = \urlencode($customer);
-        $extn = \urlencode($id);
+        $customerExtn = \urlencode((string) $customer);
+        $extn = \urlencode((string) $id);
 
         return "{$base}/{$customerExtn}/tax_ids/{$extn}";
     }
@@ -114,7 +115,7 @@ class TaxId extends ApiResource
      *
      * @throws \Stripe\Exception\BadMethodCallException
      */
-    public static function retrieve($_id, $_opts = null)
+    public static function retrieve($_id, $_opts = null): never
     {
         $msg = 'Tax IDs cannot be retrieved without a customer ID. Retrieve ' .
                "a tax ID using `Customer::retrieveTaxId('customer_id', " .

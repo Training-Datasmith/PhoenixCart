@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -123,8 +125,6 @@ namespace Stripe;
  */
 class Invoice extends ApiResource
 {
-    const OBJECT_NAME = 'invoice';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Delete;
@@ -132,29 +132,30 @@ class Invoice extends ApiResource
     use ApiOperations\Retrieve;
     use ApiOperations\Search;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'invoice';
 
-    const BILLING_CHARGE_AUTOMATICALLY = 'charge_automatically';
-    const BILLING_SEND_INVOICE = 'send_invoice';
+    public const BILLING_CHARGE_AUTOMATICALLY = 'charge_automatically';
+    public const BILLING_SEND_INVOICE = 'send_invoice';
 
-    const BILLING_REASON_AUTOMATIC_PENDING_INVOICE_ITEM_INVOICE = 'automatic_pending_invoice_item_invoice';
-    const BILLING_REASON_MANUAL = 'manual';
-    const BILLING_REASON_QUOTE_ACCEPT = 'quote_accept';
-    const BILLING_REASON_SUBSCRIPTION = 'subscription';
-    const BILLING_REASON_SUBSCRIPTION_CREATE = 'subscription_create';
-    const BILLING_REASON_SUBSCRIPTION_CYCLE = 'subscription_cycle';
-    const BILLING_REASON_SUBSCRIPTION_THRESHOLD = 'subscription_threshold';
-    const BILLING_REASON_SUBSCRIPTION_UPDATE = 'subscription_update';
-    const BILLING_REASON_UPCOMING = 'upcoming';
+    public const BILLING_REASON_AUTOMATIC_PENDING_INVOICE_ITEM_INVOICE = 'automatic_pending_invoice_item_invoice';
+    public const BILLING_REASON_MANUAL = 'manual';
+    public const BILLING_REASON_QUOTE_ACCEPT = 'quote_accept';
+    public const BILLING_REASON_SUBSCRIPTION = 'subscription';
+    public const BILLING_REASON_SUBSCRIPTION_CREATE = 'subscription_create';
+    public const BILLING_REASON_SUBSCRIPTION_CYCLE = 'subscription_cycle';
+    public const BILLING_REASON_SUBSCRIPTION_THRESHOLD = 'subscription_threshold';
+    public const BILLING_REASON_SUBSCRIPTION_UPDATE = 'subscription_update';
+    public const BILLING_REASON_UPCOMING = 'upcoming';
 
-    const COLLECTION_METHOD_CHARGE_AUTOMATICALLY = 'charge_automatically';
-    const COLLECTION_METHOD_SEND_INVOICE = 'send_invoice';
+    public const COLLECTION_METHOD_CHARGE_AUTOMATICALLY = 'charge_automatically';
+    public const COLLECTION_METHOD_SEND_INVOICE = 'send_invoice';
 
-    const STATUS_DELETED = 'deleted';
-    const STATUS_DRAFT = 'draft';
-    const STATUS_OPEN = 'open';
-    const STATUS_PAID = 'paid';
-    const STATUS_UNCOLLECTIBLE = 'uncollectible';
-    const STATUS_VOID = 'void';
+    public const STATUS_DELETED = 'deleted';
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_OPEN = 'open';
+    public const STATUS_PAID = 'paid';
+    public const STATUS_UNCOLLECTIBLE = 'uncollectible';
+    public const STATUS_VOID = 'void';
 
     /**
      * @param null|array $params
@@ -164,10 +165,10 @@ class Invoice extends ApiResource
      *
      * @return \Stripe\Invoice the finalized invoice
      */
-    public function finalizeInvoice($params = null, $opts = null)
+    public function finalizeInvoice($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/finalize';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -181,10 +182,10 @@ class Invoice extends ApiResource
      *
      * @return \Stripe\Invoice the uncollectible invoice
      */
-    public function markUncollectible($params = null, $opts = null)
+    public function markUncollectible($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/mark_uncollectible';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -198,10 +199,10 @@ class Invoice extends ApiResource
      *
      * @return \Stripe\Invoice the paid invoice
      */
-    public function pay($params = null, $opts = null)
+    public function pay($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/pay';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -215,10 +216,10 @@ class Invoice extends ApiResource
      *
      * @return \Stripe\Invoice the sent invoice
      */
-    public function sendInvoice($params = null, $opts = null)
+    public function sendInvoice($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/send';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -235,7 +236,7 @@ class Invoice extends ApiResource
     public static function upcoming($params = null, $opts = null)
     {
         $url = static::classUrl() . '/upcoming';
-        list($response, $opts) = static::_staticRequest('get', $url, $params, $opts);
+        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
 
@@ -253,7 +254,7 @@ class Invoice extends ApiResource
     public static function upcomingLines($params = null, $opts = null)
     {
         $url = static::classUrl() . '/upcoming/lines';
-        list($response, $opts) = static::_staticRequest('get', $url, $params, $opts);
+        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
 
@@ -268,10 +269,10 @@ class Invoice extends ApiResource
      *
      * @return \Stripe\Invoice the voided invoice
      */
-    public function voidInvoice($params = null, $opts = null)
+    public function voidInvoice($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/void';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -292,7 +293,7 @@ class Invoice extends ApiResource
         return self::_searchResource($url, $params, $opts);
     }
 
-    const PATH_LINES = '/lines';
+    public const PATH_LINES = '/lines';
 
     /**
      * @param string $id the ID of the invoice on which to retrieve the line items

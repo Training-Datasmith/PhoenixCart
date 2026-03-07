@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -47,4 +49,3 @@ const PLEASE_SELECT = 'All Zones';
 const TEXT_ALL_COUNTRIES = 'All Countries';
 
 const GET_HELP_LINK = 'https://phoenixcart.org/phoenixcartwiki/index.php?title=Tax_Zones';
-

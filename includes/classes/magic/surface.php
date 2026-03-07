@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,10 +12,11 @@
   Released under the GNU General Public License
 */
 
-  class Surface {
-
-    public function __call($name, $arguments) {
-      return "$name";
+class Surface
+{
+    public function __call(string $name, array $arguments)
+    {
+        return "$name";
     }
 
-  }
+}

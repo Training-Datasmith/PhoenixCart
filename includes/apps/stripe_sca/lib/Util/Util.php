@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\Util;
 
 use Stripe\StripeObject;
 
 abstract class Util
 {
-    private static $isMbstringAvailable = null;
-    private static $isHashEqualsAvailable = null;
+    private static ?bool $isMbstringAvailable = null;
+    private static ?bool $isHashEqualsAvailable = null;
 
     /**
      * Whether the provided array (or other) is a list rather than a dictionary.
@@ -168,7 +170,7 @@ abstract class Util
         $flattenedParams = self::flattenParams($params);
         $pieces = [];
         foreach ($flattenedParams as $param) {
-            list($k, $v) = $param;
+            [$k, $v] = $param;
             $pieces[] = self::urlEncode($k) . '=' . self::urlEncode($v);
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\Util;
 
 class RequestOptions
@@ -12,25 +14,13 @@ class RequestOptions
         'Stripe-Version',
     ];
 
-    /** @var array<string, string> */
-    public $headers;
-
-    /** @var null|string */
-    public $apiKey;
-
-    /** @var null|string */
-    public $apiBase;
-
     /**
-     * @param null|string $key
+     * @param null|string $apiKey
      * @param array<string, string> $headers
-     * @param null|string $base
+     * @param null|string $apiBase
      */
-    public function __construct($key = null, $headers = [], $base = null)
+    public function __construct(public $apiKey = null, public $headers = [], public $apiBase = null)
     {
-        $this->apiKey = $key;
-        $this->headers = $headers;
-        $this->apiBase = $base;
     }
 
     /**
@@ -71,7 +61,7 @@ class RequestOptions
     /**
      * Discards all headers that we don't want to persist across requests.
      */
-    public function discardNonPersistentHeaders()
+    public function discardNonPersistentHeaders(): void
     {
         foreach ($this->headers as $k => $v) {
             if (!\in_array($k, self::$HEADERS_TO_PERSIST, true)) {
@@ -87,17 +77,15 @@ class RequestOptions
      * @param bool $strict when true, forbid string form and arbitrary keys in array form
      *
      * @throws \Stripe\Exception\InvalidArgumentException
-     *
-     * @return RequestOptions
      */
-    public static function parse($options, $strict = false)
+    public static function parse($options, $strict = false): self
     {
         if ($options instanceof self) {
             return clone $options;
         }
 
         if (null === $options) {
-            return new RequestOptions(null, [], null);
+            return new RequestOptions(null, []);
         }
 
         if (\is_string($options)) {
@@ -108,7 +96,7 @@ class RequestOptions
                 throw new \Stripe\Exception\InvalidArgumentException($message);
             }
 
-            return new RequestOptions($options, [], null);
+            return new RequestOptions($options, []);
         }
 
         if (\is_array($options)) {
@@ -154,8 +142,7 @@ class RequestOptions
         throw new \Stripe\Exception\InvalidArgumentException($message);
     }
 
-    /** @return string */
-    private function redactedApiKey()
+    private function redactedApiKey(): string
     {
         if (null === $this->apiKey) {
             return '';

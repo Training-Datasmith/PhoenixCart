@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,4 @@
   Released under the GNU General Public License
 */
 
-  const MODULES_ADMIN_MENU_OUTGOING_EMAIL_QUEUE = 'Queue';
-  
+const MODULES_ADMIN_MENU_OUTGOING_EMAIL_QUEUE = 'Queue';

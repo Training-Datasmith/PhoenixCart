@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,15 +12,15 @@
   Released under the GNU General Public License
 */
 
-  require 'includes/application_top.php';
+require 'includes/application_top.php';
 
-  require language::map_to_translation('products_new.php');
+require language::map_to_translation('products_new.php');
 
-  $listing_sql = (new product_searcher([], []))->find();
+$listing_sql = (new product_searcher([], []))->find();
 
-  $default_column = 'PRODUCT_LIST_ID';
-  $sort_order = 'd';
+$default_column = 'PRODUCT_LIST_ID';
+$sort_order = 'd';
 
-  require $Template->map(__FILE__, 'page');
+require $Template->map(__FILE__, 'page');
 
-  require 'includes/application_bottom.php';
+require 'includes/application_bottom.php';

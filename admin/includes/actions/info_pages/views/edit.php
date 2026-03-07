@@ -10,19 +10,21 @@
   Released under the GNU General Public License
 */
 
-  $page = info_pages::get_page(['pd.pages_id' => (int)$_GET['pID']]);
+$page = info_pages::get_page(['pd.pages_id' => (int)$_GET['pID']]);
 
-  $pInfo = new objectInfo($page);
+$pInfo = new objectInfo($page);
 
-  if (!isset($pInfo->pages_status)) $pInfo->pages_status = '1';
-  $out_status = '0' == $pInfo->pages_status;
-  $in_status = !$out_status;
+if (!isset($pInfo->pages_status)) {
+    $pInfo->pages_status = '1';
+}
+$out_status = '0' == $pInfo->pages_status;
+$in_status = !$out_status;
 
-  $form = new Form('pages', $link->set_parameter('pID', (int)$_GET['pID'])->set_parameter('action', 'update'), 'post', ['enctype' => 'multipart/form-data']);
-  $form->hide('pages_id', (int)$pInfo->pages_id)
-       ->hide('date_added', $pInfo->date_added);
+$form = new Form('pages', $link->set_parameter('pID', (int)$_GET['pID'])->set_parameter('action', 'update'), 'post', ['enctype' => 'multipart/form-data']);
+$form->hide('pages_id', (int)$pInfo->pages_id)
+     ->hide('date_added', $pInfo->date_added);
 
-  echo $form;
+echo $form;
 ?>
 
     <div class="row mb-2 align-items-center" id="zStatus">
@@ -42,25 +44,25 @@
 <?php
     $page_title = $page_text = $navbar_title = '';
 
-    foreach (language::load_all() as $l) {
-      $flag_image = $Admin->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", ['alt' => $l['name']]);
-      $info_page = info_pages::get_page(['pd.pages_id' => (int)$pInfo->pages_id, 'pd.languages_id' => (int)$l['id']]);
+foreach (language::load_all() as $l) {
+    $flag_image = $Admin->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", ['alt' => $l['name']]);
+    $info_page = info_pages::get_page(['pd.pages_id' => (int)$pInfo->pages_id, 'pd.languages_id' => (int)$l['id']]);
 
-      $navbar_title .= '<div class="input-group mb-1">';
-        $navbar_title .= '<span class="input-group-text">' . $flag_image . '</span>';
-        $navbar_title .= (new Input("navbar_title[{$l['id']}]", ['id' => "iNavbarTitle-{$l['code']}", 'value' => $info_page['navbar_title']]))->require();
-      $navbar_title .= '</div>';
+    $navbar_title .= '<div class="input-group mb-1">';
+    $navbar_title .= '<span class="input-group-text">' . $flag_image . '</span>';
+    $navbar_title .= (new Input("navbar_title[{$l['id']}]", ['id' => "iNavbarTitle-{$l['code']}", 'value' => $info_page['navbar_title']]))->require();
+    $navbar_title .= '</div>';
 
-      $page_title .= '<div class="input-group mb-1">';
-        $page_title .= '<span class="input-group-text">' . $flag_image . '</span>';
-        $page_title .= (new Input("page_title[{$l['id']}]", ['id' => "iPageTitle-{$l['code']}", 'value' => $info_page['pages_title']]))->require();
-      $page_title .= '</div>';
+    $page_title .= '<div class="input-group mb-1">';
+    $page_title .= '<span class="input-group-text">' . $flag_image . '</span>';
+    $page_title .= (new Input("page_title[{$l['id']}]", ['id' => "iPageTitle-{$l['code']}", 'value' => $info_page['pages_title']]))->require();
+    $page_title .= '</div>';
 
-      $page_text .= '<div class="input-group mb-1">';
-        $page_text .= '<span class="input-group-text">' . $flag_image . '</span>';
-        $page_text .= (new Textarea("page_text[{$l['id']}]", ['id' => "iPageText-{$l['code']}", 'cols' => '80', 'rows' => '10', 'class' => 'form-control editor']))->require()->set_text($info_page['pages_text'] ?? '');
-      $page_text .= '</div>';
-    }
+    $page_text .= '<div class="input-group mb-1">';
+    $page_text .= '<span class="input-group-text">' . $flag_image . '</span>';
+    $page_text .= (new Textarea("page_text[{$l['id']}]", ['id' => "iPageText-{$l['code']}", 'cols' => '80', 'rows' => '10', 'class' => 'form-control editor']))->require()->set_text($info_page['pages_text'] ?? '');
+    $page_text .= '</div>';
+}
 ?>
 
     <div class="row mb-2" id="zNavbarTitle">

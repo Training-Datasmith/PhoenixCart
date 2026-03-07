@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,20 +12,20 @@
   Released under the GNU General Public License
 */
 
-  if (isset($_GET['module']) && in_array($_GET['module'], $modules)) {
+if (isset($_GET['module']) && in_array($_GET['module'], $modules)) {
     if (is_object(${$_GET['module']})) {
-      $expired_entries = ${$_GET['module']}->expireEntries();
+        $expired_entries = ${$_GET['module']}->expireEntries();
     } else {
-      $db->query("DELETE FROM action_recorder WHERE module = '" . $db->escape($_GET['module']) . "'");
-      $expired_entries = mysqli_affected_rows($db);
+        $db->query("DELETE FROM action_recorder WHERE module = '" . $db->escape($_GET['module']) . "'");
+        $expired_entries = mysqli_affected_rows($db);
     }
-  } else {
+} else {
     $expired_entries = 0;
     foreach ($modules as $module) {
-      if (is_object(${$module})) {
-        $expired_entries += ${$module}->expireEntries();
-      }
+        if (is_object(${$module})) {
+            $expired_entries += ${$module}->expireEntries();
+        }
     }
-  }
+}
 
-  return $Admin->link('action_recorder.php');
+return $Admin->link('action_recorder.php');

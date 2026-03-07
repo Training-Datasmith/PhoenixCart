@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,5 @@
   Released under the GNU General Public License
 */
 
-  require 'includes/system/segments/sortable_product_columns.php';
-  include $GLOBALS['Template']->map('product_listing.php', 'component');
+require 'includes/system/segments/sortable_product_columns.php';
+include $GLOBALS['Template']->map('product_listing.php', 'component');

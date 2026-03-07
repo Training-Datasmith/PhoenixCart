@@ -2,8 +2,8 @@
   <div class="d-grid">
     <?=
     new Button(PI_BUY_BUTTON_TEXT, 'fas fa-shopping-cart', 'btn-success btn-lg btn-product-info btn-buy'),
-    new Input('products_id', ['value' => (int)$GLOBALS['product']->get('id')], 'hidden');
-    ?>
+new Input('products_id', ['value' => (int)$GLOBALS['product']->get('id')], 'hidden');
+?>
   </div>
 </div>
 

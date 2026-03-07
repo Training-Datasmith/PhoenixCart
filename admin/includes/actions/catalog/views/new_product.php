@@ -10,10 +10,10 @@
   Released under the GNU General Public License
 */
 
-  if (isset($_GET['pID']) && empty($_POST)) {
+if (isset($_GET['pID']) && empty($_POST)) {
     $product = product_by_id::administer($_GET['pID']);
     $translations = $product->get('translations');
-  } else {
+} else {
     $product = new Product([
       'products_name' => '',
       'products_description' => '',
@@ -36,44 +36,48 @@
       'products_seo_title' => '',
       'importers_id' => '',
     ]);
-  }
+}
 
-  $manufacturers_array = array_merge([['id' => '', 'text' => TEXT_NONE]],
-    $db->fetch_all("SELECT manufacturers_id AS id, manufacturers_name AS text FROM manufacturers ORDER BY manufacturers_name"));
-    
-  $importers_array = array_merge([['id' => '', 'text' => TEXT_NONE]],
-    $db->fetch_all("SELECT importers_id AS id, importers_name AS text FROM importers ORDER BY importers_name"));
+$manufacturers_array = array_merge(
+    [['id' => '', 'text' => TEXT_NONE]],
+    $db->fetch_all('SELECT manufacturers_id AS id, manufacturers_name AS text FROM manufacturers ORDER BY manufacturers_name')
+);
 
-  $tax_classes = array_merge([['id' => '0', 'text' => TEXT_NONE]], Tax::fetch_classes());
-  
-  $pIn = new Tickable('products_status', ['value' => '1', 'id' => 'pIn', 'class' => 'form-check-input'], 'radio');
-  $pOut = new Tickable('products_status', ['value' => '0', 'id' => 'pOut', 'class' => 'form-check-input'], 'radio');
-  if ('0' === $product->get('status')) {
+$importers_array = array_merge(
+    [['id' => '', 'text' => TEXT_NONE]],
+    $db->fetch_all('SELECT importers_id AS id, importers_name AS text FROM importers ORDER BY importers_name')
+);
+
+$tax_classes = array_merge([['id' => '0', 'text' => TEXT_NONE]], Tax::fetch_classes());
+
+$pIn = new Tickable('products_status', ['value' => '1', 'id' => 'pIn', 'class' => 'form-check-input'], 'radio');
+$pOut = new Tickable('products_status', ['value' => '0', 'id' => 'pOut', 'class' => 'form-check-input'], 'radio');
+if ('0' === $product->get('status')) {
     $pOut->tick();
-  } else {
+} else {
     $pIn->tick();
-  }
+}
 
-  $form_link = $Admin->link('catalog.php', [
-    'cPath' => $cPath,
-    'action' => isset($_GET['pID']) ? 'update_product' : 'insert_product',
-  ]);
+$form_link = $Admin->link('catalog.php', [
+  'cPath' => $cPath,
+  'action' => isset($_GET['pID']) ? 'update_product' : 'insert_product',
+]);
 
-  if (isset($_GET['pID'])) {
+if (isset($_GET['pID'])) {
     $form_link->set_parameter('pID', (int)$_GET['pID']);
-  }
+}
 ?>
 <script>
 var tax_rates = new Array();
 <?php
   foreach (array_column($tax_classes, 'id') as $tax_class_id) {
-    if ($tax_class_id > 0) {
-      printf(<<<"EOJS"
+      if ($tax_class_id > 0) {
+          printf(<<<"EOJS"
 tax_rates['%s'] = %s;
 
 EOJS
-      , "$tax_class_id", Tax::get_rate($tax_class_id));
-    }
+              , "$tax_class_id", Tax::get_rate($tax_class_id));
+      }
   }
 ?>
 
@@ -122,11 +126,11 @@ function updateNet() {
       <h1 class="display-4 mb-2"><?= (isset($_GET['pID']) ? sprintf(TEXT_EXISTING_PRODUCT, $product->get('name'), Categories::draw_breadcrumbs([$current_category_id])) : sprintf(TEXT_NEW_PRODUCT, Categories::draw_breadcrumbs([$current_category_id]))) ?: TEXT_TOP ?></h1>
     </div>
     <div class="col-12 col-lg-4 text-start text-lg-end align-self-center pb-1">
-      <?= 
+      <?=
       $Admin->button(GET_HELP, '', 'btn-dark me-2', GET_HELP_LINK, ['newwindow' => true]),
-      $admin_hooks->cat('extraButtons'),
-      $Admin->button(IMAGE_BACK, 'fas fa-angle-left', 'btn-light', $Admin->link('catalog.php')->retain_query_except(['action'])) 
-      ?>
+$admin_hooks->cat('extraButtons'),
+$Admin->button(IMAGE_BACK, 'fas fa-angle-left', 'btn-light', $Admin->link('catalog.php')->retain_query_except(['action']))
+?>
     </div>
   </div>
 
@@ -239,9 +243,9 @@ function updateNet() {
       <div class="tab-pane fade" id="section_general_content" role="tabpanel">
         <div class="accordion" id="productLanguageAccordion">
           <?php
-          $show = ' show';
-          foreach (language::load_all() as $l) {
-            ?>
+    $show = ' show';
+foreach (language::load_all() as $l) {
+    ?>
             <div class="accordion-item">
               <div class="accordion-header" id="heading<?= $l['directory'] ?>">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#<?= $l['directory'] ?>" aria-expanded="true" aria-controls="<?= $l['directory'] ?>"><?= $Admin->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", ['class' => 'lng me-2'], $l['name']) . $l['name'] ?></button>
@@ -286,11 +290,11 @@ function updateNet() {
                     <label for="pSeoDesc-<?= $l['code'] ?>" class="col-form-label col-sm-3 text-start text-sm-end"><?= TEXT_PRODUCTS_SEO_DESCRIPTION ?></label>
                     <div class="col-sm-9">
                       <?= (new Textarea("products_seo_description[{$l['id']}]", [
-                             'id' => "pSeoDesc-{$l['code']}",
-                             'aria-describedby' => "pSeoDescHelp_{$l['code']}",
-                             'cols' => '70',
-                             'rows' => '15',
-                           ]))->set_text($translations[$l['id']]['seo_description'] ?? '') ?>
+                     'id' => "pSeoDesc-{$l['code']}",
+                     'aria-describedby' => "pSeoDescHelp_{$l['code']}",
+                     'cols' => '70',
+                     'rows' => '15',
+                   ]))->set_text($translations[$l['id']]['seo_description'] ?? '') ?>
                       <small id="pSeoDescHelp_<?= $l['code'] ?>" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_DESCRIPTION_HELP ?>
                       </small>
@@ -301,10 +305,10 @@ function updateNet() {
                     <label for="pSeoKeywords-<?= $l['code'] ?>" class="col-form-label col-sm-3 text-start text-sm-end"><?= TEXT_PRODUCTS_SEO_KEYWORDS ?></label>
                     <div class="col-sm-9">
                       <?= (new Input('products_seo_keywords[' . $l['id'] . ']', [
-                             'id' => "pSeoKeywords-{$l['code']}",
-                             'placeholder' => PLACEHOLDER_COMMA_SEPARATION,
-                             'aria-describedby' => "pSeoKeywordsHelp",
-                           ]))->default_value($translations[$l['id']]['seo_keywords'] ?? '') ?>
+                     'id' => "pSeoKeywords-{$l['code']}",
+                     'placeholder' => PLACEHOLDER_COMMA_SEPARATION,
+                     'aria-describedby' => 'pSeoKeywordsHelp',
+                   ]))->default_value($translations[$l['id']]['seo_keywords'] ?? '') ?>
                       <small id="pSeoKeywordsHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_KEYWORDS_HELP ?>
                       </small>
@@ -317,18 +321,18 @@ function updateNet() {
               </div>
             </div>
             <?php
-            echo $admin_hooks->cat('injectLanguageForm');
+    echo $admin_hooks->cat('injectLanguageForm');
 
-            if ('' !== $show) {
-              $show = '';
-            }
-          }
+    if ('' !== $show) {
+        $show = '';
+    }
+}
 
-          $image_input = new Input('products_image', ['accept' => 'image/*', 'id' => 'pImg', 'class' => 'form-control'], 'file');
-          if (Text::is_empty($product->get('image'))) {
-            $image_input->require();
-          }
-          ?>
+$image_input = new Input('products_image', ['accept' => 'image/*', 'id' => 'pImg', 'class' => 'form-control'], 'file');
+if (Text::is_empty($product->get('image'))) {
+    $image_input->require();
+}
+?>
         </div>
       </div>
 
@@ -338,7 +342,7 @@ function updateNet() {
             <label for="pImg" class="col-form-label col-sm-3 text-start text-sm-end"><?= TEXT_PRODUCTS_MAIN_IMAGE ?></label>
             <div class="col-sm-9">
               <div class="mb-2">
-                <?= (!Text::is_empty($product->get('image'))) ? '<div class="form-control bg-light text-muted mb-2"><label for="pImg">' . htmlspecialchars($product->get('image')) . '</label></div>' : '' ?>
+                <?= (!Text::is_empty($product->get('image'))) ? '<div class="form-control bg-light text-muted mb-2"><label for="pImg">' . htmlspecialchars((string) $product->get('image')) . '</label></div>' : '' ?>
                 <?= $image_input; ?>  
               </div>
             </div>
@@ -360,26 +364,26 @@ function updateNet() {
               </div>
               
               <?php
-              $pi_counter = 0;
-              foreach ($product->get('images') as $pi) {
-                $pi_counter++;
-                echo '<div draggable="true" class="row mb-2 piImage" id="piId' . $pi_counter . '">';
-                  echo '<div class="col">';
-                    echo '<div class="mb-2">';
-                      echo '<div class="form-control bg-light text-muted mb-2"><label for="pImg' . $pi_counter . '">' . $pi['image'] . '</label></div>';
-                      echo (new Input('products_image_large_' . $pi['id'], ['accept' => 'image/*', 'id' => "pImg$pi_counter", 'class' => 'form-control'], 'file'));
-                    echo '</div>';
-                  echo '</div>';
-                  echo '<div class="col">';
-                    echo (new Textarea('products_image_htmlcontent_' . $pi['id'], ['cols' => '70', 'rows' => '3']))->set_text($pi['htmlcontent']);
-                  echo '</div>';
-                   echo '<div class="col-1 text-center">';
-                     echo '<i class="fas fa-arrows-alt-v me-2"></i>';
-                     echo '<a href="#" class="piDel" data-pi-id="' . $pi_counter . '"><i class="fas fa-trash text-danger"></i></a>';
-                  echo '</div>';
-                echo '</div>';
-              }
-              ?>
+    $pi_counter = 0;
+foreach ($product->get('images') as $pi) {
+    $pi_counter++;
+    echo '<div draggable="true" class="row mb-2 piImage" id="piId' . $pi_counter . '">';
+    echo '<div class="col">';
+    echo '<div class="mb-2">';
+    echo '<div class="form-control bg-light text-muted mb-2"><label for="pImg' . $pi_counter . '">' . $pi['image'] . '</label></div>';
+    echo (new Input('products_image_large_' . $pi['id'], ['accept' => 'image/*', 'id' => "pImg$pi_counter", 'class' => 'form-control'], 'file'));
+    echo '</div>';
+    echo '</div>';
+    echo '<div class="col">';
+    echo (new Textarea('products_image_htmlcontent_' . $pi['id'], ['cols' => '70', 'rows' => '3']))->set_text($pi['htmlcontent']);
+    echo '</div>';
+    echo '<div class="col-1 text-center">';
+    echo '<i class="fas fa-arrows-alt-v me-2"></i>';
+    echo '<a href="#" class="piDel" data-pi-id="' . $pi_counter . '"><i class="fas fa-trash text-danger"></i></a>';
+    echo '</div>';
+    echo '</div>';
+}
+?>
             </div>
           </div>
 

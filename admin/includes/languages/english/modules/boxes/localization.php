@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,4 +12,4 @@
   Released under the GNU General Public License
 */
 
-  const BOX_HEADING_LOCALIZATION = '<i title="Localization" class="fas fa-language fa-fw me-1"></i><span title="Localization" class="d-xl-none">Localization</span>';
+const BOX_HEADING_LOCALIZATION = '<i title="Localization" class="fas fa-language fa-fw me-1"></i><span title="Localization" class="d-xl-none">Localization</span>';

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_ACTION_RECORDER_CONTACT_US_EMAIL_TITLE = 'Contact Us';
-  const MODULE_ACTION_RECORDER_CONTACT_US_EMAIL_DESCRIPTION = 'Record usage of the Contact Us feature.';
+const MODULE_ACTION_RECORDER_CONTACT_US_EMAIL_TITLE = 'Contact Us';
+const MODULE_ACTION_RECORDER_CONTACT_US_EMAIL_DESCRIPTION = 'Record usage of the Contact Us feature.';

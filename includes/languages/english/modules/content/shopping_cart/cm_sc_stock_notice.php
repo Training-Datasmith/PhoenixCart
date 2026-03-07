@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -28,7 +30,7 @@ const MODULE_CONTENT_SC_STOCK_NOTICE_CANT_CHECKOUT = '<p><b>Products marked <spa
 </span> don't exist in the desired quantity in our stock.</b></p>
 <p>Please alter the quantity of products marked with 
 EOT
-. STOCK_MARK_PRODUCT_OUT_OF_STOCK . ', thank you.</p>';
+    . STOCK_MARK_PRODUCT_OUT_OF_STOCK . ', thank you.</p>';
 const MODULE_CONTENT_SC_STOCK_NOTICE_CAN_CHECKOUT = '<p><b>Products marked <span class="align-middle">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . <<<'EOT'
 </span> don't exist in the desired quantity in our stock.</b></p>
 <p>You can buy them anyway, and we will immediately ship what is in stock and follow up later with the rest.</p>

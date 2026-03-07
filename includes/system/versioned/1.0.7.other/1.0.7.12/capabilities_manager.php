@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,24 +12,26 @@
   Released under the GNU General Public License
 */
 
-  abstract class capabilities_manager {
-
+abstract class capabilities_manager
+{
     protected static $capabilities;
 
-    public function __construct() {
-      if (!isset(static::$capabilities)) {
-        static::$capabilities = static::CAPABILITIES;
+    public function __construct()
+    {
+        if (!isset(static::$capabilities)) {
+            static::$capabilities = static::CAPABILITIES;
 
-        $parameters = [
-          'capabilities' => &static::$capabilities,
-        ];
+            $parameters = [
+              'capabilities' => &static::$capabilities,
+            ];
 
-        $GLOBALS['all_hooks']->cat(static::LISTENER_NAME, $parameters);
-      }
+            $GLOBALS['all_hooks']->cat(static::LISTENER_NAME, $parameters);
+        }
     }
 
-    public function can($key) {
-      return isset(static::$capabilities[$key]) && is_callable(static::$capabilities[$key]);
+    public function can($key)
+    {
+        return isset(static::$capabilities[$key]) && is_callable(static::$capabilities[$key]);
     }
 
-  }
+}

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Terminal;
@@ -18,11 +20,10 @@ namespace Stripe\Terminal;
  */
 class Configuration extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'terminal.configuration';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Delete;
     use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
+    public const OBJECT_NAME = 'terminal.configuration';
 }

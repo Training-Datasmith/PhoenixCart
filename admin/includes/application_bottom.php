@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,12 +12,11 @@
   Released under the GNU General Public License
 */
 
-  session_write_close();
+session_write_close();
 
-  if ('true' === STORE_PAGE_PARSE_TIME) {
+if ('true' === STORE_PAGE_PARSE_TIME) {
     $timer_total = Logger::stop_timer();
     if ('true' === DISPLAY_PAGE_PARSE_TIME) {
-      echo Logger::format($timer_total);
+        echo Logger::format($timer_total);
     }
-  }
-?>
+}

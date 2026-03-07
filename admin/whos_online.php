@@ -10,16 +10,16 @@
   Released under the GNU General Public License
 */
 
-  $xx_mins_ago = (time() - 900);
+$xx_mins_ago = (time() - 900);
 
-  require 'includes/application_top.php';
+require 'includes/application_top.php';
 
 // remove entries that have expired
-  $db->query("DELETE FROM whos_online WHERE time_last_click < " . (int)$xx_mins_ago);
+$db->query('DELETE FROM whos_online WHERE time_last_click < ' . $xx_mins_ago);
 
-  require 'includes/segments/process_action.php';
-  
-  require 'includes/template_top.php';
+require 'includes/segments/process_action.php';
+
+require 'includes/template_top.php';
 ?>
 
   <div class="row">
@@ -29,16 +29,16 @@
     <div class="col-12 col-lg-8 text-start text-lg-end align-self-center pb-1">
       <?=
       $Admin->button(GET_HELP, '', 'btn-dark', GET_HELP_LINK, ['newwindow' => true]),
-      $admin_hooks->cat('extraButtons')      
-      ?>
+$admin_hooks->cat('extraButtons')
+?>
     </div>
   </div>
 
 <?php
   if ($view_file = $Admin->locate('/views', $action)) {
-    require $view_file;
+      require $view_file;
   }
 
-  require 'includes/template_bottom.php';
-  require 'includes/application_bottom.php';
+require 'includes/template_bottom.php';
+require 'includes/application_bottom.php';
 ?>

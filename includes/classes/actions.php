@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,17 +12,18 @@
   Released under the GNU General Public License
 */
 
-  class Actions {
+class Actions
+{
+    public static function parse($action): void
+    {
+        $action = basename((string) $action);
 
-    public static function parse($action) {
-      $action = basename($action);
+        if ($action && class_exists($class = "\\Phoenix\\Actions\\$action")) {
+            $hook_action = lcfirst(implode('', array_map(ucfirst(...), explode('_', $action))))  . 'Action';
+            $GLOBALS['hooks']->cat($hook_action);
 
-      if ( $action && class_exists($class = "\\Phoenix\\Actions\\$action") ) {
-        $hook_action = lcfirst(implode('', array_map('ucfirst', explode('_', $action))))  . 'Action';
-        $GLOBALS['hooks']->cat($hook_action);
-        
-        call_user_func([$class, 'execute']);
-      }
+            call_user_func([$class, 'execute']);
+        }
     }
 
-  }
+}

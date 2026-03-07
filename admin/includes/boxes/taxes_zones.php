@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,14 +12,14 @@
   Released under the GNU General Public License
 */
 
-  foreach ( $cl_box_groups as &$group ) {
-    if ( $group['heading'] == BOX_HEADING_LOCATION_AND_TAXES ) {
-      $group['apps'][] = [
-        'code' => 'zones.php',
-        'title' => MODULES_ADMIN_MENU_TAXES_ZONES,
-        'link' => $GLOBALS['Admin']->link('zones.php'),
-      ];
+foreach ($cl_box_groups as &$group) {
+    if ($group['heading'] == BOX_HEADING_LOCATION_AND_TAXES) {
+        $group['apps'][] = [
+          'code' => 'zones.php',
+          'title' => MODULES_ADMIN_MENU_TAXES_ZONES,
+          'link' => $GLOBALS['Admin']->link('zones.php'),
+        ];
 
-      break;
+        break;
     }
-  }
+}

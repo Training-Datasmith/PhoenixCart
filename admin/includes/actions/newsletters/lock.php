@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  $newsletter_id = Text::input($_GET['nID']);
+$newsletter_id = Text::input($_GET['nID']);
 
-  $db->query("UPDATE newsletters SET locked = 1 WHERE newsletters_id = " . (int)$newsletter_id);
+$db->query('UPDATE newsletters SET locked = 1 WHERE newsletters_id = ' . (int)$newsletter_id);
 
-  return $link->set_parameter('nID', (int)$newsletter_id);
+return $link->set_parameter('nID', (int)$newsletter_id);

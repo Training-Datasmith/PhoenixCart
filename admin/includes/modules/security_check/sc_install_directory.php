@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,16 +12,18 @@
   Released under the GNU General Public License
 */
 
-  class sc_install_directory {
-
+class sc_install_directory
+{
     public $type = 'warning';
 
-    public function pass() {
-      return !file_exists(DIR_FS_CATALOG . 'install');
+    public function pass(): bool
+    {
+        return !file_exists(DIR_FS_CATALOG . 'install');
     }
 
-    public function get_message() {
-      return WARNING_INSTALL_DIRECTORY_EXISTS;
+    public function get_message(): string
+    {
+        return WARNING_INSTALL_DIRECTORY_EXISTS;
     }
 
-  }
+}

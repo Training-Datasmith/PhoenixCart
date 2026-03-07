@@ -10,9 +10,9 @@
   Released under the GNU General Public License
 */
 
-  $groups_array = $db->fetch_all("SELECT DISTINCT advert_group AS id, advert_group AS text FROM advert ORDER BY advert_group");
+$groups_array = $db->fetch_all('SELECT DISTINCT advert_group AS id, advert_group AS text FROM advert ORDER BY advert_group');
 
-  echo new Form('new_advert', $Admin->link('advert_manager.php', ['action' => 'add_new']), 'post', ['enctype' => 'multipart/form-data']);
+echo new Form('new_advert', $Admin->link('advert_manager.php', ['action' => 'add_new']), 'post', ['enctype' => 'multipart/form-data']);
 ?>
 
     <div class="row mb-2" id="zTitle">
@@ -87,8 +87,8 @@
 
     <?php
     foreach (language::load_all() as $l) {
-      $language_icon = $Admin->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", [], $l['name']);
-      ?>
+        $language_icon = $Admin->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", [], $l['name']);
+        ?>
       <div class="row mb-2" id="zText_<?= $l['code'] ?>">
         <label for="aText-<?= $l['code'] ?>" class="col-form-label col-sm-3 text-start text-sm-end"><?= TEXT_ADVERT_HTML_TEXT ?></label>
         <div class="col-sm-9">
@@ -100,7 +100,7 @@
       </div>
       <?php
     }
-    ?>
+?>
 
     <?= $admin_hooks->cat('newForm') ?>
 

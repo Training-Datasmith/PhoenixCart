@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,12 +12,11 @@
   Released under the GNU General Public License
 */
 
-  $newsletter = $db->query("SELECT title, content, module FROM newsletters WHERE newsletters_id = " . (int)$newsletter_id)->fetch_assoc();
+$newsletter = $db->query('SELECT title, content, module FROM newsletters WHERE newsletters_id = ' . (int)$newsletter_id)->fetch_assoc();
 
-  $nInfo = new objectInfo($newsletter);
+$nInfo = new objectInfo($newsletter);
 
-  $module_name = $nInfo->module;
-  $module = new $module_name($nInfo->title, $nInfo->content);
+$module_name = $nInfo->module;
+$module = new $module_name($nInfo->title, $nInfo->content);
 
-  echo $module->confirm();
-?>
+echo $module->confirm();

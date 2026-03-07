@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  echo new Form('pages', $Admin->link()->set_parameter('action', 'add_new'), 'post', ['enctype' => 'multipart/form-data']);
+echo new Form('pages', $Admin->link()->set_parameter('action', 'add_new'), 'post', ['enctype' => 'multipart/form-data']);
 ?>
 
     <div class="row mb-2 align-items-center" id="zStatus">
@@ -30,24 +30,24 @@
 <?php
     $page_title = $page_text = $navbar_title = '';
 
-    foreach (language::load_all() as $l) {
-      $flag_image = $Admin->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", ['alt' => $l['name']]);
+foreach (language::load_all() as $l) {
+    $flag_image = $Admin->catalog_image("includes/languages/{$l['directory']}/images/{$l['image']}", ['alt' => $l['name']]);
 
-      $navbar_title .= '<div class="input-group mb-1">';
-        $navbar_title .= '<span class="input-group-text">' . $flag_image . '</span>';
-        $navbar_title .= (new Input("navbar_title[{$l['id']}]", ['id' => "iNavbarTitle-{$l['code']}"]))->require();
-      $navbar_title .= '</div>';
+    $navbar_title .= '<div class="input-group mb-1">';
+    $navbar_title .= '<span class="input-group-text">' . $flag_image . '</span>';
+    $navbar_title .= (new Input("navbar_title[{$l['id']}]", ['id' => "iNavbarTitle-{$l['code']}"]))->require();
+    $navbar_title .= '</div>';
 
-      $page_title .= '<div class="input-group mb-1">';
-        $page_title .= '<span class="input-group-text">' . $flag_image . '</span>';
-        $page_title .= (new Input("page_title[{$l['id']}]", ['id' => "iPageTitle-{$l['code']}"]))->require();
-      $page_title .= '</div>';
+    $page_title .= '<div class="input-group mb-1">';
+    $page_title .= '<span class="input-group-text">' . $flag_image . '</span>';
+    $page_title .= (new Input("page_title[{$l['id']}]", ['id' => "iPageTitle-{$l['code']}"]))->require();
+    $page_title .= '</div>';
 
-      $page_text .= '<div class="input-group mb-1">';
-        $page_text .= '<span class="input-group-text">' . $flag_image . '</span>';
-        $page_text .= (new Textarea("page_text[{$l['id']}]", ['id' => "iPageText-{$l['code']}", 'cols' => '80', 'rows' => '10', 'class' => 'form-control editor']))->require();
-      $page_text .= '</div>';
-    }
+    $page_text .= '<div class="input-group mb-1">';
+    $page_text .= '<span class="input-group-text">' . $flag_image . '</span>';
+    $page_text .= (new Textarea("page_text[{$l['id']}]", ['id' => "iPageText-{$l['code']}", 'cols' => '80', 'rows' => '10', 'class' => 'form-control editor']))->require();
+    $page_text .= '</div>';
+}
 ?>
 
     <div class="row mb-2" id="zNavbarTitle">

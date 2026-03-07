@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,32 +12,33 @@
   Released under the GNU General Public License
 */
 
-  class n_create_account extends abstract_module {
+class n_create_account extends abstract_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_NOTIFICATIONS_CREATE_ACCOUNT_';
 
-    const CONFIG_KEY_BASE = 'MODULE_NOTIFICATIONS_CREATE_ACCOUNT_';
+    public const TRIGGERS = [ 'create_account' ];
+    public const REQUIRES = [ 'greeting', 'name', 'email_address' ];
 
-    const TRIGGERS = [ 'create_account' ];
-    const REQUIRES = [ 'greeting', 'name', 'email_address' ];
+    public function notify($customer)
+    {
+        ob_start();
+        include Guarantor::ensure_global('Template')->map(__FILE__);
+        echo $GLOBALS['hooks']->cat('accountCreationNotification');
+        $email_text = ob_get_clean();
 
-    public function notify($customer) {
-      ob_start();
-      include Guarantor::ensure_global('Template')->map(__FILE__);
-      echo $GLOBALS['hooks']->cat('accountCreationNotification');
-      $email_text = ob_get_clean();
-
-      return Notifications::mail($customer->get('name'), $customer->get('email_address'), MODULE_NOTIFICATIONS_CREATE_ACCOUNT_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+        return Notifications::mail($customer->get('name'), $customer->get('email_address'), MODULE_NOTIFICATIONS_CREATE_ACCOUNT_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
     }
 
-    protected function get_parameters() {
-      return [
-        static::CONFIG_KEY_BASE . 'STATUS' => [
-          'title' => 'Enable Account Creation Notification module',
-          'value' => 'True',
-          'desc' => 'Do you want to add the module to your shop?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          static::CONFIG_KEY_BASE . 'STATUS' => [
+            'title' => 'Enable Account Creation Notification module',
+            'value' => 'True',
+            'desc' => 'Do you want to add the module to your shop?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+        ];
     }
 
-  }
-
+}

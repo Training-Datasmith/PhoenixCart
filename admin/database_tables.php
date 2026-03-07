@@ -10,69 +10,68 @@
   Released under the GNU General Public License
 */
 
-  require 'includes/application_top.php';
+require 'includes/application_top.php';
 
-  $passthrough_actions = ['check', 'analyze', 'optimize', 'repair'];
-  $mysql_charsets = [['id' => 'auto', 'text' => ACTION_UTF8_CONVERSION_FROM_AUTODETECT]];
+$passthrough_actions = ['check', 'analyze', 'optimize', 'repair'];
+$mysql_charsets = [['id' => 'auto', 'text' => ACTION_UTF8_CONVERSION_FROM_AUTODETECT]];
 
-  $charsets_query = $db->query('SHOW CHARACTER SET');
-  while ( $charset = $charsets_query->fetch_assoc() ) {
+$charsets_query = $db->query('SHOW CHARACTER SET');
+while ($charset = $charsets_query->fetch_assoc()) {
     $mysql_charsets[] = ['id' => $charset['Charset'], 'text' => sprintf(ACTION_UTF8_CONVERSION_FROM, $charset['Charset'])];
-  }
+}
 
-  $command = '';
-  $admin_hooks->set('preAction', '__filter_tables', function () {
+$command = '';
+$admin_hooks->set('preAction', '__filter_tables', function (): void {
     if (!isset($_POST['action'])) {
-      return;
+        return;
     }
 
     if (in_array($_POST['action'], $GLOBALS['passthrough_actions'])) {
-      $GLOBALS['command'] = $GLOBALS['db']->escape(strtoupper(Text::input($_POST['action'])));
-      $GLOBALS['action'] = 'passthrough';
-      $_POST['action'] = $GLOBALS['action'];
+        $GLOBALS['command'] = $GLOBALS['db']->escape(strtoupper(Text::input($_POST['action'])));
+        $GLOBALS['action'] = 'passthrough';
+        $_POST['action'] = $GLOBALS['action'];
     } else {
-      $GLOBALS['action'] = $_POST['action'];
+        $GLOBALS['action'] = $_POST['action'];
 
-      if ('utf8' !== $_POST['action']) {
-        return;
-      }
+        if ('utf8' !== $_POST['action']) {
+            return;
+        }
     }
 
     if (empty($_POST['id']) || !is_array($_POST['id'])
-     || !($_POST['id'] = array_intersect($_POST['id'], array_column($GLOBALS['db']->fetch_all('SHOW TABLE STATUS'), 'Name'))))
-    {
-      $GLOBALS['action'] = '';
+     || !($_POST['id'] = array_intersect($_POST['id'], array_column($GLOBALS['db']->fetch_all('SHOW TABLE STATUS'), 'Name')))) {
+        $GLOBALS['action'] = '';
     }
-  });
+});
 
-  $masterblaster = new Tickable('masterblaster', ['onchange' => 'toggle_all(this)'], 'checkbox');
+$masterblaster = new Tickable('masterblaster', ['onchange' => 'toggle_all(this)'], 'checkbox');
 
-  require 'includes/segments/process_action.php';
+require 'includes/segments/process_action.php';
 
-  $actions = [
-    [
-      'id' => 'check',
-      'text' => ACTION_CHECK_TABLES,
-    ],
-    [
-      'id' => 'analyze',
-      'text' => ACTION_ANALYZE_TABLES,
-    ],
-    [
-      'id' => 'optimize',
-      'text' => ACTION_OPTIMIZE_TABLES,
-    ],
-    [
-      'id' => 'repair',
-      'text' => ACTION_REPAIR_TABLES,
-    ],
-    [
-      'id' => 'utf8',
-      'text' => ACTION_UTF8_CONVERSION,
-    ],
-  ];
+$actions = [
+  [
+    'id' => 'check',
+    'text' => ACTION_CHECK_TABLES,
+  ],
+  [
+    'id' => 'analyze',
+    'text' => ACTION_ANALYZE_TABLES,
+  ],
+  [
+    'id' => 'optimize',
+    'text' => ACTION_OPTIMIZE_TABLES,
+  ],
+  [
+    'id' => 'repair',
+    'text' => ACTION_REPAIR_TABLES,
+  ],
+  [
+    'id' => 'utf8',
+    'text' => ACTION_UTF8_CONVERSION,
+  ],
+];
 
-  require 'includes/template_top.php';
+require 'includes/template_top.php';
 ?>
 
   <div class="row">
@@ -82,9 +81,9 @@
     <div class="col-12 col-lg-8 text-start text-lg-end align-self-center pb-1">
       <?=
       $Admin->button(GET_HELP, '', 'btn-dark', GET_HELP_LINK, ['newwindow' => true]),
-      $admin_hooks->cat('extraButtons'),
-      empty($action) ? '' : (new Button(IMAGE_BACK, 'fas fa-angle-left', 'ms-2 btn-light'))->set('href', $Admin->link())
-      ?>
+$admin_hooks->cat('extraButtons'),
+empty($action) ? '' : (new Button(IMAGE_BACK, 'fas fa-angle-left', 'ms-2 btn-light'))->set('href', $Admin->link())
+?>
     </div>
   </div>
 
@@ -94,37 +93,37 @@
       <thead class="table-dark">
         <tr>
           <?php
-          foreach ( $table_headers as $th ) {
-            echo '<th>', $th, '</th>';
-          }
-          ?>
+    foreach ($table_headers as $th) {
+        echo '<th>', $th, '</th>';
+    }
+?>
         </tr>
       </thead>
       <tbody>
         <?php
-        foreach ( $table_data as $td ) {
-          echo '<tr>';
+        foreach ($table_data as $td) {
+            echo '<tr>';
 
-          foreach ( $td as $data ) {
-            echo '<td>', $data, '</td>';
-          }
+            foreach ($td as $data) {
+                echo '<td>', $data, '</td>';
+            }
 
-          echo '</tr>';
+            echo '</tr>';
         }
-        ?>
+?>
       </tbody>
     </table>
   </div>
 
 <?php
-  if ( !isset($_POST['dryrun']) ) {
- ?>
+  if (!isset($_POST['dryrun'])) {
+      ?>
 
   <div class="row mt-2">
     <div class="col d-grid">
       <?=
-        new Select('action', $actions, ['class' => 'form-select', 'id' => 'sqlActionsMenu']),
-        new Button(BUTTON_ACTION_GO, 'fas fa-cogs', 'btn-success mt-2')
+             new Select('action', $actions, ['class' => 'form-select', 'id' => 'sqlActionsMenu']),
+      new Button(BUTTON_ACTION_GO, 'fas fa-cogs', 'btn-success mt-2')
       ?>
     </div>
     <div class="col">
@@ -175,5 +174,5 @@ function toggle_all(source) {
 
 <?php
   require 'includes/template_bottom.php';
-  require 'includes/application_bottom.php';
+require 'includes/application_bottom.php';
 ?>

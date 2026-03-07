@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Issuing;
@@ -41,11 +43,10 @@ namespace Stripe\Issuing;
  */
 class Authorization extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'issuing.authorization';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
+    public const OBJECT_NAME = 'issuing.authorization';
 
     /**
      * @param null|array $params
@@ -55,10 +56,10 @@ class Authorization extends \Stripe\ApiResource
      *
      * @return \Stripe\Issuing\Authorization the approved authorization
      */
-    public function approve($params = null, $opts = null)
+    public function approve($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/approve';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -72,10 +73,10 @@ class Authorization extends \Stripe\ApiResource
      *
      * @return \Stripe\Issuing\Authorization the declined authorization
      */
-    public function decline($params = null, $opts = null)
+    public function decline($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/decline';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

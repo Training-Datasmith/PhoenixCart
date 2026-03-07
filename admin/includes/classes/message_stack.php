@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -17,74 +19,67 @@
   if ($messageStack->size > 0) echo $messageStack->output();
 */
 
-  class messageStack {
-
+class messageStack
+{
     public $size = 0;
     public $errors = [];
 
-    public function __construct() {
-      foreach (($_SESSION['messageToStack'] ?? []) as $message) {
-        $this->add($message['text'], $message['type']);
-      }
+    public function __construct()
+    {
+        foreach (($_SESSION['messageToStack'] ?? []) as $message) {
+            $this->add($message['text'], $message['type']);
+        }
 
-      unset($_SESSION['messageToStack']);
+        unset($_SESSION['messageToStack']);
     }
 
-    public function add($message, $type = 'error') {
-      switch ($type) {
-        case 'primary':
-          $this->errors[] = ['params' => 'alert alert-primary', 'text' => $message];
-        break;
-        case 'secondary':
-          $this->errors[] = ['params' => 'alert alert-secondary', 'text' => $message];
-        break;
-        case 'light':
-          $this->errors[] = ['params' => 'alert alert-light', 'text' => $message];
-        break;
-        case 'dark':
-          $this->errors[] = ['params' => 'alert alert-dark', 'text' => $message];
-        break;
-        case 'warning':
-          $this->errors[] = ['params' => 'alert alert-warning', 'text' => $message];
-          break;
-        case 'success':
-          $this->errors[] = ['params' => 'alert alert-success', 'text' => $message];
-          break;
-        default:
-          // error & danger
-          $this->errors[] = ['params' => 'alert alert-danger', 'text' => $message];
-      }
+    public function add($message, $type = 'error'): void
+    {
+        $this->errors[] = match ($type) {
+            'primary' => ['params' => 'alert alert-primary', 'text' => $message],
+            'secondary' => ['params' => 'alert alert-secondary', 'text' => $message],
+            'light' => ['params' => 'alert alert-light', 'text' => $message],
+            'dark' => ['params' => 'alert alert-dark', 'text' => $message],
+            'warning' => ['params' => 'alert alert-warning', 'text' => $message],
+            'success' => ['params' => 'alert alert-success', 'text' => $message],
+            // error & danger
+            default => ['params' => 'alert alert-danger', 'text' => $message],
+        };
 
-      $this->size++;
+        $this->size++;
     }
 
-    public function add_classed($class, $message, $type = 'error') {
-      $this->add($message, $type);
+    public function add_classed($class, $message, $type = 'error'): void
+    {
+        $this->add($message, $type);
     }
 
-    public function add_session($message, $type = 'error') {
-      if (!isset($_SESSION['messageToStack'])) {
-        $_SESSION['messageToStack'] = [];
-      }
+    public function add_session($message, $type = 'error'): void
+    {
+        if (!isset($_SESSION['messageToStack'])) {
+            $_SESSION['messageToStack'] = [];
+        }
 
-      $_SESSION['messageToStack'][] = ['text' => $message, 'type' => $type];
+        $_SESSION['messageToStack'][] = ['text' => $message, 'type' => $type];
     }
 
-    public function reset() {
-      $this->errors = [];
-      $this->size = 0;
+    public function reset(): void
+    {
+        $this->errors = [];
+        $this->size = 0;
     }
 
-    public function output() {
-      $alert = null;
-      foreach ($this->errors as $e) {
-        $alert .= '<div class="' . $e['params'] . ' my-2 alert-dismissible fade show" role="alert">';
-          $alert .= $e['text'];
-          $alert .= '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
-        $alert .= '</div>';
-      }
+    public function output()
+    {
+        $alert = null;
+        foreach ($this->errors as $e) {
+            $alert .= '<div class="' . $e['params'] . ' my-2 alert-dismissible fade show" role="alert">';
+            $alert .= $e['text'];
+            $alert .= '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+            $alert .= '</div>';
+        }
 
-      return $alert;
+        return $alert;
     }
 
-  }
+}

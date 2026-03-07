@@ -2,9 +2,9 @@
 
   <?php
   if ($messageStack->size('testimonial') > 0) {
-    echo $messageStack->output('testimonial');
+      echo $messageStack->output('testimonial');
   }
-  ?>
+?>
 
   <div class="d-grid">
     <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTestimonial" aria-expanded="false" aria-controls="collapseTestimonial"><?= MODULE_CONTENT_TESTIMONIALS_WRITE_BUTTON_TEXT ?></button>

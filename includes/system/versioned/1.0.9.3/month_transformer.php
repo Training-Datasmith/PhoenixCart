@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,43 +37,42 @@ THE SOFTWARE.
  *
  * @internal
  */
-class MonthTransformer extends Transformer {
-
-  protected static $months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-    ];
+class MonthTransformer extends Transformer
+{
+    protected static $months = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+      ];
 
     /**
      * Short months names (first 3 letters).
      */
-    protected static $shortMonths = [];
+    protected static array $shortMonths = [];
 
     /**
      * Flipped $months array, $name => $index.
      */
-    protected static $flippedMonths = [];
+    protected static array $flippedMonths = [];
 
     /**
      * Flipped $shortMonths array, $name => $index.
      */
-    protected static $flippedShortMonths = [];
+    protected static array $flippedShortMonths = [];
 
-    public function __construct() {
+    public function __construct()
+    {
         if (0 === \count(self::$shortMonths)) {
-            self::$shortMonths = array_map(function ($month) {
-                return substr($month, 0, 3);
-            }, self::$months);
+            self::$shortMonths = array_map(fn ($month) => substr((string) $month, 0, 3), self::$months);
 
             self::$flippedMonths = array_flip(self::$months);
             self::$flippedShortMonths = array_flip(self::$shortMonths);
@@ -81,7 +82,8 @@ class MonthTransformer extends Transformer {
     /**
      * {@inheritdoc}
      */
-    public function format(\DateTime $dateTime, int $length): string {
+    public function format(\DateTime $dateTime, int $length): string
+    {
         $matchLengthMap = [
             1 => 'n',
             2 => 'm',
@@ -103,32 +105,22 @@ class MonthTransformer extends Transformer {
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string {
-        switch ($length) {
-            case 1:
-                $regExp = '\d{1,2}';
-                break;
-            case 3:
-                $regExp = implode('|', self::$shortMonths);
-                break;
-            case 4:
-                $regExp = implode('|', self::$months);
-                break;
-            case 5:
-                $regExp = '[JFMASOND]';
-                break;
-            default:
-                $regExp = '\d{1,'.$length.'}';
-                break;
-        }
-
-        return $regExp;
+    public function getReverseMatchingRegExp(int $length): string
+    {
+        return match ($length) {
+            1 => '\d{1,2}',
+            3 => implode('|', self::$shortMonths),
+            4 => implode('|', self::$months),
+            5 => '[JFMASOND]',
+            default => '\d{1,'.$length.'}',
+        };
     }
 
     /**
      * {@inheritdoc}
      */
-    public function extractDateOptions(string $matched, int $length): array {
+    public function extractDateOptions(string $matched, int $length): array
+    {
         if (is_numeric($matched)) {
             $matched = (int) $matched;
         } elseif (3 === $length) {

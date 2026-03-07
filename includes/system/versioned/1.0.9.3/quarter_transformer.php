@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,12 +37,13 @@ THE SOFTWARE.
  *
  * @internal
  */
-class QuarterTransformer extends Transformer {
-
+class QuarterTransformer extends Transformer
+{
     /**
      * {@inheritdoc}
      */
-    public function format(\DateTime $dateTime, int $length): string {
+    public function format(\DateTime $dateTime, int $length): string
+    {
         $month = (int) $dateTime->format('n');
         $quarter = (int) floor(($month - 1) / 3) + 1;
         switch ($length) {
@@ -58,25 +61,21 @@ class QuarterTransformer extends Transformer {
                     $map = [1 => '1st quarter', 2 => '2nd quarter', 3 => '3rd quarter', 4 => '4th quarter'];
 
                     return $map[$quarter];
-                } else {
-                    return $quarter;
                 }
+                return $quarter;
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string {
-        switch ($length) {
-            case 1:
-            case 2:
-                return '\d{'.$length.'}';
-            case 3:
-                return 'Q\d';
-            default:
-                return '(?:1st|2nd|3rd|4th) quarter';
-        }
+    public function getReverseMatchingRegExp(int $length): string
+    {
+        return match ($length) {
+            1, 2 => '\d{'.$length.'}',
+            3 => 'Q\d',
+            default => '(?:1st|2nd|3rd|4th) quarter',
+        };
     }
 
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,39 +12,35 @@
   Released under the GNU General Public License
 */
 
-  class File {
-
+class File
+{
     /**
      * Windows compatibility function.
-     * @param string $file
      * @return boolean
      */
-    public static function is_writable(string $file) {
-      if (strtolower(substr(PHP_OS, 0, strlen('win'))) !== 'win') {
-        return is_writable($file);
-      }
-
-      if (file_exists($file)) {
-        $file = realpath($file);
-        if (!is_dir($file)) {
-          $handle = @fopen($file, 'r+');
-          if (is_resource($handle)) {
-            fclose($handle);
-            return true;
-          }
+    public static function is_writable(string $file)
+    {
+        if (strtolower(substr(PHP_OS, 0, strlen('win'))) !== 'win') {
+            return is_writable($file);
         }
-      }
 
-      return false;
+        if (file_exists($file)) {
+            $file = realpath($file);
+            if (!is_dir($file)) {
+                $handle = @fopen($file, 'r+');
+                if (is_resource($handle)) {
+                    fclose($handle);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
-    /**
-     *
-     * @param string $file
-     * @return boolean
-     */
-    public static function remove(string $file) {
-      return static::is_writable($file) && unlink($file);
+    public static function remove(string $file): bool
+    {
+        return static::is_writable($file) && unlink($file);
     }
 
-  }
+}

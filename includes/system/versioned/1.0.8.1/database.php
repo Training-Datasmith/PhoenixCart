@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,10 +12,10 @@
   Released under the GNU General Public License
 */
 
-  /**
-   * This class may be easily overridden without losing any functionality.
-   *
-   */
-  class Database extends database_core {
-
-  }
+/**
+ * This class may be easily overridden without losing any functionality.
+ *
+ */
+class Database extends database_core
+{
+}

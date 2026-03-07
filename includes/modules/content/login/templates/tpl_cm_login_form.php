@@ -2,8 +2,8 @@
 
 <?php
   echo new Form('login', $GLOBALS['Linker']->build('login.php', ['action' => 'process']), 'post', ['class' => 'was-validated']);
-  $GLOBALS['customer_data']->act_on('username', 'display_input');
-  $GLOBALS['customer_data']->act_on('password', 'display_input');
+$GLOBALS['customer_data']->act_on('username', 'display_input');
+$GLOBALS['customer_data']->act_on('password', 'display_input');
 ?>
 
   <div class="d-grid">

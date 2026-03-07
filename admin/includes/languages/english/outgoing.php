@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -12,11 +14,11 @@
 
 const HEADING_TITLE = 'Outgoing Queue';
 
-const TABLE_HEADING_SEND_AT = 'Send Date';	
+const TABLE_HEADING_SEND_AT = 'Send Date';
 const TABLE_HEADING_READY_TO_SEND = 'Ready';
-const TABLE_HEADING_NAME = 'Name';	
-const TABLE_HEADING_EMAIL = 'Email';	
-const TABLE_HEADING_SLUG = 'Slug';	
+const TABLE_HEADING_NAME = 'Name';
+const TABLE_HEADING_EMAIL = 'Email';
+const TABLE_HEADING_SLUG = 'Slug';
 const TABLE_HEADING_ACTION = 'Action';
 
 const TEXT_HEADING_EDIT_OUTGOING_EMAIL = 'Edit Queued E-mail';

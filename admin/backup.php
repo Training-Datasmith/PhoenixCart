@@ -10,40 +10,41 @@
   Released under the GNU General Public License
 */
 
-  $always_valid_actions = ['download'];
-  require 'includes/application_top.php';
+$always_valid_actions = ['download'];
+require 'includes/application_top.php';
 
-  $link = $Admin->link()->retain_query_except(['action', 'file']);
+$link = $Admin->link()->retain_query_except(['action', 'file']);
 
-  function phoenix_ensure_constant($name, $default) {
+function phoenix_ensure_constant($name, $default): void
+{
     if (!defined($name)) {
-      define($name, $default);
+        define($name, $default);
     }
-  }
+}
 
 // Used in the "Backup Manager" to compress backups
-  phoenix_ensure_constant('LOCAL_EXE_GZIP', '/usr/bin/gzip');
-  phoenix_ensure_constant('LOCAL_EXE_GUNZIP', '/usr/bin/gunzip');
-  phoenix_ensure_constant('LOCAL_EXE_ZIP', '/usr/bin/zip');
-  phoenix_ensure_constant('LOCAL_EXE_UNZIP', '/usr/bin/unzip');
+phoenix_ensure_constant('LOCAL_EXE_GZIP', '/usr/bin/gzip');
+phoenix_ensure_constant('LOCAL_EXE_GUNZIP', '/usr/bin/gunzip');
+phoenix_ensure_constant('LOCAL_EXE_ZIP', '/usr/bin/zip');
+phoenix_ensure_constant('LOCAL_EXE_UNZIP', '/usr/bin/unzip');
 
-  require 'includes/segments/process_action.php';
+require 'includes/segments/process_action.php';
 
 // check if the backup directory exists
-  $dir_ok = false;
-  if (is_dir(DIR_FS_BACKUP)) {
+$dir_ok = false;
+if (is_dir(DIR_FS_BACKUP)) {
     if (Path::is_writable(DIR_FS_BACKUP)) {
-      $dir_ok = true;
+        $dir_ok = true;
     } else {
-      $messageStack->add(ERROR_BACKUP_DIRECTORY_NOT_WRITEABLE, 'error');
+        $messageStack->add(ERROR_BACKUP_DIRECTORY_NOT_WRITEABLE, 'error');
     }
-  } else {
+} else {
     $messageStack->add(ERROR_BACKUP_DIRECTORY_DOES_NOT_EXIST, 'error');
-  }
+}
 
-  $compressions = ['zip' => 'ZIP', '.gz' => 'GZIP'];
-  
-  require 'includes/template_top.php';
+$compressions = ['zip' => 'ZIP', '.gz' => 'GZIP'];
+
+require 'includes/template_top.php';
 ?>
 
   <div class="row">
@@ -53,16 +54,16 @@
     <div class="col-12 col-lg-6 text-start text-lg-end align-self-center pb-1">
       <?=
       $Admin->button(GET_HELP, '', 'btn-dark', GET_HELP_LINK, ['newwindow' => true]),
-      $admin_hooks->cat('extraButtons')
-      ?>
+$admin_hooks->cat('extraButtons')
+?>
     </div>
   </div>
 
 <?php
   if ($view_file = $Admin->locate('/views', $action)) {
-    require $view_file;
+      require $view_file;
   }
 
-  require 'includes/template_bottom.php';
-  require 'includes/application_bottom.php';
+require 'includes/template_bottom.php';
+require 'includes/application_bottom.php';
 ?>

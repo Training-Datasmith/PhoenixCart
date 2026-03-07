@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -33,12 +35,11 @@ namespace Stripe;
  */
 class SubscriptionSchedule extends ApiResource
 {
-    const OBJECT_NAME = 'subscription_schedule';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Retrieve;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'subscription_schedule';
 
     /**
      * @param null|array $params
@@ -48,10 +49,10 @@ class SubscriptionSchedule extends ApiResource
      *
      * @return \Stripe\SubscriptionSchedule the canceled subscription schedule
      */
-    public function cancel($params = null, $opts = null)
+    public function cancel($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/cancel';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -65,10 +66,10 @@ class SubscriptionSchedule extends ApiResource
      *
      * @return \Stripe\SubscriptionSchedule the released subscription schedule
      */
-    public function release($params = null, $opts = null)
+    public function release($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/release';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

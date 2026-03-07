@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -38,26 +40,25 @@ namespace Stripe;
  */
 class Account extends ApiResource
 {
-    const OBJECT_NAME = 'account';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Delete;
     use ApiOperations\NestedResource;
     use ApiOperations\Update;
 
-    const BUSINESS_TYPE_COMPANY = 'company';
-    const BUSINESS_TYPE_GOVERNMENT_ENTITY = 'government_entity';
-    const BUSINESS_TYPE_INDIVIDUAL = 'individual';
-    const BUSINESS_TYPE_NON_PROFIT = 'non_profit';
-
-    const TYPE_CUSTOM = 'custom';
-    const TYPE_EXPRESS = 'express';
-    const TYPE_STANDARD = 'standard';
-
     use ApiOperations\Retrieve {
         retrieve as protected _retrieve;
     }
+    public const OBJECT_NAME = 'account';
+
+    public const BUSINESS_TYPE_COMPANY = 'company';
+    public const BUSINESS_TYPE_GOVERNMENT_ENTITY = 'government_entity';
+    public const BUSINESS_TYPE_INDIVIDUAL = 'individual';
+    public const BUSINESS_TYPE_NON_PROFIT = 'non_profit';
+
+    public const TYPE_CUSTOM = 'custom';
+    public const TYPE_EXPRESS = 'express';
+    public const TYPE_STANDARD = 'standard';
 
     public static function getSavedNestedResources()
     {
@@ -92,7 +93,7 @@ class Account extends ApiResource
      */
     public static function retrieve($id = null, $opts = null)
     {
-        if (!$opts && \is_string($id) && 'sk_' === \substr($id, 0, 3)) {
+        if (!$opts && \is_string($id) && str_starts_with($id, 'sk_')) {
             $opts = $id;
             $id = null;
         }
@@ -107,7 +108,7 @@ class Account extends ApiResource
             $entity = $this['legal_entity'];
             if (isset($entity->_values['additional_owners'])) {
                 $owners = $entity['additional_owners'];
-                $entityUpdate = isset($update['legal_entity']) ? $update['legal_entity'] : [];
+                $entityUpdate = $update['legal_entity'] ?? [];
                 $entityUpdate['additional_owners'] = $this->serializeAdditionalOwners($entity, $owners);
                 $update['legal_entity'] = $entityUpdate;
             }
@@ -122,7 +123,10 @@ class Account extends ApiResource
         return $update;
     }
 
-    private function serializeAdditionalOwners($legalEntity, $additionalOwners)
+    /**
+     * @return mixed[]
+     */
+    private function serializeAdditionalOwners(object $legalEntity, $additionalOwners): array
     {
         if (isset($legalEntity->_originalValues['additional_owners'])) {
             $originalValue = $legalEntity->_originalValues['additional_owners'];
@@ -177,16 +181,16 @@ class Account extends ApiResource
      *
      * @return \Stripe\Account the rejected account
      */
-    public function reject($params = null, $opts = null)
+    public function reject($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/reject';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
     }
 
-    const PATH_CAPABILITIES = '/capabilities';
+    public const PATH_CAPABILITIES = '/capabilities';
 
     /**
      * @param string $id the ID of the account on which to retrieve the capabilities
@@ -231,7 +235,7 @@ class Account extends ApiResource
     {
         return self::_updateNestedResource($id, static::PATH_CAPABILITIES, $capabilityId, $params, $opts);
     }
-    const PATH_EXTERNAL_ACCOUNTS = '/external_accounts';
+    public const PATH_EXTERNAL_ACCOUNTS = '/external_accounts';
 
     /**
      * @param string $id the ID of the account on which to retrieve the external accounts
@@ -305,7 +309,7 @@ class Account extends ApiResource
     {
         return self::_updateNestedResource($id, static::PATH_EXTERNAL_ACCOUNTS, $externalAccountId, $params, $opts);
     }
-    const PATH_LOGIN_LINKS = '/login_links';
+    public const PATH_LOGIN_LINKS = '/login_links';
 
     /**
      * @param string $id the ID of the account on which to create the login link
@@ -320,7 +324,7 @@ class Account extends ApiResource
     {
         return self::_createNestedResource($id, static::PATH_LOGIN_LINKS, $params, $opts);
     }
-    const PATH_PERSONS = '/persons';
+    public const PATH_PERSONS = '/persons';
 
     /**
      * @param string $id the ID of the account on which to retrieve the persons

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,16 +12,16 @@
   Released under the GNU General Public License
 */
 
-  class cfgm_action_recorder {
+class cfgm_action_recorder
+{
+    public const CODE = 'action_recorder';
+    public const DIRECTORY = DIR_FS_CATALOG . 'includes/modules/action_recorder/';
+    public const LANGUAGE_DIRECTORY = DIR_FS_CATALOG . 'includes/languages/';
+    public const KEY = 'MODULE_ACTION_RECORDER_INSTALLED';
+    public const TITLE = MODULE_CFG_MODULE_ACTION_RECORDER_TITLE;
+    public const TEMPLATE_INTEGRATION = false;
 
-    const CODE = 'action_recorder';
-    const DIRECTORY = DIR_FS_CATALOG . 'includes/modules/action_recorder/';
-    const LANGUAGE_DIRECTORY = DIR_FS_CATALOG . 'includes/languages/';
-    const KEY = 'MODULE_ACTION_RECORDER_INSTALLED';
-    const TITLE = MODULE_CFG_MODULE_ACTION_RECORDER_TITLE;
-    const TEMPLATE_INTEGRATION = false;
-    
-    const GET_HELP_LINK = 'https://phoenixcart.org/phoenixcartwiki/index.php?title=Action_Recorder_(modules)';
-    const GET_ADDONS_LINKS = [];
+    public const GET_HELP_LINK = 'https://phoenixcart.org/phoenixcartwiki/index.php?title=Action_Recorder_(modules)';
+    public const GET_ADDONS_LINKS = [];
 
-  }
+}

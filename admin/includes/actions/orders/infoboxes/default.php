@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (($table_definition['info'] ?? null) instanceof objectInfo) {
+if (($table_definition['info'] ?? null) instanceof objectInfo) {
     $oInfo = $table_definition['info'];
     $heading = '[' . $oInfo->orders_id . '] ' . $oInfo->date_purchased;
 
@@ -21,7 +23,7 @@
     ];
     $contents[] = ['text' => sprintf(TEXT_DATE_ORDER_CREATED, $oInfo->date_purchased)];
     if (!Text::is_empty($oInfo->last_modified)) {
-      $contents[] = ['text' => sprintf(TEXT_DATE_ORDER_LAST_MODIFIED, $oInfo->last_modified)];
+        $contents[] = ['text' => sprintf(TEXT_DATE_ORDER_LAST_MODIFIED, $oInfo->last_modified)];
     }
     $contents[] = ['text' => sprintf(TEXT_INFO_PAYMENT_METHOD, $oInfo->payment_method)];
     $contents[] = [
@@ -29,4 +31,4 @@
       'text' => $GLOBALS['Admin']->button(IMAGE_ORDERS_INVOICE, 'fas fa-file-invoice-dollar', 'btn-info me-2', $GLOBALS['Admin']->link('invoice.php')->set_parameter('oID', $oInfo->orders_id), ['newwindow' => true])
               . $GLOBALS['Admin']->button(IMAGE_ORDERS_PACKINGSLIP, 'fas fa-file-contract', 'btn-info', $GLOBALS['Admin']->link('packingslip.php')->set_parameter('oID', $oInfo->orders_id), ['newwindow' => true]),
     ];
-  }
+}

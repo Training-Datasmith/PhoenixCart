@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  if (isset($GLOBALS['table_definition']['info']->zone_id)) {
-    $cInfo =& $GLOBALS['table_definition']['info'];
+if (isset($GLOBALS['table_definition']['info']->zone_id)) {
+    $cInfo = & $GLOBALS['table_definition']['info'];
     $GLOBALS['link']->set_parameter('cID', $cInfo->zone_id);
 
     $heading = $cInfo->zone_name;
@@ -23,4 +25,4 @@
     ];
     $contents[] = ['text' => TEXT_INFO_ZONES_NAME . '<br>' . $cInfo->zone_name . ' (' . $cInfo->zone_code . ')'];
     $contents[] = ['text' => TEXT_INFO_COUNTRY_NAME . ' ' . $cInfo->countries_name];
-  }
+}

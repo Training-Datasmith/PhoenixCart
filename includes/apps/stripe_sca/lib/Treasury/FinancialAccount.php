@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Treasury;
@@ -28,15 +30,14 @@ namespace Stripe\Treasury;
  */
 class FinancialAccount extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'treasury.financial_account';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
+    public const OBJECT_NAME = 'treasury.financial_account';
 
-    const STATUS_CLOSED = 'closed';
-    const STATUS_OPEN = 'open';
+    public const STATUS_CLOSED = 'closed';
+    public const STATUS_OPEN = 'open';
 
     /**
      * @param null|array $params
@@ -49,7 +50,7 @@ class FinancialAccount extends \Stripe\ApiResource
     public function retrieveFeatures($params = null, $opts = null)
     {
         $url = $this->instanceUrl() . '/features';
-        list($response, $opts) = $this->_request('get', $url, $params, $opts);
+        [$response, $opts] = $this->_request('get', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response, $opts);
         $obj->setLastResponse($response);
 
@@ -64,10 +65,10 @@ class FinancialAccount extends \Stripe\ApiResource
      *
      * @return \Stripe\Treasury\FinancialAccount the updated financial account
      */
-    public function updateFeatures($params = null, $opts = null)
+    public function updateFeatures($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/features';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

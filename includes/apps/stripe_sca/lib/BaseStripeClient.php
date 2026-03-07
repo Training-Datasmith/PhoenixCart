@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe;
 
 class BaseStripeClient implements StripeClientInterface, StripeStreamingClientInterface
 {
     /** @var string default base URL for Stripe's API */
-    const DEFAULT_API_BASE = 'https://api.stripe.com';
+    public const DEFAULT_API_BASE = 'https://api.stripe.com';
 
     /** @var string default base URL for Stripe's OAuth API */
-    const DEFAULT_CONNECT_BASE = 'https://connect.stripe.com';
+    public const DEFAULT_CONNECT_BASE = 'https://connect.stripe.com';
 
     /** @var string default base URL for Stripe's Files API */
-    const DEFAULT_FILES_BASE = 'https://files.stripe.com';
+    public const DEFAULT_FILES_BASE = 'https://files.stripe.com';
 
     /** @var array<string, mixed> */
-    private $config;
+    private array $config;
 
     /** @var \Stripe\Util\RequestOptions */
     private $defaultOpts;
@@ -131,7 +133,7 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
         $opts = $this->defaultOpts->merge($opts, true);
         $baseUrl = $opts->apiBase ?: $this->getApiBase();
         $requestor = new \Stripe\ApiRequestor($this->apiKeyForRequest($opts), $baseUrl);
-        list($response, $opts->apiKey) = $requestor->request($method, $path, $params, $opts->headers);
+        [$response, $opts->apiKey] = $requestor->request($method, $path, $params, $opts->headers);
         $opts->discardNonPersistentHeaders();
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
@@ -150,12 +152,12 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
      * @param array|\Stripe\Util\RequestOptions $opts the special modifiers of the request
      * with chunks of bytes from the body if the request is successful
      */
-    public function requestStream($method, $path, $readBodyChunkCallable, $params, $opts)
+    public function requestStream($method, $path, $readBodyChunkCallable, $params, $opts): void
     {
         $opts = $this->defaultOpts->merge($opts, true);
         $baseUrl = $opts->apiBase ?: $this->getApiBase();
         $requestor = new \Stripe\ApiRequestor($this->apiKeyForRequest($opts), $baseUrl);
-        list($response, $opts->apiKey) = $requestor->requestStream($method, $path, $readBodyChunkCallable, $params, $opts->headers);
+        [$response, $opts->apiKey] = $requestor->requestStream($method, $path, $readBodyChunkCallable, $params, $opts->headers);
     }
 
     /**
@@ -172,7 +174,7 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
     {
         $obj = $this->request($method, $path, $params, $opts);
         if (!($obj instanceof \Stripe\Collection)) {
-            $received_class = \get_class($obj);
+            $received_class = $obj::class;
             $msg = "Expected to receive `Stripe\\Collection` object from Stripe API. Instead received `{$received_class}`.";
 
             throw new \Stripe\Exception\UnexpectedValueException($msg);
@@ -196,7 +198,7 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
     {
         $obj = $this->request($method, $path, $params, $opts);
         if (!($obj instanceof \Stripe\SearchResult)) {
-            $received_class = \get_class($obj);
+            $received_class = $obj::class;
             $msg = "Expected to receive `Stripe\\SearchResult` object from Stripe API. Instead received `{$received_class}`.";
 
             throw new \Stripe\Exception\UnexpectedValueException($msg);
@@ -233,7 +235,7 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
      *
      * @return array<string, mixed>
      */
-    private function getDefaultConfig()
+    private function getDefaultConfig(): array
     {
         return [
             'api_key' => null,
@@ -251,7 +253,7 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
      *
      * @throws \Stripe\Exception\InvalidArgumentException
      */
-    private function validateConfig($config)
+    private function validateConfig(array $config): void
     {
         // api_key
         if (null !== $config['api_key'] && !\is_string($config['api_key'])) {

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_NAVBAR_TITLE = 'Navigation Bar';
-  const MODULE_CONTENT_NAVBAR_DESCRIPTION = 'Show the Navigation Bar on your site. <div class="alert alert-warning">This module has a number of Sub Modules which must also be installed.<br><br>Admin > Modules > Navbar Modules</div>';
-  
-  const MODULE_CONTENT_NAVBAR_SITE_MENU = 'Menu';
+const MODULE_CONTENT_NAVBAR_TITLE = 'Navigation Bar';
+const MODULE_CONTENT_NAVBAR_DESCRIPTION = 'Show the Navigation Bar on your site. <div class="alert alert-warning">This module has a number of Sub Modules which must also be installed.<br><br>Admin > Modules > Navbar Modules</div>';
+
+const MODULE_CONTENT_NAVBAR_SITE_MENU = 'Menu';

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,12 +12,12 @@
   Released under the GNU General Public License
 */
 
-  $db->query("INSERT INTO customer_data_groups_sequence VALUES (NULL)");
-  $customer_data_groups_id = mysqli_insert_id($db);
+$db->query('INSERT INTO customer_data_groups_sequence VALUES (NULL)');
+$customer_data_groups_id = mysqli_insert_id($db);
 
-  $first_language_id = key($_POST['customer_data_groups_name']);
-  foreach ($_POST['customer_data_groups_name'] as $language_id => $customer_data_groups_name) {
-// if use_first was checked, get all the values other than the name from the first group
+$first_language_id = key($_POST['customer_data_groups_name']);
+foreach ($_POST['customer_data_groups_name'] as $language_id => $customer_data_groups_name) {
+    // if use_first was checked, get all the values other than the name from the first group
     $index = empty($_POST['use_first']) ? $language_id : $first_language_id;
 
     $sql_data = [
@@ -27,6 +29,6 @@
     ];
 
     $db->perform('customer_data_groups', $sql_data);
-  }
+}
 
-  return $Admin->link('customer_data_groups.php');
+return $Admin->link('customer_data_groups.php');

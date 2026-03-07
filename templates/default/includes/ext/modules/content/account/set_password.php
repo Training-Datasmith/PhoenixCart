@@ -10,20 +10,20 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(MODULE_CONTENT_ACCOUNT_SET_PASSWORD_NAVBAR_TITLE_1, $Linker->build('account.php'));
-  $breadcrumb->add(MODULE_CONTENT_ACCOUNT_SET_PASSWORD_NAVBAR_TITLE_2, $Linker->build());
+$breadcrumb->add(MODULE_CONTENT_ACCOUNT_SET_PASSWORD_NAVBAR_TITLE_1, $Linker->build('account.php'));
+$breadcrumb->add(MODULE_CONTENT_ACCOUNT_SET_PASSWORD_NAVBAR_TITLE_2, $Linker->build());
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <h1 class="display-4 mb-4"><?= MODULE_CONTENT_ACCOUNT_SET_PASSWORD_HEADING_TITLE ?></h1>
 
 <?php
   if ($messageStack->size('account_password') > 0) {
-    echo $messageStack->output('account_password');
+      echo $messageStack->output('account_password');
   }
 
-  echo (new Form('account_password', $Linker->build()))->hide('action', 'process');
+echo (new Form('account_password', $Linker->build()))->hide('action', 'process');
 ?>
 
   <p class="text-danger text-end"><?= FORM_REQUIRED_INFORMATION ?></p>

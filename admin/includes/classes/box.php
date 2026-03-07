@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -17,29 +19,30 @@
   echo $box->infoBox($heading, $contents);
 */
 
-  class box extends tableBlock {
+class box extends tableBlock
+{
+    public function infoBox($heading, $contents): string|false
+    {
+        if (is_array($heading)) {
+            $heading = $heading[0]['text'];
+        }
+        $parameters = ['heading' => &$heading, 'contents' => &$contents];
+        $GLOBALS['admin_hooks']->cat('infoBox', $parameters);
 
-    function infoBox($heading, $contents) {
-      if (is_array($heading)) {
-        $heading = $heading[0]['text'];
-      }
-      $parameters = ['heading' => &$heading, 'contents' => &$contents];
-      $GLOBALS['admin_hooks']->cat('infoBox', $parameters);
+        if (isset($contents['form'])) {
+            $form_start = $contents['form'] . PHP_EOL;
+            $form_close = '</form>' . PHP_EOL;
+            unset($contents['form']);
+        } else {
+            $form_start = '';
+            $form_close = '';
+        }
+        $contents = $this->tableBlock($contents);
 
-      if (isset($contents['form'])) {
-        $form_start = $contents['form'] . PHP_EOL;
-        $form_close = '</form>' . PHP_EOL;
-        unset($contents['form']);
-      } else {
-        $form_start = '';
-        $form_close = '';
-      }
-      $contents = $this->tableBlock($contents);
+        ob_start();
+        include __DIR__ . '/templates/tpl_box.php';
 
-      ob_start();
-      include __DIR__ . '/templates/tpl_box.php';
-
-      return ob_get_clean();
+        return ob_get_clean();
     }
 
-  }
+}

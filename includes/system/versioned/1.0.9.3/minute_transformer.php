@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,12 +37,13 @@ THE SOFTWARE.
  *
  * @internal
  */
-class MinuteTransformer extends Transformer {
-
+class MinuteTransformer extends Transformer
+{
     /**
      * {@inheritdoc}
      */
-    public function format(\DateTime $dateTime, int $length): string {
+    public function format(\DateTime $dateTime, int $length): string
+    {
         $minuteOfHour = (int) $dateTime->format('i');
 
         return $this->padLeft($minuteOfHour, $length);
@@ -49,14 +52,16 @@ class MinuteTransformer extends Transformer {
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string {
+    public function getReverseMatchingRegExp(int $length): string
+    {
         return 1 === $length ? '\d{1,2}' : '\d{'.$length.'}';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function extractDateOptions(string $matched, int $length): array {
+    public function extractDateOptions(string $matched, int $length): array
+    {
         return [
             'minute' => (int) $matched,
         ];

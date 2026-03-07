@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  echo new Form('review', $Admin->link('testimonials.php', ['action' => 'add_new']), 'post', ['enctype' => 'multipart/form-data']);
+echo new Form('review', $Admin->link('testimonials.php', ['action' => 'add_new']), 'post', ['enctype' => 'multipart/form-data']);
 ?>
 
     <div class="row mb-2" id="zFrom">

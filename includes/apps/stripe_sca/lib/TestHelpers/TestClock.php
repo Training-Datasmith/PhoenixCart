@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\TestHelpers;
@@ -23,16 +25,15 @@ namespace Stripe\TestHelpers;
  */
 class TestClock extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'test_helpers.test_clock';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Delete;
     use \Stripe\ApiOperations\Retrieve;
+    public const OBJECT_NAME = 'test_helpers.test_clock';
 
-    const STATUS_ADVANCING = 'advancing';
-    const STATUS_INTERNAL_FAILURE = 'internal_failure';
-    const STATUS_READY = 'ready';
+    public const STATUS_ADVANCING = 'advancing';
+    public const STATUS_INTERNAL_FAILURE = 'internal_failure';
+    public const STATUS_READY = 'ready';
 
     /**
      * @param null|array $params
@@ -42,10 +43,10 @@ class TestClock extends \Stripe\ApiResource
      *
      * @return \Stripe\TestHelpers\TestClock the advanced test clock
      */
-    public function advance($params = null, $opts = null)
+    public function advance($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/advance';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

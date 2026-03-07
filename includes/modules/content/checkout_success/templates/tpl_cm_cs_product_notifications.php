@@ -5,18 +5,18 @@
     <ul class="list-group list-group-flush">
       <?php
       foreach ($products_displayed as $id => $name) {
-        echo '<li class="list-group-item">';
-        echo '<div class="form-check">';
-        echo new Tickable('notify[]', [
-          'value' => $id,
-          'class' => 'form-check-input',
-          'id' => 'notify_' . $id,
-        ], 'checkbox');
-        echo '<label class="form-check-label" for="notify_' . $id . '">' . $name . '</label>';
-        echo '</div>';
-        echo '</li>' . PHP_EOL;
+          echo '<li class="list-group-item">';
+          echo '<div class="form-check">';
+          echo new Tickable('notify[]', [
+            'value' => $id,
+            'class' => 'form-check-input',
+            'id' => 'notify_' . $id,
+          ], 'checkbox');
+          echo '<label class="form-check-label" for="notify_' . $id . '">' . $name . '</label>';
+          echo '</div>';
+          echo '</li>' . PHP_EOL;
       }
-      ?>
+?>
     </ul>
   </div>
 </div>

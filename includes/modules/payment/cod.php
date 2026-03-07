@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,60 +12,63 @@
   Released under the GNU General Public License
 */
 
-  class cod extends abstract_payment_module {
+class cod extends abstract_payment_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_PAYMENT_COD_';
 
-    const CONFIG_KEY_BASE = 'MODULE_PAYMENT_COD_';
+    public function __construct()
+    {
+        parent::__construct();
 
-    public function __construct() {
-      parent::__construct();
-
-      $this->sort_order = defined('MODULE_PAYMENT_COD_SORT_ORDER') ? MODULE_PAYMENT_COD_SORT_ORDER : 0;
+        $this->sort_order = defined('MODULE_PAYMENT_COD_SORT_ORDER') ? MODULE_PAYMENT_COD_SORT_ORDER : 0;
     }
 
-    public function update_status() {
-      if (!$this->enabled || !isset($GLOBALS['order'])) {
-        return;
-      }
+    public function update_status(): void
+    {
+        if (!$this->enabled || !isset($GLOBALS['order'])) {
+            return;
+        }
 
-      // disable the module if the order only contains virtual products
-      if ('virtual' === $GLOBALS['order']->content_type) {
-        $this->enabled = false;
-        return;
-      }
+        // disable the module if the order only contains virtual products
+        if ('virtual' === $GLOBALS['order']->content_type) {
+            $this->enabled = false;
+            return;
+        }
 
-      if (isset($GLOBALS['order']->delivery['country']['id'])) {
-        $this->update_status_by($GLOBALS['order']->delivery);
-      }
+        if (isset($GLOBALS['order']->delivery['country']['id'])) {
+            $this->update_status_by($GLOBALS['order']->delivery);
+        }
     }
 
-    protected function get_parameters() {
-      return [
-        $this->config_key_base . 'STATUS' => [
-          'title' => 'Enable Cash On Delivery Module',
-          'value' => 'True',
-          'desc' => 'Do you want to accept Cash On Delivery payments?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-        $this->config_key_base . 'ZONE' => [
-          'title' => 'Payment Zone',
-          'value' => '0',
-          'desc' => 'If a zone is selected, only enable this payment method for that zone.',
-          'use_func' => 'geo_zone::fetch_name',
-          'set_func' => 'Config::select_geo_zone(',
-        ],
-        $this->config_key_base . 'SORT_ORDER' => [
-          'title' => 'Sort order of display.',
-          'value' => '0',
-          'desc' => 'Sort order of display. Lowest is displayed first.',
-        ],
-        $this->config_key_base . 'ORDER_STATUS_ID' => [
-          'title' => 'Set Order Status',
-          'value' => '0',
-          'desc' => 'Set the status of orders made with this payment module to this value',
-          'set_func' => 'Config::select_order_status(',
-          'use_func' => 'order_status::fetch_name',
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          $this->config_key_base . 'STATUS' => [
+            'title' => 'Enable Cash On Delivery Module',
+            'value' => 'True',
+            'desc' => 'Do you want to accept Cash On Delivery payments?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+          $this->config_key_base . 'ZONE' => [
+            'title' => 'Payment Zone',
+            'value' => '0',
+            'desc' => 'If a zone is selected, only enable this payment method for that zone.',
+            'use_func' => 'geo_zone::fetch_name',
+            'set_func' => 'Config::select_geo_zone(',
+          ],
+          $this->config_key_base . 'SORT_ORDER' => [
+            'title' => 'Sort order of display.',
+            'value' => '0',
+            'desc' => 'Sort order of display. Lowest is displayed first.',
+          ],
+          $this->config_key_base . 'ORDER_STATUS_ID' => [
+            'title' => 'Set Order Status',
+            'value' => '0',
+            'desc' => 'Set the status of orders made with this payment module to this value',
+            'set_func' => 'Config::select_order_status(',
+            'use_func' => 'order_status::fetch_name',
+          ],
+        ];
     }
 
-  }
+}

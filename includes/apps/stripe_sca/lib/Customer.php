@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -43,8 +45,6 @@ namespace Stripe;
  */
 class Customer extends ApiResource
 {
-    const OBJECT_NAME = 'customer';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Delete;
@@ -52,10 +52,11 @@ class Customer extends ApiResource
     use ApiOperations\Retrieve;
     use ApiOperations\Search;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'customer';
 
-    const TAX_EXEMPT_EXEMPT = 'exempt';
-    const TAX_EXEMPT_NONE = 'none';
-    const TAX_EXEMPT_REVERSE = 'reverse';
+    public const TAX_EXEMPT_EXEMPT = 'exempt';
+    public const TAX_EXEMPT_NONE = 'none';
+    public const TAX_EXEMPT_REVERSE = 'reverse';
 
     public static function getSavedNestedResources()
     {
@@ -75,10 +76,10 @@ class Customer extends ApiResource
      *
      * @return \Stripe\Customer the updated customer
      */
-    public function deleteDiscount($params = null, $opts = null)
+    public function deleteDiscount($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/discount';
-        list($response, $opts) = $this->_request('delete', $url, $params, $opts);
+        [$response, $opts] = $this->_request('delete', $url, $params, $opts);
         $this->refreshFrom(['discount' => null], $opts, true);
 
         return $this;
@@ -96,7 +97,7 @@ class Customer extends ApiResource
     public static function allPaymentMethods($id, $params = null, $opts = null)
     {
         $url = static::resourceUrl($id) . '/payment_methods';
-        list($response, $opts) = static::_staticRequest('get', $url, $params, $opts);
+        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
 
@@ -104,18 +105,16 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param string $payment_method
      * @param null|array $params
      * @param null|array|string $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
      * @return \Stripe\Customer the retrieved customer
      */
-    public function retrievePaymentMethod($payment_method, $params = null, $opts = null)
+    public function retrievePaymentMethod(string $payment_method, $params = null, $opts = null)
     {
         $url = $this->instanceUrl() . '/payment_methods/' . $payment_method;
-        list($response, $opts) = $this->_request('get', $url, $params, $opts);
+        [$response, $opts] = $this->_request('get', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response, $opts);
         $obj->setLastResponse($response);
 
@@ -137,7 +136,7 @@ class Customer extends ApiResource
         return self::_searchResource($url, $params, $opts);
     }
 
-    const PATH_CASH_BALANCE = '/cash_balance';
+    public const PATH_CASH_BALANCE = '/cash_balance';
 
     /**
      * @param string $id the ID of the customer to which the cash balance belongs
@@ -168,7 +167,7 @@ class Customer extends ApiResource
     {
         return self::_updateNestedResource($id, static::PATH_CASH_BALANCE, $params, $opts);
     }
-    const PATH_BALANCE_TRANSACTIONS = '/balance_transactions';
+    public const PATH_BALANCE_TRANSACTIONS = '/balance_transactions';
 
     /**
      * @param string $id the ID of the customer on which to retrieve the customer balance transactions
@@ -227,7 +226,7 @@ class Customer extends ApiResource
     {
         return self::_updateNestedResource($id, static::PATH_BALANCE_TRANSACTIONS, $balanceTransactionId, $params, $opts);
     }
-    const PATH_CASH_BALANCE_TRANSACTIONS = '/cash_balance_transactions';
+    public const PATH_CASH_BALANCE_TRANSACTIONS = '/cash_balance_transactions';
 
     /**
      * @param string $id the ID of the customer on which to retrieve the customer cash balance transactions
@@ -257,7 +256,7 @@ class Customer extends ApiResource
     {
         return self::_retrieveNestedResource($id, static::PATH_CASH_BALANCE_TRANSACTIONS, $cashBalanceTransactionId, $params, $opts);
     }
-    const PATH_SOURCES = '/sources';
+    public const PATH_SOURCES = '/sources';
 
     /**
      * @param string $id the ID of the customer on which to retrieve the payment sources
@@ -331,7 +330,7 @@ class Customer extends ApiResource
     {
         return self::_updateNestedResource($id, static::PATH_SOURCES, $sourceId, $params, $opts);
     }
-    const PATH_TAX_IDS = '/tax_ids';
+    public const PATH_TAX_IDS = '/tax_ids';
 
     /**
      * @param string $id the ID of the customer on which to retrieve the tax ids

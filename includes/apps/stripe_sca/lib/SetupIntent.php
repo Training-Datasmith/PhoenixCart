@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -66,19 +68,18 @@ namespace Stripe;
  */
 class SetupIntent extends ApiResource
 {
-    const OBJECT_NAME = 'setup_intent';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Retrieve;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'setup_intent';
 
-    const STATUS_CANCELED = 'canceled';
-    const STATUS_PROCESSING = 'processing';
-    const STATUS_REQUIRES_ACTION = 'requires_action';
-    const STATUS_REQUIRES_CONFIRMATION = 'requires_confirmation';
-    const STATUS_REQUIRES_PAYMENT_METHOD = 'requires_payment_method';
-    const STATUS_SUCCEEDED = 'succeeded';
+    public const STATUS_CANCELED = 'canceled';
+    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_REQUIRES_ACTION = 'requires_action';
+    public const STATUS_REQUIRES_CONFIRMATION = 'requires_confirmation';
+    public const STATUS_REQUIRES_PAYMENT_METHOD = 'requires_payment_method';
+    public const STATUS_SUCCEEDED = 'succeeded';
 
     /**
      * @param null|array $params
@@ -88,10 +89,10 @@ class SetupIntent extends ApiResource
      *
      * @return \Stripe\SetupIntent the canceled setup intent
      */
-    public function cancel($params = null, $opts = null)
+    public function cancel($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/cancel';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -105,10 +106,10 @@ class SetupIntent extends ApiResource
      *
      * @return \Stripe\SetupIntent the confirmed setup intent
      */
-    public function confirm($params = null, $opts = null)
+    public function confirm($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/confirm';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -122,10 +123,10 @@ class SetupIntent extends ApiResource
      *
      * @return \Stripe\SetupIntent the verified setup intent
      */
-    public function verifyMicrodeposits($params = null, $opts = null)
+    public function verifyMicrodeposits($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/verify_microdeposits';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

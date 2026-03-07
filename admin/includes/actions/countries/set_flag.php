@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,6 +12,6 @@
   Released under the GNU General Public License
 */
 
-  $db->query("UPDATE countries SET status = " . (int)$_GET['flag'] . " WHERE countries_id = " . (int)$_GET['cID']);
+$db->query('UPDATE countries SET status = ' . (int)$_GET['flag'] . ' WHERE countries_id = ' . (int)$_GET['cID']);
 
-  return $Admin->link('countries.php')->retain_query_except(['action', 'flag']);
+return $Admin->link('countries.php')->retain_query_except(['action', 'flag']);

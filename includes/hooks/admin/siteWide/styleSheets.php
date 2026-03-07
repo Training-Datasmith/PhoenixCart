@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,14 +12,14 @@
   Released under the GNU General Public License
 */
 
-class hook_admin_siteWide_styleSheets {
+class hook_admin_siteWide_styleSheets
+{
+    public function listen_injectSiteStart(): string
+    {
+        $admin_css = '<!-- stylesheets hooked -->' . PHP_EOL;
+        $admin_css .= '<style>* {min-height: 0.01px;} .form-control-feedback { position: absolute; width: auto; top: 7px; right: 45px; margin-top: 0; }</style>' . PHP_EOL;
 
-  function listen_injectSiteStart() {
-    $admin_css = '<!-- stylesheets hooked -->' . PHP_EOL;
-    $admin_css .= '<style>* {min-height: 0.01px;} .form-control-feedback { position: absolute; width: auto; top: 7px; right: 45px; margin-top: 0; }</style>' . PHP_EOL;
-    $admin_css .= '<link href="includes/stylesheet.css" rel="stylesheet">' . PHP_EOL;
-
-    return $admin_css;
-  }
+        return $admin_css . ('<link href="includes/stylesheet.css" rel="stylesheet">' . PHP_EOL);
+    }
 
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($GLOBALS['table_definition']['info']->languages_id)) {
+if (isset($GLOBALS['table_definition']['info']->languages_id)) {
     $lInfo = &$GLOBALS['table_definition']['info'];
     $heading = $lInfo->name;
     $link = $GLOBALS['link']->set_parameter('lID', (int)$GLOBALS['table_definition']['info']->languages_id);
@@ -22,4 +24,4 @@
     ];
     $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_DIRECTORY, DIR_WS_CATALOG . 'includes/languages/', $lInfo->directory)];
     $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_SORT_ORDER, $lInfo->sort_order)];
-  }
+}

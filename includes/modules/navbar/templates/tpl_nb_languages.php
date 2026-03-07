@@ -5,15 +5,15 @@
   <div class="dropdown-menu<?= (('Right' === MODULE_NAVBAR_LANGUAGES_CONTENT_PLACEMENT) ? ' dropdown-menu-end' : '') ?>" aria-labelledby="navDropdownLanguages">
     <?php
     foreach ($lng->catalog_languages as $key => $value) {
-      $image = Text::ltrim_once(language::map_to_translation("images/{$value['image']}", $value['directory']), DIR_FS_CATALOG);
-      
-      $active = ($lng->language['code'] == $key) ? ' active' : '';
-      
-      echo '<a class="dropdown-item' . $active . '" href="'
-           . $GLOBALS['Linker']->build()->retain_query_except(['currency'])->set_parameter('language', $key)
-           . '">'
-           . (new Image($image, [], htmlspecialchars($value['name'])))->set_responsive(false)
-           . ' ' . $value['name'] . '</a>' . PHP_EOL;
+        $image = Text::ltrim_once(language::map_to_translation("images/{$value['image']}", $value['directory']), DIR_FS_CATALOG);
+
+        $active = ($lng->language['code'] == $key) ? ' active' : '';
+
+        echo '<a class="dropdown-item' . $active . '" href="'
+             . $GLOBALS['Linker']->build()->retain_query_except(['currency'])->set_parameter('language', $key)
+             . '">'
+             . (new Image($image, [], htmlspecialchars((string) $value['name'])))->set_responsive(false)
+             . ' ' . $value['name'] . '</a>' . PHP_EOL;
     }
     ?>
   </div>
@@ -30,4 +30,4 @@
 
   Released under the GNU General Public License
 */
-?>
+    ?>

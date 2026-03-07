@@ -10,23 +10,23 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('account.php'));
-  $breadcrumb->add(NAVBAR_TITLE_2, $Linker->build());
+$breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('account.php'));
+$breadcrumb->add(NAVBAR_TITLE_2, $Linker->build());
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <h1 class="display-4 mb-4"><?= HEADING_TITLE ?></h1>
 
 <?php
   if ($messageStack->size($message_stack_area) > 0) {
-    echo $messageStack->output($message_stack_area);
+      echo $messageStack->output($message_stack_area);
   }
 
-  echo (new Form('account_edit', $Linker->build(), 'post', ['class' => 'was-validated']))->hide('action', 'process');
+echo (new Form('account_edit', $Linker->build(), 'post', ['class' => 'was-validated']))->hide('action', 'process');
 
-  $customer_data->display_input($customer_data->get_fields_for_page('account_edit'), $customer->fetch_to_address());
-  echo $hooks->cat('injectFormDisplay');
+$customer_data->display_input($customer_data->get_fields_for_page('account_edit'), $customer->fetch_to_address());
+echo $hooks->cat('injectFormDisplay');
 ?>
 
   <div class="d-grid">

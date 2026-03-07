@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  $dir_fs_document_root = rtrim($_POST['DIR_FS_DOCUMENT_ROOT'], '/\\') . '/';
+$dir_fs_document_root = rtrim((string) $_POST['DIR_FS_DOCUMENT_ROOT'], '/\\') . '/';
 ?>
 
 <div class="row">
@@ -47,22 +47,22 @@
 
       <div class="form-floating mb-3">
         <?= (new Input('CFG_STORE_NAME', ['id' => 'CFG_STORE_NAME', 'placeholder' => TEXT_STORE_NAME_PLACEHOLDER]))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_STORE_NAME_EXPLANATION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_STORE_NAME_EXPLANATION ?>
         <label for="CFG_STORE_NAME"><?= TEXT_STORE_NAME ?></label>
       </div>
 
       <div class="form-floating mb-3">
         <?= (new Input('CFG_STORE_OWNER_NAME', ['id' => 'CFG_STORE_OWNER_NAME', 'placeholder' => TEXT_OWNER_NAME_PLACEHOLDER]))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_OWNER_NAME_EXPLANATION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_OWNER_NAME_EXPLANATION ?>
         <label for="CFG_STORE_OWNER_NAME"><?= TEXT_OWNER_NAME ?></label>
       </div>
 
       <div class="form-floating mb-3">
         <?= (new Input('CFG_STORE_OWNER_EMAIL_ADDRESS', ['id' => 'CFG_STORE_OWNER_EMAIL_ADDRESS', 'placeholder' => TEXT_OWNER_EMAIL_PLACEHOLDER], 'email'))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_OWNER_EMAIL_EXPLANATION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_OWNER_EMAIL_EXPLANATION ?>
         <label for="CFG_STORE_OWNER_EMAIL_ADDRESS"><?= TEXT_OWNER_EMAIL ?></label>
       </div>
 
@@ -70,15 +70,15 @@
 
       <div class="form-floating mb-3">
         <?= (new Input('CFG_ADMINISTRATOR_USERNAME', ['id' => 'CFG_ADMINISTRATOR_USERNAME', 'placeholder' => TEXT_ADMIN_USERNAME_PLACEHOLDER]))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_ADMIN_USERNAME_EXPLANATION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_ADMIN_USERNAME_EXPLANATION ?>
         <label for="CFG_ADMINISTRATOR_USERNAME"><?= TEXT_ADMIN_USERNAME ?></label>
       </div>
 
       <div class="form-floating mb-3">
         <?= (new Input('CFG_ADMINISTRATOR_PASSWORD', ['id' => 'CFG_ADMINISTRATOR_PASSWORD', 'placeholder' => '']))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_ADMIN_PASSWORD_EXPLANATION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_ADMIN_PASSWORD_EXPLANATION ?>
         <label for="CFG_ADMINISTRATOR_PASSWORD"><?= TEXT_ADMIN_PASSWORD ?></label>
       </div>
 
@@ -86,11 +86,11 @@
 
 <?php
   if (Path::is_writable($dir_fs_document_root) && Path::is_writable($dir_fs_document_root . 'admin')) {
-?>
+      ?>
       <div class="form-floating mb-3">
         <?= (new Input('CFG_ADMIN_DIRECTORY', ['title' => TEXT_ADMIN_DIRECTORY_ERROR, 'pattern' => '^(?![aA][dD][mM][iI][nN]$).*$', 'value' => 'admin', 'id' => 'CFG_ADMIN_DIRECTORY']))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_ADMIN_DIRECTORY_EXPLANATION ?>
+      TEXT_REQUIRED_INFORMATION,
+      TEXT_ADMIN_DIRECTORY_EXPLANATION ?>
         <label for="CFG_ADMIN_DIRECTORY"><?= TEXT_ADMIN_DIRECTORY ?></label>
       </div>
 <?php
@@ -99,18 +99,18 @@
 
       <div class="form-floating mb-3">
         <?= (new Select('CFG_TIME_ZONE', Installer::load_time_zones(), ['id' => 'CFG_TIME_ZONE']))->set_default_selection(date_default_timezone_get()),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_TIME_ZONE_EXPLANATION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_TIME_ZONE_EXPLANATION ?>
         <label for="CFG_TIME_ZONE"><?= TEXT_TIME_ZONE ?></label>
       </div>
 
       <p class="d-grid"><?= new Button(TEXT_CONTINUE_STEP_4, 'fas fa-angle-right', 'btn-success') ?></p>
 
       <?php
-      foreach ( array_diff_key($_POST, ['x' => 0, 'y' => 1]) as $key => $value ) {
-        echo new Input($key, ['value' => $value], 'hidden');
+      foreach (array_diff_key($_POST, ['x' => 0, 'y' => 1]) as $key => $value) {
+          echo new Input($key, ['value' => $value], 'hidden');
       }
-      ?>
+?>
 
     </form>
   </div>

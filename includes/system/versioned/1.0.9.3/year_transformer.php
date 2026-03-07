@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,12 +37,13 @@ THE SOFTWARE.
  *
  * @internal
  */
-class YearTransformer extends Transformer {
-
+class YearTransformer extends Transformer
+{
     /**
      * {@inheritdoc}
      */
-    public function format(\DateTime $dateTime, int $length): string {
+    public function format(\DateTime $dateTime, int $length): string
+    {
         if (2 === $length) {
             return $dateTime->format('y');
         }
@@ -51,14 +54,16 @@ class YearTransformer extends Transformer {
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string {
+    public function getReverseMatchingRegExp(int $length): string
+    {
         return 2 === $length ? '\d{2}' : '\d{1,4}';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function extractDateOptions(string $matched, int $length): array {
+    public function extractDateOptions(string $matched, int $length): array
+    {
         return [
             'year' => (int) $matched,
         ];

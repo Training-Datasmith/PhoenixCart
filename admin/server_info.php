@@ -10,16 +10,16 @@
   Released under the GNU General Public License
 */
 
-  $always_valid_actions = ['save', 'export'];
-  require 'includes/application_top.php';
+$always_valid_actions = ['save', 'export'];
+require 'includes/application_top.php';
 
-  $system_info = new system_info();
-  
-  Guarantor::ensure_global('Admin');
+$system_info = new system_info();
 
-  require 'includes/segments/process_action.php';
-  
-  require 'includes/template_top.php';
+Guarantor::ensure_global('Admin');
+
+require 'includes/segments/process_action.php';
+
+require 'includes/template_top.php';
 ?>
 
   <div class="row">
@@ -29,16 +29,16 @@
     <div class="col-12 col-lg-6 text-start text-lg-end align-self-center pb-1">
       <?=
       $Admin->button(GET_HELP, '', 'btn-dark', GET_HELP_LINK, ['newwindow' => true]),
-      $admin_hooks->cat('extraButtons')
-      ?>
+$admin_hooks->cat('extraButtons')
+?>
     </div>
   </div>
 
 <?php
   if ($view_file = $Admin->locate('/views', $action)) {
-    require $view_file;
+      require $view_file;
   }
 
-  require 'includes/template_bottom.php';
-  require 'includes/application_bottom.php';
+require 'includes/template_bottom.php';
+require 'includes/application_bottom.php';
 ?>

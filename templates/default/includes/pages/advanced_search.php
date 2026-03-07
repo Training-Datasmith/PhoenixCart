@@ -10,16 +10,16 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('advanced_search.php'));
+$breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('advanced_search.php'));
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <h1 class="display-4 mb-4"><?= HEADING_TITLE_1 ?></h1>
 
 <?php
   if ($messageStack->size('search') > 0) {
-    echo $messageStack->output('search');
+      echo $messageStack->output('search');
   }
 ?>
 
@@ -46,9 +46,9 @@
     'show_footer' => false,
   ];
 
-  ob_start();
-  include Guarantor::ensure_global('Template')->map('modal.php', 'component');
-  ?>
+ob_start();
+include Guarantor::ensure_global('Template')->map('modal.php', 'component');
+?>
 
   <hr>
 
@@ -67,10 +67,10 @@
     <div class="col">
       <div class="form-floating">
         <?= new Select('manufacturers_id', array_merge(
-          [['id' => '', 'text' => TEXT_ALL_MANUFACTURERS]],
-          $db->fetch_all("SELECT manufacturers_id AS id, manufacturers_name AS text FROM manufacturers ORDER BY manufacturers_name")
-          ), ['id' => 'entryManufacturers'])
-        ?>
+            [['id' => '', 'text' => TEXT_ALL_MANUFACTURERS]],
+            $db->fetch_all('SELECT manufacturers_id AS id, manufacturers_name AS text FROM manufacturers ORDER BY manufacturers_name')
+        ), ['id' => 'entryManufacturers'])
+?>
         <label for="entryManufacturers"><?= ENTRY_MANUFACTURERS ?></label>
       </div>
     </div>

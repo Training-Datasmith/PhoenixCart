@@ -10,23 +10,23 @@
     </thead>
     <tbody>
       <?php
-      foreach ($port_my_data['YOU']['SITE']['COOKIES']['LIST'] as $k => $v) {
-        echo '<tr>';
+      foreach ($port_my_data['YOU']['SITE']['COOKIES']['LIST'] as $v) {
+          echo '<tr>';
           echo '<th class="w-50">';
-            echo $v['NAME'];
-            if ($v['NAME'] == session_name()) {
+          echo $v['NAME'];
+          if ($v['NAME'] == session_name()) {
               echo '<span class="badge bg-secondary ms-2">' . MODULE_CONTENT_GDPR_COOKIES_REQUIRED . '</span>';
-            }
+          }
           echo '</th>';
           echo '<td>';
-            if ($v['NAME'] != session_name()) {
+          if ($v['NAME'] != session_name()) {
               echo '<span class="float-end"><a role="button" data-cookie-sess="' . $v['NAME'] . '" class="btn btn-sm btn-danger text-white btn-delete text-white btn-delete-cookie">' . MODULE_CONTENT_GDPR_COOKIES_DELETE . '</a></span>';
-            }
-            echo $v['CONTENT'];
+          }
+          echo $v['CONTENT'];
           echo '</td>';
-        echo '</tr>';
+          echo '</tr>';
       }
-      ?>
+?>
     </tbody>
   </table>
 </div>

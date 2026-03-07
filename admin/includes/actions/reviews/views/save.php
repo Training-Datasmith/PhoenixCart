@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  echo $form;
+echo $form;
 ?>
     <div class="row mb-2" id="zProduct">
       <label for="reviewProduct" class="col-form-label col-sm-3 text-start text-sm-end"><?= ENTRY_PRODUCT ?></label>
@@ -19,7 +19,7 @@
         isset($rInfo->products_name)
         ? new Input('products_name', ['value' => $rInfo->products_name, 'readonly' => null, 'class' => 'form-control-plaintext', 'id' => 'reviewProduct'])
         : Products::select('products_id', ['class' => 'form-select', 'id' => 'reviewProduct'])->require()
-        ?>
+?>
       </div>
     </div>
 
@@ -27,10 +27,10 @@
       <label for="reviewCustomer" class="col-form-label col-sm-3 text-start text-sm-end"><?= ENTRY_FROM ?></label>
       <div class="col-sm-9">
         <?=
-        isset($rInfo->customers_name)
-        ? new Input('customers_name', ['value' => $rInfo->customers_name, 'readonly' => null, 'class' => 'form-control-plaintext', 'id' => 'reviewCustomer'])
-        : Customers::select('customer_id', ['class' => 'form-select', 'id' => 'reviewCustomer'])->require()
-        ?>
+isset($rInfo->customers_name)
+? new Input('customers_name', ['value' => $rInfo->customers_name, 'readonly' => null, 'class' => 'form-control-plaintext', 'id' => 'reviewCustomer'])
+: Customers::select('customer_id', ['class' => 'form-select', 'id' => 'reviewCustomer'])->require()
+?>
       </div>
     </div>
 
@@ -39,13 +39,13 @@
       <div class="col-sm-9">
         <span class="fw-bold text-danger me-1"><?= TEXT_BAD ?></span>
         <?php
-        for ($i = 1; $i <= 5; $i++) {
-          echo '<div class="form-check form-check-inline">';
-            echo (new Tickable('reviews_rating', ['value' => "$i", 'class' => 'form-check-input', 'id' => "rating_$i"], 'radio'))->tick($i == ($rInfo->reviews_rating ?? 5));
-            echo '<label class="form-check-label" for="rating_' . $i . '">' . $i . '</label>';
-          echo '</div>';
-        }
-        ?>
+for ($i = 1; $i <= 5; $i++) {
+    echo '<div class="form-check form-check-inline">';
+    echo (new Tickable('reviews_rating', ['value' => "$i", 'class' => 'form-check-input', 'id' => "rating_$i"], 'radio'))->tick($i == ($rInfo->reviews_rating ?? 5));
+    echo '<label class="form-check-label" for="rating_' . $i . '">' . $i . '</label>';
+    echo '</div>';
+}
+?>
         <span class="fw-bold text-danger"><?= TEXT_GOOD ?></span>
       </div>
     </div>

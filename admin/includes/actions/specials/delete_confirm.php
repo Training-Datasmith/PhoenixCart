@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,6 +12,6 @@
   Released under the GNU General Public License
 */
 
-  $db->query("DELETE FROM specials WHERE specials_id = " . (int)Text::input($_GET['sID']));
+$db->query('DELETE FROM specials WHERE specials_id = ' . (int)Text::input($_GET['sID']));
 
-  return $Admin->link('specials.php')->retain_query_except(['action', 'sID']);
+return $Admin->link('specials.php')->retain_query_except(['action', 'sID']);

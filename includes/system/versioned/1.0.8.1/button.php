@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,81 +12,83 @@
   Released under the GNU General Public License
 */
 
-  class Button extends html_element {
-
+class Button extends html_element implements \Stringable
+{
     protected static $count = 1;
 
-    protected $icon;
-    protected $title;
-
-    public function __construct(string $title = '', string $icon = null, string $style = null, array $parameters = [], $link = null) {
-      parent::__construct($parameters);
-      $this->append_css('btn ' . ($style ?? 'btn-outline-secondary'));
-      $this->icon = $icon;
-      $this->title = $title;
-      if (is_string($link)) {
-        $this->set('href', $link);
-      } elseif (!is_null($link)) {
-        $this->parameters['href'] = $link;
-      }
+    public function __construct(protected string $title = '', protected ?string $icon = null, string $style = null, array $parameters = [], $link = null)
+    {
+        parent::__construct($parameters);
+        $this->append_css('btn ' . ($style ?? 'btn-outline-secondary'));
+        if (is_string($link)) {
+            $this->set('href', $link);
+        } elseif (!is_null($link)) {
+            $this->parameters['href'] = $link;
+        }
     }
 
-    public function get_count() {
-      return static::$count;
+    public function get_count()
+    {
+        return static::$count;
     }
 
-    public function get_icon() {
-      return $this->icon;
+    public function get_icon()
+    {
+        return $this->icon;
     }
 
-    public function get_title() {
-      return $this->title;
+    public function get_title()
+    {
+        return $this->title;
     }
 
-    public function set_icon(string $icon) {
-      $this->icon = $icon;
-      return $this;
+    public function set_icon(string $icon): static
+    {
+        $this->icon = $icon;
+        return $this;
     }
 
-    public function set_title(string $title) {
-      $this->title = $title;
-      return $this;
+    public function set_title(string $title): static
+    {
+        $this->title = $title;
+        return $this;
     }
 
-    public function __toString() {
-      if ( !isset($this->parameters['type']) || !in_array($this->parameters['type'], ['submit', 'button', 'reset']) ) {
-        $this->parameters['type'] = 'submit';
-      }
-
-      if ( isset($this->parameters['href']) && ('reset' === $this->parameters['type']) ) {
-        trigger_error('Cannot use links with reset buttons.');
-        unset($this->parameters['href']);
-      }
-
-      if ( isset($this->parameters['href']) ) {
-        unset($this->parameters['type']);
-        if ( isset($this->parameters['newwindow']) ) {
-          $this->set('target', '_blank');
-          $this->set('rel', 'noreferrer');
-          $this->delete('newwindow');
+    public function __toString(): string
+    {
+        if (!isset($this->parameters['type']) || !in_array($this->parameters['type'], ['submit', 'button', 'reset'])) {
+            $this->parameters['type'] = 'submit';
         }
 
-        $this->set('id', 'btn' . static::$count);
-        ++static::$count;
+        if (isset($this->parameters['href']) && ('reset' === $this->parameters['type'])) {
+            trigger_error('Cannot use links with reset buttons.');
+            unset($this->parameters['href']);
+        }
 
-        $button = '<a';
-        $closing_tag = '</a>';
-      } else {
-        $button = '<button';
-        $closing_tag = '</button>';
-      }
+        if (isset($this->parameters['href'])) {
+            unset($this->parameters['type']);
+            if (isset($this->parameters['newwindow'])) {
+                $this->set('target', '_blank');
+                $this->set('rel', 'noreferrer');
+                $this->delete('newwindow');
+            }
 
-      $button .= $this->stringify_parameters() . '>';
+            $this->set('id', 'btn' . static::$count);
+            ++static::$count;
 
-      if (isset($this->icon) && !Text::is_empty($this->icon)) {
-        $button .= ' <span class="' . $this->icon . '" aria-hidden="true"></span> ';
-      }
+            $button = '<a';
+            $closing_tag = '</a>';
+        } else {
+            $button = '<button';
+            $closing_tag = '</button>';
+        }
 
-      return "$button{$this->title}$closing_tag";
+        $button .= $this->stringify_parameters() . '>';
+
+        if (isset($this->icon) && !Text::is_empty($this->icon)) {
+            $button .= ' <span class="' . $this->icon . '" aria-hidden="true"></span> ';
+        }
+
+        return "$button{$this->title}$closing_tag";
     }
-  }
+}

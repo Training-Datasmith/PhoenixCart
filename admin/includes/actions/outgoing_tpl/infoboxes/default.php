@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($table_definition['info']->id)) {
+if (isset($table_definition['info']->id)) {
     $oInfo = &$table_definition['info'];
     $link = $GLOBALS['link']->set_parameter('oID', (int)$oInfo->id);
     $heading = $oInfo->title;
@@ -42,22 +44,24 @@ eod;
     $contents[] = [
       'class' => 'd-grid',
       'text' => $modal . '<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#emailModal">' . IMAGE_VIEW_EMAIL . '</button>'];
-      
+
     $merged_tags = $GLOBALS['available_merge_tags'];
-     
+
     include_once(DIR_FS_CATALOG . 'includes/modules/outgoing/' . $oInfo->slug . '.php');
-    $merge_tags = call_user_func(array('Outgoing_' . $oInfo->slug, 'merge_tags'));
+    $merge_tags = call_user_func(['Outgoing_' . $oInfo->slug, 'merge_tags']);
 
     foreach ($merge_tags[$oInfo->slug] as $nn => $mm) {
-      $merged_tags[$nn] = $mm;
+        $merged_tags[$nn] = $mm;
     }
 
     $slug_tags = null;
     foreach ($merged_tags as $am => $bm) {
-      $slug_tags .= "<p><b>$am</b> - $bm</p>";
+        $slug_tags .= "<p><b>$am</b> - $bm</p>";
     }
 
     $contents[] = ['text' => $slug_tags];
-    
-    if (!Text::is_empty($oInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_LAST_MODIFIED, $oInfo->last_modified)];
-  }
+
+    if (!Text::is_empty($oInfo->last_modified)) {
+        $contents[] = ['text' => sprintf(TEXT_LAST_MODIFIED, $oInfo->last_modified)];
+    }
+}

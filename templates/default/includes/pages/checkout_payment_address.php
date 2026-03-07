@@ -10,19 +10,19 @@
   Released under the GNU General Public License
 */
 
-  $hooks->register_pipeline('progress');
+$hooks->register_pipeline('progress');
 
-  $breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('checkout_payment.php'));
-  $breadcrumb->add(NAVBAR_TITLE_2, $Linker->build('checkout_payment_address.php'));
+$breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('checkout_payment.php'));
+$breadcrumb->add(NAVBAR_TITLE_2, $Linker->build('checkout_payment_address.php'));
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <h1 class="display-4 mb-4"><?= HEADING_TITLE ?></h1>
 
 <?php
   if ($messageStack->size($message_stack_area) > 0) {
-    echo $messageStack->output($message_stack_area);
+      echo $messageStack->output($message_stack_area);
   }
 ?>
 
@@ -33,10 +33,10 @@
         <table class="table border table-hover m-0">
           <?php
   $addresses_query = $customer->get_all_addresses_query();
-  while ($address = $addresses_query->fetch_assoc()) {
+while ($address = $addresses_query->fetch_assoc()) {
     $label_for = 'cpa_' . $address['address_book_id'];
     $tickable = new Tickable('address', ['value' => $address['address_book_id'], 'id' => $label_for, 'aria-describedby' => $label_for, 'class' => 'form-check-input'], 'radio');
-?>
+    ?>
           <tr class="table-selection">
             <td>
               <label for="<?= $label_for ?>"><?= $customer_data->get_module('address')->format($address, true, ' ', ', ') ?></label>
@@ -48,7 +48,7 @@
             </td>
           </tr>
           <?php
-  }
+}
 ?>
         </table>
         <div class="mt-1">
@@ -71,8 +71,8 @@
 
   <?php
   if ($addresses_count < MAX_ADDRESS_BOOK_ENTRIES) {
-    $form = new Form('checkout_new_address', $Linker->build('checkout_payment_address.php'), 'post', ['class' => 'was-validated']);
-?>
+      $form = new Form('checkout_new_address', $Linker->build('checkout_payment_address.php'), 'post', ['class' => 'was-validated']);
+      ?>
 
     <hr>
 
@@ -81,14 +81,14 @@
     <p class="fw-lighter"><?= TEXT_CREATE_NEW_PAYMENT_ADDRESS ?></p>
 
     <?php
-    echo $form->hide('action', 'submit') . PHP_EOL;
-    require $Template->map('checkout_new_address.php', 'component');
-    echo $hooks->cat('injectFormDisplay');
-    
-    echo '<div class="d-grid">';
-    echo new Button(BUTTON_ADD_NEW_ADDRESS, 'fas fa-user-cog', 'btn-success btn-lg');
-    echo '</div>';
-    echo '</form>' . PHP_EOL;
+          echo $form->hide('action', 'submit') . PHP_EOL;
+      require $Template->map('checkout_new_address.php', 'component');
+      echo $hooks->cat('injectFormDisplay');
+
+      echo '<div class="d-grid">';
+      echo new Button(BUTTON_ADD_NEW_ADDRESS, 'fas fa-user-cog', 'btn-success btn-lg');
+      echo '</div>';
+      echo '</form>' . PHP_EOL;
   }
 ?>
 

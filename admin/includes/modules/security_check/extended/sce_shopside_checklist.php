@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,22 +12,28 @@
   Released under the GNU General Public License
 */
 
-  class sce_shopside_checklist {
-
+class sce_shopside_checklist
+{
+    /**
+     * @var 'User Checklist'
+     */
     public $title;
     public $type = 'info';
     public $has_doc = false;
 
-    public function __construct() {
-      $this->title = MODULE_SECURITY_CHECK_EXTENDED_SHOPSIDE_CHECKLIST_TITLE;
+    public function __construct()
+    {
+        $this->title = MODULE_SECURITY_CHECK_EXTENDED_SHOPSIDE_CHECKLIST_TITLE;
     }
 
-    public function pass() {
-      return false;
+    public function pass(): bool
+    {
+        return false;
     }
 
-    public function get_message() {
-      return MODULE_SECURITY_CHECK_EXTENDED_SHOPSIDE_CHECKLIST_MESSAGE;
+    public function get_message(): string
+    {
+        return MODULE_SECURITY_CHECK_EXTENDED_SHOPSIDE_CHECKLIST_MESSAGE;
     }
 
-  }
+}

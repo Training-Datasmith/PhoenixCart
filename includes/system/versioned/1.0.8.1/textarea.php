@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,52 +12,37 @@
   Released under the GNU General Public License
 */
 
-  class Textarea extends Input {
-
+class Textarea extends Input
+{
     protected $text = '';
 
-    /**
-     *
-     * @param string $name
-     * @param array $parameters
-     */
-    public function __construct(string $name, array $parameters = []) {
-      parent::__construct($name, $parameters, null);
-    }
+    public function retain_text(): static
+    {
+        if (is_string($text = Request::value($this->get('name'))) && !Text::is_empty($text)) {
+            $this->set_text($text);
+        }
 
-    /**
-     *
-     * @return Textarea
-     */
-    public function retain_text() {
-      if (is_string($text = Request::value($this->get('name'))) && !Text::is_empty($text)) {
-        $this->set_text($text);
-      }
-
-      return $this;
+        return $this;
     }
 
     /**
      *
      * @param string $text
-     * @return Textarea
      */
-    public function set_text($text) {
-      $this->text = $text;
-      return $this;
+    public function set_text($text): static
+    {
+        $this->text = $text;
+        return $this;
     }
 
-    /**
-     *
-     * @return string
-     */
-    public function __toString() {
-// default if not already set
-      $this->parameters += [
-        'class' => 'form-control',
-      ];
+    public function __toString(): string
+    {
+        // default if not already set
+        $this->parameters += [
+          'class' => 'form-control',
+        ];
 
-      return '<textarea' . $this->stringify_parameters() . ' >' . htmlspecialchars($this->text). '</textarea>';
+        return '<textarea' . $this->stringify_parameters() . ' >' . htmlspecialchars((string) $this->text). '</textarea>';
     }
 
-  }
+}

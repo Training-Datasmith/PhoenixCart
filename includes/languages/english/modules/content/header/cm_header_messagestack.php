@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_HEADER_MESSAGESTACK_TITLE = 'Message Stack Notifications';
-  const MODULE_CONTENT_HEADER_MESSAGESTACK_DESCRIPTION = 'Show the Message Stack Notifications on your site.';
+const MODULE_CONTENT_HEADER_MESSAGESTACK_TITLE = 'Message Stack Notifications';
+const MODULE_CONTENT_HEADER_MESSAGESTACK_DESCRIPTION = 'Show the Message Stack Notifications on your site.';

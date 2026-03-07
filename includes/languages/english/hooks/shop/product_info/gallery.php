@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -11,7 +13,7 @@
 */
 
 // fallback if neither of the main gallery modules are installed
- 
+
 const GALLERY_SWIPE_ARROWS = 'True';
 const GALLERY_INDICATORS = 'False';
 

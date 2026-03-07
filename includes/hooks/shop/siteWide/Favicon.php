@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,22 +12,24 @@
   Released under the GNU General Public License
 */
 
-class hook_shop_siteWide_Favicon {
+class hook_shop_siteWide_Favicon
+{
+    public function listen_injectSiteStart(): void
+    {
+        $favicon = '';
+        $array = ['16', '128', '192', '256'];
 
-  public function listen_injectSiteStart() {
-    $favicon = ''; $array = ['16', '128', '192', '256'];
-    
-    foreach ($array as $size) {
-      $favicon_image = HTTP_SERVER . DIR_WS_CATALOG . 'images/favicon/' . $size . '_' . FAVICON_LOGO;
-      
-      $favicon .= <<<favicon
+        foreach ($array as $size) {
+            $favicon_image = HTTP_SERVER . DIR_WS_CATALOG . 'images/favicon/' . $size . '_' . FAVICON_LOGO;
+
+            $favicon .= <<<favicon
 <link rel="icon" href="{$favicon_image}" sizes="{$size}x{$size}">
 
 favicon;
+        }
+
+        $favicon .= '<link rel="apple-touch-icon" href="' . HTTP_SERVER . DIR_WS_CATALOG . 'images/favicon/192_' . FAVICON_LOGO . '">' . PHP_EOL;
+
+        echo $favicon;
     }
-    
-    $favicon .= '<link rel="apple-touch-icon" href="' . HTTP_SERVER . DIR_WS_CATALOG . 'images/favicon/192_' . FAVICON_LOGO . '">' . PHP_EOL; 
-    
-    echo $favicon;
-  }
 }

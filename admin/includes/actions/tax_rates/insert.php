@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,15 +12,15 @@
   Released under the GNU General Public License
 */
 
-  $sql_data = [
-    'tax_zone_id' => (int)Text::input($_POST['tax_zone_id']),
-    'tax_class_id' => (int)Text::input($_POST['tax_class_id']),
-    'tax_rate' => Text::input($_POST['tax_rate']),
-    'tax_description' => Text::prepare($_POST['tax_description']),
-    'tax_priority' => (int)Text::input($_POST['tax_priority']),
-    'date_added' => 'NOW()',
-  ];
+$sql_data = [
+  'tax_zone_id' => (int)Text::input($_POST['tax_zone_id']),
+  'tax_class_id' => (int)Text::input($_POST['tax_class_id']),
+  'tax_rate' => Text::input($_POST['tax_rate']),
+  'tax_description' => Text::prepare($_POST['tax_description']),
+  'tax_priority' => (int)Text::input($_POST['tax_priority']),
+  'date_added' => 'NOW()',
+];
 
-  $db->perform('tax_rates', $sql_data);
+$db->perform('tax_rates', $sql_data);
 
-  return $Admin->link();
+return $Admin->link();

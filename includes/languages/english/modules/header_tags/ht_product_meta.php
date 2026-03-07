@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_HEADER_TAGS_PRODUCT_META_TITLE = 'Product SEO';
-  const MODULE_HEADER_TAGS_PRODUCT_META_DESCRIPTION = 'Add the SEO Meta elements defined when setting up the product, to the header of the product page';
+const MODULE_HEADER_TAGS_PRODUCT_META_TITLE = 'Product SEO';
+const MODULE_HEADER_TAGS_PRODUCT_META_DESCRIPTION = 'Add the SEO Meta elements defined when setting up the product, to the header of the product page';

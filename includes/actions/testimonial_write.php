@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,29 +12,31 @@
   Released under the GNU General Public License
 */
 
-  namespace Phoenix\Actions;
+namespace Phoenix\Actions;
 
-  class testimonial_write {
+class testimonial_write
+{
+    public static function execute(): void
+    {
+        self::load_lang();
 
-    public static function execute() {
-      self::load_lang();
+        $nickname = \Text::input($_POST['nickname']);
+        $text = \Text::input($_POST['text']);
 
-      $nickname = \Text::input($_POST['nickname']);
-      $text = \Text::input($_POST['text']);
+        $GLOBALS['db']->query('INSERT INTO testimonials (customers_id, customers_name, date_added, testimonials_status) VALUES (' . (int)$_SESSION['customer_id'] . ", '" . $GLOBALS['db']->escape($nickname) . "', NOW(), '0')");
 
-      $GLOBALS['db']->query("INSERT INTO testimonials (customers_id, customers_name, date_added, testimonials_status) VALUES (" . (int)$_SESSION['customer_id'] . ", '" . $GLOBALS['db']->escape($nickname) . "', NOW(), '0')");
+        $testimonials_id = mysqli_insert_id($GLOBALS['db']);
 
-      $testimonials_id = mysqli_insert_id($GLOBALS['db']);
+        $GLOBALS['db']->query('INSERT INTO testimonials_description (testimonials_id, languages_id, testimonials_text) VALUES (' . (int)$testimonials_id . ', ' . (int)$_SESSION['languages_id'] . ", '" . $GLOBALS['db']->escape($text) . "')");
 
-      $GLOBALS['db']->query("INSERT INTO testimonials_description (testimonials_id, languages_id, testimonials_text) VALUES (" . (int)$testimonials_id . ", " . (int)$_SESSION['languages_id'] . ", '" . $GLOBALS['db']->escape($text) . "')");
+        $GLOBALS['messageStack']->add_session('testimonial', sprintf(MODULE_CONTENT_TESTIMONIALS_WRITE_THANK_YOU, $nickname), 'success');
 
-      $GLOBALS['messageStack']->add_session('testimonial', sprintf(MODULE_CONTENT_TESTIMONIALS_WRITE_THANK_YOU, $nickname), 'success');
-
-      \Href::redirect(\Guarantor::ensure_global('Linker')->build('testimonials.php'));
+        \Href::redirect(\Guarantor::ensure_global('Linker')->build('testimonials.php'));
     }
 
-    static function load_lang() {
-      require_once \language::map_to_translation('modules/content/testimonials/cm_t_write.php');
+    public static function load_lang(): void
+    {
+        require_once \language::map_to_translation('modules/content/testimonials/cm_t_write.php');
     }
 
-  }
+}

@@ -2,13 +2,12 @@
 
   <?php
   if (isset($_GET['action']) && ($_GET['action'] === 'success')) {
-    printf(FORM_CONTACT_US_SUCCESS, $contact_us_href);
-  }
-  else {
-    echo new Form('contact_us', $GLOBALS['Linker']->build('contact_us.php', ['action' => 'send']), 'post', ['class' => 'was-validated'], true);
+      printf(FORM_CONTACT_US_SUCCESS, $contact_us_href);
+  } else {
+      echo new Form('contact_us', $GLOBALS['Linker']->build('contact_us.php', ['action' => 'send']), 'post', ['class' => 'was-validated'], true);
 
-    echo FORM_CONTACT_US;
-    ?>
+      echo FORM_CONTACT_US;
+      ?>
 
     <div class="form-floating mb-2">
       <?= (new Input('name', ['autocomplete' => 'name', 'id' => 'inputFromName', 'placeholder' => ENTRY_NAME_TEXT]))->require(), FORM_REQUIRED_INPUT; ?>
@@ -35,7 +34,7 @@
   
     <?php
   }
-  ?>
+?>
   
 </div>
 

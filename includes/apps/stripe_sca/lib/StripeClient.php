@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -67,12 +69,9 @@ namespace Stripe;
  */
 class StripeClient extends BaseStripeClient
 {
-    /**
-     * @var \Stripe\Service\CoreServiceFactory
-     */
-    private $coreServiceFactory;
+    private ?\Stripe\Service\CoreServiceFactory $coreServiceFactory = null;
 
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         if (null === $this->coreServiceFactory) {
             $this->coreServiceFactory = new \Stripe\Service\CoreServiceFactory($this);

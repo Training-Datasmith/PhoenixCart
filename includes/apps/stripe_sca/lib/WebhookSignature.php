@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe;
 
 abstract class WebhookSignature
 {
-    const EXPECTED_SCHEME = 'v1';
+    public const EXPECTED_SCHEME = 'v1';
 
     /**
      * Verifies the signature header sent by Stripe. Throws an
@@ -82,7 +84,7 @@ abstract class WebhookSignature
      * @return int the timestamp contained in the header, or -1 if no valid
      *  timestamp is found
      */
-    private static function getTimestamp($header)
+    private static function getTimestamp($header): int
     {
         $items = \explode(',', $header);
 
@@ -108,7 +110,7 @@ abstract class WebhookSignature
      *
      * @return array the list of signatures matching the provided scheme
      */
-    private static function getSignatures($header, $scheme)
+    private static function getSignatures($header, string $scheme): array
     {
         $signatures = [];
         $items = \explode(',', $header);
@@ -133,7 +135,7 @@ abstract class WebhookSignature
      *
      * @return string the signature as a string
      */
-    private static function computeSignature($payload, $secret)
+    private static function computeSignature(string $payload, $secret): string
     {
         return \hash_hmac('sha256', $payload, $secret);
     }

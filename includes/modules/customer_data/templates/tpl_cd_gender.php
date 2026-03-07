@@ -10,18 +10,18 @@
   Released under the GNU General Public License
 */
 
-  $parameters = [
-    'aria-labelledby' => 'atGenderLabel',
-    'class' => 'form-check-input',
-  ];
+$parameters = [
+  'aria-labelledby' => 'atGenderLabel',
+  'class' => 'form-check-input',
+];
 
-  if (!Text::is_empty(ENTRY_GENDER_TEXT)) {
+if (!Text::is_empty(ENTRY_GENDER_TEXT)) {
     $parameters['aria-describedby'] = 'atGender';
-  }
-  
-  if ($this->is_required()) {
+}
+
+if ($this->is_required()) {
     $parameters['required'] = null;
-  }
+}
 ?>
 
   <div class="row mb-2">
@@ -43,14 +43,14 @@
     <label class="input-group-text bg-white col" for="genderF"><?= FEMALE ?></label>
     <?php
     if ($this->is_required() && !Text::is_empty(FORM_REQUIRED_INPUT)) {
-      echo FORM_REQUIRED_INPUT;
+        echo FORM_REQUIRED_INPUT;
     }
-    ?>
+?>
   </div>
 
 <?php
   if (!Text::is_empty(ENTRY_GENDER_TEXT)) {
-?>
+      ?>
       <span id="atGender" class="form-text"><small><?= ENTRY_GENDER_TEXT ?></small></span>
 <?php
   }

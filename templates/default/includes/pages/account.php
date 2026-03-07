@@ -10,13 +10,13 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE, $Linker->build('account.php'));
+$breadcrumb->add(NAVBAR_TITLE, $Linker->build('account.php'));
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 
-  if ($messageStack->size('account') > 0) {
+if ($messageStack->size('account') > 0) {
     echo $messageStack->output('account');
-  }
+}
 ?>
 
 <div class="row"><?= $Template->get_content('account') ?></div>

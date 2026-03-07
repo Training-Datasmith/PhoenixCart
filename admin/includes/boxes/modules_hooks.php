@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,14 +12,14 @@
   Released under the GNU General Public License
 */
 
-  foreach ( $cl_box_groups as &$group ) {
-    if ( $group['heading'] == BOX_HEADING_MODULES ) {
-      $group['apps'][] = [
-        'code' => 'modules_hooks.php',
-        'title' => MODULES_ADMIN_MENU_MODULES_HOOKS,
-        'link' => $GLOBALS['Admin']->link('modules_hooks.php'),
-      ];
+foreach ($cl_box_groups as &$group) {
+    if ($group['heading'] == BOX_HEADING_MODULES) {
+        $group['apps'][] = [
+          'code' => 'modules_hooks.php',
+          'title' => MODULES_ADMIN_MENU_MODULES_HOOKS,
+          'link' => $GLOBALS['Admin']->link('modules_hooks.php'),
+        ];
 
-      break;
+        break;
     }
-  }
+}

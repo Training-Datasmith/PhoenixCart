@@ -10,69 +10,71 @@
   Released under the GNU General Public License
 */
 
-  $db_server = trim($_POST['DB_SERVER']);
-  $db_username = trim($_POST['DB_SERVER_USERNAME']);
-  $db_password = trim($_POST['DB_SERVER_PASSWORD']);
-  $db_database = trim($_POST['DB_DATABASE']);
-  $db = new Database($db_server, $db_username, $db_password, $db_database)
-    or die('No database connection');
+$db_server = trim((string) $_POST['DB_SERVER']);
+$db_username = trim((string) $_POST['DB_SERVER_USERNAME']);
+$db_password = trim((string) $_POST['DB_SERVER_PASSWORD']);
+$db_database = trim((string) $_POST['DB_DATABASE']);
+$db = new Database($db_server, $db_username, $db_password, $db_database)
+  or die('No database connection');
 
-  installer::configure('STORE_NAME', Text::sanitize($_POST['CFG_STORE_NAME']));
-  installer::configure('STORE_OWNER', Text::sanitize($_POST['CFG_STORE_OWNER_NAME']));
-  installer::configure('STORE_OWNER_EMAIL_ADDRESS', Text::sanitize($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS']));
+installer::configure('STORE_NAME', Text::sanitize($_POST['CFG_STORE_NAME']));
+installer::configure('STORE_OWNER', Text::sanitize($_POST['CFG_STORE_OWNER_NAME']));
+installer::configure('STORE_OWNER_EMAIL_ADDRESS', Text::sanitize($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS']));
 
-  $dir_fs_document_root = rtrim($_POST['DIR_FS_DOCUMENT_ROOT'], '/\\');
+$dir_fs_document_root = rtrim((string) $_POST['DIR_FS_DOCUMENT_ROOT'], '/\\');
 
-  if ( !empty($_POST['CFG_ADMINISTRATOR_USERNAME']) ) {
-    $db->query(sprintf(<<<'EOSQL'
+if (!empty($_POST['CFG_ADMINISTRATOR_USERNAME'])) {
+    $db->query(sprintf(
+        <<<'EOSQL'
 INSERT INTO administrators (user_name, user_password) VALUES ('%s', '%s')
  ON DUPLICATE KEY UPDATE user_password = VALUES(user_password)
 EOSQL
-      , $db->escape(Text::sanitize($_POST['CFG_ADMINISTRATOR_USERNAME'])),
-        Password::hash(trim($_POST['CFG_ADMINISTRATOR_PASSWORD']))));
-  }
+        ,
+        $db->escape(Text::sanitize($_POST['CFG_ADMINISTRATOR_USERNAME'])),
+        Password::hash(trim((string) $_POST['CFG_ADMINISTRATOR_PASSWORD']))
+    ));
+}
 
+$writable_directory = "$dir_fs_document_root/includes/work/";
+installer::configure('SESSION_WRITE_DIRECTORY', Text::sanitize($writable_directory));
 
-  $writable_directory = "$dir_fs_document_root/includes/work/";
-  installer::configure('SESSION_WRITE_DIRECTORY', Text::sanitize($writable_directory));
-
-  if ($handle = opendir($writable_directory)) {
+if ($handle = opendir($writable_directory)) {
     while (false !== ($filename = readdir($handle))) {
-      if ('cache' === pathinfo($filename, PATHINFO_EXTENSION)) {
-        @unlink("$writable_directory$filename");
-      }
+        if ('cache' === pathinfo($filename, PATHINFO_EXTENSION)) {
+            @unlink("$writable_directory$filename");
+        }
     }
 
     closedir($handle);
-  }
+}
 
-  $http_url = parse_url($_POST['HTTP_WWW_ADDRESS']);
-  $http_server = $http_url['scheme'] . '://' . $http_url['host'];
-  $http_catalog = $http_url['path'];
-  if (!empty($http_url['port'])) {
+$http_url = parse_url((string) $_POST['HTTP_WWW_ADDRESS']);
+$http_server = $http_url['scheme'] . '://' . $http_url['host'];
+$http_catalog = $http_url['path'];
+if (!empty($http_url['port'])) {
     $http_server .= ':' . $http_url['port'];
-  }
+}
 
-  if (substr($http_catalog, -1) !== '/') {
+if (!str_ends_with($http_catalog, '/')) {
     $http_catalog .= '/';
-  }
+}
 
-  $secure = ('on' === getenv('HTTPS'))
-          ? "\n    'secure' => true,"
-          : '';
+$secure = ('on' === getenv('HTTPS'))
+        ? "\n    'secure' => true,"
+        : '';
 
-  $admin_folder = 'admin';
-  if (!empty($_POST['CFG_ADMIN_DIRECTORY']) && Path::is_writable($dir_fs_document_root) && Path::is_writable("$dir_fs_document_root/admin")) {
-    $admin_folder = preg_replace('{[^a-zA-Z0-9]}', '', trim($_POST['CFG_ADMIN_DIRECTORY'])) ?: 'admin';
-  }
+$admin_folder = 'admin';
+if (!empty($_POST['CFG_ADMIN_DIRECTORY']) && Path::is_writable($dir_fs_document_root) && Path::is_writable("$dir_fs_document_root/admin")) {
+    $admin_folder = preg_replace('{[^a-zA-Z0-9]}', '', trim((string) $_POST['CFG_ADMIN_DIRECTORY'])) ?: 'admin';
+}
 
-  $time_zone = isset($_POST['CFG_TIME_ZONE'])
-             ? "'" . trim($_POST['CFG_TIME_ZONE']) . "'"
-             : 'date_default_timezone_get()';
+$time_zone = isset($_POST['CFG_TIME_ZONE'])
+           ? "'" . trim((string) $_POST['CFG_TIME_ZONE']) . "'"
+           : 'date_default_timezone_get()';
 
-  $sharing_warning = TEXT_SHARING_WARNING;
+$sharing_warning = TEXT_SHARING_WARNING;
 
-  $file_contents = <<<"EOPHP"
+$file_contents = <<<"EOPHP"
 <?php
   error_reporting(E_ALL);
 
@@ -97,11 +99,11 @@ $sharing_warning
 
 EOPHP;
 
-  Installer::burn("$dir_fs_document_root/includes/configure.php", $file_contents);
+Installer::burn("$dir_fs_document_root/includes/configure.php", $file_contents);
 
-  $sharing_warning = TEXT_SHARING_WARNING_ADMIN;
+$sharing_warning = TEXT_SHARING_WARNING_ADMIN;
 
-  $file_contents = <<<"EOPHP"
+$file_contents = <<<"EOPHP"
 <?php
   error_reporting(E_ALL);
 
@@ -133,11 +135,11 @@ $sharing_warning
 
 EOPHP;
 
-  Installer::burn("$dir_fs_document_root/admin/includes/configure.php", $file_contents);
+Installer::burn("$dir_fs_document_root/admin/includes/configure.php", $file_contents);
 
-  if ($admin_folder !== 'admin') {
+if ($admin_folder !== 'admin') {
     @rename("$dir_fs_document_root/admin", "$dir_fs_document_root/$admin_folder");
-  }
+}
 ?>
 
 <div class="row">

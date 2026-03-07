@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,12 +12,12 @@
   Released under the GNU General Public License
 */
 
-  $sql_data = [
-    'tax_class_title' => Text::prepare($_POST['tax_class_title']),
-    'tax_class_description' => Text::prepare($_POST['tax_class_description']),
-    'date_added' => 'NOW()',
-  ];
+$sql_data = [
+  'tax_class_title' => Text::prepare($_POST['tax_class_title']),
+  'tax_class_description' => Text::prepare($_POST['tax_class_description']),
+  'date_added' => 'NOW()',
+];
 
-  $db->perform('tax_class', $sql_data);
+$db->perform('tax_class', $sql_data);
 
-  return $Admin->link();
+return $Admin->link();

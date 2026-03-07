@@ -2,7 +2,7 @@
   <ul class="list-inline">
     <?php
   foreach ($review_ratings as $i => $rating) {
-    echo '<li class="list-inline-item ' . $i . '">' . $rating . '</li>';
+      echo '<li class="list-inline-item ' . $i . '">' . $rating . '</li>';
   }
 ?>
     <li class="list-inline-item border-start ms-2 ps-3"><a href="<?= $review_link ?>"><?= $do_review ?></a></li>

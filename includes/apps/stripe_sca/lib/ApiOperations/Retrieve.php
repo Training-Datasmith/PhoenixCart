@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\ApiOperations;
 
 /**
@@ -16,10 +18,8 @@ trait Retrieve
      * @param null|array|string $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
-     *
-     * @return static
      */
-    public static function retrieve($id, $opts = null)
+    public static function retrieve($id, $opts = null): static
     {
         $opts = \Stripe\Util\RequestOptions::parse($opts);
         $instance = new static($id, $opts);

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -20,7 +22,7 @@ const SLUG_SELECT = '--- Please Select ---';
 
 const TABLE_HEADING_SLUG = 'Template Name';
 const TABLE_HEADING_TITLE = 'Title';
-const TABLE_HEADING_DATE_ADDED = 'Date Added';	
+const TABLE_HEADING_DATE_ADDED = 'Date Added';
 const TABLE_HEADING_ACTION = 'Action';
 
 const TEXT_OUTGOING_SLUG = 'Template Name';

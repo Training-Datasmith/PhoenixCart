@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_IN_TITLE_TITLE        = 'Page Heading';
-  const MODULE_CONTENT_IN_TITLE_DESCRIPTION  = 'Shows the Category Name on individual Category pages.';
+const MODULE_CONTENT_IN_TITLE_TITLE        = 'Page Heading';
+const MODULE_CONTENT_IN_TITLE_DESCRIPTION  = 'Shows the Category Name on individual Category pages.';
 
-  const MODULE_CONTENT_IN_TITLE_PUBLIC_TITLE = '%s';
+const MODULE_CONTENT_IN_TITLE_PUBLIC_TITLE = '%s';

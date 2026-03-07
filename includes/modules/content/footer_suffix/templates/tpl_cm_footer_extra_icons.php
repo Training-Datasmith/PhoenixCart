@@ -1,12 +1,12 @@
 <div class="<?= MODULE_CONTENT_FOOTER_EXTRA_ICONS_CONTENT_WIDTH ?> cm-footer-extra-icons">
   <p><?php
 
-  if ( is_string($brand_icons)) {
-    echo $brand_icons;
+  if (is_string($brand_icons)) {
+      echo $brand_icons;
   } else {
-    foreach ($brand_icons as $icon ) {
-      echo '<i class="' . $icon . '"></i> ';
-    }
+      foreach ($brand_icons as $icon) {
+          echo '<i class="' . $icon . '"></i> ';
+      }
   }
 
 ?></p>

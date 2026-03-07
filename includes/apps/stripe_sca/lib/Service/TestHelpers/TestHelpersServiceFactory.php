@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Service\TestHelpers;
@@ -19,7 +21,7 @@ class TestHelpersServiceFactory extends \Stripe\Service\AbstractServiceFactory
     /**
      * @var array<string, string>
      */
-    private static $classMap = [
+    private static array $classMap = [
         'customers' => CustomerService::class,
         'issuing' => Issuing\IssuingServiceFactory::class,
         'refunds' => RefundService::class,

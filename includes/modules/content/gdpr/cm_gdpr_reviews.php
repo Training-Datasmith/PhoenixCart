@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,51 +12,54 @@
   Released under the GNU General Public License
 */
 
-  class cm_gdpr_reviews extends abstract_executable_module {
+class cm_gdpr_reviews extends abstract_executable_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_CONTENT_GDPR_REVIEWS_';
 
-    const CONFIG_KEY_BASE = 'MODULE_CONTENT_GDPR_REVIEWS_';
-
-    function __construct() {
-      parent::__construct(__FILE__);
+    public function __construct()
+    {
+        parent::__construct(__FILE__);
     }
 
-    public function install($parameter_key = null) {
-      $structure_query = $GLOBALS['db']->query("SHOW COLUMNS FROM reviews LIKE 'is_anon'");
-      if (!mysqli_num_rows($structure_query)) {
-        $GLOBALS['db']->query("ALTER TABLE reviews ADD is_anon ENUM('y','n') NOT NULL DEFAULT 'n'");
-      }
-
-      parent::install($parameter_key);
-    }
-
-    function execute() {
-      global $port_my_data;
-
-      $reviews_query = $GLOBALS['db']->query("select r.*, pd.* from reviews r left join products_description pd on r.products_id = pd.products_id where r.customers_id = " . (int)$_SESSION['customer_id'] . " order by reviews_id desc");
-      $num_reviews = mysqli_num_rows($reviews_query);
-
-      $port_my_data['YOU']['REVIEW']['COUNT'] = $num_reviews;
-
-      if ($num_reviews) {
-        $n = 1;
-        while ($reviews = $reviews_query->fetch_assoc()) {
-          $port_my_data['YOU']['REVIEW']['LIST'][$n]['ID'] = $reviews['reviews_id'];
-          $port_my_data['YOU']['REVIEW']['LIST'][$n]['PRODUCT'] = $reviews['products_name'];
-          $port_my_data['YOU']['REVIEW']['LIST'][$n]['DATE'] = $reviews['date_added'];
-          $port_my_data['YOU']['REVIEW']['LIST'][$n]['RATING'] = $reviews['reviews_rating'];
-          $port_my_data['YOU']['REVIEW']['LIST'][$n]['ANON'] = strtoupper($reviews['is_anon']);
-
-          $n++;
+    public function install($parameter_key = null): void
+    {
+        $structure_query = $GLOBALS['db']->query("SHOW COLUMNS FROM reviews LIKE 'is_anon'");
+        if (!mysqli_num_rows($structure_query)) {
+            $GLOBALS['db']->query("ALTER TABLE reviews ADD is_anon ENUM('y','n') NOT NULL DEFAULT 'n'");
         }
 
-        $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
-        include 'includes/modules/content/cm_template.php';
+        parent::install($parameter_key);
+    }
 
-        // js for delete button
-        $anonymized_text = MODULE_CONTENT_GDPR_REVIEWS_ANONYMIZED;
-        $anonymized_name = MODULE_CONTENT_GDPR_REVIEWS_ANONYMIZED_NAME;
+    public function execute(): void
+    {
+        global $port_my_data;
 
-        $delete_button_js = <<<EOD
+        $reviews_query = $GLOBALS['db']->query('select r.*, pd.* from reviews r left join products_description pd on r.products_id = pd.products_id where r.customers_id = ' . (int)$_SESSION['customer_id'] . ' order by reviews_id desc');
+        $num_reviews = mysqli_num_rows($reviews_query);
+
+        $port_my_data['YOU']['REVIEW']['COUNT'] = $num_reviews;
+
+        if ($num_reviews) {
+            $n = 1;
+            while ($reviews = $reviews_query->fetch_assoc()) {
+                $port_my_data['YOU']['REVIEW']['LIST'][$n]['ID'] = $reviews['reviews_id'];
+                $port_my_data['YOU']['REVIEW']['LIST'][$n]['PRODUCT'] = $reviews['products_name'];
+                $port_my_data['YOU']['REVIEW']['LIST'][$n]['DATE'] = $reviews['date_added'];
+                $port_my_data['YOU']['REVIEW']['LIST'][$n]['RATING'] = $reviews['reviews_rating'];
+                $port_my_data['YOU']['REVIEW']['LIST'][$n]['ANON'] = strtoupper((string) $reviews['is_anon']);
+
+                $n++;
+            }
+
+            $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
+            include 'includes/modules/content/cm_template.php';
+
+            // js for delete button
+            $anonymized_text = MODULE_CONTENT_GDPR_REVIEWS_ANONYMIZED;
+            $anonymized_name = MODULE_CONTENT_GDPR_REVIEWS_ANONYMIZED_NAME;
+
+            $delete_button_js = <<<EOD
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   var buttons = document.querySelectorAll('.btn-update-review');
@@ -95,29 +100,30 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 EOD;
 
-        $GLOBALS['Template']->add_block($delete_button_js, 'footer_scripts');
-      }
+            $GLOBALS['Template']->add_block($delete_button_js, 'footer_scripts');
+        }
     }
 
-    protected function get_parameters() {
-      return [
-        $this->config_key_base . 'STATUS' => [
-          'title' => 'Enable Reviews Module',
-          'value' => 'True',
-          'desc' => 'Should this module be shown on the GDPR page?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-        $this->config_key_base . 'CONTENT_WIDTH' => [
-          'title' => 'Content Container',
-          'value' => 'col-sm-12',
-          'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
-        ],
-        $this->config_key_base . 'SORT_ORDER' => [
-          'title' => 'Sort Order',
-          'value' => '550',
-          'desc' => 'Sort order of display. Lowest is displayed first.',
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          $this->config_key_base . 'STATUS' => [
+            'title' => 'Enable Reviews Module',
+            'value' => 'True',
+            'desc' => 'Should this module be shown on the GDPR page?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+          $this->config_key_base . 'CONTENT_WIDTH' => [
+            'title' => 'Content Container',
+            'value' => 'col-sm-12',
+            'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
+          ],
+          $this->config_key_base . 'SORT_ORDER' => [
+            'title' => 'Sort Order',
+            'value' => '550',
+            'desc' => 'Sort order of display. Lowest is displayed first.',
+          ],
+        ];
     }
 
-  }
+}

@@ -10,16 +10,16 @@
   Released under the GNU General Public License
 */
 
-  $form = new Form('mail', $Admin->link('mail.php', ['action' => 'send_email_to_user']));
+$form = new Form('mail', $Admin->link('mail.php', ['action' => 'send_email_to_user']));
 
 /* Re-Post all POST'ed variables */
-  foreach ($_POST as $key => $value) {
+foreach ($_POST as $key => $value) {
     if (!is_array($value)) {
-      $form->hide($key, htmlspecialchars($value));
+        $form->hide($key, htmlspecialchars((string) $value));
     }
-  }
+}
 
-  echo $form;
+echo $form;
 ?>
 
   <table class="table table-striped">
@@ -29,19 +29,19 @@
     </tr>
     <tr>
       <th><?= TEXT_FROM ?></th>
-      <td><?= htmlspecialchars($_POST['from_name']) ?></td>
+      <td><?= htmlspecialchars((string) $_POST['from_name']) ?></td>
     </tr>
     <tr>
       <th><?= TEXT_FROM_ADDRESS ?></th>
-      <td><?= htmlspecialchars($_POST['from_address']) ?></td>
+      <td><?= htmlspecialchars((string) $_POST['from_address']) ?></td>
     </tr>
     <tr>
       <th><?= TEXT_SUBJECT ?></th>
-      <td><?= htmlspecialchars($_POST['subject']) ?></td>
+      <td><?= htmlspecialchars((string) $_POST['subject']) ?></td>
     </tr>
     <tr>
       <th><?= TEXT_MESSAGE ?></th>
-      <td><?= nl2br(htmlspecialchars($_POST['message'])) ?></td>
+      <td><?= nl2br(htmlspecialchars((string) $_POST['message'])) ?></td>
     </tr>
     <?= $admin_hooks->cat('formPreview') ?>
   </table>

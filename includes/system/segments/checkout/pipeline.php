@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,17 +12,17 @@
   Released under the GNU General Public License
 */
 
-  $hooks->register_pipeline('checkout');
-  foreach ($hooks->generate('startCheckout') as $result) {
+$hooks->register_pipeline('checkout');
+foreach ($hooks->generate('startCheckout') as $result) {
     if (is_string($result)) {
-      $result = [ $result ];
+        $result = [ $result ];
     }
 
     if (is_array($result)) {
-      foreach ($result as $path) {
-        if (is_string($path ?? null) && file_exists($path)) {
-          require $path;
+        foreach ($result as $path) {
+            if (is_string($path ?? null) && file_exists($path)) {
+                require $path;
+            }
         }
-      }
     }
-  }
+}

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Service;
@@ -166,7 +168,7 @@ class QuoteService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
-    public function pdf($id, $readBodyChunkCallable, $params = null, $opts = null)
+    public function pdf($id, $readBodyChunkCallable, $params = null, $opts = null): void
     {
         $opts = \Stripe\Util\RequestOptions::parse($opts);
         if (!isset($opts->apiBase)) {

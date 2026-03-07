@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe;
 
 abstract class OAuth
@@ -42,11 +44,10 @@ abstract class OAuth
     {
         $base = ($opts && \array_key_exists('connect_base', $opts)) ? $opts['connect_base'] : Stripe::$connectBase;
         $requestor = new ApiRequestor(null, $base);
-        list($response, $apiKey) = $requestor->request(
+        [$response, $apiKey] = $requestor->request(
             'post',
             '/oauth/token',
-            $params,
-            null
+            $params
         );
 
         return Util\Util::convertToStripeObject($response->json, $opts);
@@ -68,11 +69,10 @@ abstract class OAuth
         $base = ($opts && \array_key_exists('connect_base', $opts)) ? $opts['connect_base'] : Stripe::$connectBase;
         $requestor = new ApiRequestor(null, $base);
         $params['client_id'] = self::_getClientId($params);
-        list($response, $apiKey) = $requestor->request(
+        [$response, $apiKey] = $requestor->request(
             'post',
             '/oauth/deauthorize',
-            $params,
-            null
+            $params
         );
 
         return Util\Util::convertToStripeObject($response->json, $opts);

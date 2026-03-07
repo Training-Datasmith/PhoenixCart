@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  \Outgoing::sendEmail();
-  
-  $GLOBALS['messageStack']->add_session(READY_EMAILS_SENT, 'success');
-  Href::redirect($Admin->link('outgoing.php'));
+\Outgoing::sendEmail();
+
+$GLOBALS['messageStack']->add_session(READY_EMAILS_SENT, 'success');
+Href::redirect($Admin->link('outgoing.php'));

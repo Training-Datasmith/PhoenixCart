@@ -10,10 +10,10 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('account.php'));
-  $breadcrumb->add(NAVBAR_TITLE_2, $Linker->build('account_notifications.php'));
+$breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('account.php'));
+$breadcrumb->add(NAVBAR_TITLE_2, $Linker->build('account_notifications.php'));
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <h1 class="display-4 mb-4"><?= HEADING_TITLE ?></h1>
@@ -36,10 +36,10 @@
 
 <?php
   if ($global['global_product_notifications'] != '1') {
-    $products_check_query = $db->query("SELECT COUNT(*) AS total FROM products_notifications WHERE customers_id = " . (int)$_SESSION['customer_id']);
-    $products_check = $products_check_query->fetch_assoc();
-    if ($products_check['total'] > 0) {
-?>
+      $products_check_query = $db->query('SELECT COUNT(*) AS total FROM products_notifications WHERE customers_id = ' . (int)$_SESSION['customer_id']);
+      $products_check = $products_check_query->fetch_assoc();
+      if ($products_check['total'] > 0) {
+          ?>
 
     <div class="w-100"></div>
     <div class="alert alert-warning" role="alert"><?= NOTIFICATIONS_DESCRIPTION ?></div>
@@ -48,27 +48,27 @@
       <div class="col-form-label col-sm-4 text-start text-sm-end"><?= MY_NOTIFICATIONS_TITLE ?></div>
       <div class="col-sm-8">
         <?php
-      $products_query = $db->query("SELECT pd.products_id, pd.products_name FROM products_description pd, products_notifications pn WHERE pn.customers_id = " . (int)$_SESSION['customer_id'] . " AND pn.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id'] . " ORDER BY pd.products_name");
-      while ($products = $products_query->fetch_assoc()) {
-        echo '<div class="form-check">';
-        echo (new Tickable('products[]', ['value' => $products['products_id'], 'class' => 'form-check-input', 'id' => 'input_' . $products['products_id'] . 'Notification'], 'checkbox'))->tick();
-        echo '<label for="input_' . $products['products_id'] . 'Notification" class="form-check-label text-body-secondary"><small>' . $products['products_name'] . '</small></label>';
-        echo '</div>';
-      }
-?>
+                $products_query = $db->query('SELECT pd.products_id, pd.products_name FROM products_description pd, products_notifications pn WHERE pn.customers_id = ' . (int)$_SESSION['customer_id'] . ' AND pn.products_id = pd.products_id AND pd.language_id = ' . (int)$_SESSION['languages_id'] . ' ORDER BY pd.products_name');
+          while ($products = $products_query->fetch_assoc()) {
+              echo '<div class="form-check">';
+              echo (new Tickable('products[]', ['value' => $products['products_id'], 'class' => 'form-check-input', 'id' => 'input_' . $products['products_id'] . 'Notification'], 'checkbox'))->tick();
+              echo '<label for="input_' . $products['products_id'] . 'Notification" class="form-check-label text-body-secondary"><small>' . $products['products_name'] . '</small></label>';
+              echo '</div>';
+          }
+          ?>
       </div>
     </div>
 
 <?php
-    } else {
-?>
+      } else {
+          ?>
 
     <div class="alert alert-warning" role="alert">
       <?= NOTIFICATIONS_NON_EXISTING ?>
     </div>
 
 <?php
-    }
+      }
   }
 ?>
 

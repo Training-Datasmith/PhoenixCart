@@ -14,12 +14,12 @@
           <ul class="list-group">
             <?php
             foreach ($port_my_data['YOU']['IP']['LIST'] as $k) {
-              echo '<li class="list-group-item">';
+                echo '<li class="list-group-item">';
                 echo '<span class="float-end"><a title="DELETE" role="button" id="delete" data-ip-id="' . $k . '" class="btn btn-sm btn-danger text-white btn-delete text-white btn-delete-ip">' . MODULE_CONTENT_GDPR_IP_DELETE . '</a></span>';
                 echo $k;
-              echo '</li>';
+                echo '</li>';
             }
-            ?>
+?>
           </ul>
         </td>
       </tr>

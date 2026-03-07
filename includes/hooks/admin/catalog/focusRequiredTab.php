@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,10 +12,11 @@
   Released under the GNU General Public License
 */
 
-class hook_admin_catalog_focusRequiredTab {
-
-  public function listen_injectSiteEnd() {
-    $focusTab = <<<'ft'
+class hook_admin_catalog_focusRequiredTab
+{
+    public function listen_injectSiteEnd(): string
+    {
+        return <<<'ft'
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('button[type="submit"]').forEach(function (button) {
@@ -54,8 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </script>
 ft;
-
-    return $focusTab;
-  }
+    }
 
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,6 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const PI_GALLERY_IMAGES_TITLE       = 'Gallery Images';
-  const PI_GALLERY_IMAGES_DESCRIPTION = 'Shows the extra Product Image(s) on the product_info Page.<div class="alert alert-info">This is a child module for use with the &pi; system.</div>';
-  
+const PI_GALLERY_IMAGES_TITLE       = 'Gallery Images';
+const PI_GALLERY_IMAGES_DESCRIPTION = 'Shows the extra Product Image(s) on the product_info Page.<div class="alert alert-info">This is a child module for use with the &pi; system.</div>';

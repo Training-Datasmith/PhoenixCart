@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_ORDER_TOTAL_TAX_TITLE = 'Tax';
-  const MODULE_ORDER_TOTAL_TAX_DESCRIPTION = 'Order Tax';
+const MODULE_ORDER_TOTAL_TAX_TITLE = 'Tax';
+const MODULE_ORDER_TOTAL_TAX_DESCRIPTION = 'Order Tax';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Identity;
@@ -37,20 +39,19 @@ namespace Stripe\Identity;
  */
 class VerificationSession extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'identity.verification_session';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
+    public const OBJECT_NAME = 'identity.verification_session';
 
-    const STATUS_CANCELED = 'canceled';
-    const STATUS_PROCESSING = 'processing';
-    const STATUS_REQUIRES_INPUT = 'requires_input';
-    const STATUS_VERIFIED = 'verified';
+    public const STATUS_CANCELED = 'canceled';
+    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_REQUIRES_INPUT = 'requires_input';
+    public const STATUS_VERIFIED = 'verified';
 
-    const TYPE_DOCUMENT = 'document';
-    const TYPE_ID_NUMBER = 'id_number';
+    public const TYPE_DOCUMENT = 'document';
+    public const TYPE_ID_NUMBER = 'id_number';
 
     /**
      * @param null|array $params
@@ -60,10 +61,10 @@ class VerificationSession extends \Stripe\ApiResource
      *
      * @return \Stripe\Identity\VerificationSession the canceled verification session
      */
-    public function cancel($params = null, $opts = null)
+    public function cancel($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/cancel';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;
@@ -77,10 +78,10 @@ class VerificationSession extends \Stripe\ApiResource
      *
      * @return \Stripe\Identity\VerificationSession the redacted verification session
      */
-    public function redact($params = null, $opts = null)
+    public function redact($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/redact';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

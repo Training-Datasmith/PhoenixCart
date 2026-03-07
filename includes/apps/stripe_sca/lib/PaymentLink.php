@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -49,26 +51,25 @@ namespace Stripe;
  */
 class PaymentLink extends ApiResource
 {
-    const OBJECT_NAME = 'payment_link';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Retrieve;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'payment_link';
 
-    const BILLING_ADDRESS_COLLECTION_AUTO = 'auto';
-    const BILLING_ADDRESS_COLLECTION_REQUIRED = 'required';
+    public const BILLING_ADDRESS_COLLECTION_AUTO = 'auto';
+    public const BILLING_ADDRESS_COLLECTION_REQUIRED = 'required';
 
-    const CUSTOMER_CREATION_ALWAYS = 'always';
-    const CUSTOMER_CREATION_IF_REQUIRED = 'if_required';
+    public const CUSTOMER_CREATION_ALWAYS = 'always';
+    public const CUSTOMER_CREATION_IF_REQUIRED = 'if_required';
 
-    const PAYMENT_METHOD_COLLECTION_ALWAYS = 'always';
-    const PAYMENT_METHOD_COLLECTION_IF_REQUIRED = 'if_required';
+    public const PAYMENT_METHOD_COLLECTION_ALWAYS = 'always';
+    public const PAYMENT_METHOD_COLLECTION_IF_REQUIRED = 'if_required';
 
-    const SUBMIT_TYPE_AUTO = 'auto';
-    const SUBMIT_TYPE_BOOK = 'book';
-    const SUBMIT_TYPE_DONATE = 'donate';
-    const SUBMIT_TYPE_PAY = 'pay';
+    public const SUBMIT_TYPE_AUTO = 'auto';
+    public const SUBMIT_TYPE_BOOK = 'book';
+    public const SUBMIT_TYPE_DONATE = 'donate';
+    public const SUBMIT_TYPE_PAY = 'pay';
 
     /**
      * @param string $id
@@ -82,7 +83,7 @@ class PaymentLink extends ApiResource
     public static function allLineItems($id, $params = null, $opts = null)
     {
         $url = static::resourceUrl($id) . '/line_items';
-        list($response, $opts) = static::_staticRequest('get', $url, $params, $opts);
+        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
 

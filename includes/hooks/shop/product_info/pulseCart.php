@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,18 +12,19 @@
   Released under the GNU General Public License
 */
 
-class hook_shop_product_info_pulseCart {
+class hook_shop_product_info_pulseCart
+{
+    public function listen_injectBodyEnd(): string
+    {
+        global $product, $currency;
 
-  public function listen_injectBodyEnd() {
-    global $product, $currency;
+        $product_id = (int)$product->get('id');
+        $product_name = json_encode($product->get('name'), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+        $sku = json_encode($product->get('model'), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+        $price = (float)$product->get('final_price');
+        $currency_js = json_encode($currency, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
 
-    $product_id = (int)$product->get('id');
-    $product_name = json_encode($product->get('name'), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
-    $sku = json_encode($product->get('model'), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
-    $price = (float)$product->get('final_price');
-    $currency_js = json_encode($currency, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
-
-    $pulse = <<<HTML
+        $pulse = <<<HTML
 <script>
   window.pulse = window.pulse || [];
   window.pulse.push({
@@ -41,7 +44,7 @@ class hook_shop_product_info_pulseCart {
 </script>
 HTML;
 
-    return PHP_EOL . $pulse;
-  }
+        return PHP_EOL . $pulse;
+    }
 
 }

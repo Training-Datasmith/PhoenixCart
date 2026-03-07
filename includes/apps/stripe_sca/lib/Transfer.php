@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -38,19 +40,18 @@ namespace Stripe;
  */
 class Transfer extends ApiResource
 {
-    const OBJECT_NAME = 'transfer';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\NestedResource;
     use ApiOperations\Retrieve;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'transfer';
 
-    const SOURCE_TYPE_BANK_ACCOUNT = 'bank_account';
-    const SOURCE_TYPE_CARD = 'card';
-    const SOURCE_TYPE_FPX = 'fpx';
+    public const SOURCE_TYPE_BANK_ACCOUNT = 'bank_account';
+    public const SOURCE_TYPE_CARD = 'card';
+    public const SOURCE_TYPE_FPX = 'fpx';
 
-    const PATH_REVERSALS = '/reversals';
+    public const PATH_REVERSALS = '/reversals';
 
     /**
      * @param string $id the ID of the transfer on which to retrieve the transfer reversals

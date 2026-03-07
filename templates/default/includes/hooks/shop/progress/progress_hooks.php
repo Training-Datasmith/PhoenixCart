@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,15 +12,16 @@
   Released under the GNU General Public License
 */
 
-class hook_shop_progress_progress_hooks {
+class hook_shop_progress_progress_hooks
+{
+    public function listen_progressBar(array $arr): string
+    {
 
-  function listen_progressBar($arr) {
+        $checkout_bar_delivery     = CHECKOUT_BAR_DELIVERY;
+        $checkout_bar_payment      = CHECKOUT_BAR_PAYMENT;
+        $checkout_bar_confirmation = CHECKOUT_BAR_CONFIRMATION;
 
-    $checkout_bar_delivery     = CHECKOUT_BAR_DELIVERY;
-    $checkout_bar_payment      = CHECKOUT_BAR_PAYMENT;
-    $checkout_bar_confirmation = CHECKOUT_BAR_CONFIRMATION;
-
-    $output_progress = <<<eod
+        return <<<eod
       <div class="progress-hooks pt-2">
         <div class="progress rounded-0" role="progressbar" aria-label="{$arr['markers']['now']}%" aria-valuenow="{$arr['markers']['now']}" aria-valuemin="{$arr['markers']['min']}" aria-valuemax="{$arr['markers']['max']}" style="height: 10px">
           <div class="progress-bar text-bg-secondary" style="width: {$arr['markers']['now']}%"></div>
@@ -30,8 +33,6 @@ class hook_shop_progress_progress_hooks {
         </div>
       </div>
 eod;
-
-    return $output_progress;
-  }
+    }
 
 }

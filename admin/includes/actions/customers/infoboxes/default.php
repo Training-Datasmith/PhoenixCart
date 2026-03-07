@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($table_definition['info'])) {
+if (isset($table_definition['info'])) {
     $link = $GLOBALS['Admin']->link('customers.php')->retain_query_except(['action'])->set_parameter('cID', (int)$table_definition['info']->id);
     $heading = $table_definition['info']->name;
 
@@ -27,8 +29,8 @@
     $contents[] = ['text' => sprintf(TEXT_INFO_NUMBER_OF_LOGONS, $table_definition['info']->number_of_logons)];
 
     if (!empty($table_definition['info']->country_name)) {
-      $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY, $table_definition['info']->country_name)];
+        $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY, $table_definition['info']->country_name)];
     }
 
     $contents[] = ['text' => sprintf(TEXT_INFO_NUMBER_OF_REVIEWS, $table_definition['info']->number_of_reviews)];
-  }
+}

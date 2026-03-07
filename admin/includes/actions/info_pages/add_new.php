@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,17 +12,17 @@
   Released under the GNU General Public License
 */
 
-  $sql_data = [
-    'pages_status' => (int)$_POST['page_status'],
-    'slug' => Text::input($_POST['slug']),
-    'sort_order' => (int)$_POST['sort_order'],
-    'date_added' => 'NOW()',
-  ];
+$sql_data = [
+  'pages_status' => (int)$_POST['page_status'],
+  'slug' => Text::input($_POST['slug']),
+  'sort_order' => (int)$_POST['sort_order'],
+  'date_added' => 'NOW()',
+];
 
-  $db->perform('pages', $sql_data);
-  $pages_id = mysqli_insert_id($db);
+$db->perform('pages', $sql_data);
+$pages_id = mysqli_insert_id($db);
 
-  foreach (array_column(language::load_all(), 'id') as $language_id) {
+foreach (array_column(language::load_all(), 'id') as $language_id) {
     $sql_data = [
       'navbar_title' => Text::input($_POST['navbar_title'][$language_id]),
       'pages_title' => Text::prepare($_POST['page_title'][$language_id]),
@@ -30,6 +32,6 @@
     ];
 
     $db->perform('pages_description', $sql_data);
-  }
+}
 
-  return $link->set_parameter('pID', (int)$pages_id);
+return $link->set_parameter('pID', (int)$pages_id);

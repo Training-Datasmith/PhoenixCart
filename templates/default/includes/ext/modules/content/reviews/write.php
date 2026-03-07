@@ -10,10 +10,10 @@
   Released under the GNU General Public License
 */
 
-  $form_link = $Linker->build('ext/modules/content/reviews/write.php')->retain_query_except();
-  $breadcrumb->add(NAVBAR_TITLE, $form_link);
+$form_link = $Linker->build('ext/modules/content/reviews/write.php')->retain_query_except();
+$breadcrumb->add(NAVBAR_TITLE, $form_link);
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <div class="row mb-4">
@@ -26,11 +26,11 @@
     <?= new Form('review', (clone $form_link)->set_parameter('action', 'process'), 'post', ['class' => 'was-validated', 'enctype' => 'multipart/form-data']) ?>
 
     <div class="alert alert-warning" role="alert">
-      <?= sprintf(TEXT_REVIEW_WRITING, htmlspecialchars($customer->get('short_name')), $product->get('name')) ?>
+      <?= sprintf(TEXT_REVIEW_WRITING, htmlspecialchars((string) $customer->get('short_name')), $product->get('name')) ?>
     </div>
     
     <div class="form-floating mb-2">
-      <?= (new Input('nickname', ['value' => htmlspecialchars($customer->get('short_name')), 'id' => 'inputNick', 'placeholder' => SUB_TITLE_REVIEW_NICKNAME]))->require(), FORM_REQUIRED_INPUT ?>
+      <?= (new Input('nickname', ['value' => htmlspecialchars((string) $customer->get('short_name')), 'id' => 'inputNick', 'placeholder' => SUB_TITLE_REVIEW_NICKNAME]))->require(), FORM_REQUIRED_INPUT ?>
       <label for="inputNick"><?= SUB_TITLE_FROM ?></label>
     </div>
       
@@ -62,7 +62,7 @@
     </form>
   </div>
   <div class="col-md-4">
-    <?= new Image('images/' . $product->get('image'), [], htmlspecialchars($product->get('name'))) ?>
+    <?= new Image('images/' . $product->get('image'), [], htmlspecialchars((string) $product->get('name'))) ?>
   </div>
 </div>
 

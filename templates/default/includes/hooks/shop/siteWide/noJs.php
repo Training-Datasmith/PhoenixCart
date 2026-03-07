@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,13 +12,15 @@
   Released under the GNU General Public License
 */
 
-class hook_shop_siteWide_noJs {
-  var $bodywrapperstart = null;
+class hook_shop_siteWide_noJs
+{
+    public $bodywrapperstart;
 
-  function listen_injectBodyWrapperStart() {
-    $msg = TEXT_NOSCRIPT;
+    public function listen_injectBodyWrapperStart(): string
+    {
+        $msg = TEXT_NOSCRIPT;
 
-    $this->bodywrapperstart .= <<<eod
+        $this->bodywrapperstart .= <<<eod
 <!-- noJs hooked -->
 <noscript>
   <div class="alert alert-danger text-center">{$msg}</div>
@@ -24,7 +28,7 @@ class hook_shop_siteWide_noJs {
 </noscript>
 eod;
 
-    return $this->bodywrapperstart;
-  }
+        return $this->bodywrapperstart;
+    }
 
 }

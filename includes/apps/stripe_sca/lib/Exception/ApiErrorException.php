@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\Exception;
 
 /**
@@ -67,7 +69,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
      *
      * @param null|\Stripe\ErrorObject $error
      */
-    public function setError($error)
+    public function setError($error): void
     {
         $this->error = $error;
     }
@@ -87,7 +89,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
      *
      * @param null|string $httpBody
      */
-    public function setHttpBody($httpBody)
+    public function setHttpBody($httpBody): void
     {
         $this->httpBody = $httpBody;
     }
@@ -107,7 +109,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
      *
      * @param null|array|\Stripe\Util\CaseInsensitiveArray $httpHeaders
      */
-    public function setHttpHeaders($httpHeaders)
+    public function setHttpHeaders($httpHeaders): void
     {
         $this->httpHeaders = $httpHeaders;
     }
@@ -127,7 +129,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
      *
      * @param null|int $httpStatus
      */
-    public function setHttpStatus($httpStatus)
+    public function setHttpStatus($httpStatus): void
     {
         $this->httpStatus = $httpStatus;
     }
@@ -147,7 +149,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
      *
      * @param null|array<string, mixed> $jsonBody
      */
-    public function setJsonBody($jsonBody)
+    public function setJsonBody($jsonBody): void
     {
         $this->jsonBody = $jsonBody;
     }
@@ -167,7 +169,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
      *
      * @param null|string $requestId
      */
-    public function setRequestId($requestId)
+    public function setRequestId($requestId): void
     {
         $this->requestId = $requestId;
     }
@@ -190,17 +192,15 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
      *
      * @param null|string $stripeCode
      */
-    public function setStripeCode($stripeCode)
+    public function setStripeCode($stripeCode): void
     {
         $this->stripeCode = $stripeCode;
     }
 
     /**
      * Returns the string representation of the exception.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $statusStr = (null === $this->getHttpStatus()) ? '' : "(Status {$this->getHttpStatus()}) ";
         $idStr = (null === $this->getRequestId()) ? '' : "(Request {$this->getRequestId()}) ";

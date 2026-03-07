@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,16 +12,19 @@
   Released under the GNU General Public License
 */
 
-  class cm_in_card_products extends abstract_executable_module {
+class cm_in_card_products extends abstract_executable_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_CONTENT_IN_CARD_PRODUCTS_';
 
-    const CONFIG_KEY_BASE = 'MODULE_CONTENT_IN_CARD_PRODUCTS_';
-
-    public function __construct() {
-      parent::__construct(__FILE__);
+    public function __construct()
+    {
+        parent::__construct(__FILE__);
     }
 
-    public function execute() {
-      $card_products_query = $GLOBALS['db']->query(sprintf(<<<'EOSQL'
+    public function execute(): void
+    {
+        $card_products_query = $GLOBALS['db']->query(sprintf(
+            <<<'EOSQL'
 SELECT DISTINCT %s
  FROM products p
   LEFT JOIN specials s ON p.products_id = s.products_id
@@ -30,42 +35,45 @@ SELECT DISTINCT %s
  WHERE p.products_status = 1 AND c.parent_id = %d AND pd.language_id = %d
  ORDER BY p.products_id DESC LIMIT %d
 EOSQL
-        , Product::COLUMNS,
-          (int)$GLOBALS['current_category_id'],
-          (int)$_SESSION['languages_id'],
-          (int)MODULE_CONTENT_IN_CARD_PRODUCTS_MAX_DISPLAY));
+            ,
+            Product::COLUMNS,
+            (int)$GLOBALS['current_category_id'],
+            (int)$_SESSION['languages_id'],
+            (int)MODULE_CONTENT_IN_CARD_PRODUCTS_MAX_DISPLAY
+        ));
 
-      $num_card_products = mysqli_num_rows($card_products_query);
-      if ($num_card_products > 0) {
-        $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
-        include 'includes/modules/content/cm_template.php';
-      }
+        $num_card_products = mysqli_num_rows($card_products_query);
+        if ($num_card_products > 0) {
+            $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
+            include 'includes/modules/content/cm_template.php';
+        }
     }
 
-    protected function get_parameters() {
-      return [
-        $this->config_key_base . 'STATUS' => [
-          'title' => 'Enable Module',
-          'value' => 'True',
-          'desc' => 'Do you want to enable this module?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-        $this->config_key_base . 'CONTENT_WIDTH' => [
-          'title' => 'Content Container',
-          'value' => 'col-sm-12 mb-4',
-          'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
-        ],
-        $this->config_key_base . 'MAX_DISPLAY' => [
-          'title' => 'Maximum Display',
-          'value' => '6',
-          'desc' => 'Maximum Number of products that should show in this module?',
-        ],
-        $this->config_key_base . 'SORT_ORDER' => [
-          'title' => 'Sort Order',
-          'value' => '300',
-          'desc' => 'Sort order of display. Lowest is displayed first.',
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          $this->config_key_base . 'STATUS' => [
+            'title' => 'Enable Module',
+            'value' => 'True',
+            'desc' => 'Do you want to enable this module?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+          $this->config_key_base . 'CONTENT_WIDTH' => [
+            'title' => 'Content Container',
+            'value' => 'col-sm-12 mb-4',
+            'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
+          ],
+          $this->config_key_base . 'MAX_DISPLAY' => [
+            'title' => 'Maximum Display',
+            'value' => '6',
+            'desc' => 'Maximum Number of products that should show in this module?',
+          ],
+          $this->config_key_base . 'SORT_ORDER' => [
+            'title' => 'Sort Order',
+            'value' => '300',
+            'desc' => 'Sort order of display. Lowest is displayed first.',
+          ],
+        ];
     }
 
-  }
+}

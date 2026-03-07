@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  class default_template {
-
+class default_template
+{
     protected $_grid_content_width = BOOTSTRAP_CONTENT;
 
     protected $_base_hook_directories = [
@@ -25,68 +27,75 @@
     protected $_template_mapping = [
     ];
 
-    public function __construct() {
-      $hooks =& Guarantor::ensure_global('hooks', 'shop');
-      foreach ($this->_base_hook_directories as $directory) {
-        if (file_exists($directory) && is_dir($directory)) {
-          $hooks->add_directory($directory);
-          $GLOBALS['class_index']->find_all_hooks_under($directory);
+    public function __construct()
+    {
+        $hooks = & Guarantor::ensure_global('hooks', 'shop');
+        foreach ($this->_base_hook_directories as $directory) {
+            if (file_exists($directory) && is_dir($directory)) {
+                $hooks->add_directory($directory);
+                $GLOBALS['class_index']->find_all_hooks_under($directory);
+            }
         }
-      }
 
-      foreach ($this->_base_override_directories as $directory) {
-        if (file_exists($directory) && is_dir($directory)) {
-          $GLOBALS['class_index']->find_all_files_under($directory);
+        foreach ($this->_base_override_directories as $directory) {
+            if (file_exists($directory) && is_dir($directory)) {
+                $GLOBALS['class_index']->find_all_files_under($directory);
+            }
         }
-      }
 
-      $GLOBALS['breadcrumb'] = new breadcrumb();
+        $GLOBALS['breadcrumb'] = new breadcrumb();
     }
 
-    public static function extract_relative_path($file, $base_path = DIR_FS_CATALOG) {
-      if ('/' !== DIRECTORY_SEPARATOR) {
-        $file = str_replace(DIRECTORY_SEPARATOR, '/', $file);
-      }
+    public static function extract_relative_path($file, string $base_path = DIR_FS_CATALOG)
+    {
+        if ('/' !== DIRECTORY_SEPARATOR) {
+            $file = str_replace(DIRECTORY_SEPARATOR, '/', $file);
+        }
 
-      return Text::ltrim_once($file, $base_path);
+        return Text::ltrim_once($file, $base_path);
     }
 
-    public static function _get_template_mapping_for($file, $type) {
-      switch ($type) {
-        case 'page':
-          return DIR_FS_CATALOG . 'templates/default/includes/pages/' . basename($file);
-        case 'component':
-          return DIR_FS_CATALOG . 'templates/default/includes/components/' . basename($file);
-        case 'module':
-          return dirname($file) . '/templates/tpl_' . basename($file);
-        case 'ext':
-          $file = static::extract_relative_path($file);
-          return DIR_FS_CATALOG . "templates/default/includes/$file";
-        case 'translation':
-          return DIR_FS_CATALOG . $file;
-        case 'literal':
-        default:
-          return DIR_FS_CATALOG . "templates/default/$file";
-      }
+    public static function _get_template_mapping_for($file, $type): string
+    {
+        switch ($type) {
+            case 'page':
+                return DIR_FS_CATALOG . 'templates/default/includes/pages/' . basename((string) $file);
+            case 'component':
+                return DIR_FS_CATALOG . 'templates/default/includes/components/' . basename((string) $file);
+            case 'module':
+                return dirname((string) $file) . '/templates/tpl_' . basename((string) $file);
+            case 'ext':
+                $file = static::extract_relative_path($file);
+                return DIR_FS_CATALOG . "templates/default/includes/$file";
+            case 'translation':
+                return DIR_FS_CATALOG . $file;
+            case 'literal':
+            default:
+                return DIR_FS_CATALOG . "templates/default/$file";
+        }
     }
 
-    public function get_template_mapping_for($file, $type) {
-      $template_file = $this->_template_mapping[$file]
-                    ?? static::_get_template_mapping_for($file, $type);
+    public function get_template_mapping_for($file, $type)
+    {
+        $template_file = $this->_template_mapping[$file]
+                      ?? static::_get_template_mapping_for($file, $type);
 
-      return file_exists($template_file) ? $template_file : null;
+        return file_exists($template_file) ? $template_file : null;
     }
 
-    public function setGridContentWidth($width) {
-      $this->_grid_content_width = $width;
+    public function setGridContentWidth($width): void
+    {
+        $this->_grid_content_width = $width;
     }
 
-    public function getGridContentWidth() {
-      return $this->_grid_content_width;
+    public function getGridContentWidth()
+    {
+        return $this->_grid_content_width;
     }
 
-    public function getGridColumnWidth() {
-      return (12 - BOOTSTRAP_CONTENT) / 2;
+    public function getGridColumnWidth(): int|float
+    {
+        return (12 - BOOTSTRAP_CONTENT) / 2;
     }
 
-  }
+}

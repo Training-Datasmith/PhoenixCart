@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\BillingPortal;
@@ -24,10 +26,9 @@ namespace Stripe\BillingPortal;
  */
 class Configuration extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'billing_portal.configuration';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
+    public const OBJECT_NAME = 'billing_portal.configuration';
 }

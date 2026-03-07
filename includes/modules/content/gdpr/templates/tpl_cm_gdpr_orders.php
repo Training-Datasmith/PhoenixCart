@@ -14,15 +14,15 @@
           <ul class="list-group">
             <?php
             $m = 0;
-            foreach($port_my_data['YOU']['ORDER']['LIST'] as $k => $v) {
-              echo '<li class="list-group-item">';
-                echo '<span class="float-end">';
-                  echo '<a class="btn btn-info text-white btn-sm" role="button" href="' . $GLOBALS['Linker']->build('account_history_info.php', ['order_id' => (int)$v['ID']]) . '">' . MODULE_CONTENT_GDPR_ORDERS_EACH_VIEW . '</a>';
-                echo '</span>';
-                echo sprintf(MODULE_CONTENT_GDPR_ORDERS_EACH, $v['TOTAL'], $v['DATE']) . '</li>';
-              $m++;
-            }
-            ?>
+foreach ($port_my_data['YOU']['ORDER']['LIST'] as $v) {
+    echo '<li class="list-group-item">';
+    echo '<span class="float-end">';
+    echo '<a class="btn btn-info text-white btn-sm" role="button" href="' . $GLOBALS['Linker']->build('account_history_info.php', ['order_id' => (int)$v['ID']]) . '">' . MODULE_CONTENT_GDPR_ORDERS_EACH_VIEW . '</a>';
+    echo '</span>';
+    echo sprintf(MODULE_CONTENT_GDPR_ORDERS_EACH, $v['TOTAL'], $v['DATE']) . '</li>';
+    $m++;
+}
+?>
           </ul>
         </td>
       </tr>

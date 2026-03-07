@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,34 +12,39 @@
   Released under the GNU General Public License
 */
 
-class importer {
+class importer
+{
+    public $_data = [];
 
-  public $_data = [];
-
-  public function __construct($iID) {
-    $this->buildImporter($iID);
-  }
-
-  public function buildImporter($iID) {
-    $importer_query = $GLOBALS['db']->query("select i.*, ii.* from importers i, importers_info ii where i.importers_id = " . (int)$iID . " and i.importers_id = ii.importers_id and ii.languages_id = " . (int)$_SESSION['languages_id']);
-
-    if ( mysqli_num_rows($importer_query) === 1 ) {
-      $this->_data = $importer_query->fetch_assoc();
-    } else {
-      error_log("No unique importer for [$iID:{$_SESSION['languages_id']}]");
+    public function __construct($iID)
+    {
+        $this->buildImporter($iID);
     }
-  }
 
-  public function getData($key) {
-    return $this->_data[$key];
-  }
+    public function buildImporter($iID): void
+    {
+        $importer_query = $GLOBALS['db']->query('select i.*, ii.* from importers i, importers_info ii where i.importers_id = ' . (int)$iID . ' and i.importers_id = ii.importers_id and ii.languages_id = ' . (int)$_SESSION['languages_id']);
 
-  public function showImage() {
-    return new Image('images/' . $this->_data['importers_image'], [], $this->_data['importers_name']);
-  }
+        if (mysqli_num_rows($importer_query) === 1) {
+            $this->_data = $importer_query->fetch_assoc();
+        } else {
+            error_log("No unique importer for [$iID:{$_SESSION['languages_id']}]");
+        }
+    }
 
-  public function buildImporterArray() {
-    return $this->_data;
-  }
+    public function getData($key)
+    {
+        return $this->_data[$key];
+    }
+
+    public function showImage(): \Image
+    {
+        return new Image('images/' . $this->_data['importers_image'], [], $this->_data['importers_name']);
+    }
+
+    public function buildImporterArray()
+    {
+        return $this->_data;
+    }
 
 }

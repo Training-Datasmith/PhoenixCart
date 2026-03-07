@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,14 +12,15 @@
   Released under the GNU General Public License
 */
 
-  class Orders {
-
-    public static function message_update() {
-      if ($GLOBALS['order_updated']) {
-        $GLOBALS['messageStack']->add_session(SUCCESS_ORDER_UPDATED, 'success');
-      } else {
-        $GLOBALS['messageStack']->add_session(WARNING_ORDER_NOT_UPDATED, 'warning');
-      }
+class Orders
+{
+    public static function message_update(): void
+    {
+        if ($GLOBALS['order_updated']) {
+            $GLOBALS['messageStack']->add_session(SUCCESS_ORDER_UPDATED, 'success');
+        } else {
+            $GLOBALS['messageStack']->add_session(WARNING_ORDER_NOT_UPDATED, 'warning');
+        }
     }
 
-  }
+}

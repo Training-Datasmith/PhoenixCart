@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Apps;
@@ -36,10 +38,9 @@ namespace Stripe\Apps;
  */
 class Secret extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'apps.secret';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
+    public const OBJECT_NAME = 'apps.secret';
 
     /**
      * @param null|array $params
@@ -52,7 +53,7 @@ class Secret extends \Stripe\ApiResource
     public static function deleteWhere($params = null, $opts = null)
     {
         $url = static::classUrl() . '/delete';
-        list($response, $opts) = static::_staticRequest('post', $url, $params, $opts);
+        [$response, $opts] = static::_staticRequest('post', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
 
@@ -70,7 +71,7 @@ class Secret extends \Stripe\ApiResource
     public static function find($params = null, $opts = null)
     {
         $url = static::classUrl() . '/find';
-        list($response, $opts) = static::_staticRequest('get', $url, $params, $opts);
+        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
 

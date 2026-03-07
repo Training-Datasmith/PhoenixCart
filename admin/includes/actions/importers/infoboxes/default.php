@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($table_definition['info']->importers_id)) {
+if (isset($table_definition['info']->importers_id)) {
     $iInfo = &$table_definition['info'];
     $link = $GLOBALS['link']->set_parameter('iID', (int)$iInfo->importers_id);
     $heading = $iInfo->importers_name;
@@ -22,12 +24,12 @@
     ];
     $contents[] = ['text' => sprintf(TEXT_DATE_ADDED, Date::abridge($iInfo->date_added))];
     if (!Text::is_empty($iInfo->last_modified)) {
-      $contents[] = ['text' => sprintf(TEXT_LAST_MODIFIED, Date::abridge($iInfo->last_modified))];
+        $contents[] = ['text' => sprintf(TEXT_LAST_MODIFIED, Date::abridge($iInfo->last_modified))];
     }
     $contents[] = ['text' => $GLOBALS['Admin']->catalog_image("images/{$iInfo->importers_image}", [], $iInfo->importers_name)];
-    
+
     $contents[] = ['text' => sprintf(TEXT_IMPORTERS_ADDRESS, nl2br($iInfo->importers_address) ?? TEXT_NA)];
     $contents[] = ['text' => sprintf(TEXT_IMPORTERS_EMAIL, $iInfo->importers_email ?? TEXT_NA)];
-    
+
     $contents[] = ['text' => sprintf(TEXT_PRODUCTS, $iInfo->products_count)];
-  }
+}

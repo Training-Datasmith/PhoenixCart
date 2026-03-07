@@ -10,9 +10,9 @@
   
   <?php
   if (!Text::is_empty(STORE_TAX_ID)) {
-    echo sprintf(MODULE_CONTENT_FOOTER_CONTACT_US_TAX_ID, STORE_TAX_ID);
+      echo sprintf(MODULE_CONTENT_FOOTER_CONTACT_US_TAX_ID, STORE_TAX_ID);
   }
-  ?>
+?>
   
   <div class="d-grid mt-2">
     <a class="btn btn-success" role="button" href="<?= $GLOBALS['Linker']->build('contact_us.php') ?>"><i class="fas fa-paper-plane"></i> <?= MODULE_CONTENT_FOOTER_CONTACT_US_EMAIL_LINK ?></a>

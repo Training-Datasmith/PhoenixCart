@@ -10,16 +10,16 @@
   Released under the GNU General Public License
 */
 
-  require 'includes/application_top.php';
+require 'includes/application_top.php';
 
-  $currencies = new currencies();
+$currencies = new currencies();
 
-  $oID = Text::input($_GET['oID']);
+$oID = Text::input($_GET['oID']);
 
-  $order = new order($oID);
-  $address = $customer_data->get_module('address');
+$order = new order($oID);
+$address = $customer_data->get_module('address');
 
-  require 'includes/template_top.php';
+require 'includes/template_top.php';
 ?>
 
   <div class="row align-items-center">
@@ -29,9 +29,9 @@
       <p class="my-1 p-0">
         <?php
         if (!Text::is_empty(STORE_PHONE)) {
-          echo '<i class="fas fa-phone fa-fw me-1"></i>' . STORE_PHONE;
+            echo '<i class="fas fa-phone fa-fw me-1"></i>' . STORE_PHONE;
         }
-        ?>
+?>
         <i class="fas fa-at fa-fw me-1"></i><?= STORE_OWNER_EMAIL_ADDRESS ?>
       </p>
       <p class="my-1 p-0"><i class="fas fa-home fa-fw me-1"></i><?= $GLOBALS['Admin']->catalog('') ?></p>
@@ -54,11 +54,11 @@
         <li class="list-group-item border-0"><?= $address->format($order->billing, 1, '', '<br>') ?></li>
         <li class="list-group-item border-0">
           <?php
-          if (!Text::is_empty($customer_data->get('telephone', $order->customer))) {
-            echo '<i class="fas fa-phone fa-fw"></i>', $customer_data->get('telephone', $order->customer), '<br>';
-          }
-          echo '<i class="fas fa-at fa-fw"></i>', $customer_data->get('email_address', $order->customer);
-          ?>
+  if (!Text::is_empty($customer_data->get('telephone', $order->customer))) {
+      echo '<i class="fas fa-phone fa-fw"></i>', $customer_data->get('telephone', $order->customer), '<br>';
+  }
+echo '<i class="fas fa-at fa-fw"></i>', $customer_data->get('email_address', $order->customer);
+?>
         </li>
      </ul>
     </div>
@@ -82,17 +82,17 @@
     <tbody>
       <?php
         foreach ($order->products as $product) {
-          echo '<tr>';
+            echo '<tr>';
             echo '<td>' . $product['qty'] . '</td>';
             echo '<th>' . $product['name'];
             foreach (($product['attributes'] ?? []) as $attribute) {
-              echo '<br><small><i> - ' . $attribute['option'] . ': ' . $attribute['value'] . '</i></small>';
+                echo '<br><small><i> - ' . $attribute['option'] . ': ' . $attribute['value'] . '</i></small>';
             }
             echo '</th>';
             echo '<td>' . $product['model'] . '</td>';
-          echo '</tr>';
+            echo '</tr>';
         }
-      ?>
+?>
     </tbody>
   </table>
 
@@ -100,5 +100,5 @@
 
 <?php
   require 'includes/template_bottom.php';
-  require 'includes/application_bottom.php';
+require 'includes/application_bottom.php';
 ?>

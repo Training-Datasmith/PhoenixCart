@@ -15,11 +15,11 @@
 
   <?php
   if (isset($_SESSION['admin'])) {
-    require 'includes/footer.php';
+      require 'includes/footer.php';
   }
 
-  echo $admin_hooks->cat('injectSiteEnd');
-  ?>
+echo $admin_hooks->cat('injectSiteEnd');
+?>
 
   </div>
 </div>

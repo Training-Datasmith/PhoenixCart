@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,10 +12,11 @@
   Released under the GNU General Public License
 */
 
-  class pipeline_surface {
-
-    public function __call($name, $arguments = null) {
-      $GLOBALS['hooks']->register_pipeline($name, $arguments);
+class pipeline_surface
+{
+    public function __call(string $name, array $arguments = null)
+    {
+        $GLOBALS['hooks']->register_pipeline($name, $arguments);
     }
 
-  }
+}

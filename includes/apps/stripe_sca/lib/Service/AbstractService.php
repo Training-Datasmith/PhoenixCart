@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\Service;
 
 /**
@@ -7,11 +9,6 @@ namespace Stripe\Service;
  */
 abstract class AbstractService
 {
-    /**
-     * @var \Stripe\StripeClientInterface
-     */
-    protected $client;
-
     /**
      * @var \Stripe\StripeStreamingClientInterface
      */
@@ -22,10 +19,9 @@ abstract class AbstractService
      *
      * @param \Stripe\StripeClientInterface $client
      */
-    public function __construct($client)
+    public function __construct(protected $client)
     {
-        $this->client = $client;
-        $this->streamingClient = $client;
+        $this->streamingClient = $this->client;
     }
 
     /**
@@ -61,7 +57,7 @@ abstract class AbstractService
         if (null === $params) {
             return null;
         }
-        \array_walk_recursive($params, function (&$value, $key) {
+        \array_walk_recursive($params, function (&$value, $key): void {
             if (null === $value) {
                 $value = '';
             }
@@ -100,6 +96,6 @@ abstract class AbstractService
             }
         }
 
-        return \sprintf($basePath, ...\array_map('\urlencode', $ids));
+        return \sprintf($basePath, ...\array_map(\urlencode(...), $ids));
     }
 }

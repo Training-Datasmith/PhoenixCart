@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -11,8 +13,8 @@
 */
 
 // set the application parameters
-  array_walk(...[
-    $db->fetch_all('SELECT configuration_key, configuration_value FROM configuration'),
-    function ($v) {
+array_walk(...[
+  $db->fetch_all('SELECT configuration_key, configuration_value FROM configuration'),
+  function (array $v): void {
       define($v['configuration_key'], $v['configuration_value']);
-    }]);
+  }]);

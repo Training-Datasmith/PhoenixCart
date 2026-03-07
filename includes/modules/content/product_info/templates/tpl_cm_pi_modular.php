@@ -2,16 +2,16 @@
   <div class="row">
     <?php
     foreach ($slots as $k => $v) {
-      $block_name = "pi_modules_$k";
-      if ($GLOBALS['Template']->has_blocks($block_name)) {
-        echo '<div class="' . $v . '">';
-          echo '<div class="row">';
+        $block_name = "pi_modules_$k";
+        if ($GLOBALS['Template']->has_blocks($block_name)) {
+            echo '<div class="' . $v . '">';
+            echo '<div class="row">';
             echo $GLOBALS['Template']->get_blocks($block_name);
-          echo '</div>';
-        echo '</div>' . PHP_EOL;
-      }
+            echo '</div>';
+            echo '</div>' . PHP_EOL;
+        }
     }
-    ?>
+?>
   </div>
 </div>
 

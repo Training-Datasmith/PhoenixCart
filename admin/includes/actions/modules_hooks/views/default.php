@@ -14,8 +14,8 @@
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <?php
-  foreach ( $contents as $site => $groups ) {
-?>
+  foreach ($contents as $site => $groups) {
+      ?>
       <thead class="table-dark">
         <tr>
           <th colspan="4"><?php printf(TABLE_HEADING_LOCATION, $site); ?></th>
@@ -31,19 +31,19 @@
       </thead>
       <tbody>
         <?php
-    foreach ( $groups as $group => $actions ) {
-      foreach ( $actions as $action => $codes ) {
-        foreach ( $codes as $code => $locations) {
-          foreach ($locations as $location) {
-            if (is_array($location)) {
-              $file = implode('->', $location);
-              $class = explode('::', $location[0])[0];
-              $version = class_exists($class) ? (get_class_vars($class)['version'] ?? null) : null;
-            } else {
-              $file = "$code.php";
-              $version = get_class_vars("hook_{$site}_{$group}_{$code}")['version'] ?? null;
-            }
-?>
+          foreach ($groups as $group => $actions) {
+              foreach ($actions as $action => $codes) {
+                  foreach ($codes as $code => $locations) {
+                      foreach ($locations as $location) {
+                          if (is_array($location)) {
+                              $file = implode('->', $location);
+                              $class = explode('::', (string) $location[0])[0];
+                              $version = class_exists($class) ? (get_class_vars($class)['version'] ?? null) : null;
+                          } else {
+                              $file = "$code.php";
+                              $version = get_class_vars("hook_{$site}_{$group}_{$code}")['version'] ?? null;
+                          }
+                          ?>
         <tr>
           <td><?= $group ?></td>
           <td><?= $file ?></td>
@@ -51,10 +51,10 @@
           <td class="text-end"><?= $version ?? 'N/A' ?></td>
         </tr>
         <?php
+                      }
+                  }
+              }
           }
-        }
-      }
-    }
   }
 ?>
       </tbody>

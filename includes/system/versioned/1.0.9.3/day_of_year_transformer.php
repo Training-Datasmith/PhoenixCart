@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,12 +37,13 @@ THE SOFTWARE.
  *
  * @internal
  */
-class DayOfYearTransformer extends Transformer {
-
+class DayOfYearTransformer extends Transformer
+{
     /**
      * {@inheritdoc}
      */
-    public function format(\DateTime $dateTime, int $length): string {
+    public function format(\DateTime $dateTime, int $length): string
+    {
         $dayOfYear = (int) $dateTime->format('z') + 1;
 
         return $this->padLeft($dayOfYear, $length);
@@ -49,7 +52,8 @@ class DayOfYearTransformer extends Transformer {
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string {
+    public function getReverseMatchingRegExp(int $length): string
+    {
         return '\d{'.$length.'}';
     }
 

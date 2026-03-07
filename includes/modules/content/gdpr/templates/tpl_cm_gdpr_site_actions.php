@@ -11,13 +11,13 @@
     </thead>
     <tbody>
       <?php
-      foreach ($port_my_data['YOU']['ACTIONS']['LIST'] as $k => $v) {
-        echo '<tr>';
+      foreach ($port_my_data['YOU']['ACTIONS']['LIST'] as $v) {
+          echo '<tr>';
           echo '<th class="w-50">' . $v['ACTION'] . '</th>';
           echo '<td>' . $v['DATE'] . '</td>';
-        echo '</tr>';
+          echo '</tr>';
       }
-      ?>
+?>
     </tbody>
   </table>
 </div>

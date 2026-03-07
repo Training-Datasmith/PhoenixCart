@@ -13,13 +13,13 @@
         <td>
           <ul class="list-group">
             <?php
-            foreach ($port_my_data['YOU']['NOTIFICATION']['LIST'] as $k => $v) {
-              echo '<li class="list-group-item">';
+            foreach ($port_my_data['YOU']['NOTIFICATION']['LIST'] as $v) {
+                echo '<li class="list-group-item">';
                 echo '<span class="float-end"><a title="DELETE" role="button" id="delete" data-notification-id="' . $v['PID'] . '" class="btn btn-sm btn-danger text-white btn-delete text-white btn-delete-notification">' . MODULE_CONTENT_GDPR_NOTIFICATIONS_DELETE . '</a></span>';
                 printf(MODULE_CONTENT_GDPR_NOTIFICATIONS_EACH, $v['DATE'], $v['PRODUCT']);
-              echo '</li>';
+                echo '</li>';
             }
-            ?>
+?>
           </ul>
         </td>
       </tr>

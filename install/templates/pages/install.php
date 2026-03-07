@@ -155,39 +155,39 @@ function prepareDB() {
 
       <div class="form-floating mb-3">
         <?= (new Input('DB_SERVER', ['id' => 'DB_SERVER', 'placeholder' => 'localhost']))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_DATABASE_ADDRESS ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_DATABASE_ADDRESS ?>
         <label for="DB_SERVER"><?= TEXT_DATABASE_SERVER ?></label>
       </div>
       
       <div class="form-floating mb-3">
         <?= (new Input('DB_SERVER_USERNAME', ['id' => 'DB_SERVER_USERNAME', 'placeholder' => TEXT_USERNAME, 'autocomplete' => 'new-username']))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_USERNAME_DESCRIPTION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_USERNAME_DESCRIPTION ?>
         <label for="DB_SERVER_USERNAME"><?= TEXT_USERNAME ?></label>
       </div>
       
       <div class="form-floating mb-3">
         <?= (new Input('DB_SERVER_PASSWORD', ['id' => 'DB_SERVER_PASSWORD', 'autocomplete' => 'new-password'], 'password'))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_PASSWORD_DESCRIPTION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_PASSWORD_DESCRIPTION ?>
         <label for="DB_SERVER_PASSWORD"><?= TEXT_PASSWORD ?></label>
       </div>
       
       <div class="form-floating mb-3">
         <?= (new Input('DB_DATABASE', ['id' => 'DB_DATABASE', 'placeholder' => TEXT_DATABASE]))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_NAME_DESCRIPTION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_NAME_DESCRIPTION ?>
         <label for="DB_DATABASE"><?= TEXT_DATABASE_NAME ?></label>
       </div>
       
       <div class="form-floating mb-3">
         <?= (new Select('DB_IMPORT_SAMPLE', [
-                 ['id' => '0', 'text' => TEXT_SKIP_SAMPLE_DATA],
-                 ['id' => '1', 'text' => TEXT_IMPORT_SAMPLE_DATA]
-               ], ['id' => 'DB_IMPORT_SAMPLE']))->set_selection('1'),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_SAMPLE_IMPORT_DESCRIPTION ?>
+   ['id' => '0', 'text' => TEXT_SKIP_SAMPLE_DATA],
+   ['id' => '1', 'text' => TEXT_IMPORT_SAMPLE_DATA],
+ ], ['id' => 'DB_IMPORT_SAMPLE']))->set_selection('1'),
+TEXT_REQUIRED_INFORMATION,
+TEXT_SAMPLE_IMPORT_DESCRIPTION ?>
         <label for="DB_IMPORT_SAMPLE"><?= TEXT_IMPORT_SAMPLE_DATA ?></label>
       </div>
 

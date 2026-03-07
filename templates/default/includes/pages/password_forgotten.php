@@ -10,10 +10,10 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('login.php'));
-  $breadcrumb->add(NAVBAR_TITLE_2, $Linker->build('password_forgotten.php'));
+$breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('login.php'));
+$breadcrumb->add(NAVBAR_TITLE_2, $Linker->build('password_forgotten.php'));
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <div class="row">
@@ -22,25 +22,25 @@
 
 <?php
   if ($messageStack->size('password_forgotten') > 0) {
-    echo $messageStack->output('password_forgotten');
+      echo $messageStack->output('password_forgotten');
   }
 
-  if ($password_reset_initiated == true) {
-?>
+if ($password_reset_initiated == true) {
+    ?>
 
   <div class="alert alert-success" role="alert"><?= TEXT_PASSWORD_RESET_INITIATED ?></div>
 
 <?php
-  } else {
-?>
+} else {
+    ?>
 
 <?= new Form('password_forgotten', $Linker->build('password_forgotten.php', ['action' => 'process']), 'post', ['class' => 'was-validated'], true) ?>
 
   <div class="alert alert-warning" role="alert"><?= TEXT_MAIN ?></div>
 
   <?php
-  $customer_data->display_input(['email_address']);
-  ?>
+      $customer_data->display_input(['email_address']);
+    ?>
 
   <div class="d-grid">
     <?= new Button(IMAGE_BUTTON_RESET_PASSWORD, 'fas fa-user-cog', 'btn-warning') ?>
@@ -53,13 +53,13 @@
 </form>
 
 <?php
-  }
-  ?>
+}
+?>
   
   </div>
   
 </div>
 
 <?php
-  require $Template->map('template_bottom.php', 'component');
+require $Template->map('template_bottom.php', 'component');
 ?>

@@ -10,11 +10,11 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE, $Linker->build('testimonials.php'));
+$breadcrumb->add(NAVBAR_TITLE, $Linker->build('testimonials.php'));
 
-  $page_content = $Template->get_content('testimonials');
+$page_content = $Template->get_content('testimonials');
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
   <div class="row">

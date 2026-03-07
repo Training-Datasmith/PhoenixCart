@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,21 +12,27 @@
   Released under the GNU General Public License
 */
 
-  class sc_github_directory {
-    
+class sc_github_directory
+{
+    /**
+     * @var 'Github Directory'
+     */
     public $title;
     public $type = 'warning';
 
-    public function __construct() {
-      $this->title = MODULE_SECURITY_CHECK_GITHUB_TITLE;
+    public function __construct()
+    {
+        $this->title = MODULE_SECURITY_CHECK_GITHUB_TITLE;
     }
 
-    public function pass() {
-      return !file_exists(DIR_FS_CATALOG . '.github');
+    public function pass(): bool
+    {
+        return !file_exists(DIR_FS_CATALOG . '.github');
     }
 
-    public function get_message() {
-      return MODULE_SECURITY_CHECK_GITHUB_DIRECTORY_EXISTS;
+    public function get_message(): string
+    {
+        return MODULE_SECURITY_CHECK_GITHUB_DIRECTORY_EXISTS;
     }
-    
-  }
+
+}

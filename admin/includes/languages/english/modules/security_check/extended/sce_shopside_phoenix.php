@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -14,4 +16,3 @@ const MODULE_SECURITY_CHECK_EXTENDED_SHOPSIDE_PHOENIX_TITLE = 'Version - CE Phoe
 const MODULE_SECURITY_CHECK_EXTENDED_SHOPSIDE_PHOENIX_MESSAGE = <<<'EOT'
 Your shop is based on CE Phoenix v%s, see <a href="%s"><u>Tools > Version Checker</u></a> for more detailed information.
 EOT;
-

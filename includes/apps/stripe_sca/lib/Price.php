@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -47,26 +49,25 @@ namespace Stripe;
  */
 class Price extends ApiResource
 {
-    const OBJECT_NAME = 'price';
-
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Retrieve;
     use ApiOperations\Search;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'price';
 
-    const BILLING_SCHEME_PER_UNIT = 'per_unit';
-    const BILLING_SCHEME_TIERED = 'tiered';
+    public const BILLING_SCHEME_PER_UNIT = 'per_unit';
+    public const BILLING_SCHEME_TIERED = 'tiered';
 
-    const TAX_BEHAVIOR_EXCLUSIVE = 'exclusive';
-    const TAX_BEHAVIOR_INCLUSIVE = 'inclusive';
-    const TAX_BEHAVIOR_UNSPECIFIED = 'unspecified';
+    public const TAX_BEHAVIOR_EXCLUSIVE = 'exclusive';
+    public const TAX_BEHAVIOR_INCLUSIVE = 'inclusive';
+    public const TAX_BEHAVIOR_UNSPECIFIED = 'unspecified';
 
-    const TIERS_MODE_GRADUATED = 'graduated';
-    const TIERS_MODE_VOLUME = 'volume';
+    public const TIERS_MODE_GRADUATED = 'graduated';
+    public const TIERS_MODE_VOLUME = 'volume';
 
-    const TYPE_ONE_TIME = 'one_time';
-    const TYPE_RECURRING = 'recurring';
+    public const TYPE_ONE_TIME = 'one_time';
+    public const TYPE_RECURRING = 'recurring';
 
     /**
      * @param null|array $params

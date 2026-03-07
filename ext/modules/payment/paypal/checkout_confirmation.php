@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -27,33 +29,33 @@ $payload = @file_get_contents('php://input');
 header('Content-Type: application/json');
 if (strlen($payload)) {
 
-  $paypal_standard = new paypal_standard();
+    $paypal_standard = new paypal_standard();
 
-  if ($paypal_standard->isEnabled()) {
+    if ($paypal_standard->isEnabled()) {
 
-    try {
+        try {
 
-      $indata = json_decode($payload, true);
+            $indata = json_decode($payload, true);
 
-      if (empty($indata['cartid']) || $indata['cartid'] != $_SESSION['cartID']) {
-        echo json_encode(['error' => 'Invalid cartID']);
-        exit;
-      }
+            if (empty($indata['cartid']) || $indata['cartid'] != $_SESSION['cartID']) {
+                echo json_encode(['error' => 'Invalid cartID']);
+                exit;
+            }
 
-      if ($order_id = $paypal_standard->order_comments($indata)) {
-        echo json_encode(['result' => 'Comment recorded for ' . $order_id, 'orderid' => $order_id]);
-      } else {
-        echo json_encode(['error' => 'Failed to update order']);
-      }
-      exit;
+            if ($order_id = $paypal_standard->order_comments($indata)) {
+                echo json_encode(['result' => 'Comment recorded for ' . $order_id, 'orderid' => $order_id]);
+            } else {
+                echo json_encode(['error' => 'Failed to update order']);
+            }
+            exit;
 
-    } catch (Exception $e) {
-      echo json_encode(['error' => 'Invalid payload']);
-      exit;
+        } catch (Exception) {
+            echo json_encode(['error' => 'Invalid payload']);
+            exit;
+        }
+
     }
 
-  }
-
 } else {
-  echo json_encode(['error' => 'No payload']);
+    echo json_encode(['error' => 'No payload']);
 }

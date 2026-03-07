@@ -6,19 +6,19 @@
 
 <?php
 $form = new Form('quick_find', $GLOBALS['Linker']->build('advanced_search_result.php')->set_include_session(false), 'get');
-$form->hide_session_id()->hide('search_in_description', '0');
+    $form->hide_session_id()->hide('search_in_description', '0');
 
-$search_text = TEXT_SEARCH_PLACEHOLDER;
-$search_label = MODULE_NAVBAR_SEARCH_ARIA_LABEL;
-$search_button = MODULE_NAVBAR_SEARCH_SEARCH_TEXT;
+    $search_text = TEXT_SEARCH_PLACEHOLDER;
+    $search_label = MODULE_NAVBAR_SEARCH_ARIA_LABEL;
+    $search_button = MODULE_NAVBAR_SEARCH_SEARCH_TEXT;
 
-$advanced_search_link = $GLOBALS['Linker']->build('advanced_search.php');
-$advanced_search_text = MODULE_NAVBAR_SEARCH_ADVANCED;
+    $advanced_search_link = $GLOBALS['Linker']->build('advanced_search.php');
+    $advanced_search_text = MODULE_NAVBAR_SEARCH_ADVANCED;
 
-$input = new Input('keywords', ['autocomplete' => 'off', 'id' => 'keywords', 'placeholder' => $search_text, 'aria-label' => $search_label], 'search');
-$input->require();
+    $input = new Input('keywords', ['autocomplete' => 'off', 'id' => 'keywords', 'placeholder' => $search_text, 'aria-label' => $search_label], 'search');
+    $input->require();
 
-$searchModal = <<<SM
+    $searchModal = <<<SM
 <div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content rounded">
@@ -46,11 +46,11 @@ sModal.addEventListener('shown.bs.modal', () => {
 </script>
 SM;
 
-$GLOBALS['Template']->add_block($searchModal, 'footer_scripts');
-?>
+    $GLOBALS['Template']->add_block($searchModal, 'footer_scripts');
+    ?>
 
 <?php
-/*
+    /*
   $Id$
 
   CE Phoenix, E-Commerce made Easy
@@ -60,4 +60,4 @@ $GLOBALS['Template']->add_block($searchModal, 'footer_scripts');
 
   Released under the GNU General Public License
 */
-?>
+    ?>

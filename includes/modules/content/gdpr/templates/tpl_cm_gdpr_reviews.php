@@ -17,20 +17,22 @@
           <ul class="list-group">
             <?php
             $r = 1;
-            foreach ($port_my_data['YOU']['REVIEW']['LIST'] as $k => $v) {
-              echo '<li class="list-group-item">';
-                echo '<span class="float-end">';
-                  if ($v['ANON'] != 'Y')  {
-                    echo '<a title="ANON" role="button" id="anonymize" data-review-id="' . $v['ID'] . '" class="btn btn-sm btn-info btn-update btn-update-review">' . MODULE_CONTENT_GDPR_REVIEWS_ANONYMIZE . '</a>';
-                  }
-                  echo '&nbsp;<a title="DEL" role="button" id="delete" data-review-id="' . $v['ID'] . '" class="btn btn-sm btn-danger text-white btn-delete btn-update-review">' . MODULE_CONTENT_GDPR_REVIEWS_DELETE . '</a>';
-                echo '</span>';
-                printf(MODULE_CONTENT_GDPR_REVIEWS_EACH, $v['PRODUCT'], $v['DATE']);
-                echo '<br>' . new star_rating((float)$v['RATING']);
-                if ($v['ANON'] == 'Y') echo MODULE_CONTENT_GDPR_REVIEWS_ANONYMIZED;
-              echo '</li>';
-            }
-            ?>
+foreach ($port_my_data['YOU']['REVIEW']['LIST'] as $v) {
+    echo '<li class="list-group-item">';
+    echo '<span class="float-end">';
+    if ($v['ANON'] != 'Y') {
+        echo '<a title="ANON" role="button" id="anonymize" data-review-id="' . $v['ID'] . '" class="btn btn-sm btn-info btn-update btn-update-review">' . MODULE_CONTENT_GDPR_REVIEWS_ANONYMIZE . '</a>';
+    }
+    echo '&nbsp;<a title="DEL" role="button" id="delete" data-review-id="' . $v['ID'] . '" class="btn btn-sm btn-danger text-white btn-delete btn-update-review">' . MODULE_CONTENT_GDPR_REVIEWS_DELETE . '</a>';
+    echo '</span>';
+    printf(MODULE_CONTENT_GDPR_REVIEWS_EACH, $v['PRODUCT'], $v['DATE']);
+    echo '<br>' . new star_rating((float)$v['RATING']);
+    if ($v['ANON'] == 'Y') {
+        echo MODULE_CONTENT_GDPR_REVIEWS_ANONYMIZED;
+    }
+    echo '</li>';
+}
+?>
           </ul>
         </td>
       </tr>

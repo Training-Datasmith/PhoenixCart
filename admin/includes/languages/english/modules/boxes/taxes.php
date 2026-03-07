@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,4 +12,4 @@
   Released under the GNU General Public License
 */
 
-  const BOX_HEADING_LOCATION_AND_TAXES = '<i title="Locations & Taxes" class="fas fa-comments-dollar fa-fw me-1"></i><span title="Locations & Taxes" class="d-xl-none">Locations & Taxes</span>';
+const BOX_HEADING_LOCATION_AND_TAXES = '<i title="Locations & Taxes" class="fas fa-comments-dollar fa-fw me-1"></i><span title="Locations & Taxes" class="d-xl-none">Locations & Taxes</span>';

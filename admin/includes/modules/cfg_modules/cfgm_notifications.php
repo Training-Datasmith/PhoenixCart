@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,18 +12,18 @@
   Released under the GNU General Public License
 */
 
-  class cfgm_notifications {
+class cfgm_notifications
+{
+    public const CODE = 'notifications';
+    public const DIRECTORY = DIR_FS_CATALOG . 'includes/modules/notifications/';
+    public const LANGUAGE_DIRECTORY = DIR_FS_CATALOG . 'includes/languages/';
+    public const KEY = 'MODULE_NOTIFICATIONS_INSTALLED';
+    public const TITLE = MODULE_CFG_MODULE_NOTIFICATIONS_TITLE;
+    public const TEMPLATE_INTEGRATION = false;
 
-    const CODE = 'notifications';
-    const DIRECTORY = DIR_FS_CATALOG . 'includes/modules/notifications/';
-    const LANGUAGE_DIRECTORY = DIR_FS_CATALOG . 'includes/languages/';
-    const KEY = 'MODULE_NOTIFICATIONS_INSTALLED';
-    const TITLE = MODULE_CFG_MODULE_NOTIFICATIONS_TITLE;
-    const TEMPLATE_INTEGRATION = false;
-    
-    const GET_HELP_LINK = 'https://phoenixcart.org/phoenixcartwiki/index.php?title=Notifications';
-    const GET_ADDONS_LINKS = [ADDONS_FREE => 'https://phoenixcart.org/forum/app.php/addons/free/other-29',
+    public const GET_HELP_LINK = 'https://phoenixcart.org/phoenixcartwiki/index.php?title=Notifications';
+    public const GET_ADDONS_LINKS = [ADDONS_FREE => 'https://phoenixcart.org/forum/app.php/addons/free/other-29',
                               ADDONS_COMMERCIAL => 'https://phoenixcart.org/forum/app.php/addons/commercial/other-36',
                               ADDONS_PRO => 'https://phoenixcart.org/forum/app.php/addons/supporters/other-45',];
 
-  }
+}

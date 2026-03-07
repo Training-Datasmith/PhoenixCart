@@ -1,9 +1,9 @@
 <div class="<?= MODULE_CONTENT_SC_STOCK_NOTICE_CONTENT_WIDTH ?> cm-sc-stock-notice">
 	<?php
-	if (STOCK_ALLOW_CHECKOUT == 'true') {
-      echo '<div class="alert alert-warning" role="alert">', MODULE_CONTENT_SC_STOCK_NOTICE_CAN_CHECKOUT, '</div>';
+    if (STOCK_ALLOW_CHECKOUT == 'true') {
+        echo '<div class="alert alert-warning" role="alert">', MODULE_CONTENT_SC_STOCK_NOTICE_CAN_CHECKOUT, '</div>';
     } else {
-      echo '<div class="alert alert-danger" role="alert">', MODULE_CONTENT_SC_STOCK_NOTICE_CANT_CHECKOUT, '</div>';
+        echo '<div class="alert alert-danger" role="alert">', MODULE_CONTENT_SC_STOCK_NOTICE_CANT_CHECKOUT, '</div>';
     }
 ?>
 </div>

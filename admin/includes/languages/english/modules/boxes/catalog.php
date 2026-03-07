@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,4 +12,4 @@
   Released under the GNU General Public License
 */
 
-  const BOX_HEADING_CATALOG = '<i title="Catalog" class="fas fa-cart-plus fa-fw me-1"></i><span title="Catalog" class="d-xl-none">Catalog</span>';
+const BOX_HEADING_CATALOG = '<i title="Catalog" class="fas fa-cart-plus fa-fw me-1"></i><span title="Catalog" class="d-xl-none">Catalog</span>';

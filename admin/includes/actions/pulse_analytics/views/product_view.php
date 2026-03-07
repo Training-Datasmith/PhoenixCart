@@ -27,7 +27,7 @@ $products = $GLOBALS['db']->query("SELECT products_id, products_name FROM produc
         <option value="all" <?= (isset($_GET['product_id']) && $_GET['product_id'] == 'all') ? 'selected' : '' ?>><?= PRODUCT_VIEW_ALL_PRODUCTS ?></option>
         <?php while ($row = $products->fetch_assoc()) : ?>
           <option value="<?= (int)$row['products_id'] ?>" <?= (isset($_GET['product_id']) && $_GET['product_id'] == $row['products_id']) ? 'selected' : '' ?>>
-            <?= htmlspecialchars($row['products_name']) ?>
+            <?= htmlspecialchars((string) $row['products_name']) ?>
           </option>
         <?php endwhile; ?>
       </select>
@@ -37,14 +37,14 @@ $products = $GLOBALS['db']->query("SELECT products_id, products_name FROM produc
   <div class="col-md-3">
     <div class="form-floating">
       <input type="date" id="start_date" name="start_date" class="form-control" required
-        value="<?= isset($_GET['start_date']) ? htmlspecialchars($_GET['start_date']) : date('Y-m-01') ?>">
+        value="<?= isset($_GET['start_date']) ? htmlspecialchars((string) $_GET['start_date']) : date('Y-m-01') ?>">
       <label for="start_date"><?= PRODUCT_VIEW_START_DATE ?></label>
     </div>
   </div>
   <div class="col-md-3">
     <div class="form-floating">
       <input type="date" id="end_date" name="end_date" class="form-control" required
-        value="<?= isset($_GET['end_date']) ? htmlspecialchars($_GET['end_date']) : date('Y-m-d') ?>">
+        value="<?= isset($_GET['end_date']) ? htmlspecialchars((string) $_GET['end_date']) : date('Y-m-d') ?>">
       <label for="end_date"><?= PRODUCT_VIEW_END_DATE ?></label>
     </div>
   </div>
@@ -54,18 +54,18 @@ $products = $GLOBALS['db']->query("SELECT products_id, products_name FROM produc
 </form>
 
 <?php
-$product_id = isset($_GET['product_id']) ? $_GET['product_id'] : '';
-$start_date = isset($_GET['start_date']) ? $_GET['start_date'] : date('Y-m-01');
-$end_date = isset($_GET['end_date']) ? $_GET['end_date'] : date('Y-m-d');
+$product_id = $_GET['product_id'] ?? '';
+$start_date = $_GET['start_date'] ?? date('Y-m-01');
+$end_date = $_GET['end_date'] ?? date('Y-m-d');
 
-if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $start_date) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $end_date)) {
-  echo ERROR_INVALID_DATE_FORMAT;
-  exit;
+if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $start_date) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $end_date)) {
+    echo ERROR_INVALID_DATE_FORMAT;
+    exit;
 }
 
 if ($product_id !== '' && $product_id !== '0') {
-  if ($product_id === 'all') {
-    $views_sql = $GLOBALS['db']->prepare("
+    if ($product_id === 'all') {
+        $views_sql = $GLOBALS['db']->prepare("
       SELECT DATE(created_at) as view_date, COUNT(*) as views
       FROM analytics_events
       WHERE event_type = 'product_view'
@@ -73,10 +73,10 @@ if ($product_id !== '' && $product_id !== '0') {
       GROUP BY view_date
       ORDER BY view_date ASC
     ");
-    $views_sql->bind_param("ss", $start_date, $end_date);
-  } else {
-      $product_id_int = (int)$product_id;
-      $views_sql = $GLOBALS['db']->prepare("
+        $views_sql->bind_param('ss', $start_date, $end_date);
+    } else {
+        $product_id_int = (int)$product_id;
+        $views_sql = $GLOBALS['db']->prepare("
         SELECT DATE(created_at) as view_date, COUNT(*) as views
         FROM analytics_events
         WHERE event_type = 'product_view'
@@ -85,7 +85,7 @@ if ($product_id !== '' && $product_id !== '0') {
         GROUP BY view_date
         ORDER BY view_date ASC
       ");
-      $views_sql->bind_param("iss", $product_id_int, $start_date, $end_date);
+        $views_sql->bind_param('iss', $product_id_int, $start_date, $end_date);
     }
 
     $views_sql->execute();
@@ -93,21 +93,21 @@ if ($product_id !== '' && $product_id !== '0') {
 
     $views_by_date = [];
     while ($row = $views_result->fetch_assoc()) {
-      $views_by_date[$row['view_date']] = (int)$row['views'];
+        $views_by_date[$row['view_date']] = (int)$row['views'];
     }
 
     if ($product_id === 'all') {
-      $sales_sql = $GLOBALS['db']->prepare("
+        $sales_sql = $GLOBALS['db']->prepare('
         SELECT DATE(o.date_purchased) as sale_date, SUM(op.products_quantity) as sales
         FROM orders o
         JOIN orders_products op ON o.orders_id = op.orders_id
         WHERE o.date_purchased BETWEEN ? AND DATE_ADD(?, INTERVAL 1 DAY)
         GROUP BY sale_date
         ORDER BY sale_date ASC
-      ");
-      $sales_sql->bind_param("ss", $start_date, $end_date);
+      ');
+        $sales_sql->bind_param('ss', $start_date, $end_date);
     } else {
-      $sales_sql = $GLOBALS['db']->prepare("
+        $sales_sql = $GLOBALS['db']->prepare('
         SELECT DATE(o.date_purchased) as sale_date, SUM(op.products_quantity) as sales
         FROM orders o
         JOIN orders_products op ON o.orders_id = op.orders_id
@@ -115,8 +115,8 @@ if ($product_id !== '' && $product_id !== '0') {
           AND o.date_purchased BETWEEN ? AND DATE_ADD(?, INTERVAL 1 DAY)
         GROUP BY sale_date
         ORDER BY sale_date ASC
-      ");
-      $sales_sql->bind_param("iss", $product_id_int, $start_date, $end_date);
+      ');
+        $sales_sql->bind_param('iss', $product_id_int, $start_date, $end_date);
     }
 
     $sales_sql->execute();
@@ -124,11 +124,13 @@ if ($product_id !== '' && $product_id !== '0') {
 
     $sales_by_date = [];
     while ($row = $sales_result->fetch_assoc()) {
-      $sales_by_date[$row['sale_date']] = (int)$row['sales'];
+        $sales_by_date[$row['sale_date']] = (int)$row['sales'];
     }
 
     $period = new DatePeriod(
-      new DateTime($start_date), new DateInterval('P1D'), (new DateTime($end_date))->modify('+1 day')
+        new DateTime($start_date),
+        new DateInterval('P1D'),
+        (new DateTime($end_date))->modify('+1 day')
     );
 
     $labels = [];
@@ -136,16 +138,16 @@ if ($product_id !== '' && $product_id !== '0') {
     $sales_data = [];
 
     foreach ($period as $date) {
-      $d = $date->format('Y-m-d');
-      $labels[] = $date->format('M j');
-      $views_data[] = $views_by_date[$d] ?? 0;
-      $sales_data[] = $sales_by_date[$d] ?? 0;
+        $d = $date->format('Y-m-d');
+        $labels[] = $date->format('M j');
+        $views_data[] = $views_by_date[$d] ?? 0;
+        $sales_data[] = $sales_by_date[$d] ?? 0;
     }
-  } else {
+} else {
     $labels = [];
     $views_data = [];
     $sales_data = [];
-  }
+}
 ?>
 
 <?php if ($product_id !== '' && $product_id !== '0'): ?>
@@ -153,7 +155,7 @@ if ($product_id !== '' && $product_id !== '0') {
   <div class="card-header d-flex justify-content-between">
     <h5 class="mb-0"><?= PRODUCT_VIEW_CHART_TITLE ?><?= $product_id === 'all' ? PRODUCT_VIEW_CHART_TITLE_ALL : '' ?></h5>
     <small class="text-muted">
-      <?= sprintf(PRODUCT_VIEW_CHART_TITLE_DATE_RANGE, htmlspecialchars($start_date), htmlspecialchars($end_date)) ?></small>
+      <?= sprintf(PRODUCT_VIEW_CHART_TITLE_DATE_RANGE, htmlspecialchars((string) $start_date), htmlspecialchars((string) $end_date)) ?></small>
   </div>
   <div class="card-body">
     <canvas id="analyticsChart" height="400"></canvas>

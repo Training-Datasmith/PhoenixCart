@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  if ( isset($_GET['aID'], $_GET['flag']) && ($_GET['flag'] == '0') || ($_GET['flag'] == '1') ) {
-    $db->query("UPDATE advert SET status = " . (int)$_GET['flag'] . ", date_status_change = NOW() WHERE advert_id = " . (int)$_GET['aID']);
-  }
+if (isset($_GET['aID'], $_GET['flag']) && ($_GET['flag'] == '0') || ($_GET['flag'] == '1')) {
+    $db->query('UPDATE advert SET status = ' . (int)$_GET['flag'] . ', date_status_change = NOW() WHERE advert_id = ' . (int)$_GET['aID']);
+}
 
-  return $link->set_parameter('aID', (int)$_GET['aID']);
+return $link->set_parameter('aID', (int)$_GET['aID']);

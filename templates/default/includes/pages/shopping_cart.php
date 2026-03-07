@@ -10,15 +10,15 @@
   Released under the GNU General Public License
 */
 
-  $page_content = $Template->get_content('shopping_cart');
+$page_content = $Template->get_content('shopping_cart');
 
-  $breadcrumb->add(NAVBAR_TITLE, $Linker->build('shopping_cart.php'));
+$breadcrumb->add(NAVBAR_TITLE, $Linker->build('shopping_cart.php'));
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 
-  if ($messageStack->size('product_action') > 0) {
+if ($messageStack->size('product_action') > 0) {
     echo $messageStack->output('product_action');
-  }
+}
 ?>
 
 <div class="row">

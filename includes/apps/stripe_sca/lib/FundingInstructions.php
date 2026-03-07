@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -22,7 +24,7 @@ namespace Stripe;
  */
 class FundingInstructions extends ApiResource
 {
-    const OBJECT_NAME = 'funding_instructions';
+    public const OBJECT_NAME = 'funding_instructions';
 
-    const FUNDING_TYPE_BANK_TRANSFER = 'bank_transfer';
+    public const FUNDING_TYPE_BANK_TRANSFER = 'bank_transfer';
 }

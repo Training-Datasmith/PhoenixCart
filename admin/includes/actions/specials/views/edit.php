@@ -10,22 +10,22 @@
   Released under the GNU General Public License
 */
 
-  $sID = (int)$_GET['sID'];
+$sID = (int)$_GET['sID'];
 
-  $product_query = $db->query(sprintf(<<<'EOSQL'
+$product_query = $db->query(sprintf(<<<'EOSQL'
 SELECT p.*, pd.*, s.*
  FROM products p INNER JOIN products_description pd ON p.products_id = pd.products_id and pd.language_id = %d INNER JOIN specials s ON pd.products_id = s.products_id
  WHERE s.specials_id = %d
 EOSQL
-        , (int)$_SESSION['languages_id'], $sID));
-  $product = $product_query->fetch_assoc();
+    , (int)$_SESSION['languages_id'], $sID));
+$product = $product_query->fetch_assoc();
 
-  $sInfo = new objectInfo($product);
-  $link->set_parameter('sID', (string)(int)$sID);
+$sInfo = new objectInfo($product);
+$link->set_parameter('sID', (string)$sID);
 
-  $form = new Form('new_special', $link->set_parameter('action', 'update'), 'post');
-  $form->hide('specials_id', $sID)
-       ->hide('products_price', $sInfo->products_price ?? '');
+$form = new Form('new_special', $link->set_parameter('action', 'update'), 'post');
+$form->hide('specials_id', $sID)
+     ->hide('products_price', $sInfo->products_price ?? '');
 ?>
 
   <?= $form ?>

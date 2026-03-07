@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,40 +12,42 @@
   Released under the GNU General Public License
 */
 
-  class ht_product_meta extends abstract_module {
-
-    const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_PRODUCT_META_';
+class ht_product_meta extends abstract_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_PRODUCT_META_';
 
     protected $group = 'header_tags';
 
-    public function execute() {
-      global $product;
+    public function execute(): void
+    {
+        global $product;
 
-      if (isset($_GET['products_id'], $product) && !Text::is_empty($product->get('seo_description'))) {
-        $GLOBALS['Template']->add_block('<meta name="description" content="' . Text::output($product->get('seo_description')) . '">' . PHP_EOL, $this->group);
-      }
+        if (isset($_GET['products_id'], $product) && !Text::is_empty($product->get('seo_description'))) {
+            $GLOBALS['Template']->add_block('<meta name="description" content="' . Text::output($product->get('seo_description')) . '">' . PHP_EOL, $this->group);
+        }
     }
 
-    protected function get_parameters() {
-      return [
-        $this->config_key_base . 'STATUS' => [
-          'title' => 'Enable Product Meta Module',
-          'value' => 'True',
-          'desc' => 'Do you want to allow product meta tags to be added to the page header?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-        $this->config_key_base . 'KEYWORDS_STATUS' => [
-          'title' => 'Enable Keyword Search Engine',
-          'value' => 'True',
-          'desc' => 'Keywords can be used as an internal search engine...',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-        $this->config_key_base . 'SORT_ORDER' => [
-          'title' => 'Sort Order',
-          'value' => '0',
-          'desc' => 'Sort order of display. Lowest is displayed first.',
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          $this->config_key_base . 'STATUS' => [
+            'title' => 'Enable Product Meta Module',
+            'value' => 'True',
+            'desc' => 'Do you want to allow product meta tags to be added to the page header?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+          $this->config_key_base . 'KEYWORDS_STATUS' => [
+            'title' => 'Enable Keyword Search Engine',
+            'value' => 'True',
+            'desc' => 'Keywords can be used as an internal search engine...',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+          $this->config_key_base . 'SORT_ORDER' => [
+            'title' => 'Sort Order',
+            'value' => '0',
+            'desc' => 'Sort order of display. Lowest is displayed first.',
+          ],
+        ];
     }
 
-  }
+}

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,24 +12,25 @@
   Released under the GNU General Public License
 */
 
-  class Linker {
-
-    protected $prefix;
-
-    public function __construct($prefix = HTTP_SERVER . DIR_WS_CATALOG) {
-      $this->prefix = $prefix;
+class Linker
+{
+    public function __construct(protected $prefix = HTTP_SERVER . DIR_WS_CATALOG)
+    {
     }
 
-    public function get_prefix() {
-      return $this->prefix;
+    public function get_prefix()
+    {
+        return $this->prefix;
     }
 
-    public function set_prefix($prefix) {
-      $this->prefix = $prefix;
+    public function set_prefix($prefix): void
+    {
+        $this->prefix = $prefix;
     }
 
-    public function build($page = null, $parameters = [], $add_session_id = true) {
-      return new Href($this->prefix, $page, $parameters, $add_session_id);
+    public function build($page = null, $parameters = [], $add_session_id = true): \Href
+    {
+        return new Href($this->prefix, $page, $parameters, $add_session_id);
     }
 
-  }
+}

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -41,9 +43,3 @@ const PRODUCT_VIEW_CHART_TITLE_ALL = ' - All Products';
 const PRODUCT_VIEW_CHART_TITLE_DATE_RANGE = '%s to %s';
 
 const ERROR_INVALID_DATE_FORMAT = '<p>Invalid Date Format</p>';
-
-
- 
-
-
-

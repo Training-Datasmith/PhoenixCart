@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,15 +12,16 @@
   Released under the GNU General Public License
 */
 
-  class System {
-
+class System
+{
     /**
      * Sets the timeout for the current script.
      * Can't be used in safe mode, so override on such servers.
      * @param numeric $limit
      */
-    public static function set_time_limit($limit) {
-      set_time_limit($limit);
+    public static function set_time_limit($limit): void
+    {
+        set_time_limit($limit);
     }
 
-  }
+}

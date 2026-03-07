@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_LOGIN_TITLE_TITLE        = 'Page Heading';
-  const MODULE_CONTENT_LOGIN_TITLE_DESCRIPTION  = 'Shows the Page Heading.';
+const MODULE_CONTENT_LOGIN_TITLE_TITLE        = 'Page Heading';
+const MODULE_CONTENT_LOGIN_TITLE_DESCRIPTION  = 'Shows the Page Heading.';
 
-  const MODULE_CONTENT_LOGIN_TITLE_PUBLIC_TITLE = 'Welcome, Please Sign In';
+const MODULE_CONTENT_LOGIN_TITLE_PUBLIC_TITLE = 'Welcome, Please Sign In';

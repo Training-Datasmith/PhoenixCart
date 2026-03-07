@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -22,19 +24,18 @@ namespace Stripe;
  */
 class Capability extends ApiResource
 {
-    const OBJECT_NAME = 'capability';
-
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'capability';
 
-    const STATUS_ACTIVE = 'active';
-    const STATUS_INACTIVE = 'inactive';
-    const STATUS_PENDING = 'pending';
-    const STATUS_UNREQUESTED = 'unrequested';
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_INACTIVE = 'inactive';
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_UNREQUESTED = 'unrequested';
 
     /**
      * @return string the API URL for this Stripe account reversal
      */
-    public function instanceUrl()
+    public function instanceUrl(): string
     {
         $id = $this['id'];
         $account = $this['account'];
@@ -49,8 +50,8 @@ class Capability extends ApiResource
         $account = Util\Util::utf8($account);
 
         $base = Account::classUrl();
-        $accountExtn = \urlencode($account);
-        $extn = \urlencode($id);
+        $accountExtn = \urlencode((string) $account);
+        $extn = \urlencode((string) $id);
 
         return "{$base}/{$accountExtn}/capabilities/{$extn}";
     }
@@ -61,7 +62,7 @@ class Capability extends ApiResource
      *
      * @throws \Stripe\Exception\BadMethodCallException
      */
-    public static function retrieve($_id, $_opts = null)
+    public static function retrieve($_id, $_opts = null): never
     {
         $msg = 'Capabilities cannot be retrieved without an account ID. ' .
                'Retrieve a capability using `Account::retrieveCapability(' .
@@ -77,7 +78,7 @@ class Capability extends ApiResource
      *
      * @throws \Stripe\Exception\BadMethodCallException
      */
-    public static function update($_id, $_params = null, $_options = null)
+    public static function update($_id, $_params = null, $_options = null): never
     {
         $msg = 'Capabilities cannot be updated without an account ID. ' .
                'Update a capability using `Account::updateCapability(' .

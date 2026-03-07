@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,8 +37,8 @@ THE SOFTWARE.
  *
  * @internal
  */
-abstract class HourTransformer extends Transformer {
-
+abstract class HourTransformer extends Transformer
+{
     /**
      * Returns a normalized hour value suitable for the hour transformer type.
      *
@@ -50,7 +52,8 @@ abstract class HourTransformer extends Transformer {
     /**
      * {@inheritdoc}
      */
-    public function extractDateOptions(string $matched, int $length): array {
+    public function extractDateOptions(string $matched, int $length): array
+    {
         return [
             'hour' => (int) $matched,
             'hourInstance' => $this,

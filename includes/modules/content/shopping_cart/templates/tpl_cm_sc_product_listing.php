@@ -15,45 +15,45 @@
       <tbody>
         <?php
         foreach ($products as $product) {
-          echo '<tr>';
+            echo '<tr>';
             echo '<td scope="row" class="d-none d-md-table-cell" style="width: 200px;">';
-              echo '<a href="', $product->get('link'), '">', new Image('images/' . $product->get('image'), [], htmlspecialchars($product->get('name'))), '</a>';
+            echo '<a href="', $product->get('link'), '">', new Image('images/' . $product->get('image'), [], htmlspecialchars((string) $product->get('name'))), '</a>';
             echo '</td>';
             echo '<th class="align-middle">';
-              echo '<a href="', $product->get('link'), '">', $product->get('name'), '</a>';
-              if (STOCK_CHECK == 'true' && $product->lacks_stock()) {
+            echo '<a href="', $product->get('link'), '">', $product->get('name'), '</a>';
+            if (STOCK_CHECK == 'true' && $product->lacks_stock()) {
                 $GLOBALS['any_out_of_stock'] = true;
 
                 echo '<span class="d-md-none text-danger align-middle">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</span>';
-              }
-              $attributes = $product->get('attributes');
-              foreach (($product->get('attribute_selections') ?? []) as $option => $value) {
+            }
+            $attributes = $product->get('attributes');
+            foreach (($product->get('attribute_selections') ?? []) as $option => $value) {
                 echo '<small class="fw-normal"><br> - ', $attributes[$option]['name'], ' ', $attributes[$option]['values'][$value]['name'], '</small>';
-              }
+            }
             echo '</th>';
 
             if (STOCK_CHECK == 'true' && $product->lacks_stock()) {
-              $GLOBALS['any_out_of_stock'] = true;
+                $GLOBALS['any_out_of_stock'] = true;
 
-              echo '<td class="d-none d-md-table-cell align-middle">';
+                echo '<td class="d-none d-md-table-cell align-middle">';
                 echo '<span class="text-danger"><b>' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</b></span>';
-              echo '</td>';
+                echo '</td>';
             } else {
-              echo '<td class="d-none d-md-table-cell align-middle">' . MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_IN_STOCK . '</td>';
+                echo '<td class="d-none d-md-table-cell align-middle">' . MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_IN_STOCK . '</td>';
             }
 
             echo '<td class="align-middle">';
-              echo '<div class="input-group flex-nowrap">';
-                echo new Input('cart_quantity[]', ['value' => $product->get('quantity'), 'style' => 'width: 65px;', 'min' => '0', 'aria-label' => MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_QUANTITY], 'number');
-                echo new Input('products_id[]', ['value' => $product->get('uprid')], 'hidden');
-                echo new Button(MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_BUTTON_UPDATE, '', 'btn-info');
-              echo '</div>';
+            echo '<div class="input-group flex-nowrap">';
+            echo new Input('cart_quantity[]', ['value' => $product->get('quantity'), 'style' => 'width: 65px;', 'min' => '0', 'aria-label' => MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_QUANTITY], 'number');
+            echo new Input('products_id[]', ['value' => $product->get('uprid')], 'hidden');
+            echo new Button(MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_BUTTON_UPDATE, '', 'btn-info');
+            echo '</div>';
             echo '</td>';
             echo '<td class="text-end align-middle">', $product->format('final_price', $product->get('quantity')), '</td>';
             echo '<td class="text-end align-middle">', new Button(MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_BUTTON_REMOVE, '', 'btn-link', [], $GLOBALS['Linker']->build('shopping_cart.php', ['action' => 'remove_product', 'products_id' => $product->get('uprid')])), '</td>';
-          echo '</tr>';
+            echo '</tr>';
         }
-        ?>
+?>
       </tbody>
     </table>
   </div>

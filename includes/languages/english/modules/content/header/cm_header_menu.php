@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,11 +12,11 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_HEADER_MENU_TITLE = 'Horizontal Menu';
-  const MODULE_CONTENT_HEADER_MENU_DESCRIPTION = 'Adds Horizontal Menu (plus one layer) into the Header.';
+const MODULE_CONTENT_HEADER_MENU_TITLE = 'Horizontal Menu';
+const MODULE_CONTENT_HEADER_MENU_DESCRIPTION = 'Adds Horizontal Menu (plus one layer) into the Header.';
 
-  const MODULE_CONTENT_HEADER_MENU_TOGGLER = 'Toggle Menu';
+const MODULE_CONTENT_HEADER_MENU_TOGGLER = 'Toggle Menu';
 
-  const MODULE_CONTENT_HEADER_MENU_MANUFACTURER_DROPDOWN = 'Manufacturers';
-  
-  const MODULE_CONTENT_HEADER_MENU_MENU = 'Navigation Menu';
+const MODULE_CONTENT_HEADER_MENU_MANUFACTURER_DROPDOWN = 'Manufacturers';
+
+const MODULE_CONTENT_HEADER_MENU_MENU = 'Navigation Menu';

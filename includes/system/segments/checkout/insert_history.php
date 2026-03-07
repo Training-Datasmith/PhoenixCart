@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,13 +12,13 @@
   Released under the GNU General Public License
 */
 
-  $customer_comment = Text::input($_POST['comments'] ?? '');
+$customer_comment = Text::input($_POST['comments'] ?? '');
 
-  $sql_data = [
-    'orders_id' => $order->get_id(),
-    'orders_status_id' => $order->info['order_status'],
-    'date_added' => 'NOW()',
-    'customer_notified' => $GLOBALS['customer_notification'],
-    'comments' => $GLOBALS['db']->escape($customer_comment),
-  ];
-  $GLOBALS['db']->perform('orders_status_history', $sql_data);
+$sql_data = [
+  'orders_id' => $order->get_id(),
+  'orders_status_id' => $order->info['order_status'],
+  'date_added' => 'NOW()',
+  'customer_notified' => $GLOBALS['customer_notification'],
+  'comments' => $GLOBALS['db']->escape($customer_comment),
+];
+$GLOBALS['db']->perform('orders_status_history', $sql_data);

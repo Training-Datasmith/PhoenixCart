@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,9 +12,9 @@
   Released under the GNU General Public License
 */
 
-  $pages_id = Text::input($_GET['pID']);
+$pages_id = Text::input($_GET['pID']);
 
-  $db->query("DELETE FROM pages WHERE pages_id = " . (int)$pages_id);
-  $db->query("DELETE FROM pages_description WHERE pages_id = " . (int)$pages_id);
+$db->query('DELETE FROM pages WHERE pages_id = ' . (int)$pages_id);
+$db->query('DELETE FROM pages_description WHERE pages_id = ' . (int)$pages_id);
 
-  return $link;
+return $link;

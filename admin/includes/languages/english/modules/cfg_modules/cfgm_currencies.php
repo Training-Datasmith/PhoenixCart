@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -11,4 +13,3 @@
 */
 
 const MODULE_CFG_MODULE_CURRENCIES_TITLE = 'Update Currency';
-

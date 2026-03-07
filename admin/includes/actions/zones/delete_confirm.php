@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  $zone_id = Text::input($_GET['cID']);
+$zone_id = Text::input($_GET['cID']);
 
-  $db->query("DELETE FROM zones WHERE zone_id = " . (int)$zone_id);
+$db->query('DELETE FROM zones WHERE zone_id = ' . (int)$zone_id);
 
-  return $link;
+return $link;

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,15 +12,14 @@
   Released under the GNU General Public License
 */
 
-  class named_html_element extends html_element {
-
+class named_html_element extends html_element
+{
     /**
-     * @param string $name
-     * @param array $parameters
      * @param string $css A space-separated list of CSS classes.
      */
-    public function __construct(string $name, array $parameters = []) {
-      parent::__construct(['name' => $name] + $parameters);
+    public function __construct(string $name, array $parameters = [])
+    {
+        parent::__construct(['name' => $name] + $parameters);
     }
 
-  }
+}

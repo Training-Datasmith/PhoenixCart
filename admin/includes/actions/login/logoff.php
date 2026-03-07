@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,10 +12,10 @@
   Released under the GNU General Public License
 */
 
-  unset($_SESSION['admin']);
+unset($_SESSION['admin']);
 
-  if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
+if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
     $_SESSION['auth_ignore'] = true;
-  }
+}
 
-  return $Admin->link('index.php');
+return $Admin->link('index.php');

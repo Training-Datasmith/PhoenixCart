@@ -10,18 +10,18 @@
   Released under the GNU General Public License
 */
 
-  $Template->build_blocks();
+$Template->build_blocks();
 
-  $hooks->cat('injectRedirects');
+$hooks->cat('injectRedirects');
 
-  $tpl_template = $Template->get_template();
-  if (!$Template->has_blocks('boxes_column_left')) {
+$tpl_template = $Template->get_template();
+if (!$Template->has_blocks('boxes_column_left')) {
     $tpl_template->setGridContentWidth($tpl_template->getGridContentWidth() + $tpl_template->getGridColumnWidth());
-  }
+}
 
-  if (!$Template->has_blocks('boxes_column_right')) {
+if (!$Template->has_blocks('boxes_column_right')) {
     $tpl_template->setGridContentWidth($tpl_template->getGridContentWidth() + $tpl_template->getGridColumnWidth());
-  }
+}
 ?>
 <!DOCTYPE html>
 <html<?= HTML_PARAMS ?>>
@@ -30,21 +30,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="CE Phoenix Cart">
-<title><?= htmlspecialchars($Template->get_title()) ?></title>
+<title><?= htmlspecialchars((string) $Template->get_title()) ?></title>
 <base href="<?= HTTP_SERVER . DIR_WS_CATALOG ?>">
 
 <?=
   $hooks->cat('injectSiteStart'),
-  $Template->get_blocks('header_tags')
+$Template->get_blocks('header_tags')
 ?>
 </head>
 <body>
 
-  <?= 
-    $hooks->cat('injectBodyStart'), 
-    $Template->get_content('navigation'), 
-    $hooks->cat('injectBeforeHeader') 
-  ?>
+  <?=
+    $hooks->cat('injectBodyStart'),
+$Template->get_content('navigation'),
+$hooks->cat('injectBeforeHeader')
+?>
     
   <div class="header bg-body-tertiary border-bottom">
     <div class="<?= BOOTSTRAP_CONTAINER ?>">

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\Util;
 
 use ArrayIterator;
@@ -7,7 +9,7 @@ use IteratorAggregate;
 
 class Set implements IteratorAggregate
 {
-    private $_elts;
+    private array $_elts;
 
     public function __construct($members = [])
     {
@@ -17,22 +19,22 @@ class Set implements IteratorAggregate
         }
     }
 
-    public function includes($elt)
+    public function includes(mixed $elt): bool
     {
         return isset($this->_elts[$elt]);
     }
 
-    public function add($elt)
+    public function add(mixed $elt): void
     {
         $this->_elts[$elt] = true;
     }
 
-    public function discard($elt)
+    public function discard(mixed $elt): void
     {
         unset($this->_elts[$elt]);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return \array_keys($this->_elts);
     }

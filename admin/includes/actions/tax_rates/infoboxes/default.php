@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($GLOBALS['table_definition']['info']->tax_rates_id)) {
+if (isset($GLOBALS['table_definition']['info']->tax_rates_id)) {
     $trInfo = &$GLOBALS['table_definition']['info'];
 
     $heading = $trInfo->tax_class_title;
@@ -23,4 +25,4 @@
     $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, Date::abridge($trInfo->date_added))];
     $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, Date::abridge($trInfo->last_modified))];
     $contents[] = ['text' => sprintf(TEXT_INFO_RATE_DESCRIPTION, $trInfo->tax_description)];
-  }
+}

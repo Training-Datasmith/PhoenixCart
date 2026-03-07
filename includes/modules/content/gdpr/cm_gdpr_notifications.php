@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,37 +12,39 @@
   Released under the GNU General Public License
 */
 
-  class cm_gdpr_notifications extends abstract_executable_module {
+class cm_gdpr_notifications extends abstract_executable_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_CONTENT_GDPR_NOTIFICATIONS_';
 
-    const CONFIG_KEY_BASE = 'MODULE_CONTENT_GDPR_NOTIFICATIONS_';
-
-    function __construct() {
-      parent::__construct(__FILE__);
+    public function __construct()
+    {
+        parent::__construct(__FILE__);
     }
 
-    function execute() {
-      global $port_my_data;
+    public function execute(): void
+    {
+        global $port_my_data;
 
-      $notifications_query = $GLOBALS['db']->query("select pn.*, pd.* from products_notifications pn left join products_description pd on pn.products_id = pd.products_id where pn.customers_id = " . (int)$_SESSION['customer_id'] . " and pd.language_id = " . (int)$_SESSION['languages_id'] . " order by pd.products_name");
-      $num_notifications = mysqli_num_rows($notifications_query);
+        $notifications_query = $GLOBALS['db']->query('select pn.*, pd.* from products_notifications pn left join products_description pd on pn.products_id = pd.products_id where pn.customers_id = ' . (int)$_SESSION['customer_id'] . ' and pd.language_id = ' . (int)$_SESSION['languages_id'] . ' order by pd.products_name');
+        $num_notifications = mysqli_num_rows($notifications_query);
 
-      $port_my_data['YOU']['NOTIFICATION']['COUNT'] = $num_notifications;
+        $port_my_data['YOU']['NOTIFICATION']['COUNT'] = $num_notifications;
 
-      if ($num_notifications > 0) {
-        $n = 1;
+        if ($num_notifications > 0) {
+            $n = 1;
 
-        while ($notifications = $notifications_query->fetch_assoc()) {
-          $port_my_data['YOU']['NOTIFICATION']['LIST'][$n]['PRODUCT'] = $notifications['products_name'];
-          $port_my_data['YOU']['NOTIFICATION']['LIST'][$n]['DATE'] = $notifications['date_added'];
-          $port_my_data['YOU']['NOTIFICATION']['LIST'][$n]['PID'] = (int)$notifications['products_id'];
-          $n++;
-        }
+            while ($notifications = $notifications_query->fetch_assoc()) {
+                $port_my_data['YOU']['NOTIFICATION']['LIST'][$n]['PRODUCT'] = $notifications['products_name'];
+                $port_my_data['YOU']['NOTIFICATION']['LIST'][$n]['DATE'] = $notifications['date_added'];
+                $port_my_data['YOU']['NOTIFICATION']['LIST'][$n]['PID'] = (int)$notifications['products_id'];
+                $n++;
+            }
 
-        $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
-        include 'includes/modules/content/cm_template.php';
+            $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
+            include 'includes/modules/content/cm_template.php';
 
-        // js for delete button
-        $delete_action_js = <<<EOD
+            // js for delete button
+            $delete_action_js = <<<EOD
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.btn-delete-notification').forEach(function(button) {
@@ -71,29 +75,30 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 EOD;
 
-        $GLOBALS['Template']->add_block($delete_action_js, 'footer_scripts');
-      }
+            $GLOBALS['Template']->add_block($delete_action_js, 'footer_scripts');
+        }
     }
 
-    protected function get_parameters() {
-      return [
-        $this->config_key_base . 'STATUS' => [
-          'title' => 'Enable Notifications Module',
-          'value' => 'True',
-          'desc' => 'Should this module be shown on the GDPR page?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-        $this->config_key_base . 'CONTENT_WIDTH' => [
-          'title' => 'Content Container',
-          'value' => 'col-sm-12',
-          'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
-        ],
-        $this->config_key_base . 'SORT_ORDER' => [
-          'title' => 'Sort Order',
-          'value' => '750',
-          'desc' => 'Sort order of display. Lowest is displayed first.',
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          $this->config_key_base . 'STATUS' => [
+            'title' => 'Enable Notifications Module',
+            'value' => 'True',
+            'desc' => 'Should this module be shown on the GDPR page?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+          $this->config_key_base . 'CONTENT_WIDTH' => [
+            'title' => 'Content Container',
+            'value' => 'col-sm-12',
+            'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
+          ],
+          $this->config_key_base . 'SORT_ORDER' => [
+            'title' => 'Sort Order',
+            'value' => '750',
+            'desc' => 'Sort order of display. Lowest is displayed first.',
+          ],
+        ];
     }
 
-  }
+}

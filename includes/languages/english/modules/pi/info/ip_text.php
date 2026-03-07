@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const IP_TEXT_TITLE         = 'Text';
-  const IP_TEXT_DESCRIPTION   = 'Shows the Page Text on the Info Page.<div class="alert alert-info">This is a child module for use with the &pi; system.</div>';
+const IP_TEXT_TITLE         = 'Text';
+const IP_TEXT_DESCRIPTION   = 'Shows the Page Text on the Info Page.<div class="alert alert-info">This is a child module for use with the &pi; system.</div>';

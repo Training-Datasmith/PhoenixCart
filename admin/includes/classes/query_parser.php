@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,37 +12,37 @@
   Released under the GNU General Public License
 */
 
-  class query_parser {
-
-    protected $sql_query;
+class query_parser
+{
     protected $to;
     protected $from;
-    protected $where_position;
+    protected int $where_position;
 
-    public function __construct($sql_query) {
-      $this->sql_query = $sql_query;
+    public function __construct(protected $sql_query)
+    {
+        $this->to = strlen((string) $this->sql_query);
+        $this->from = stripos((string) $this->sql_query, ' FROM');
+        $this->where_position = strripos(substr((string) $this->sql_query, $this->from), ' WHERE') ?: 0;
+        $this->where_position += $this->from;
 
-      $this->to = strlen($sql_query);
-      $this->from = stripos($sql_query, ' FROM');
-      $this->where_position = strripos(substr($sql_query, $this->from), ' WHERE') ?: 0;
-      $this->where_position += $this->from;
-
-      foreach ([' GROUP BY', ' HAVING', ' ORDER BY'] as $needle) {
-        $this->lower_end($needle);
-      }
+        foreach ([' GROUP BY', ' HAVING', ' ORDER BY'] as $needle) {
+            $this->lower_end($needle);
+        }
     }
 
-    protected function lower_end($needle) {
-      $position = strripos($this->sql_query, $needle);
-      if ($position && ($position > $this->where_position) && ($position < $this->to)) {
-        $this->to = $position;
-      }
+    protected function lower_end($needle)
+    {
+        $position = strripos((string) $this->sql_query, (string) $needle);
+        if ($position && ($position > $this->where_position) && ($position < $this->to)) {
+            $this->to = $position;
+        }
     }
 
-    public function count() {
-      $count_query = $GLOBALS['db']->query("SELECT COUNT(*) AS total "
-        . substr($this->sql_query, $this->from, ($this->to - $this->from)));
-      return $count_query->fetch_assoc()['total'];
+    public function count()
+    {
+        $count_query = $GLOBALS['db']->query('SELECT COUNT(*) AS total '
+          . substr((string) $this->sql_query, $this->from, ($this->to - $this->from)));
+        return $count_query->fetch_assoc()['total'];
     }
 
-  }
+}

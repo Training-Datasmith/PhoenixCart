@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Service\FinancialConnections;
@@ -15,7 +17,7 @@ class FinancialConnectionsServiceFactory extends \Stripe\Service\AbstractService
     /**
      * @var array<string, string>
      */
-    private static $classMap = [
+    private static array $classMap = [
         'accounts' => AccountService::class,
         'sessions' => SessionService::class,
     ];

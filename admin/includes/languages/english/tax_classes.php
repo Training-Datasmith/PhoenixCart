@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -27,4 +29,3 @@ const TEXT_INFO_HEADING_EDIT_TAX_CLASS = 'Edit Tax Class';
 const TEXT_INFO_HEADING_DELETE_TAX_CLASS = 'Delete Tax Class';
 
 const GET_HELP_LINK = 'https://phoenixcart.org/phoenixcartwiki/index.php?title=Tax_Classes';
-

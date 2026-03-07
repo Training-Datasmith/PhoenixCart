@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,16 +12,19 @@
   Released under the GNU General Public License
 */
 
-  class cm_pi_reviews extends abstract_executable_module {
+class cm_pi_reviews extends abstract_executable_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_';
 
-    const CONFIG_KEY_BASE = 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_';
-
-    public function __construct() {
-      parent::__construct(__FILE__);
+    public function __construct()
+    {
+        parent::__construct(__FILE__);
     }
 
-    public function execute() {
-      $review_query = $GLOBALS['db']->query(sprintf(<<<'EOSQL'
+    public function execute(): void
+    {
+        $review_query = $GLOBALS['db']->query(sprintf(
+            <<<'EOSQL'
 SELECT rd.*, r.*, p.*, pd.*
  FROM reviews r
    INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id
@@ -29,53 +34,55 @@ SELECT rd.*, r.*, p.*, pd.*
  ORDER BY r.%s DESC
  LIMIT %d
 EOSQL
-        , (int)$_GET['products_id'],
-        (int)$_SESSION['languages_id'],
-        MODULE_CONTENT_PRODUCT_INFO_REVIEWS_ORDER,
-        (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT));
+            ,
+            (int)$_GET['products_id'],
+            (int)$_SESSION['languages_id'],
+            MODULE_CONTENT_PRODUCT_INFO_REVIEWS_ORDER,
+            (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT
+        ));
 
-      if (mysqli_num_rows($review_query) > 0) {
-        $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
-        include 'includes/modules/content/cm_template.php';
-      }
+        if (mysqli_num_rows($review_query) > 0) {
+            $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
+            include 'includes/modules/content/cm_template.php';
+        }
     }
 
-    protected function get_parameters() {
-      return [
-        $this->config_key_base . 'STATUS' => [
-          'title' => 'Enable Module',
-          'value' => 'True',
-          'desc' => 'Do you want to enable this module?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-        $this->config_key_base . 'CONTENT_WIDTH' => [
-          'title' => 'Content Container',
-          'value' => 'col-sm-6',
-          'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
-        ],
-        $this->config_key_base . 'CONTENT_WIDTH_EACH' => [
-          'title' => 'Review Container',
-          'value' => 'col-sm-6',
-          'desc' => 'What container should each Review be shown in?',
-        ],
-        $this->config_key_base . 'CONTENT_LIMIT' => [
-          'title' => 'Number of Reviews',
-          'value' => '99',
-          'desc' => 'How many reviews should be shown?',
-        ],
-        $this->config_key_base . 'ORDER' => [
-          'title' => 'Sort Order',
-          'value' => 'reviews_rating',
-          'desc' => 'Display Reviews by Rating (High to Low) or Date Added (New to Old)',
-          'set_func' => "Config::select_one(['reviews_rating', 'date_added'], ",
-        ],
-        $this->config_key_base . 'SORT_ORDER' => [
-          'title' => 'Sort Order',
-          'value' => '0',
-          'desc' => 'Sort order of display. Lowest is displayed first.',
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          $this->config_key_base . 'STATUS' => [
+            'title' => 'Enable Module',
+            'value' => 'True',
+            'desc' => 'Do you want to enable this module?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+          $this->config_key_base . 'CONTENT_WIDTH' => [
+            'title' => 'Content Container',
+            'value' => 'col-sm-6',
+            'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
+          ],
+          $this->config_key_base . 'CONTENT_WIDTH_EACH' => [
+            'title' => 'Review Container',
+            'value' => 'col-sm-6',
+            'desc' => 'What container should each Review be shown in?',
+          ],
+          $this->config_key_base . 'CONTENT_LIMIT' => [
+            'title' => 'Number of Reviews',
+            'value' => '99',
+            'desc' => 'How many reviews should be shown?',
+          ],
+          $this->config_key_base . 'ORDER' => [
+            'title' => 'Sort Order',
+            'value' => 'reviews_rating',
+            'desc' => 'Display Reviews by Rating (High to Low) or Date Added (New to Old)',
+            'set_func' => "Config::select_one(['reviews_rating', 'date_added'], ",
+          ],
+          $this->config_key_base . 'SORT_ORDER' => [
+            'title' => 'Sort Order',
+            'value' => '0',
+            'desc' => 'Sort order of display. Lowest is displayed first.',
+          ],
+        ];
     }
 
-  }
-
+}

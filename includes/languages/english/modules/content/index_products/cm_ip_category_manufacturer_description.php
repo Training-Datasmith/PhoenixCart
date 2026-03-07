@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,6 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_IP_CATEGORY_DESCRIPTION_TITLE = 'Category/Manufacturer Description';
-  const MODULE_CONTENT_IP_CATEGORY_DESCRIPTION_DESCRIPTION = 'Show the category/manufacturer description at products level in index.php';
-
+const MODULE_CONTENT_IP_CATEGORY_DESCRIPTION_TITLE = 'Category/Manufacturer Description';
+const MODULE_CONTENT_IP_CATEGORY_DESCRIPTION_DESCRIPTION = 'Show the category/manufacturer description at products level in index.php';

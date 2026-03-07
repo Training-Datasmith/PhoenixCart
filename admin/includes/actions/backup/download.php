@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,22 +12,22 @@
   Released under the GNU General Public License
 */
 
-  $extension = substr($_GET['file'], -3);
-  switch (substr($_GET['file'], -3)) {
+$extension = substr((string) $_GET['file'], -3);
+switch (substr((string) $_GET['file'], -3)) {
     case 'zip':
     case '.gz':
     case 'sql':
-      $path = Path::normalize(realpath(DIR_FS_BACKUP . $_GET['file']));
-      if (Text::is_prefixed_by($path, DIR_FS_BACKUP) && ($buffer = file_get_contents($path))) {
-        header('Content-type: application/x-octet-stream');
-        header('Content-disposition: attachment; filename=' . $_GET['file']);
+        $path = Path::normalize(realpath(DIR_FS_BACKUP . $_GET['file']));
+        if (Text::is_prefixed_by($path, DIR_FS_BACKUP) && ($buffer = file_get_contents($path))) {
+            header('Content-type: application/x-octet-stream');
+            header('Content-disposition: attachment; filename=' . $_GET['file']);
 
-        echo $buffer;
+            echo $buffer;
 
-        exit();
-      } else {
+            exit();
+        }
         error_log("Bad file [{$_GET['file']}] requested.");
-      }
+        // no break
     default:
-      $messageStack->add(ERROR_DOWNLOAD_LINK_NOT_ACCEPTABLE, 'error');
-  }
+        $messageStack->add(ERROR_DOWNLOAD_LINK_NOT_ACCEPTABLE, 'error');
+}

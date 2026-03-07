@@ -10,21 +10,21 @@
   Released under the GNU General Public License
 */
 
-  echo new Form('mail', $Admin->link('mail.php', ['action' => 'preview']));
+echo new Form('mail', $Admin->link('mail.php', ['action' => 'preview']));
 
-  $customers = [];
-  $customers[] = ['id' => '', 'text' => TEXT_SELECT_CUSTOMER];
-  $customers[] = ['id' => '***', 'text' => TEXT_ALL_CUSTOMERS];
-  $customers[] = ['id' => '**D', 'text' => TEXT_NEWSLETTER_CUSTOMERS];
+$customers = [];
+$customers[] = ['id' => '', 'text' => TEXT_SELECT_CUSTOMER];
+$customers[] = ['id' => '***', 'text' => TEXT_ALL_CUSTOMERS];
+$customers[] = ['id' => '**D', 'text' => TEXT_NEWSLETTER_CUSTOMERS];
 
-  $sql = $customer_data->add_order_by($customer_data->build_read(['sortable_name', 'email_address'], 'customers'), ['sortable_name']);
-  $mail_query = $db->query($sql);
-  while ($customers_values = $mail_query->fetch_assoc()) {
+$sql = $customer_data->add_order_by($customer_data->build_read(['sortable_name', 'email_address'], 'customers'), ['sortable_name']);
+$mail_query = $db->query($sql);
+while ($customers_values = $mail_query->fetch_assoc()) {
     $customers[] = [
       'id' => $customer_data->get('email_address', $customers_values),
       'text' => $customer_data->get('sortable_name', $customers_values) . ' (' . $customer_data->get('email_address', $customers_values) . ')',
     ];
-  }
+}
 ?>
 
   <div class="row mb-2" id="zCustomer">

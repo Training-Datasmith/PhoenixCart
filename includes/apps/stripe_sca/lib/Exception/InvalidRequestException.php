@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\Exception;
 
 /**
@@ -53,7 +55,7 @@ class InvalidRequestException extends ApiErrorException
      *
      * @param null|string $stripeParam
      */
-    public function setStripeParam($stripeParam)
+    public function setStripeParam($stripeParam): void
     {
         $this->stripeParam = $stripeParam;
     }

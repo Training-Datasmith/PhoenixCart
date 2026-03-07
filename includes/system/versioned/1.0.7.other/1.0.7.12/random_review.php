@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,10 +12,11 @@
   Released under the GNU General Public License
 */
 
-  class random_review {
-
-    public static function build() {
-      $random_query = $GLOBALS['db']->query(sprintf(<<<'EOSQL'
+class random_review
+{
+    public static function build(): false|\Product
+    {
+        $random_query = $GLOBALS['db']->query(sprintf(<<<'EOSQL'
 SELECT RAND() * COUNT(*) AS `offset`
   FROM reviews r
    INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id
@@ -23,14 +26,14 @@ SELECT RAND() * COUNT(*) AS `offset`
   HAVING COUNT(*) > 0
   ORDER BY r.reviews_id DESC
 EOSQL
-        , (int)$_SESSION['languages_id']));
+            , (int)$_SESSION['languages_id']));
 
-      $random_selection = $random_query->fetch_assoc();
-      if (!$random_selection) {
-        return false;
-      }
+        $random_selection = $random_query->fetch_assoc();
+        if (!$random_selection) {
+            return false;
+        }
 
-      $product_query = $GLOBALS['db']->query(sprintf(<<<'EOSQL'
+        $product_query = $GLOBALS['db']->query(sprintf(<<<'EOSQL'
 SELECT %s,
     SUBSTRING(rd.reviews_text, 1, 60) AS reviews_text,
     r.reviews_rating
@@ -43,13 +46,13 @@ SELECT %s,
   WHERE p.products_status = 1 AND r.reviews_status = 1 AND rd.languages_id = %d
   ORDER BY r.reviews_id DESC LIMIT 1 OFFSET %d
 EOSQL
-        , Product::COLUMNS, (int)$_SESSION['languages_id'], (int)$random_selection['offset']));
+            , Product::COLUMNS, (int)$_SESSION['languages_id'], (int)$random_selection['offset']));
 
-      if ($product = $product_query->fetch_assoc()) {
-        return new Product($product);
-      }
+        if ($product = $product_query->fetch_assoc()) {
+            return new Product($product);
+        }
 
-      return false;
+        return false;
     }
 
-  }
+}

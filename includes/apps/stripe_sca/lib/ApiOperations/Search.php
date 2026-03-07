@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\ApiOperations;
 
 /**
@@ -22,11 +24,11 @@ trait Search
     {
         self::_validateParams($params);
 
-        list($response, $opts) = static::_staticRequest('get', $searchUrl, $params, $opts);
+        [$response, $opts] = static::_staticRequest('get', $searchUrl, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         if (!($obj instanceof \Stripe\SearchResult)) {
             throw new \Stripe\Exception\UnexpectedValueException(
-                'Expected type ' . \Stripe\SearchResult::class . ', got "' . \get_class($obj) . '" instead.'
+                'Expected type ' . \Stripe\SearchResult::class . ', got "' . $obj::class . '" instead.'
             );
         }
         $obj->setLastResponse($response);

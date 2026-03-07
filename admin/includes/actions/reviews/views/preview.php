@@ -10,9 +10,9 @@
   Released under the GNU General Public License
 */
 
-  $link->set_parameter('rID', (int)$_GET['rID']);
+$link->set_parameter('rID', (int)$_GET['rID']);
 
-  if ([] === $_POST) {
+if ([] === $_POST) {
     $rID = Text::input($_GET['rID']);
 
     $rInfo = $db->query(sprintf(<<<'EOSQL'
@@ -25,22 +25,22 @@ SELECT r.*, rd.*, p.products_image, pd.products_name
  ORDER BY rd.languages_id = %1$d DESC
  LIMIT 1
 EOSQL
-      , (int)$_SESSION['languages_id'], (int)$rID))->fetch_object();
+        , (int)$_SESSION['languages_id'], (int)$rID))->fetch_object();
 
     $button = $Admin->button(IMAGE_BACK, 'fas fa-angle-left', 'btn-light', isset($_GET['origin']) ? $Admin->link($_GET['origin']) : $link);
-  } else {
+} else {
     $rInfo = new objectInfo($_POST);
 
     $button = new Button(IMAGE_SAVE, 'fas fa-save', 'btn-success me-2')
             . $Admin->button(IMAGE_CANCEL, 'fas fa-times', 'btn-light', $link);
 
     $form = new Form('update', (clone $link)->set_parameter('action', 'update'), 'post', ['enctype' => 'multipart/form-data']);
-/* Re-Post all POST'ed variables */
-    foreach($_POST as $key => $value) {
-      $form->hide($key, htmlspecialchars($value));
+    /* Re-Post all POST'ed variables */
+    foreach ($_POST as $key => $value) {
+        $form->hide($key, htmlspecialchars((string) $value));
     }
     echo $form;
-  }
+}
 ?>
     <div class="row">
       <div class="col-sm-10">
@@ -79,7 +79,7 @@ EOSQL
     </div>
 <?php
     if (isset($form)) {
-?>
+        ?>
   </form>
 <?php
     }

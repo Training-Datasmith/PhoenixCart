@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,9 +12,9 @@
   Released under the GNU General Public License
 */
 
-  require 'includes/application_top.php';
+require 'includes/application_top.php';
 
-  require language::map_to_translation('create_account_success.php');
-  require $Template->map(__FILE__, 'page');
+require language::map_to_translation('create_account_success.php');
+require $Template->map(__FILE__, 'page');
 
-  require 'includes/application_bottom.php';
+require 'includes/application_bottom.php';

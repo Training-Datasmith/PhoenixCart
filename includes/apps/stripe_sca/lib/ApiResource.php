@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe;
 
 /**
@@ -55,7 +57,7 @@ abstract class ApiResource extends StripeObject
         $requestor = new ApiRequestor($this->_opts->apiKey, static::baseUrl());
         $url = $this->instanceUrl();
 
-        list($response, $this->_opts->apiKey) = $requestor->request(
+        [$response, $this->_opts->apiKey] = $requestor->request(
             'get',
             $url,
             $this->_retrieveOptions,
@@ -107,7 +109,7 @@ abstract class ApiResource extends StripeObject
         }
         $id = Util\Util::utf8($id);
         $base = static::classUrl();
-        $extn = \urlencode($id);
+        $extn = \urlencode((string) $id);
 
         return "{$base}/{$extn}";
     }

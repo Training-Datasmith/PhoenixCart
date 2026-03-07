@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Treasury;
@@ -35,16 +37,15 @@ namespace Stripe\Treasury;
  */
 class InboundTransfer extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'treasury.inbound_transfer';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Retrieve;
+    public const OBJECT_NAME = 'treasury.inbound_transfer';
 
-    const STATUS_CANCELED = 'canceled';
-    const STATUS_FAILED = 'failed';
-    const STATUS_PROCESSING = 'processing';
-    const STATUS_SUCCEEDED = 'succeeded';
+    public const STATUS_CANCELED = 'canceled';
+    public const STATUS_FAILED = 'failed';
+    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_SUCCEEDED = 'succeeded';
 
     /**
      * @param null|array $params
@@ -54,10 +55,10 @@ class InboundTransfer extends \Stripe\ApiResource
      *
      * @return \Stripe\Treasury\InboundTransfer the canceled inbound transfer
      */
-    public function cancel($params = null, $opts = null)
+    public function cancel($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/cancel';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

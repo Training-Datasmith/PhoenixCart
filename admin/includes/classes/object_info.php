@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,18 +12,20 @@
   Released under the GNU General Public License
 */
 
-  #[\AllowDynamicProperties]
-  class objectInfo {
-
-    public function __construct($object_data) {
-      $this->objectInfo($object_data);
+#[\AllowDynamicProperties]
+class objectInfo
+{
+    public function __construct($object_data)
+    {
+        $this->objectInfo($object_data);
     }
 
-    public function objectInfo($object_data) {
-      foreach($object_data as $key => $value) {
-        $this->$key = is_null($value) ? null
-          : filter_var($value, FILTER_CALLBACK, ['options' => 'Text::prepare']);
-      }
+    public function objectInfo($object_data): void
+    {
+        foreach ($object_data as $key => $value) {
+            $this->$key = is_null($value) ? null
+              : filter_var($value, FILTER_CALLBACK, ['options' => 'Text::prepare']);
+        }
     }
 
-  }
+}

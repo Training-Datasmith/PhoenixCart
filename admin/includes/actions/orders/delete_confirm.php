@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  $oID = Text::input($_GET['oID']);
+$oID = Text::input($_GET['oID']);
 
-  order::remove($oID, $_POST['restock'] ?? false, $_POST['reactivate'] ?? false);
+order::remove($oID, $_POST['restock'] ?? false, $_POST['reactivate'] ?? false);
 
-  return $Admin->link('orders.php')->retain_query_except(['oID', 'action']);
+return $Admin->link('orders.php')->retain_query_except(['oID', 'action']);

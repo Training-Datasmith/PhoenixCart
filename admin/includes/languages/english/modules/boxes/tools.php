@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,4 +12,4 @@
   Released under the GNU General Public License
 */
 
-  const BOX_HEADING_TOOLS = '<i title="Tools" class="fas fa-tools fa-fw me-1"></i><span title="Tools" class="d-xl-none">Tools</span>';
+const BOX_HEADING_TOOLS = '<i title="Tools" class="fas fa-tools fa-fw me-1"></i><span title="Tools" class="d-xl-none">Tools</span>';

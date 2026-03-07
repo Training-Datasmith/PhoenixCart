@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,29 +37,24 @@ THE SOFTWARE.
  *
  * @internal
  */
-class FullTransformer {
-
-    private $quoteMatch = "'(?:[^']+|'')*'";
-    private $implementedChars = 'MLydQqhDEaHkKmsz';
-    private $notImplementedChars = 'GYuwWFgecSAZvVW';
-    private $regExp;
+class FullTransformer
+{
+    private string $quoteMatch = "'(?:[^']+|'')*'";
+    private string $implementedChars = 'MLydQqhDEaHkKmsz';
+    private string $notImplementedChars = 'GYuwWFgecSAZvVW';
+    private readonly string $regExp;
 
     /**
      * @var Transformer[]
      */
-    private $transformers;
-
-    private $pattern;
-    private $timezone;
+    private array $transformers;
 
     /**
      * @param string $pattern  The pattern to be used to format and/or parse values
      * @param string $timezone The timezone to perform the date/time calculations
      */
-    public function __construct(string $pattern, string $timezone) {
-        $this->pattern = $pattern;
-        $this->timezone = $timezone;
-
+    public function __construct(private readonly string $pattern, private readonly string $timezone)
+    {
         $implementedCharsMatch = $this->buildCharsMatch($this->implementedChars);
         $notImplementedCharsMatch = $this->buildCharsMatch($this->notImplementedChars);
         $this->regExp = "/($this->quoteMatch|$implementedCharsMatch|$notImplementedCharsMatch)/";
@@ -87,12 +84,9 @@ class FullTransformer {
      *
      * @return string The formatted value
      */
-    public function format(DateTime $dateTime): string {
-        $formatted = preg_replace_callback($this->regExp, function ($matches) use ($dateTime) {
-            return $this->formatReplace($matches[0], $dateTime);
-        }, $this->pattern);
-
-        return $formatted;
+    public function format(DateTime $dateTime): string
+    {
+        return preg_replace_callback($this->regExp, fn ($matches) => $this->formatReplace($matches[0], $dateTime), $this->pattern);
     }
 
     /**
@@ -100,7 +94,8 @@ class FullTransformer {
      *
      * @throws InvalidArgumentException When it encounters a not implemented date character
      */
-    private function formatReplace(string $dateChars, DateTime $dateTime): string {
+    private function formatReplace(string $dateChars, DateTime $dateTime): string
+    {
         $length = strlen($dateChars);
 
         if ($this->isQuoteMatch($dateChars)) {
@@ -114,7 +109,7 @@ class FullTransformer {
         }
 
         // handle unimplemented characters
-        if (false !== strpos($this->notImplementedChars, $dateChars[0])) {
+        if (str_contains((string) $this->notImplementedChars, $dateChars[0])) {
             throw new InvalidArgumentException(sprintf('Unimplemented date character "%s" in format "%s".', $dateChars[0], $this->pattern));
         }
 
@@ -131,7 +126,8 @@ class FullTransformer {
      *
      * @throws InvalidArgumentException When the value cannot be matched with pattern
      */
-    public function parse(DateTime $dateTime, string $value) {
+    public function parse(DateTime $dateTime, string $value)
+    {
         $reverseMatchingRegExp = $this->getReverseMatchingRegExp($this->pattern);
         $reverseMatchingRegExp = '/^'.$reverseMatchingRegExp.'$/';
 
@@ -142,7 +138,7 @@ class FullTransformer {
 
             foreach ($this->transformers as $char => $transformer) {
                 if (isset($matches[$char])) {
-                    $length = strlen($matches[$char]['pattern']);
+                    $length = strlen((string) $matches[$char]['pattern']);
                     $options = array_merge($options, $transformer->extractDateOptions($matches[$char]['value'], $length));
                 }
             }
@@ -165,15 +161,16 @@ class FullTransformer {
      * @return string The reverse matching regular expression with named captures being formed by the
      *                transformer index in the $transformer array
      */
-    private function getReverseMatchingRegExp(string $pattern): string {
+    private function getReverseMatchingRegExp(string $pattern): string
+    {
         $escapedPattern = preg_quote($pattern, '/');
 
         // ICU 4.8 recognizes slash ("/") in a value to be parsed as a dash ("-") and vice-versa
         // when parsing a date/time value
         $escapedPattern = preg_replace('/\\\[\-|\/]/', '[\/\-]', $escapedPattern);
 
-        $reverseMatchingRegExp = preg_replace_callback($this->regExp, function ($matches) {
-            $length = strlen($matches[0]);
+        return preg_replace_callback($this->regExp, function (array $matches): ?string {
+            $length = strlen((string) $matches[0]);
             $transformerIndex = $matches[0][0];
 
             $dateChars = $matches[0];
@@ -189,22 +186,22 @@ class FullTransformer {
             }
 
             return null;
-        }, $escapedPattern);
-
-        return $reverseMatchingRegExp;
+        }, (string) $escapedPattern);
     }
 
     /**
      * Check if the first char of a string is a single quote.
      */
-    private function isQuoteMatch(string $quoteMatch): bool {
+    private function isQuoteMatch(string $quoteMatch): bool
+    {
         return "'" === $quoteMatch[0];
     }
 
     /**
      * Replaces single quotes at the start or end of a string with two single quotes.
      */
-    private function replaceQuoteMatch(string $quoteMatch): string {
+    private function replaceQuoteMatch(string $quoteMatch): string
+    {
         if (preg_match("/^'+$/", $quoteMatch)) {
             return str_replace("''", "'", $quoteMatch);
         }
@@ -215,21 +212,19 @@ class FullTransformer {
     /**
      * Builds a chars match regular expression.
      */
-    private function buildCharsMatch(string $specialChars): string {
+    private function buildCharsMatch(string $specialChars): string
+    {
         $specialCharsArray = str_split($specialChars);
 
-        $specialCharsMatch = implode('|', array_map(function ($char) {
-            return $char.'+';
-        }, $specialCharsArray));
-
-        return $specialCharsMatch;
+        return implode('|', array_map(fn ($char) => $char.'+', $specialCharsArray));
     }
 
     /**
      * Normalize a preg_replace match array, removing the numeric keys and returning an associative array
      * with the value and pattern values for the matched Transformer.
      */
-    private function normalizeArray(array $data): array {
+    private function normalizeArray(array $data): array
+    {
         $ret = [];
 
         foreach ($data as $key => $value) {
@@ -252,7 +247,8 @@ class FullTransformer {
      *
      * @return bool|int The calculated timestamp or false if matched date is invalid
      */
-    private function calculateUnixTimestamp(DateTime $dateTime, array $options) {
+    private function calculateUnixTimestamp(DateTime $dateTime, array $options): false|int
+    {
         $options = $this->getDefaultValueForOptions($options);
 
         $year = $options['year'];
@@ -299,7 +295,8 @@ class FullTransformer {
      * Add sensible default values for missing items in the extracted date/time options array. The values
      * are base in the beginning of the Unix era.
      */
-    private function getDefaultValueForOptions(array $options): array {
+    private function getDefaultValueForOptions(array $options): array
+    {
         return [
             'year' => $options['year'] ?? 1970,
             'month' => $options['month'] ?? 1,

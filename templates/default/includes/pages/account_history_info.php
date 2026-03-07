@@ -10,11 +10,11 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('account.php'));
-  $breadcrumb->add(NAVBAR_TITLE_2, $Linker->build('account_history.php'));
-  $breadcrumb->add(sprintf(NAVBAR_TITLE_3, $_GET['order_id']), $Linker->build('account_history_info.php', ['order_id' => $_GET['order_id']]));
+$breadcrumb->add(NAVBAR_TITLE_1, $Linker->build('account.php'));
+$breadcrumb->add(NAVBAR_TITLE_2, $Linker->build('account_history.php'));
+$breadcrumb->add(sprintf(NAVBAR_TITLE_3, $_GET['order_id']), $Linker->build('account_history_info.php', ['order_id' => $_GET['order_id']]));
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <div class="row mb-4">
@@ -35,45 +35,45 @@
             <th><?= HEADING_PRODUCTS ?></th>
             <?php
             if (count($order->info['tax_groups']) > 1) {
-              $colspan++;
-              ?>
+                $colspan++;
+                ?>
               <th class="text-end"><?= HEADING_TAX ?></th>
               <?php
             }
-            ?>
+?>
             <th class="text-end"><?= HEADING_TOTAL ?></th>
           </tr>
         </thead>
         <tbody>
           <?php
           foreach ($order->products as $product) {
-            echo '<tr>';
+              echo '<tr>';
               echo '<th class="fs-5 fw-semibold">';
-                echo $product['name'] . ' x ' . $product['qty'];
-                foreach (($product['attributes'] ?? []) as $attribute) {
+              echo $product['name'] . ' x ' . $product['qty'];
+              foreach (($product['attributes'] ?? []) as $attribute) {
                   echo '<br><small>- ' . $attribute['option'] . ': ' . $attribute['value'] . '</small>';
-                }
+              }
               echo '</th>';
 
               if (count($order->info['tax_groups']) > 1) {
-                echo '<td valign="top" class="text-end">';
+                  echo '<td valign="top" class="text-end">';
                   echo Tax::display($product['tax']) . '%';
-                echo '</td>';
+                  echo '</td>';
               }
 
               echo '<td valign="top" class="text-end">';
-                echo  $currencies->format(Tax::price($product['final_price'], $product['tax']) * $product['qty'], true, $order->info['currency'], $order->info['currency_value']);
+              echo  $currencies->format(Tax::price($product['final_price'], $product['tax']) * $product['qty'], true, $order->info['currency'], $order->info['currency_value']);
               echo '</td>';
-            echo '</tr>';
+              echo '</tr>';
           }
-          ?>
+?>
         <tbody>
         <tfoot class="table-group-divider">
           <?php
-          foreach ($order->totals as $output) {
-            include Guarantor::ensure_global('Template')->map('order_total.php', 'component');
-          }
-          ?>
+foreach ($order->totals as $output) {
+    include Guarantor::ensure_global('Template')->map('order_total.php', 'component');
+}
+?>
         </tfoot>
       </table>
     </div>
@@ -81,21 +81,21 @@
       <div class="border">
         <ul class="list-group list-group-flush">
           <?php
-          $address = $customer_data->get_module('address');
-          if ($order->delivery) {
-            echo '<li class="list-group-item">';
-              echo SHIPPING_FA_ICON;
-              echo '<b>' . HEADING_DELIVERY_ADDRESS . '</b><br>';
-              echo $address->format($order->delivery, 1, ' ', '<br>');
-            echo '</li>';
-          }
-          ?>
+$address = $customer_data->get_module('address');
+if ($order->delivery) {
+    echo '<li class="list-group-item">';
+    echo SHIPPING_FA_ICON;
+    echo '<b>' . HEADING_DELIVERY_ADDRESS . '</b><br>';
+    echo $address->format($order->delivery, 1, ' ', '<br>');
+    echo '</li>';
+}
+?>
           <li class="list-group-item">
             <?php
-            echo PAYMENT_FA_ICON;
-            echo '<b>' . HEADING_BILLING_ADDRESS . '</b><br>';
-            echo $address->format($order->billing, 1, ' ', '<br>');
-            ?>
+  echo PAYMENT_FA_ICON;
+echo '<b>' . HEADING_BILLING_ADDRESS . '</b><br>';
+echo $address->format($order->billing, 1, ' ', '<br>');
+?>
           </li>
         </ul>
       </div>
@@ -112,30 +112,30 @@ SELECT os.orders_status_name, osh.date_added, osh.comments
  WHERE os.public_flag = 1 AND osh.orders_id = %d AND os.language_id = %d
  ORDER BY osh.date_added
 EOSQL
-    , (int)$_GET['order_id'], (int)$_SESSION['languages_id']));
-  while ($status = $statuses_query->fetch_assoc()) {
+      , (int)$_GET['order_id'], (int)$_SESSION['languages_id']));
+while ($status = $statuses_query->fetch_assoc()) {
     echo '<li class="list-group-item">';
-      echo '<div class="d-flex justify-content-between align-items-center">';
-        echo '<b>' . $status['orders_status_name'] . '</b>';
-        echo '<span class="badge rounded-pill text-bg-primary"><i class="far fa-clock me-1"></i>' . $status['date_added'] . '</span>';
-      echo '</div>';
-      
-      if (!empty($status['comments'])) {
+    echo '<div class="d-flex justify-content-between align-items-center">';
+    echo '<b>' . $status['orders_status_name'] . '</b>';
+    echo '<span class="badge rounded-pill text-bg-primary"><i class="far fa-clock me-1"></i>' . $status['date_added'] . '</span>';
+    echo '</div>';
+
+    if (!empty($status['comments'])) {
         echo '<hr>';
-        echo nl2br(htmlspecialchars($status['comments'])); 
-      }
+        echo nl2br(htmlspecialchars((string) $status['comments']));
+    }
 
     echo '</li>';
-  }
+}
 ?>
   </ul>
 
 <?php
   if (DOWNLOAD_ENABLED == 'true') {
-    include $Template->map('downloads.php', 'component');
+      include $Template->map('downloads.php', 'component');
   }
 
-  echo $hooks->cat('orderDetails');
+echo $hooks->cat('orderDetails');
 ?>
 
   <div class="my-2">

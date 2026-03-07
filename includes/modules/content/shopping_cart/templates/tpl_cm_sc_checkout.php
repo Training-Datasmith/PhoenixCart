@@ -6,18 +6,18 @@
 
 <?php
     if (!empty($initialize_checkout_methods)) {
-?>
+        ?>
   <div class="w-100"></div>
   <p class="text-end"><?= MODULE_CONTENT_SC_CHECKOUT_ALTERNATIVE_CHECKOUT_METHODS ?></p>
 
 <?php
-      foreach($initialize_checkout_methods as $value) {
-?>
+              foreach ($initialize_checkout_methods as $value) {
+                  ?>
 
   <p class="text-end"><?= $value ?></p>
 
 <?php
-      }
+              }
     }
 ?>
 

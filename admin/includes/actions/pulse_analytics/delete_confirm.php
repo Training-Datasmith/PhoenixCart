@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,6 +12,6 @@
   Released under the GNU General Public License
 */
 
-  $db->query("DELETE FROM analytics_events WHERE id = " . (int)$_GET['aID']);
+$db->query('DELETE FROM analytics_events WHERE id = ' . (int)$_GET['aID']);
 
-  return $Admin->link('pulse_analytics.php')->retain_query_except(['action', 'aID']);
+return $Admin->link('pulse_analytics.php')->retain_query_except(['action', 'aID']);

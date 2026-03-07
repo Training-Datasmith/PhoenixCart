@@ -22,21 +22,21 @@
       <tbody>
       <?php
       foreach (generate_phoenix_directories(DIR_FS_CATALOG) as $file) {
-        if (empty($_GET['show_all']) && ($file['whitelisted'] == $file['writable'])) {
-          continue;
-        }
-        ?>
+          if (empty($_GET['show_all']) && ($file['whitelisted'] == $file['writable'])) {
+              continue;
+          }
+          ?>
         <tr>
           <td><?= Text::ltrim_once($file['name'], DIR_FS_CATALOG) ?></td>
           <td class="text-end"><i class="fas fa-<?=
-            $file['whitelisted'] ? 'edit' : 'lock',
-            ' me-2 text-',
-            ($file['whitelisted'] == $file['writable']) ? 'success' : 'danger'
+              $file['whitelisted'] ? 'edit' : 'lock',
+          ' me-2 text-',
+          ($file['whitelisted'] == $file['writable']) ? 'success' : 'danger'
           ?>"></i></td>
         </tr>
         <?php
       }
-      ?>
+?>
       </tbody>
     </table>
   </div>

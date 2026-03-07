@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  $db->query("DELETE FROM configuration WHERE configuration_key = 'DB_LAST_RESTORE'");
+$db->query("DELETE FROM configuration WHERE configuration_key = 'DB_LAST_RESTORE'");
 
-  $messageStack->add_session(SUCCESS_LAST_RESTORE_CLEARED, 'success');
+$messageStack->add_session(SUCCESS_LAST_RESTORE_CLEARED, 'success');
 
-  return $Admin->link();
+return $Admin->link();

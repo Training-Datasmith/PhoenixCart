@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,9 +12,9 @@
   Released under the GNU General Public License
 */
 
-  $value_id = Text::input($_GET['value_id']);
+$value_id = Text::input($_GET['value_id']);
 
-  $db->query("DELETE FROM products_options_values WHERE products_options_values_id = " . (int)$value_id);
-  $db->query("DELETE FROM products_options_values_to_products_options WHERE products_options_values_id = " . (int)$value_id);
+$db->query('DELETE FROM products_options_values WHERE products_options_values_id = ' . (int)$value_id);
+$db->query('DELETE FROM products_options_values_to_products_options WHERE products_options_values_id = ' . (int)$value_id);
 
-  return $link;
+return $link;

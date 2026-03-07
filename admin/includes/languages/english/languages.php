@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -33,4 +35,3 @@ const ERROR_REMOVE_DEFAULT_LANGUAGE = '<strong>Error:</strong> The default langu
 
 const GET_HELP_LINK = 'https://phoenixcart.org/phoenixcartwiki/index.php?title=Languages';
 const GET_ADDONS_LINKS = [ADDONS_FREE => 'https://phoenixcart.org/forum/app.php/addons/free/language-23',];
-

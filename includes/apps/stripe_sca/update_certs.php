@@ -1,5 +1,7 @@
 #!/usr/bin/env php
 <?php
+
+declare(strict_types=1);
 \chdir(__DIR__);
 
 \set_time_limit(0); // unlimited max execution time

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($table_definition['info']->tax_class_id)) {
+if (isset($table_definition['info']->tax_class_id)) {
     $tcInfo = &$table_definition['info'];
     $GLOBALS['link']->set_parameter('tID', $tcInfo->tax_class_id);
     $heading = $tcInfo->tax_class_title;
@@ -23,4 +25,4 @@
     $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, Date::abridge($tcInfo->date_added))];
     $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, Date::abridge($tcInfo->last_modified))];
     $contents[] = ['text' => sprintf(TEXT_INFO_CLASS_DESCRIPTION, $tcInfo->tax_class_description)];
-  }
+}

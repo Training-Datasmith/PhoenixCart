@@ -10,9 +10,9 @@
   Released under the GNU General Public License
 */
 
-  $tID = Text::input($_GET['tID']);
+$tID = Text::input($_GET['tID']);
 
-  $testimonials_query = $db->query(sprintf(<<<'EOSQL'
+$testimonials_query = $db->query(sprintf(<<<'EOSQL'
 SELECT t.*, td.*
  FROM testimonials t INNER JOIN testimonials_description td ON t.testimonials_id = td.testimonials_id
  WHERE t.testimonials_id = %d
@@ -20,27 +20,27 @@ SELECT t.*, td.*
  LIMIT 1
 EOSQL
     , (int)$tID, (int)$_SESSION['languages_id']));
-  $testimonials = $testimonials_query->fetch_assoc();
+$testimonials = $testimonials_query->fetch_assoc();
 
-  $tInfo = new objectInfo($testimonials);
-  $link->set_parameter('tID', (string)(int)$tID);
+$tInfo = new objectInfo($testimonials);
+$link->set_parameter('tID', (string)(int)$tID);
 
-  if (!isset($tInfo->testimonials_status)) {
+if (!isset($tInfo->testimonials_status)) {
     $tInfo->testimonials_status = '1';
-  }
+}
 
-  $in_status_radio = new Tickable('testimonials_status', ['value' => '1', 'id' => 'inStatus', 'class' => 'form-check-input'], 'radio');
-  $out_status_radio = new Tickable('testimonials_status', ['value' => '0', 'id' => 'outStatus', 'class' => 'form-check-input'], 'radio');
-  if ('1' === $tInfo->testimonials_status) {
+$in_status_radio = new Tickable('testimonials_status', ['value' => '1', 'id' => 'inStatus', 'class' => 'form-check-input'], 'radio');
+$out_status_radio = new Tickable('testimonials_status', ['value' => '0', 'id' => 'outStatus', 'class' => 'form-check-input'], 'radio');
+if ('1' === $tInfo->testimonials_status) {
     $in_status_radio->tick();
-  } else {
+} else {
     $out_status_radio->tick();
-  }
+}
 
-  $form = new Form('testimonial', $link->set_parameter('action', 'update'), 'post', ['enctype' => 'multipart/form-data']);
-  $form->hide('testimonials_id', $tInfo->testimonials_id)
-       ->hide('customers_name', $tInfo->customers_name)
-       ->hide('date_added', $tInfo->date_added);
+$form = new Form('testimonial', $link->set_parameter('action', 'update'), 'post', ['enctype' => 'multipart/form-data']);
+$form->hide('testimonials_id', $tInfo->testimonials_id)
+     ->hide('customers_name', $tInfo->customers_name)
+     ->hide('date_added', $tInfo->date_added);
 ?>
 
   <?= $form ?>

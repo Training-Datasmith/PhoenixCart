@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,16 +12,18 @@
   Released under the GNU General Public License
 */
 
-  class sc_default_currency {
-
+class sc_default_currency
+{
     public $type = 'error';
 
-    public function pass() {
-      return defined('DEFAULT_CURRENCY');
+    public function pass(): bool
+    {
+        return defined('DEFAULT_CURRENCY');
     }
 
-    public function get_message() {
-      return ERROR_NO_DEFAULT_CURRENCY_DEFINED;
+    public function get_message(): string
+    {
+        return ERROR_NO_DEFAULT_CURRENCY_DEFINED;
     }
 
-  }
+}

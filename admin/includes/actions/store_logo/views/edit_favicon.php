@@ -41,10 +41,10 @@
         <div class="card-body bg-white py-5">
           <?php
           $array = ['256', '192', '128', '16'];
-          foreach ($array as $size) {
-            echo $Admin->catalog_image('images/favicon/' .  $size . '_' . FAVICON_LOGO);
-          }
-          ?>
+foreach ($array as $size) {
+    echo $Admin->catalog_image('images/favicon/' .  $size . '_' . FAVICON_LOGO);
+}
+?>
         </div>
       </div>
     </div>

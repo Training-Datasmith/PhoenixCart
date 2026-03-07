@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,38 +12,41 @@
   Released under the GNU General Public License
 */
 
-  class Tickable extends Input {
+class Tickable extends Input
+{
+    public function tick(bool $tick = true): static
+    {
+        if ($tick) {
+            $this->set('checked', 'checked');
+        } else {
+            $this->delete('checked');
+        }
 
-    public function tick(bool $tick = true) {
-      if ($tick) {
-        $this->set('checked', 'checked');
-      } else {
-        $this->delete('checked');
-      }
-
-      return $this;
+        return $this;
     }
 
     /**
      * Set the value to either the default or (if present) the previously requested value.
      */
-    public function tick_if_requested() {
-      $requested = Request::value($this->parameters['name']);
-      if (is_string($requested) && (('on' === $requested) || ($this->get('value') == $requested))) {
-        $this->tick();
-      }
+    public function tick_if_requested(): static
+    {
+        $requested = Request::value($this->parameters['name']);
+        if (is_string($requested) && (('on' === $requested) || ($this->get('value') == $requested))) {
+            $this->tick();
+        }
 
-      return $this;
+        return $this;
     }
 
-    public function __toString() {
-// default if not already set
-      $this->parameters += [
-        'type' => 'checkbox',
-        'class' => '',
-      ];
+    public function __toString(): string
+    {
+        // default if not already set
+        $this->parameters += [
+          'type' => 'checkbox',
+          'class' => '',
+        ];
 
-      return parent::__toString();
+        return parent::__toString();
     }
 
-  }
+}

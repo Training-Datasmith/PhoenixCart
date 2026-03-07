@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,21 +12,22 @@
   Released under the GNU General Public License
 */
 
-  if (isset($_GET['nID'])) {
+if (isset($_GET['nID'])) {
     $newsletter_id = Text::input($_GET['nID']);
-  } elseif (in_array($action, ['delete', 'new'])) {
+} elseif (in_array($action, ['delete', 'new'])) {
     return;
-  }
+}
 
-  if (!in_array($action, ['delete', 'new', 'send', 'confirm_send'])) {
+if (!in_array($action, ['delete', 'new', 'send', 'confirm_send'])) {
     return;
-  }
+}
 
-  function phoenix_newsletter_is_locked() {
-    return $GLOBALS['db']->query("SELECT locked FROM newsletters WHERE newsletters_id = " . (int)($GLOBALS['newsletter_id']))->fetch_assoc()['locked'] ?? false;
-  }
+function phoenix_newsletter_is_locked()
+{
+    return $GLOBALS['db']->query('SELECT locked FROM newsletters WHERE newsletters_id = ' . (int)($GLOBALS['newsletter_id']))->fetch_assoc()['locked'] ?? false;
+}
 
-  if (!isset($_GET['nID']) || !phoenix_newsletter_is_locked()) {
+if (!isset($_GET['nID']) || !phoenix_newsletter_is_locked()) {
     $newsletter_errors = [
       'delete' => ERROR_REMOVE_UNLOCKED_NEWSLETTER,
       'new' => ERROR_EDIT_UNLOCKED_NEWSLETTER,
@@ -35,4 +38,4 @@
     $messageStack->add_session($newsletter_errors[$action], 'error');
 
     return $link->set_parameter('nID', (int)$newsletter_id);
-  }
+}

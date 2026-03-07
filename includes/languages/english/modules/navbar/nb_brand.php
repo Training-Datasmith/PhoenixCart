@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,12 +12,12 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_NAVBAR_BRAND_TITLE = 'Brand';
-  const MODULE_NAVBAR_BRAND_DESCRIPTION = <<<'EOT'
+const MODULE_NAVBAR_BRAND_TITLE = 'Brand';
+const MODULE_NAVBAR_BRAND_DESCRIPTION = <<<'EOT'
  Show Brand in Navbar.  <div class="alert alert-warning">This can be a simple link or something more complicated such as an image.<br>
 <br>
 For more details about using an image, see <a target="_blank" rel="noreferrer" href="https://getbootstrap.com/docs/5.3/components/navbar/#brand"><u>navbar/#brand</u></a></div>
 EOT;
 
-  // if this is blank, brand will default to the main Store Logo
-  const MODULE_NAVBAR_BRAND_PUBLIC_TEXT = '';
+// if this is blank, brand will default to the main Store Logo
+const MODULE_NAVBAR_BRAND_PUBLIC_TEXT = '';

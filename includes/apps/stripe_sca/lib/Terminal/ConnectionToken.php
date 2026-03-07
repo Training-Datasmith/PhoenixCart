@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Terminal;
@@ -16,7 +18,6 @@ namespace Stripe\Terminal;
  */
 class ConnectionToken extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'terminal.connection_token';
-
     use \Stripe\ApiOperations\Create;
+    public const OBJECT_NAME = 'terminal.connection_token';
 }

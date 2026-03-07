@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_INFO_TITLE_TITLE = 'Title';
-  const MODULE_CONTENT_INFO_TITLE_DESCRIPTION = 'Shows the Title of the Page';
+const MODULE_CONTENT_INFO_TITLE_TITLE = 'Title';
+const MODULE_CONTENT_INFO_TITLE_DESCRIPTION = 'Shows the Title of the Page';

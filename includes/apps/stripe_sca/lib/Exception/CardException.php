@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stripe\Exception;
 
 /**
@@ -57,7 +59,7 @@ class CardException extends ApiErrorException
      *
      * @param null|string $declineCode
      */
-    public function setDeclineCode($declineCode)
+    public function setDeclineCode($declineCode): void
     {
         $this->declineCode = $declineCode;
     }
@@ -77,7 +79,7 @@ class CardException extends ApiErrorException
      *
      * @param null|string $stripeParam
      */
-    public function setStripeParam($stripeParam)
+    public function setStripeParam($stripeParam): void
     {
         $this->stripeParam = $stripeParam;
     }

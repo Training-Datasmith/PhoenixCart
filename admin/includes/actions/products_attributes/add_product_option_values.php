@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,12 +12,12 @@
   Released under the GNU General Public License
 */
 
-  $value_name_array = $_POST['value_name'];
-  $sort_order_array = $_POST['sort_order'];
-  $value_id = Text::input($_POST['value_id']);
-  $option_id = Text::input($_POST['option_id']);
+$value_name_array = $_POST['value_name'];
+$sort_order_array = $_POST['sort_order'];
+$value_id = Text::input($_POST['value_id']);
+$option_id = Text::input($_POST['option_id']);
 
-  foreach ($languages as $l) {
+foreach ($languages as $l) {
     $value_name = Text::prepare($value_name_array[$l['id']]);
     $sort_order = Text::input($sort_order_array[$l['id']]);
 
@@ -25,8 +27,8 @@
       'products_options_values_name' => $value_name,
       'sort_order' => $sort_order,
     ]);
-  }
+}
 
-  $db->query("INSERT INTO products_options_values_to_products_options (products_options_id, products_options_values_id) VALUES (" . (int)$option_id . ", " . (int)$value_id . ")");
+$db->query('INSERT INTO products_options_values_to_products_options (products_options_id, products_options_values_id) VALUES (' . (int)$option_id . ', ' . (int)$value_id . ')');
 
-  return $link;
+return $link;

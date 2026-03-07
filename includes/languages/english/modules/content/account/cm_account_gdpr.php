@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,8 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_ACCOUNT_GDPR_TITLE = 'GDPR Data Overview';
-  const MODULE_CONTENT_ACCOUNT_GDPR_DESCRIPTION = 'Adds a Link to the Profile Data Overview Page.';
-  
-  const MODULE_CONTENT_ACCOUNT_GDPR_LINK_TITLE = 'Profile Data Overview';
-  const MODULE_CONTENT_ACCOUNT_GDPR_SUB_TITLE = 'View All Data';
+const MODULE_CONTENT_ACCOUNT_GDPR_TITLE = 'GDPR Data Overview';
+const MODULE_CONTENT_ACCOUNT_GDPR_DESCRIPTION = 'Adds a Link to the Profile Data Overview Page.';
+
+const MODULE_CONTENT_ACCOUNT_GDPR_LINK_TITLE = 'Profile Data Overview';
+const MODULE_CONTENT_ACCOUNT_GDPR_SUB_TITLE = 'View All Data';

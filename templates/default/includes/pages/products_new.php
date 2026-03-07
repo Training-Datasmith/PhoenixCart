@@ -10,9 +10,9 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE, $Linker->build('products_new.php'));
+$breadcrumb->add(NAVBAR_TITLE, $Linker->build('products_new.php'));
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <h1 class="display-4 mb-4"><?= HEADING_TITLE ?></h1>
@@ -20,5 +20,5 @@
 <?php
   require 'includes/system/segments/sortable_product_listing.php';
 
-  require $Template->map('template_bottom.php', 'component');
+require $Template->map('template_bottom.php', 'component');
 ?>

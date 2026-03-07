@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,69 +12,75 @@
   Released under the GNU General Public License
 */
 
-  class pi_importer extends abstract_module {
+class pi_importer extends abstract_module
+{
+    public const CONFIG_KEY_BASE = 'PI_IMPORTER_';
 
-    const CONFIG_KEY_BASE = 'PI_IMPORTER_';
-
+    /**
+     * @var string
+     */
     public $group = 'pi_modules_c';
 
-    public function __construct() {
-      parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
 
-      $this->group = basename(dirname(__FILE__));
+        $this->group = basename(__DIR__);
 
-      $this->description .= '<div class="alert alert-warning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
-      $this->description .= '<div class="alert alert-info">' . cm_pi_modular::display_layout() . '</div>';
+        $this->description .= '<div class="alert alert-warning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
+        $this->description .= '<div class="alert alert-info">' . cm_pi_modular::display_layout() . '</div>';
 
-      if ( $this->enabled ) {
-        $this->group = 'pi_modules_' . strtolower(PI_IMPORTER_GROUP);
-      }
-    }
-
-    public function getOutput() {
-      if (isset($GLOBALS['product']) && ($GLOBALS['product'] instanceof Product)) {
-        $pim_importer = new importer($GLOBALS['product']->get('importers_id'));
-        
-        $show = ['importers_name', 'importers_address', 'importers_email'];
-
-        if ($pim_importer->_data) {
-          $_name    = $pim_importer->getData('importers_name');
-          $_image   = $pim_importer->getData('importers_image');
-          
-          $filtered = array_intersect_key($pim_importer->_data, array_flip($show));
-          $filtered = array_filter($filtered);
-
-          $tpl_data = ['group' => $this->group, 'file' => __FILE__];
-          include 'includes/modules/block_template.php';
+        if ($this->enabled) {
+            $this->group = 'pi_modules_' . strtolower(PI_IMPORTER_GROUP);
         }
-      }
     }
 
-    protected function get_parameters() {
-      return [
-        $this->config_key_base . 'STATUS' => [
-          'title' => 'Enable Module',
-          'value' => 'True',
-          'desc' => 'Do you want to enable this module?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-        $this->config_key_base . 'GROUP' => [
-          'title' => 'Module Display',
-          'value' => 'F',
-          'desc' => 'Where should this module display on the product info page?',
-          'set_func' => "Config::select_one(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'], ",
-        ],
-        $this->config_key_base . 'CONTENT_WIDTH' => [
-          'title' => 'Content Container',
-          'value' => 'col-sm-6 mb-2',
-          'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
-        ],
-        $this->config_key_base . 'SORT_ORDER' => [
-          'title' => 'Sort Order',
-          'value' => '328',
-          'desc' => 'Sort order of display. Lowest is displayed first.',
-        ],
-      ];
+    public function getOutput(): void
+    {
+        if (isset($GLOBALS['product']) && ($GLOBALS['product'] instanceof Product)) {
+            $pim_importer = new importer($GLOBALS['product']->get('importers_id'));
+
+            $show = ['importers_name', 'importers_address', 'importers_email'];
+
+            if ($pim_importer->_data) {
+                $_name    = $pim_importer->getData('importers_name');
+                $_image   = $pim_importer->getData('importers_image');
+
+                $filtered = array_intersect_key($pim_importer->_data, array_flip($show));
+                $filtered = array_filter($filtered);
+
+                $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+                include 'includes/modules/block_template.php';
+            }
+        }
     }
 
-  }
+    protected function get_parameters(): array
+    {
+        return [
+          $this->config_key_base . 'STATUS' => [
+            'title' => 'Enable Module',
+            'value' => 'True',
+            'desc' => 'Do you want to enable this module?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+          $this->config_key_base . 'GROUP' => [
+            'title' => 'Module Display',
+            'value' => 'F',
+            'desc' => 'Where should this module display on the product info page?',
+            'set_func' => "Config::select_one(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'], ",
+          ],
+          $this->config_key_base . 'CONTENT_WIDTH' => [
+            'title' => 'Content Container',
+            'value' => 'col-sm-6 mb-2',
+            'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
+          ],
+          $this->config_key_base . 'SORT_ORDER' => [
+            'title' => 'Sort Order',
+            'value' => '328',
+            'desc' => 'Sort order of display. Lowest is displayed first.',
+          ],
+        ];
+    }
+
+}

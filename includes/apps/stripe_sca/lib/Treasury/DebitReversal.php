@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Treasury;
@@ -28,16 +30,15 @@ namespace Stripe\Treasury;
  */
 class DebitReversal extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'treasury.debit_reversal';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Retrieve;
+    public const OBJECT_NAME = 'treasury.debit_reversal';
 
-    const NETWORK_ACH = 'ach';
-    const NETWORK_CARD = 'card';
+    public const NETWORK_ACH = 'ach';
+    public const NETWORK_CARD = 'card';
 
-    const STATUS_FAILED = 'failed';
-    const STATUS_PROCESSING = 'processing';
-    const STATUS_SUCCEEDED = 'succeeded';
+    public const STATUS_FAILED = 'failed';
+    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_SUCCEEDED = 'succeeded';
 }

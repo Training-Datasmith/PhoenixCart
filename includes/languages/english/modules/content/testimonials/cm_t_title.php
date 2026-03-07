@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,7 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_TESTIMONIALS_TITLE_TITLE        = 'Page Heading';
-  const MODULE_CONTENT_TESTIMONIALS_TITLE_DESCRIPTION  = 'Shows the Page Heading.';
+const MODULE_CONTENT_TESTIMONIALS_TITLE_TITLE        = 'Page Heading';
+const MODULE_CONTENT_TESTIMONIALS_TITLE_DESCRIPTION  = 'Shows the Page Heading.';
 
-  const MODULE_CONTENT_TESTIMONIALS_TITLE_PUBLIC_TITLE = 'Customer Testimonials';
-
+const MODULE_CONTENT_TESTIMONIALS_TITLE_PUBLIC_TITLE = 'Customer Testimonials';

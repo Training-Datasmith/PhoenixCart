@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,26 +12,25 @@
   Released under the GNU General Public License
 */
 
-  abstract class searcher {
-
-    protected $db_tables;
-    protected $criteria;
-
-    public function __construct($db_tables, $criteria) {
-      $this->db_tables = $db_tables;
-      $this->criteria = $criteria;
+abstract class searcher
+{
+    public function __construct(protected $db_tables, protected $criteria)
+    {
     }
 
-    public function add_db_table($table, $columns) {
-      $this->db_tables[$table] = $columns; 
+    public function add_db_table($table, $columns): void
+    {
+        $this->db_tables[$table] = $columns;
     }
 
-    public function add_column($table, $column) {
-      $this->db_tables[$table][] = $column;
+    public function add_column($table, $column): void
+    {
+        $this->db_tables[$table][] = $column;
     }
 
-    public function add_criterion($column, $value) {
-      $this->criteria[$column] = $value;
+    public function add_criterion($column, $value): void
+    {
+        $this->criteria[$column] = $value;
     }
 
-  }
+}

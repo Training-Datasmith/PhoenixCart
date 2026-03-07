@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,38 +12,40 @@
   Released under the GNU General Public License
 */
 
-  namespace Phoenix\Actions;
+namespace Phoenix\Actions;
 
-  class notify {
+class notify
+{
+    public static function execute(): void
+    {
+        if (!isset($_SESSION['customer_id'])) {
+            $_SESSION['navigation']->set_snapshot();
 
-    public static function execute() {
-      if (!isset($_SESSION['customer_id'])) {
-        $_SESSION['navigation']->set_snapshot();
+            \Href::redirect(\Guarantor::ensure_global('Linker')
+              ->build('login.php'));
+        }
 
-        \Href::redirect(\Guarantor::ensure_global('Linker')
-          ->build('login.php'));
-      }
-
-      $notify = $_GET['products_id'] ?? $_GET['notify'] ?? $_POST['notify'];
-      if (isset($notify)) {
-        foreach ((array)$notify as $product_id) {
-          $GLOBALS['db']->query(sprintf(<<<'EOSQL'
+        $notify = $_GET['products_id'] ?? $_GET['notify'] ?? $_POST['notify'];
+        if (isset($notify)) {
+            foreach ((array)$notify as $product_id) {
+                $GLOBALS['db']->query(sprintf(<<<'EOSQL'
 INSERT IGNORE INTO products_notifications
         (products_id, customers_id, date_added)
  VALUES (%d, %d, NOW())
 EOSQL
-            , (int)$product_id, (int)$_SESSION['customer_id']));
+                    , (int)$product_id, (int)$_SESSION['customer_id']));
 
-          $GLOBALS['messageStack']->add_session(
-            'product_action',
-            sprintf(PRODUCT_SUBSCRIBED, \Product::fetch_name((int)$product_id)),
-            'success');
+                $GLOBALS['messageStack']->add_session(
+                    'product_action',
+                    sprintf(PRODUCT_SUBSCRIBED, \Product::fetch_name((int)$product_id)),
+                    'success'
+                );
+            }
         }
-      }
 
-      \Href::redirect(\Guarantor::ensure_global('Linker')
-        ->build()
-        ->retain_query_except(['action', 'notify']));
+        \Href::redirect(\Guarantor::ensure_global('Linker')
+          ->build()
+          ->retain_query_except(['action', 'notify']));
     }
 
-  }
+}

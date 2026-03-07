@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,14 +37,15 @@ THE SOFTWARE.
  *
  * @internal
  */
-class TimezoneTransformer extends Transformer {
-
+class TimezoneTransformer extends Transformer
+{
     /**
      * {@inheritdoc}
      *
      * @throws DomainException When time zone is different than UTC or GMT (Etc/GMT)
      */
-    public function format(DateTime $dateTime, int $length): string {
+    public function format(DateTime $dateTime, int $length): string
+    {
         $timeZone = substr($dateTime->getTimezone()->getName(), 0, 3);
 
         if (!in_array($timeZone, ['Etc', 'UTC', 'GMT'])) {
@@ -77,14 +80,16 @@ class TimezoneTransformer extends Transformer {
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string {
+    public function getReverseMatchingRegExp(int $length): string
+    {
         return 'GMT[+-]\d{2}:?\d{2}';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function extractDateOptions(string $matched, int $length): array {
+    public function extractDateOptions(string $matched, int $length): array
+    {
         return [
             'timezone' => self::getEtcTimeZoneId($matched),
         ];
@@ -109,7 +114,8 @@ class TimezoneTransformer extends Transformer {
      * @throws DomainException   When the GMT time zone have minutes offset different than zero
      * @throws InvalidArgumentException When the value cannot be matched with pattern
      */
-    public static function getEtcTimeZoneId(string $formattedTimeZone): string {
+    public static function getEtcTimeZoneId(string $formattedTimeZone): string
+    {
         if (preg_match('/GMT(?P<signal>[+-])(?P<hours>\d{2}):?(?P<minutes>\d{2})/', $formattedTimeZone, $matches)) {
             $hours = (int) $matches['hours'];
             $minutes = (int) $matches['minutes'];

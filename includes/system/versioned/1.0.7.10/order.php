@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,66 +12,72 @@
   Released under the GNU General Public License
 */
 
-  class order {
-
+class order
+{
     public $info = [];
     public $totals = [];
     public $products = [];
     public $customer = [];
     public $delivery = [];
     public $billing = [];
-    public $content_type, $id;
+    public $content_type;
+    public $id;
 
-    public function __construct($order_id = null) {
-      if (empty($order_id)) {
-        cart_order_builder::build($this);
-      } else {
-        $this->set_id($order_id);
-        database_order_builder::build($this);
-      }
+    public function __construct($order_id = null)
+    {
+        if (empty($order_id)) {
+            cart_order_builder::build($this);
+        } else {
+            $this->set_id($order_id);
+            database_order_builder::build($this);
+        }
 
-      $GLOBALS['all_hooks']->cat('constructOrder', $this);
+        $GLOBALS['all_hooks']->cat('constructOrder', $this);
     }
 
-    public function has_id() {
-      return isset($this->id);
+    public function has_id(): bool
+    {
+        return isset($this->id);
     }
 
-    public function get_id() {
-      return $this->id;
+    public function get_id()
+    {
+        return $this->id;
     }
 
-    public function set_id($order_id) {
-      $this->id = Text::input($order_id);
+    public function set_id(string $order_id): void
+    {
+        $this->id = Text::input($order_id);
     }
 
-    public static function remove($order_id, $restock = false, $reactivate = false) {
-      if ('on' === $restock) {
-        $GLOBALS['db']->query(sprintf(<<<'EOSQL'
+    public static function remove($order_id, $restock = false, $reactivate = false): void
+    {
+        if ('on' === $restock) {
+            $GLOBALS['db']->query(sprintf(<<<'EOSQL'
 UPDATE products p INNER JOIN orders_products op ON p.products_id = op.products_id
   SET p.products_quantity = p.products_quantity + op.products_quantity,
       p.products_ordered = p.products_ordered - op.products_quantity
   WHERE op.orders_id = %d
 EOSQL
-          , (int)$order_id));
-      }
-      
-      if ('on' === $reactivate) {
-        $GLOBALS['db']->query(sprintf(<<<'EOSQL'
+                , (int)$order_id));
+        }
+
+        if ('on' === $reactivate) {
+            $GLOBALS['db']->query(sprintf(<<<'EOSQL'
 UPDATE products p INNER JOIN orders_products op ON p.products_id = op.products_id
   SET p.products_status = 1
   WHERE op.orders_id = %d
 EOSQL
-          , (int)$order_id));
-      }
+                , (int)$order_id));
+        }
 
-      $GLOBALS['db']->query("DELETE FROM orders_products_download WHERE orders_id = " . (int)$order_id);
-      $GLOBALS['db']->query("DELETE FROM orders_products_attributes WHERE orders_id = " . (int)$order_id);
-      $GLOBALS['db']->query("DELETE FROM orders_products WHERE orders_id = " . (int)$order_id);
-      $GLOBALS['db']->query("DELETE FROM orders_status_history WHERE orders_id = " . (int)$order_id);
-      $GLOBALS['db']->query("DELETE FROM orders_total WHERE orders_id = " . (int)$order_id);
-      $GLOBALS['db']->query("DELETE FROM orders WHERE orders_id = " . (int)$order_id);
-      $GLOBALS['db']->query("DELETE FROM outgoing WHERE identifier LIKE '%order:" . (int)$order_id . "%'");
+        $GLOBALS['db']->query('DELETE FROM orders_products_download WHERE orders_id = ' . (int)$order_id);
+        $GLOBALS['db']->query('DELETE FROM orders_products_attributes WHERE orders_id = ' . (int)$order_id);
+        $GLOBALS['db']->query('DELETE FROM orders_products WHERE orders_id = ' . (int)$order_id);
+        $GLOBALS['db']->query('DELETE FROM orders_status_history WHERE orders_id = ' . (int)$order_id);
+        $GLOBALS['db']->query('DELETE FROM orders_total WHERE orders_id = ' . (int)$order_id);
+        $GLOBALS['db']->query('DELETE FROM orders WHERE orders_id = ' . (int)$order_id);
+        $GLOBALS['db']->query("DELETE FROM outgoing WHERE identifier LIKE '%order:" . (int)$order_id . "%'");
     }
 
-  }
+}

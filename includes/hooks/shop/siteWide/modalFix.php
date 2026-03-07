@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,16 +12,15 @@
   Released under the GNU General Public License
 */
 
-class hook_shop_siteWide_modalFix {
-  
-  function listen_injectBodyEnd() {
-    $modalfix = <<<EOD
+class hook_shop_siteWide_modalFix
+{
+    public function listen_injectBodyEnd(): string
+    {
+        return <<<EOD
 <script>
 document.addEventListener('show.bs.modal', e => e.target.inert = false);
 document.addEventListener('hide.bs.modal', e => e.target.inert = true);
 </script>
 EOD;
-
-    return $modalfix;
-  }
+    }
 }

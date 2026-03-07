@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,58 +12,63 @@
   Released under the GNU General Public License
 */
 
-  class cd_sortable_name_2 extends abstract_module {
+class cd_sortable_name_2 extends abstract_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_CUSTOMER_DATA_SORTABLE_NAME_2_';
 
-    const CONFIG_KEY_BASE = 'MODULE_CUSTOMER_DATA_SORTABLE_NAME_2_';
+    public const PROVIDES = [ 'sortable_name' ];
+    public const REQUIRES = [ 'firstname', 'lastname' ];
+    public const OFFERS = [  ];
 
-    const PROVIDES = [ 'sortable_name' ];
-    const REQUIRES = [ 'firstname', 'lastname' ];
-    const OFFERS = [  ];
-
-    protected function get_parameters() {
-      return [
-        static::CONFIG_KEY_BASE . 'STATUS' => [
-          'title' => 'Enable Two Part Sortable Name module',
-          'value' => 'True',
-          'desc' => 'Do you want to add the module to your shop?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          static::CONFIG_KEY_BASE . 'STATUS' => [
+            'title' => 'Enable Two Part Sortable Name module',
+            'value' => 'True',
+            'desc' => 'Do you want to add the module to your shop?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+        ];
     }
 
-    public function get($field, &$customer_details) {
-      switch ($field) {
-        case 'sortable_name':
-          if (!isset($customer_details[$field])) {
-            global $customer_data;
-            $customer_details[$field] = $customer_data->get('lastname', $customer_details) . ', '
-                                      . $customer_data->get('firstname', $customer_details);
-          }
+    public function get($field, array &$customer_details)
+    {
+        switch ($field) {
+            case 'sortable_name':
+                if (!isset($customer_details[$field])) {
+                    global $customer_data;
+                    $customer_details[$field] = $customer_data->get('lastname', $customer_details) . ', '
+                                              . $customer_data->get('firstname', $customer_details);
+                }
 
-          return $customer_details[$field];
-      }
+                return $customer_details[$field];
+        }
     }
 
-    public function build_db_values(&$db_tables, $customer_details, $table = 'both') {
-      global $customer_data;
+    public function build_db_values(&$db_tables, $customer_details, $table = 'both'): void
+    {
+        global $customer_data;
 
-      foreach ([$customer_data->get_module('firstname'), $customer_data->get_module('lastname')] as $purveyor) {
-        $purveyor->build_db_values($db_tables, $customer_details, $table);
-      }
+        foreach ([$customer_data->get_module('firstname'), $customer_data->get_module('lastname')] as $purveyor) {
+            $purveyor->build_db_values($db_tables, $customer_details, $table);
+        }
     }
 
-    public function build_db_aliases(&$db_tables, $table = 'both') {
-      global $customer_data;
+    public function build_db_aliases(&$db_tables, $table = 'both'): void
+    {
+        global $customer_data;
 
-      foreach ([$customer_data->get_module('firstname'), $customer_data->get_module('lastname')] as $purveyor) {
-        $purveyor->build_db_aliases($db_tables, $table);
-      }
+        foreach ([$customer_data->get_module('firstname'), $customer_data->get_module('lastname')] as $purveyor) {
+            $purveyor->build_db_aliases($db_tables, $table);
+        }
     }
 
-    public function add_order_by(&$columns, $criterion, $direction) {
-      Guarantor::guarantee_subarray($columns, 'customers');
-      $columns['customers']['customers_lastname'] = $direction;
-      $columns['customers']['customers_firstname'] = $direction;
+    public function add_order_by(array &$columns, $criterion, $direction): void
+    {
+        Guarantor::guarantee_subarray($columns, 'customers');
+        $columns['customers']['customers_lastname'] = $direction;
+        $columns['customers']['customers_firstname'] = $direction;
     }
 
-  }
+}

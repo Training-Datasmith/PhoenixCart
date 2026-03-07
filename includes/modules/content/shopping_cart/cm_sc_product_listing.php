@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -21,51 +23,54 @@
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-  class cm_sc_product_listing extends abstract_executable_module {
+class cm_sc_product_listing extends abstract_executable_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_CONTENT_SC_PRODUCT_LISTING_';
 
-    const CONFIG_KEY_BASE = 'MODULE_CONTENT_SC_PRODUCT_LISTING_';
-
-    public function __construct() {
-      parent::__construct(__FILE__);
+    public function __construct()
+    {
+        parent::__construct(__FILE__);
     }
 
-    public function execute() {
-      if ($_SESSION['cart']->count_contents() > 0) {
-        $GLOBALS['any_out_of_stock'] = false;
-        $products = $_SESSION['cart']->get_products();
-        $form = new Form('cart_quantities', $GLOBALS['Linker']->build('shopping_cart.php', ['action' => 'update_product']));
+    public function execute(): void
+    {
+        if ($_SESSION['cart']->count_contents() > 0) {
+            $GLOBALS['any_out_of_stock'] = false;
+            $products = $_SESSION['cart']->get_products();
+            $form = new Form('cart_quantities', $GLOBALS['Linker']->build('shopping_cart.php', ['action' => 'update_product']));
 
-        foreach ($products as $product) {
-          // Push all attributes information in an array
-          foreach (($product->get('attribute_selections') ?? []) as $option => $value) {
-            $form->hide('id[' . $product->get('uprid') . '][' . $option . ']', $value);
-          }
+            foreach ($products as $product) {
+                // Push all attributes information in an array
+                foreach (($product->get('attribute_selections') ?? []) as $option => $value) {
+                    $form->hide('id[' . $product->get('uprid') . '][' . $option . ']', $value);
+                }
+            }
+
+            $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
+            include 'includes/modules/content/cm_template.php';
         }
-
-        $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
-        include 'includes/modules/content/cm_template.php';
-      }
     }
 
-    protected function get_parameters() {
-      return [
-        $this->config_key_base . 'STATUS' => [
-          'title' => 'Enable Module',
-          'value' => 'True',
-          'desc' => 'Do you want to enable this module?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-        $this->config_key_base . 'CONTENT_WIDTH' => [
-          'title' => 'Content Container',
-          'value' => 'col-sm-12',
-          'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
-        ],
-        $this->config_key_base . 'SORT_ORDER' => [
-          'title' => 'Sort Order',
-          'value' => '120',
-          'desc' => 'Sort order of display. Lowest is displayed first.',
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          $this->config_key_base . 'STATUS' => [
+            'title' => 'Enable Module',
+            'value' => 'True',
+            'desc' => 'Do you want to enable this module?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+          $this->config_key_base . 'CONTENT_WIDTH' => [
+            'title' => 'Content Container',
+            'value' => 'col-sm-12',
+            'desc' => 'What container should the content be shown in? (col-*-12 = full width, col-*-6 = half width).',
+          ],
+          $this->config_key_base . 'SORT_ORDER' => [
+            'title' => 'Sort Order',
+            'value' => '120',
+            'desc' => 'Sort order of display. Lowest is displayed first.',
+          ],
+        ];
     }
 
-  }
+}

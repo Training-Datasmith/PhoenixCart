@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_IN_CARD_PRODUCTS_TITLE       = 'Latest Products';
-  const MODULE_CONTENT_IN_CARD_PRODUCTS_DESCRIPTION = 'Shows the "Latest Products" module on your Index page.';
+const MODULE_CONTENT_IN_CARD_PRODUCTS_TITLE       = 'Latest Products';
+const MODULE_CONTENT_IN_CARD_PRODUCTS_DESCRIPTION = 'Shows the "Latest Products" module on your Index page.';
 
-  const MODULE_CONTENT_IN_CARD_PRODUCTS_HEADING     = 'Latest Products';
+const MODULE_CONTENT_IN_CARD_PRODUCTS_HEADING     = 'Latest Products';

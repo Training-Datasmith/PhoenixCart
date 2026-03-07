@@ -10,10 +10,10 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE_1, Guarantor::ensure_global('Linker')->build('advanced_search.php'));
-  $breadcrumb->add(NAVBAR_TITLE_2, $Linker->build('advanced_search_result.php')->retain_query_except());
+$breadcrumb->add(NAVBAR_TITLE_1, Guarantor::ensure_global('Linker')->build('advanced_search.php'));
+$breadcrumb->add(NAVBAR_TITLE_2, $Linker->build('advanced_search_result.php')->retain_query_except());
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <h1 class="display-4 mb-4"><?= HEADING_TITLE_2 ?></h1>

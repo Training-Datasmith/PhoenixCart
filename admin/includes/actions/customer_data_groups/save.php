@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,11 +12,11 @@
   Released under the GNU General Public License
 */
 
-  $customer_data_groups_id = Text::input($_GET['cdgID']);
+$customer_data_groups_id = Text::input($_GET['cdgID']);
 
-  $first_language_id = key($_POST['customer_data_groups_name']);
-  foreach ($_POST['customer_data_groups_name'] as $language_id => $customer_data_groups_name) {
-// if use_first was checked, get all the values other than the name from the first group
+$first_language_id = key($_POST['customer_data_groups_name']);
+foreach ($_POST['customer_data_groups_name'] as $language_id => $customer_data_groups_name) {
+    // if use_first was checked, get all the values other than the name from the first group
     $index = empty($_POST['use_first']) ? $language_id : $first_language_id;
 
     $sql_data = [
@@ -23,7 +25,7 @@
       'customer_data_groups_width' => Text::input($_POST['customer_data_groups_width'][$index]),
     ];
 
-    $db->perform('customer_data_groups', $sql_data, 'update', "customer_data_groups_id = " . (int)$customer_data_groups_id . " AND language_id = " . (int)$language_id);
-  }
+    $db->perform('customer_data_groups', $sql_data, 'update', 'customer_data_groups_id = ' . (int)$customer_data_groups_id . ' AND language_id = ' . (int)$language_id);
+}
 
-  return $link->set_parameter('cdgID', $customer_data_groups_id);
+return $link->set_parameter('cdgID', $customer_data_groups_id);

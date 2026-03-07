@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -11,14 +13,13 @@
 */
 
 // close session (store variables)
-  session_write_close();
+session_write_close();
 
-  if ('true' === STORE_PAGE_PARSE_TIME) {
+if ('true' === STORE_PAGE_PARSE_TIME) {
     $parse_time = number_format((microtime(true) - PAGE_PARSE_START_TIME), 3);
     error_log(date('Y-m-d H:i:s') . ' - ' . getenv('REQUEST_URI') . ' (' . $parse_time . "s)\n", 3, STORE_PAGE_PARSE_TIME_LOG);
 
     if ('true' === DISPLAY_PAGE_PARSE_TIME) {
-      echo '<small class="font-monospace text-muted text-body-secondary">Parse Time: ' . $parse_time . 's</small>';
+        echo '<small class="font-monospace text-muted text-body-secondary">Parse Time: ' . $parse_time . 's</small>';
     }
-  }
-?>
+}

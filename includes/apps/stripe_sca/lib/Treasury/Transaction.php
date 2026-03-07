@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\Treasury;
@@ -27,22 +29,21 @@ namespace Stripe\Treasury;
  */
 class Transaction extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'treasury.transaction';
-
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Retrieve;
+    public const OBJECT_NAME = 'treasury.transaction';
 
-    const FLOW_TYPE_CREDIT_REVERSAL = 'credit_reversal';
-    const FLOW_TYPE_DEBIT_REVERSAL = 'debit_reversal';
-    const FLOW_TYPE_INBOUND_TRANSFER = 'inbound_transfer';
-    const FLOW_TYPE_ISSUING_AUTHORIZATION = 'issuing_authorization';
-    const FLOW_TYPE_OTHER = 'other';
-    const FLOW_TYPE_OUTBOUND_PAYMENT = 'outbound_payment';
-    const FLOW_TYPE_OUTBOUND_TRANSFER = 'outbound_transfer';
-    const FLOW_TYPE_RECEIVED_CREDIT = 'received_credit';
-    const FLOW_TYPE_RECEIVED_DEBIT = 'received_debit';
+    public const FLOW_TYPE_CREDIT_REVERSAL = 'credit_reversal';
+    public const FLOW_TYPE_DEBIT_REVERSAL = 'debit_reversal';
+    public const FLOW_TYPE_INBOUND_TRANSFER = 'inbound_transfer';
+    public const FLOW_TYPE_ISSUING_AUTHORIZATION = 'issuing_authorization';
+    public const FLOW_TYPE_OTHER = 'other';
+    public const FLOW_TYPE_OUTBOUND_PAYMENT = 'outbound_payment';
+    public const FLOW_TYPE_OUTBOUND_TRANSFER = 'outbound_transfer';
+    public const FLOW_TYPE_RECEIVED_CREDIT = 'received_credit';
+    public const FLOW_TYPE_RECEIVED_DEBIT = 'received_debit';
 
-    const STATUS_OPEN = 'open';
-    const STATUS_POSTED = 'posted';
-    const STATUS_VOID = 'void';
+    public const STATUS_OPEN = 'open';
+    public const STATUS_POSTED = 'posted';
+    public const STATUS_VOID = 'void';
 }

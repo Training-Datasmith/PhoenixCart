@@ -15,17 +15,17 @@
 
 <?php
   if (!isset($customer_details)) {
-    if (is_numeric($_GET['edit'] ?? null)) {
-      $customer_details = $customer->fetch_to_address($_GET['edit']);
-    } else {
-      $customer_details = null;
-    }
+      if (is_numeric($_GET['edit'] ?? null)) {
+          $customer_details = $customer->fetch_to_address($_GET['edit']);
+      } else {
+          $customer_details = null;
+      }
   }
 
-  $customer_data->display_input($customer_data->get_fields_for_page('address_book'), $customer_details);
+$customer_data->display_input($customer_data->get_fields_for_page('address_book'), $customer_details);
 
-  if ( !isset($_GET['edit']) || ($customer->get('default_address_id') != $_GET['edit']) ) {
-?>
+if (!isset($_GET['edit']) || ($customer->get('default_address_id') != $_GET['edit'])) {
+    ?>
 
       <div class="row mb-2">
         <label for="primary" class="form-check-label col-sm-3 text-start text-sm-end"><?= SET_AS_PRIMARY ?></label>
@@ -37,6 +37,6 @@
       </div>
 
 <?php
-  }
+}
 ?>
   </div>

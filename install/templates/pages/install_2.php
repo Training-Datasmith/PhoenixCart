@@ -10,11 +10,11 @@
   Released under the GNU General Public License
 */
 
-  $www_location = (('on' === getenv('HTTPS')) ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost')
-                . (empty($_SERVER['REQUEST_URI']) ? parse_url($_SERVER['SCRIPT_NAME'])['path'] : $_SERVER['REQUEST_URI']);
+$www_location = (('on' === getenv('HTTPS')) ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost')
+              . (empty($_SERVER['REQUEST_URI']) ? parse_url((string) $_SERVER['SCRIPT_NAME'])['path'] : $_SERVER['REQUEST_URI']);
 
-  $www_location = substr($www_location, 0, strpos($www_location, 'install/install.php'));
-  $dir_fs_www_root = Path::normalize(DIR_FS_CATALOG) . '/';
+$www_location = substr($www_location, 0, strpos($www_location, 'install/install.php'));
+$dir_fs_www_root = Path::normalize(DIR_FS_CATALOG) . '/';
 ?>
 
 
@@ -52,25 +52,25 @@
 
       <div class="form-floating mb-3">
         <?= (new Input('HTTP_WWW_ADDRESS', ['value' => $www_location, 'id' => 'HTTP_WWW_ADDRESS', 'placeholder' => 'https://']))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_WWW_ADDRESS_EXPLANATION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_WWW_ADDRESS_EXPLANATION ?>
         <label for="HTTP_WWW_ADDRESS"><?= TEXT_WWW_ADDRESS ?></label>
       </div>
       
       <div class="form-floating mb-3">
         <?= (new Input('DIR_FS_DOCUMENT_ROOT', ['value' => $dir_fs_www_root, 'id' => 'DIR_FS_DOCUMENT_ROOT']))->require(),
-              TEXT_REQUIRED_INFORMATION,
-              TEXT_WEB_DIRECTORY_EXPLANATION ?>
+TEXT_REQUIRED_INFORMATION,
+TEXT_WEB_DIRECTORY_EXPLANATION ?>
         <label for="DIR_FS_DOCUMENT_ROOT"><?= TEXT_WEB_DIRECTORY ?></label>
       </div>
 
       <p class="d-grid"><?= new Button(TEXT_CONTINUE_STEP_3, 'fas fa-angle-right', 'btn-success') ?></p>
 
       <?php
-      foreach ( array_diff_key($_POST, ['x' => 0, 'y' => 1]) as $key => $value ) {
-        echo new Input($key, ['value' => $value], 'hidden');
+      foreach (array_diff_key($_POST, ['x' => 0, 'y' => 1]) as $key => $value) {
+          echo new Input($key, ['value' => $value], 'hidden');
       }
-      ?>
+?>
 
     </form>
   </div>

@@ -10,13 +10,13 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE, $Linker->build('login.php'));
+$breadcrumb->add(NAVBAR_TITLE, $Linker->build('login.php'));
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 
-  if ($messageStack->size('login') > 0) {
+if ($messageStack->size('login') > 0) {
     echo $messageStack->output('login');
-  }
+}
 ?>
 
   <div class="row">

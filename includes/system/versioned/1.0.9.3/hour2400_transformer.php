@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Symfony package.
  *
@@ -35,19 +37,21 @@ THE SOFTWARE.
  *
  * @internal
  */
-class Hour2400Transformer extends HourTransformer {
-
+class Hour2400Transformer extends HourTransformer
+{
     /**
      * {@inheritdoc}
      */
-    public function format(\DateTime $dateTime, int $length): string {
+    public function format(\DateTime $dateTime, int $length): string
+    {
         return $this->padLeft($dateTime->format('G'), $length);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function normalizeHour(int $hour, ?string $marker = null): int {
+    public function normalizeHour(int $hour, ?string $marker = null): int
+    {
         if ('AM' === $marker) {
             $hour = 0;
         } elseif ('PM' === $marker) {
@@ -60,7 +64,8 @@ class Hour2400Transformer extends HourTransformer {
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string {
+    public function getReverseMatchingRegExp(int $length): string
+    {
         return '\d{1,2}';
     }
 

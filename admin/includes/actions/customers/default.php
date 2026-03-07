@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,10 @@
   Released under the GNU General Public License
 */
 
-  if (isset($_GET['cID'])) {
+if (isset($_GET['cID'])) {
     $customer_details = $db->query($customer_data->build_read(
-      $customer_data->list_all_capabilities(), 'both',
-      [ 'id' => (int)$_GET['cID'] ]))->fetch_assoc();
-  }
+        $customer_data->list_all_capabilities(),
+        'both',
+        [ 'id' => (int)$_GET['cID'] ]
+    ))->fetch_assoc();
+}

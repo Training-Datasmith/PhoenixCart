@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -24,4 +26,3 @@ const TEXT_CREATE_NEW_SHIPPING_ADDRESS = 'Please use the following form to creat
 
 const BUTTON_SELECT_ADDRESS = 'Use this Address';
 const BUTTON_ADD_NEW_ADDRESS = 'Add and Use this Address';
-

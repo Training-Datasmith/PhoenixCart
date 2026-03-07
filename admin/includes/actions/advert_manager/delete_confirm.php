@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,9 +12,9 @@
   Released under the GNU General Public License
 */
 
-  $advert_id = Text::input($_GET['aID']);
+$advert_id = Text::input($_GET['aID']);
 
-  $db->query("DELETE FROM advert WHERE advert_id = " . (int)$advert_id);
-  $db->query("DELETE FROM advert_info WHERE advert_id = " . (int)$advert_id);
+$db->query('DELETE FROM advert WHERE advert_id = ' . (int)$advert_id);
+$db->query('DELETE FROM advert_info WHERE advert_id = ' . (int)$advert_id);
 
-  return $link;
+return $link;

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,6 +12,5 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_TITLE = 'Table Row Click Javascript';
-  const MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_DESCRIPTION = 'Add Table Row Click javascript to specified pages';
-  
+const MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_TITLE = 'Table Row Click Javascript';
+const MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_DESCRIPTION = 'Add Table Row Click javascript to specified pages';

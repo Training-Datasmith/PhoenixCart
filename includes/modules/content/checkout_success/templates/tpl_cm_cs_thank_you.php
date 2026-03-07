@@ -9,8 +9,8 @@
     <div class="list-group list-group-flush">
       <?=
       sprintf(MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_SEE_ORDERS, $GLOBALS['Linker']->build('account_history.php')),
-      sprintf(MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_CONTACT_STORE_OWNER, $GLOBALS['Linker']->build('contact_us.php'))
-      ?>
+sprintf(MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_CONTACT_STORE_OWNER, $GLOBALS['Linker']->build('contact_us.php'))
+?>
     </div>
   </div>
 

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,22 +12,25 @@
   Released under the GNU General Public License
 */
 
-  class Logger {
+class Logger
+{
+    public static function stop_timer(): string
+    {
+        $timer_total = number_format(microtime(true) - PAGE_PARSE_START_TIME, 3);
 
-    public static function stop_timer() {
-      $timer_total = number_format(microtime(true) - PAGE_PARSE_START_TIME, 3);
+        static::write(getenv('REQUEST_URI'), $timer_total . 's');
 
-      static::write(getenv('REQUEST_URI'), $timer_total . 's');
-
-      return $timer_total;
+        return $timer_total;
     }
 
-    public static function format($timer_total) {
-      return '<small class="font-monospace text-muted text-body-secondary">Parse Time: ' . $timer_total . 's</small>';
+    public static function format(string $timer_total): string
+    {
+        return '<small class="font-monospace text-muted text-body-secondary">Parse Time: ' . $timer_total . 's</small>';
     }
 
-    public static function write($uri, $message) {
-      error_log(Text::input(date('Y-m-d H:i:s')) . " [$message] $uri\n", 3, STORE_PAGE_PARSE_TIME_LOG);
+    public static function write($uri, $message): void
+    {
+        error_log(Text::input(date('Y-m-d H:i:s')) . " [$message] $uri\n", 3, STORE_PAGE_PARSE_TIME_LOG);
     }
 
-  }
+}

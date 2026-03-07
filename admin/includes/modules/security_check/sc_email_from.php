@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,22 +12,28 @@
   Released under the GNU General Public License
 */
 
-  class sc_email_from {
-    
+class sc_email_from
+{
+    /**
+     * @var 'email_from'
+     */
     public $title;
     public $type = 'error';
     public $has_doc = false;
 
-    public function __construct() {
-      $this->title = MODULE_SECURITY_CHECK_EMAIL_FROM_TITLE;
+    public function __construct()
+    {
+        $this->title = MODULE_SECURITY_CHECK_EMAIL_FROM_TITLE;
     }
 
-    public function pass() {
-      return ('root@localhost' !== EMAIL_FROM);
+    public function pass(): bool
+    {
+        return ('root@localhost' !== EMAIL_FROM);
     }
 
-    public function get_message() {
-      return MODULE_SECURITY_CHECK_EMAIL_FROM_ERROR;
+    public function get_message(): string
+    {
+        return MODULE_SECURITY_CHECK_EMAIL_FROM_ERROR;
     }
 
-  }
+}

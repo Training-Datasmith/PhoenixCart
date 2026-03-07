@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,36 +12,38 @@
   Released under the GNU General Public License
 */
 
-  class ot_subtotal extends abstract_module {
-
-    const CONFIG_KEY_BASE = 'MODULE_ORDER_TOTAL_SUBTOTAL_';
+class ot_subtotal extends abstract_module
+{
+    public const CONFIG_KEY_BASE = 'MODULE_ORDER_TOTAL_SUBTOTAL_';
 
     public $output = [];
 
-    public function process() {
-      global $order;
+    public function process(): void
+    {
+        global $order;
 
-      $this->output[] = [
-        'title' => $this->title,
-        'text' => Guarantor::ensure_global('currencies')->format($order->info['subtotal'], true, $order->info['currency'], $order->info['currency_value']),
-        'value' => $order->info['subtotal'],
-      ];
+        $this->output[] = [
+          'title' => $this->title,
+          'text' => Guarantor::ensure_global('currencies')->format($order->info['subtotal'], true, $order->info['currency'], $order->info['currency_value']),
+          'value' => $order->info['subtotal'],
+        ];
     }
 
-    protected function get_parameters() {
-      return [
-        $this->config_key_base . 'STATUS' => [
-          'title' => 'Display Sub-Total',
-          'value' => 'True',
-          'desc' => 'Do you want to display the order sub-total cost?',
-          'set_func' => "Config::select_one(['True', 'False'], ",
-        ],
-        $this->config_key_base . 'SORT_ORDER' => [
-          'title' => 'Sort Order',
-          'value' => '10',
-          'desc' => 'Sort order of display.',
-        ],
-      ];
+    protected function get_parameters(): array
+    {
+        return [
+          $this->config_key_base . 'STATUS' => [
+            'title' => 'Display Sub-Total',
+            'value' => 'True',
+            'desc' => 'Do you want to display the order sub-total cost?',
+            'set_func' => "Config::select_one(['True', 'False'], ",
+          ],
+          $this->config_key_base . 'SORT_ORDER' => [
+            'title' => 'Sort Order',
+            'value' => '10',
+            'desc' => 'Sort order of display.',
+          ],
+        ];
     }
 
-  }
+}

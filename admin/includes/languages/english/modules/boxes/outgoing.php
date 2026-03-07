@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,5 +12,4 @@
   Released under the GNU General Public License
 */
 
-  const BOX_HEADING_OUTGOING_EMAIL = '<i title="Queued E-mails" class="fas fa-clock fa-fw me-1"></i><span title="Queued E-mails" class="d-xl-none">Queued E-mails</span>'; 
-  
+const BOX_HEADING_OUTGOING_EMAIL = '<i title="Queued E-mails" class="fas fa-clock fa-fw me-1"></i><span title="Queued E-mails" class="d-xl-none">Queued E-mails</span>';

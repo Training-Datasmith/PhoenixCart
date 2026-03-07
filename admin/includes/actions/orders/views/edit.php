@@ -10,11 +10,11 @@
   Released under the GNU General Public License
 */
 
-  $order = new order($oID);
-  $address = $customer_data->get_module('address');
-  $email_address = $customer_data->get('email_address', $order->customer);
+$order = new order($oID);
+$address = $customer_data->get_module('address');
+$email_address = $customer_data->get('email_address', $order->customer);
 
-  $orders_statuses = order_status::fetch_options();
+$orders_statuses = order_status::fetch_options();
 ?>
 
   <div class="row">
@@ -24,11 +24,11 @@
     <div class="col-12 col-lg-8 text-start text-lg-end align-self-center pb-1">
       <?=
        $Admin->button(GET_HELP, '', 'btn-dark me-2', GET_HELP_LINK, ['newwindow' => true]),
-       $admin_hooks->cat('extraButtons'),
-       $Admin->button(IMAGE_ORDERS_INVOICE, 'fas fa-file-invoice-dollar', 'btn-info me-2', $Admin->link('invoice.php')->set_parameter('oID', $_GET['oID']), ['newwindow' => true]),
-       $Admin->button(IMAGE_ORDERS_PACKINGSLIP, 'fas fa-file-contract', 'btn-info me-2', $Admin->link('packingslip.php')->set_parameter('oID', $_GET['oID']), ['newwindow' => true]),
-       $Admin->button(IMAGE_BACK, 'fas fa-angle-left', 'btn-light', $Admin->link('orders.php')->retain_query_except(['action']))
-      ?>
+$admin_hooks->cat('extraButtons'),
+$Admin->button(IMAGE_ORDERS_INVOICE, 'fas fa-file-invoice-dollar', 'btn-info me-2', $Admin->link('invoice.php')->set_parameter('oID', $_GET['oID']), ['newwindow' => true]),
+$Admin->button(IMAGE_ORDERS_PACKINGSLIP, 'fas fa-file-contract', 'btn-info me-2', $Admin->link('packingslip.php')->set_parameter('oID', $_GET['oID']), ['newwindow' => true]),
+$Admin->button(IMAGE_BACK, 'fas fa-angle-left', 'btn-light', $Admin->link('orders.php')->retain_query_except(['action']))
+?>
     </div>
   </div>
 
@@ -91,35 +91,35 @@
           </thead>
           <tbody>
             <?php
-            Guarantor::ensure_global('currencies');
-            foreach ($order->products as $product) {
-              echo '<tr>';
-                echo '<td>' . $product['qty'] . ' x ' . $product['name'];
-                if (!empty($product['attributes'])) {
-                  foreach ($product['attributes'] as $attribute) {
-                    echo '<br><small> - ' . $attribute['option'] . ': ' . $attribute['value'];
-                    if ($attribute['price'] != '0') {
-                      echo ' (' . $attribute['prefix'] . $currencies->format($attribute['price'] * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . ')';
-                    }
-                    echo '</small>';
-                  }
-                }
-                echo '</td>';
-                echo '<td>' . $product['model'] . '&nbsp;</td>';
-                echo '<td class="text-end">' . Tax::format($product['tax']) . '%</td>';
-                echo '<td class="text-end">' . $currencies->format($product['final_price'], true, $order->info['currency'], $order->info['currency_value']) . '</td>';
-                echo '<td class="text-end">' . $currencies->format(Tax::add($product['final_price'], $product['tax']), true, $order->info['currency'], $order->info['currency_value']) . '</td>';
-                echo '<td class="text-end">' . $currencies->format($product['final_price'] * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . '</strong></td>';
-                echo '<th class="text-end">' . $currencies->format(Tax::add($product['final_price'], $product['tax']) * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . '</th>';
-              echo '</tr>';
+      Guarantor::ensure_global('currencies');
+foreach ($order->products as $product) {
+    echo '<tr>';
+    echo '<td>' . $product['qty'] . ' x ' . $product['name'];
+    if (!empty($product['attributes'])) {
+        foreach ($product['attributes'] as $attribute) {
+            echo '<br><small> - ' . $attribute['option'] . ': ' . $attribute['value'];
+            if ($attribute['price'] != '0') {
+                echo ' (' . $attribute['prefix'] . $currencies->format($attribute['price'] * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . ')';
             }
-            foreach ($order->totals as $ot) {
-              echo '<tr>';
-                echo '<td colspan="6" class="text-end bg-white">' . $ot['title'] . '</td>';
-                echo '<th class="text-end bg-white">' . $ot['text'] . '</th>';
-              echo '</tr>';
-            }
-            ?>
+            echo '</small>';
+        }
+    }
+    echo '</td>';
+    echo '<td>' . $product['model'] . '&nbsp;</td>';
+    echo '<td class="text-end">' . Tax::format($product['tax']) . '%</td>';
+    echo '<td class="text-end">' . $currencies->format($product['final_price'], true, $order->info['currency'], $order->info['currency_value']) . '</td>';
+    echo '<td class="text-end">' . $currencies->format(Tax::add($product['final_price'], $product['tax']), true, $order->info['currency'], $order->info['currency_value']) . '</td>';
+    echo '<td class="text-end">' . $currencies->format($product['final_price'] * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . '</strong></td>';
+    echo '<th class="text-end">' . $currencies->format(Tax::add($product['final_price'], $product['tax']) * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . '</th>';
+    echo '</tr>';
+}
+foreach ($order->totals as $ot) {
+    echo '<tr>';
+    echo '<td colspan="6" class="text-end bg-white">' . $ot['title'] . '</td>';
+    echo '<th class="text-end bg-white">' . $ot['text'] . '</th>';
+    echo '</tr>';
+}
+?>
           </tbody>
         </table>
 
@@ -180,25 +180,25 @@
           </thead>
           <tbody>
             <?php
-            $orders_history_query = $db->query("SELECT * FROM orders_status_history WHERE orders_id = " . (int)$oID . " ORDER BY date_added DESC");
-            if (mysqli_num_rows($orders_history_query)) {
-              $orders_status_dictionary = array_column($orders_statuses, 'text', 'id');
-              while ($orders_history = $orders_history_query->fetch_assoc()) {
-                echo '<tr>';
-                  echo '<td>' . $orders_history['date_added'] . '</td>';
-                  echo '<td>' . $orders_status_dictionary[$orders_history['orders_status_id']] . '</td>';
-                  echo '<td>' . nl2br(htmlspecialchars($orders_history['comments'])) . '&nbsp;</td>';
-                  echo '<td class="text-end">';
-                    echo ($orders_history['customer_notified'] == '1') ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>';
-                  echo '</td>';
-                echo '</tr>' . "\n";
-              }
-            } else {
-              echo '<tr>';
-                echo '<td colspan="4">' . TEXT_NO_ORDER_HISTORY . '</td>';
-              echo '</tr>';
-            }
-            ?>
+$orders_history_query = $db->query('SELECT * FROM orders_status_history WHERE orders_id = ' . (int)$oID . ' ORDER BY date_added DESC');
+if (mysqli_num_rows($orders_history_query)) {
+    $orders_status_dictionary = array_column($orders_statuses, 'text', 'id');
+    while ($orders_history = $orders_history_query->fetch_assoc()) {
+        echo '<tr>';
+        echo '<td>' . $orders_history['date_added'] . '</td>';
+        echo '<td>' . $orders_status_dictionary[$orders_history['orders_status_id']] . '</td>';
+        echo '<td>' . nl2br(htmlspecialchars((string) $orders_history['comments'])) . '&nbsp;</td>';
+        echo '<td class="text-end">';
+        echo ($orders_history['customer_notified'] == '1') ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>';
+        echo '</td>';
+        echo '</tr>' . "\n";
+    }
+} else {
+    echo '<tr>';
+    echo '<td colspan="4">' . TEXT_NO_ORDER_HISTORY . '</td>';
+    echo '</tr>';
+}
+?>
           </tbody>
         </table>
       </div>

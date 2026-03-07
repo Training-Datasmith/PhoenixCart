@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 chdir('../../../../');
 require('includes/application_top.php');
 
@@ -15,9 +17,11 @@ $stripe_sca = new stripe_sca();
 
 try {
     $event = \Stripe\Webhook::constructEvent(
-                    $payload, $sig_header, $endpoint_secret
+        $payload,
+        $sig_header,
+        $endpoint_secret
     );
-    $stripe_sca->event_log('0', "webhook", $payload, $event);
+    $stripe_sca->event_log('0', 'webhook', $payload, $event);
 } catch (\UnexpectedValueException $e) {
     // Invalid payload
     echo MODULE_PAYMENT_STRIPE_SCA_WEBHOOK_PARAMETER;
@@ -29,34 +33,36 @@ try {
     http_response_code(400); // PHP 5.4 or greater
     exit();
 }
-
-if ($event->type == "payment_intent.succeeded") {
+if ($event->type == 'payment_intent.succeeded') {
     $intent = $event->data->object;
     $customer_id = $intent->metadata['customer_id'];
     try {
         processPayment($intent, $stripe_sca, $currencies);
     } catch (Exception $e) {
-        $stripe_sca->event_log($customer_id, "webhook error", $e->getMessage(), $e->getTraceAsString());
+        $stripe_sca->event_log($customer_id, 'webhook error', $e->getMessage(), $e->getTraceAsString());
         echo MODULE_PAYMENT_STRIPE_SCA_WEBHOOK_SERVER;
         http_response_code(500);
         exit();
     }
     http_response_code(200);
     exit();
-} elseif ($event->type == "payment_intent.payment_failed") {
+}
+
+if ($event->type == 'payment_intent.payment_failed') {
     $intent = $event->data->object;
-    $error_message = $intent->last_payment_error ? $intent->last_payment_error->message : "";
+    $error_message = $intent->last_payment_error ? $intent->last_payment_error->message : '';
     processFailure($intent, $stripe_sca, $error_message);
     http_response_code(200);
     exit();
 }
 
-function processPayment($intent, $stripe_sca, $currencies) {
+function processPayment($intent, $stripe_sca, $currencies): void
+{
     $customer_id = $intent->metadata['customer_id'];
     $secret_key = MODULE_PAYMENT_STRIPE_SCA_TRANSACTION_SERVER == 'Live' ? MODULE_PAYMENT_STRIPE_SCA_LIVE_SECRET_KEY : MODULE_PAYMENT_STRIPE_SCA_TEST_SECRET_KEY;
     \Stripe\Stripe::setApiKey($secret_key);
     \Stripe\Stripe::setApiVersion($stripe_sca->api_version);
-    $stripe_sca->event_log($customer_id, "webhook process payment", "", "");
+    $stripe_sca->event_log($customer_id, 'webhook process payment', '', '');
 
     if ($intent->status == 'succeeded') {
 
@@ -68,19 +74,20 @@ function processPayment($intent, $stripe_sca, $currencies) {
     }
 
     if (isset($intent->last_payment_error['message'])) {
-        $_SESSION['stripe_error'] = $intent->status . ", " . $intent->last_payment_error['message'];
+        $_SESSION['stripe_error'] = $intent->status . ', ' . $intent->last_payment_error['message'];
     }
 
     sendDebugEmail($intent);
 }
 
-function saveCard($intent, $stripe_sca) {
+function saveCard($intent, $stripe_sca): void
+{
 
-    $stripe_token = $intent->customer . ":" . $intent->payment_method;
+    $stripe_token = $intent->customer . ':' . $intent->payment_method;
     $cc_save = $intent->metadata['cc_save'];
     $customer_id = $intent->metadata['customer_id'];
 
-    $stripe_sca->event_log($customer_id, "webhook saveCard", $stripe_token, $cc_save);
+    $stripe_sca->event_log($customer_id, 'webhook saveCard', $stripe_token, $cc_save);
 
     if ((MODULE_PAYMENT_STRIPE_SCA_TOKENS == 'True') && isset($cc_save) && ($cc_save == 'true')) {
         $stripe_customer_id = getStripeCustomerID($customer_id, $stripe_sca);
@@ -94,7 +101,8 @@ function saveCard($intent, $stripe_sca) {
     }
 }
 
-function processFailure($intent, $stripe_sca, $error_message) {
+function processFailure($intent, $stripe_sca, string $error_message): void
+{
 
     $cc_save = $intent->metadata['cc_save'];
     $order_id = $intent->metadata['order_id'];
@@ -141,15 +149,16 @@ function processFailure($intent, $stripe_sca, $error_message) {
         'customer_notified' => '0',
         'comments' => implode("\n", $status_comment)];
 
-    $GLOBALS['db']->perform("orders_status_history", $sql_data_array);
+    $GLOBALS['db']->perform('orders_status_history', $sql_data_array);
 }
 
-function processOrder($intent, $stripe_sca, $currencies) {
+function processOrder($intent, $stripe_sca, $currencies): void
+{
     global $db;
 
     $order_id = $intent->metadata['order_id'];
     $customer_id = $intent->metadata['customer_id'];
-    $stripe_sca->event_log($customer_id, "webhook processOrder", $order_id, "");
+    $stripe_sca->event_log($customer_id, 'webhook processOrder', $order_id, '');
 
     $check_query = $db->query(sprintf(<<<'EOSQL'
 SELECT orders_status
@@ -157,7 +166,7 @@ SELECT orders_status
   WHERE orders_id = %s
     AND customers_id = %s
 EOSQL
-            , (int)$order_id, (int)$customer_id));
+        , (int)$order_id, (int)$customer_id));
 
     if (mysqli_num_rows($check_query)) {
         $check = $check_query->fetch_assoc();
@@ -175,7 +184,7 @@ SELECT comments
   WHERE orders_id = %s
     AND orders_status_id = %s
 EOSQL
-            , (int)$order_id, (int)MODULE_PAYMENT_STRIPE_SCA_PREPARE_ORDER_STATUS_ID));
+                , (int)$order_id, (int)MODULE_PAYMENT_STRIPE_SCA_PREPARE_ORDER_STATUS_ID));
 
             $comments = $comments_query->fetch_assoc();
 
@@ -184,7 +193,7 @@ UPDATE orders
   SET orders_status = %s, last_modified = now()
   WHERE orders_id = %s
 EOSQL
-            , (int)$new_order_status, (int)$order_id));
+                , (int)$new_order_status, (int)$order_id));
 
             $sql_data_array = ['orders_id' => $order_id,
                 'orders_status_id' => (int) $new_order_status,
@@ -192,7 +201,7 @@ EOSQL
                 'customer_notified' => (SEND_EMAILS == 'true') ? '1' : '0',
                 'comments' => $comments['comments']];
 
-            $db->perform("orders_status_history", $sql_data_array);
+            $db->perform('orders_status_history', $sql_data_array);
 
             $db->query(sprintf(<<<'EOSQL'
 UPDATE orders_status_history
@@ -200,9 +209,9 @@ UPDATE orders_status_history
   WHERE orders_id = %s
     AND orders_status_id = %s
 EOSQL
-            , (int)$order_id, (int)MODULE_PAYMENT_STRIPE_SCA_PREPARE_ORDER_STATUS_ID));
+                , (int)$order_id, (int)MODULE_PAYMENT_STRIPE_SCA_PREPARE_ORDER_STATUS_ID));
 
-            $stripe_sca->event_log($customer_id, "webhook updateOrderStatusHistory", $intent->metadata['order_id'], "");
+            $stripe_sca->event_log($customer_id, 'webhook updateOrderStatusHistory', $intent->metadata['order_id'], '');
             $cc_save = $intent->metadata['cc_save'];
             $order_id = $intent->metadata['order_id'];
             $stripe_card = $intent->metadata['stripe_card'];
@@ -247,12 +256,13 @@ EOSQL
                 'customer_notified' => '0',
                 'comments' => implode("\n", $status_comment)];
 
-            $db->perform("orders_status_history", $sql_data_array);
+            $db->perform('orders_status_history', $sql_data_array);
         }
     }
 }
 
-function getStripeCustomerID($customer_id, $stripe_sca) {
+function getStripeCustomerID($customer_id, $stripe_sca): string|false
+{
 
     $token_check_query = $GLOBALS['db']->query(sprintf(<<<'EOSQL'
 SELECT stripe_token
@@ -260,14 +270,14 @@ SELECT stripe_token
   WHERE customers_id = %s
   LIMIT 1
 EOSQL
-            , (int)$customer_id));
+        , (int)$customer_id));
 
     if (mysqli_num_rows($token_check_query) === 1) {
         $token_check = $token_check_query->fetch_assoc();
 
-        $stripe_token_array = explode(':|:', $token_check['stripe_token'], 2);
+        $stripe_token_array = explode(':|:', (string) $token_check['stripe_token'], 2);
 
-        $stripe_sca->event_log($customer_id, "webhook getStripeCustomerID", $customer_id, $stripe_token_array[0]);
+        $stripe_sca->event_log($customer_id, 'webhook getStripeCustomerID', $customer_id, $stripe_token_array[0]);
 
         return $stripe_token_array[0];
     }
@@ -275,7 +285,8 @@ EOSQL
     return false;
 }
 
-function createCustomer($intent, $customer_id, $stripe_sca) {
+function createCustomer($intent, $customer_id, $stripe_sca): bool
+{
 
     $charge = $intent->charges->data[0];
     $params = ['payment_method' => $intent->payment_method,
@@ -283,17 +294,18 @@ function createCustomer($intent, $customer_id, $stripe_sca) {
               'email' => $charge->billing_details['email'],
               'metadata' => ['customer_id' => $customer_id]];
     $customer = \Stripe\Customer::create($params);
-    $stripe_sca->event_log($customer_id, "webhook createCustomer", $intent->payment_method, $customer);
+    $stripe_sca->event_log($customer_id, 'webhook createCustomer', $intent->payment_method, $customer);
 
-    insertCustomerToken($customer_id, $customer->id, $intent, null);
+    insertCustomerToken($customer_id, $customer->id, $intent);
 
     return false;
 }
 
-function addCard($intent, $stripe_customer_id, $customer_id, $stripe_sca) {
+function addCard($intent, $stripe_customer_id, $customer_id, $stripe_sca)
+{
 
     $payment_method = \Stripe\PaymentMethod::retrieve($intent->payment_method);
-    $stripe_sca->event_log($customer_id, "webhook addCard", $intent->payment_method, $payment_method);
+    $stripe_sca->event_log($customer_id, 'webhook addCard', $intent->payment_method, $payment_method);
     if (is_object($payment_method) && !empty($payment_method) && isset($payment_method->object) && ($payment_method->object == 'payment_method')) {
 
         $result = $payment_method->attach(['customer' => $stripe_customer_id]);
@@ -310,7 +322,8 @@ function addCard($intent, $stripe_customer_id, $customer_id, $stripe_sca) {
     return false;
 }
 
-function insertCustomerToken($customer_id, $stripe_customer_id, $intent, $payment_method = null) {
+function insertCustomerToken($customer_id, string $stripe_customer_id, $intent, $payment_method = null): void
+{
 
     if (!isset($payment_method)) {
         $payment_method = \Stripe\PaymentMethod::retrieve($intent->payment_method);
@@ -318,7 +331,7 @@ function insertCustomerToken($customer_id, $stripe_customer_id, $intent, $paymen
     $token = Text::prepare($stripe_customer_id . ':|:' . $intent->payment_method);
     $type = Text::prepare($payment_method->card->brand);
     $number = Text::prepare($payment_method->card->last4);
-    $expiry = Text::prepare(str_pad($payment_method->card->exp_month, 2, '0', STR_PAD_LEFT) . $payment_method->card->exp_year);
+    $expiry = Text::prepare(str_pad((string) $payment_method->card->exp_month, 2, '0', STR_PAD_LEFT) . $payment_method->card->exp_year);
 
     $sql_data_array = ['customers_id' => (int) $customer_id,
         'stripe_token' => $token,

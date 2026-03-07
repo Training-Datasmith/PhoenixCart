@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,4 +12,4 @@
   Released under the GNU General Public License
 */
 
-  const MODULES_ADMIN_MENU_TOOLS_SEC_DIR_PERMISSIONS = 'Security Directory Permissions';
+const MODULES_ADMIN_MENU_TOOLS_SEC_DIR_PERMISSIONS = 'Security Directory Permissions';

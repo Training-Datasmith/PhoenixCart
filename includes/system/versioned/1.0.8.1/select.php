@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,9 +12,9 @@
   Released under the GNU General Public License
 */
 
-  class Select extends Input {
-
-    const ESCAPES = [
+class Select extends Input
+{
+    public const ESCAPES = [
       '"' => '&quot;',
       "'" => '&#039;',
       '<' => '&lt;',
@@ -21,155 +23,124 @@
 
     protected $options;
     protected $required = false;
-    protected $selection;
+    protected string $selection;
 
-    /**
-     *
-     * @param string $name
-     * @param array $options
-     * @param array $parameters
-     */
-    public function __construct(string $name, array $options = [], array $parameters = []) {
-      parent::__construct($name, $parameters, null);
-      $this->options = $options;
+    public function __construct(string $name, array $options = [], array $parameters = [])
+    {
+        parent::__construct($name, $parameters);
+        $this->options = $options;
 
-      if (!isset($this->parameters['value']) && is_string($request = Request::value($this->get('name')))) {
-        $this->selection = $request;
-      }
+        if (!isset($this->parameters['value']) && is_string($request = Request::value($this->get('name')))) {
+            $this->selection = $request;
+        }
     }
 
-    /**
-     *
-     * @param array $option
-     * @return Select
-     */
-    public function add_option(array $option) {
-      $this->options[] = $option;
-      return $this;
+    public function add_option(array $option): static
+    {
+        $this->options[] = $option;
+        return $this;
     }
 
-    /**
-     *
-     * @return string
-     */
-    protected function build_options() {
-      $field = '';
+    protected function build_options(): string
+    {
+        $field = '';
 
-      $selector = ' selected="selected"';
-      foreach ($this->options as $option) {
-        $field .= '<option value="' . Text::output($option['id']) . '"';
-        if ($selector && ($this->selection == $option['id'])) {
-          $field .= $selector;
-          $selector = '';
+        $selector = ' selected="selected"';
+        foreach ($this->options as $option) {
+            $field .= '<option value="' . Text::output($option['id']) . '"';
+            if ($selector && ($this->selection == $option['id'])) {
+                $field .= $selector;
+                $selector = '';
+            }
+
+            $field .= '>' . Text::output($option['text'], static::ESCAPES) . '</option>';
         }
 
-        $field .= '>' . Text::output($option['text'], static::ESCAPES) . '</option>';
-      }
-
-      return $field;
+        return $field;
     }
 
-    /**
-     *
-     * @return string
-     */
-    public function draw() {
-// default if not already set
-      $this->parameters += [
-        'class' => 'form-control',
-      ];
+    public function draw(): string
+    {
+        // default if not already set
+        $this->parameters += [
+          'class' => 'form-control',
+        ];
 
-      if (isset($this->parameters['value'])) {
-// select menus do not have values per se; instead an option can be selected
-        if (!isset($this->selection)) {
-          $this->selection = $this->parameters['value'];
+        if (isset($this->parameters['value'])) {
+            // select menus do not have values per se; instead an option can be selected
+            if (!isset($this->selection)) {
+                $this->selection = $this->parameters['value'];
+            }
+
+            unset($this->parameters['value']);
         }
 
-        unset($this->parameters['value']);
-      }
+        $select = '<select' . $this->stringify_parameters() . '>' . $this->build_options() . '</select>';
 
-      $select = '<select' . $this->stringify_parameters() . '>' . $this->build_options() . '</select>';
+        if ($this->required) {
+            $select .= TEXT_FIELD_REQUIRED;
+        }
 
-      if ($this->required) {
-        $select .= TEXT_FIELD_REQUIRED;
-      }
-
-      return $select;
+        return $select;
     }
 
     /**
      *
      * @return array
      */
-    public function get_options() {
-      return $this->options;
+    public function get_options()
+    {
+        return $this->options;
     }
 
-    /**
-     *
-     * @param array $options
-     * @return Select
-     */
-    public function set_options(array $options) {
-      $this->options = $options;
-      return $this;
+    public function set_options(array $options): static
+    {
+        $this->options = $options;
+        return $this;
     }
 
     /**
      *
      * @return boolean|bool
      */
-    public function get_required() {
-      return $this->required;
+    public function get_required()
+    {
+        return $this->required;
     }
 
-    /**
-     *
-     * @param bool $required
-     * @return Select
-     */
-    public function set_required(bool $required) {
-      $this->required = $required;
-      return $this;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function get_selection() {
-      return $this->selection;
-    }
-
-    /**
-     *
-     * @param string $selection
-     * @return Select
-     */
-    public function set_selection(string $selection = null) {
-      $this->selection = $selection;
-      return $this;
-    }
-
-    /**
-     *
-     * @param string $default
-     * @return Select
-     */
-    public function set_default_selection(string $default = null) {
-      if (!isset($this->selection)) {
-        $this->selection = $default;
-      }
-
-      return $this;
+    public function set_required(bool $required): static
+    {
+        $this->required = $required;
+        return $this;
     }
 
     /**
      *
      * @return string
      */
-    public function __toString() {
-      return $this->draw();
+    public function get_selection()
+    {
+        return $this->selection;
     }
 
-  }
+    public function set_selection(string $selection = null): static
+    {
+        $this->selection = $selection;
+        return $this;
+    }
+
+    public function set_default_selection(string $default = null): static
+    {
+        if (!isset($this->selection)) {
+            $this->selection = $default;
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->draw();
+    }
+
+}

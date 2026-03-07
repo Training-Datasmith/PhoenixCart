@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe;
@@ -38,27 +40,26 @@ namespace Stripe;
  */
 class BankAccount extends ApiResource
 {
-    const OBJECT_NAME = 'bank_account';
-
     use ApiOperations\Delete;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'bank_account';
 
     /**
      * Possible string representations of the bank verification status.
      *
      * @see https://stripe.com/docs/api/external_account_bank_accounts/object#account_bank_account_object-status
      */
-    const STATUS_NEW = 'new';
-    const STATUS_VALIDATED = 'validated';
-    const STATUS_VERIFIED = 'verified';
-    const STATUS_VERIFICATION_FAILED = 'verification_failed';
-    const STATUS_ERRORED = 'errored';
+    public const STATUS_NEW = 'new';
+    public const STATUS_VALIDATED = 'validated';
+    public const STATUS_VERIFIED = 'verified';
+    public const STATUS_VERIFICATION_FAILED = 'verification_failed';
+    public const STATUS_ERRORED = 'errored';
 
     /**
      * @return string The instance URL for this resource. It needs to be special
      *    cased because it doesn't fit into the standard resource pattern.
      */
-    public function instanceUrl()
+    public function instanceUrl(): string
     {
         if ($this['customer']) {
             $base = Customer::classUrl();
@@ -73,8 +74,8 @@ class BankAccount extends ApiResource
 
             throw new Exception\UnexpectedValueException($msg, null);
         }
-        $parentExtn = \urlencode(Util\Util::utf8($parent));
-        $extn = \urlencode(Util\Util::utf8($this['id']));
+        $parentExtn = \urlencode((string) Util\Util::utf8($parent));
+        $extn = \urlencode((string) Util\Util::utf8($this['id']));
 
         return "{$base}/{$parentExtn}/{$path}/{$extn}";
     }
@@ -85,7 +86,7 @@ class BankAccount extends ApiResource
      *
      * @throws \Stripe\Exception\BadMethodCallException
      */
-    public static function retrieve($_id, $_opts = null)
+    public static function retrieve($_id, $_opts = null): never
     {
         $msg = 'Bank accounts cannot be retrieved without a customer ID or ' .
                'an account ID. Retrieve a bank account using ' .
@@ -103,7 +104,7 @@ class BankAccount extends ApiResource
      *
      * @throws \Stripe\Exception\BadMethodCallException
      */
-    public static function update($_id, $_params = null, $_options = null)
+    public static function update($_id, $_params = null, $_options = null): never
     {
         $msg = 'Bank accounts cannot be updated without a customer ID or an ' .
                'account ID. Update a bank account using ' .
@@ -122,10 +123,10 @@ class BankAccount extends ApiResource
      *
      * @return BankAccount the verified bank account
      */
-    public function verify($params = null, $opts = null)
+    public function verify($params = null, $opts = null): static
     {
         $url = $this->instanceUrl() . '/verify';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        [$response, $opts] = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

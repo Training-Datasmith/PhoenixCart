@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,8 +12,7 @@
   Released under the GNU General Public License
 */
 
-  const PI_IMPORTER_TITLE         = 'Importer Details';
-  const PI_IMPORTER_DESCRIPTION   = 'Shows the Importer Details on the Product Info Page.<div class="alert alert-info">This is a child module for use with the &pi; system.</div>';
-  
-  const PI_IMPORTER_HEADING = 'Importer Details';
-  
+const PI_IMPORTER_TITLE         = 'Importer Details';
+const PI_IMPORTER_DESCRIPTION   = 'Shows the Importer Details on the Product Info Page.<div class="alert alert-info">This is a child module for use with the &pi; system.</div>';
+
+const PI_IMPORTER_HEADING = 'Importer Details';

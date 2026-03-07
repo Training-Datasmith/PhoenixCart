@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // File generated from our OpenAPI spec
 
 namespace Stripe\FinancialConnections;
@@ -20,8 +22,7 @@ namespace Stripe\FinancialConnections;
  */
 class Session extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = 'financial_connections.session';
-
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Retrieve;
+    public const OBJECT_NAME = 'financial_connections.session';
 }

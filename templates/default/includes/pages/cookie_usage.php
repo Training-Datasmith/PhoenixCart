@@ -10,14 +10,14 @@
   Released under the GNU General Public License
 */
 
-  $page = info_pages::get_page([
-    'p.slug' => 'cookie_usage',
-    'pd.languages_id' => (int)$_SESSION['languages_id'],
-  ]);
+$page = info_pages::get_page([
+  'p.slug' => 'cookie_usage',
+  'pd.languages_id' => (int)$_SESSION['languages_id'],
+]);
 
-  $breadcrumb->add($page['pages_title'], $Linker->build('cookie_usage.php'));
+$breadcrumb->add($page['pages_title'], $Linker->build('cookie_usage.php'));
 
-  require $Template->map('template_top.php', 'component');
+require $Template->map('template_top.php', 'component');
 ?>
 
 <h1 class="display-4 mb-4"><?= $page['pages_title'] ?></h1>

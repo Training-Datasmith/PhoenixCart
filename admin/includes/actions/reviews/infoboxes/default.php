@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,7 +12,7 @@
   Released under the GNU General Public License
 */
 
-  if (isset($GLOBALS['table_definition']['info']->reviews_id)) {
+if (isset($GLOBALS['table_definition']['info']->reviews_id)) {
     $rInfo = &$GLOBALS['table_definition']['info'];
     $heading = $rInfo->products_name;
     $link = (clone $GLOBALS['link'])->set_parameter('rID', (int)$rInfo->reviews_id);
@@ -22,11 +24,11 @@
     ];
     $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, Date::abridge($rInfo->date_added))];
     if (!Text::is_empty($rInfo->last_modified)) {
-      $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, Date::abridge($rInfo->last_modified))];
+        $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, Date::abridge($rInfo->last_modified))];
     }
     $contents[] = ['text' => $GLOBALS['Admin']->catalog_image("images/{$rInfo->products_image}", [], $rInfo->products_name)];
     $contents[] = ['text' => sprintf(TEXT_INFO_REVIEW_AUTHOR, $rInfo->customers_name)];
     $contents[] = ['text' => sprintf(TEXT_INFO_REVIEW_RATING, new star_rating((float)$rInfo->reviews_rating))];
     $contents[] = ['text' => sprintf(TEXT_INFO_REVIEW_SIZE, str_word_count($rInfo->reviews_text))];
     $contents[] = ['text' => sprintf(TEXT_INFO_PRODUCTS_AVERAGE_RATING, number_format($rInfo->average_rating, 2))];
-  }
+}

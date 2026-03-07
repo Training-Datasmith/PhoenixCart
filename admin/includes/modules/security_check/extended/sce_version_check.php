@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,26 +12,32 @@
   Released under the GNU General Public License
 */
 
-  class sce_version_check {
+class sce_version_check
+{
+    public const URL = 'https://github.com/CE-PhoenixCart/PhoenixCart/blob/master/includes/version.php';
 
-    const URL = 'https://github.com/CE-PhoenixCart/PhoenixCart/blob/master/includes/version.php';
-
+    /**
+     * @var 'Version Check'
+     */
     public $title;
     public $type = 'warning';
     public $has_doc = true;
-    protected $version;
+    protected string $version;
 
-    public function __construct() {
-      $this->title = MODULE_SECURITY_CHECK_EXTENDED_VERSION_CHECK_TITLE;
-      $this->version = trim(Web::load(static::URL));
+    public function __construct()
+    {
+        $this->title = MODULE_SECURITY_CHECK_EXTENDED_VERSION_CHECK_TITLE;
+        $this->version = trim((string) Web::load(static::URL));
     }
 
-    public function pass() {
-      return !version_compare(Versions::get('Phoenix'), $this->version, '<');
+    public function pass(): bool
+    {
+        return !version_compare(Versions::get('Phoenix'), $this->version, '<');
     }
 
-    public function get_message() {
-      return '<a href="' . $GLOBALS['Admin']->link('version_check.php') . '">' . MODULE_SECURITY_CHECK_EXTENDED_VERSION_CHECK_ERROR . '</a>';
+    public function get_message(): string
+    {
+        return '<a href="' . $GLOBALS['Admin']->link('version_check.php') . '">' . MODULE_SECURITY_CHECK_EXTENDED_VERSION_CHECK_ERROR . '</a>';
     }
 
-  }
+}

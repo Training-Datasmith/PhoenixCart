@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
   $Id$
 
@@ -10,9 +12,9 @@
   Released under the GNU General Public License
 */
 
-  class Request {
-
-    const IP_KEYS = [
+class Request
+{
+    public const IP_KEYS = [
       'HTTP_CLIENT_IP',
       'HTTP_X_CLUSTER_CLIENT_IP',
       'HTTP_PROXY_USER',
@@ -21,90 +23,100 @@
 
     protected static $page;
 
-    protected static function yield_ip() {
-      if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        foreach ( array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $x_ip ) {
-          yield trim($x_ip);
-        }
-      }
-
-      foreach (static::IP_KEYS as $key) {
-        if (isset($_SERVER[$key])) {
-          yield $_SERVER[$key];
-        }
-      }
-    }
-
-    public static function get_ip() {
-      foreach ( static::yield_ip() as $ip ) {
-        if (filter_var($ip, FILTER_VALIDATE_IP, ['flags' => FILTER_FLAG_IPV4])) {
-          return $ip;
-        }
-      }
-
-      return false;
-    }
-
-    public static function get_page($prefix = null) {
-      if (is_null(static::$page)) {
-        if (is_null($prefix)) {
-          $prefix = DIR_WS_CATALOG;
+    protected static function yield_ip()
+    {
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            foreach (array_reverse(explode(',', (string) $_SERVER['HTTP_X_FORWARDED_FOR'])) as $x_ip) {
+                yield trim($x_ip);
+            }
         }
 
-        static::$page = Text::ltrim_once(
-          parse_url($_SERVER['SCRIPT_NAME'])['path'], $prefix);
-      }
-
-      return static::$page;
+        foreach (static::IP_KEYS as $key) {
+            if (isset($_SERVER[$key])) {
+                yield $_SERVER[$key];
+            }
+        }
     }
 
-    public static function is_ssl() {
-      return (getenv('HTTPS') === 'on');
-    }
-
-    public static function value($name) {
-      return $_GET[$name] ?? $_POST[$name] ?? null;
-    }
-
-    public static function check_ssl_session_id() {
-// verify the ssl_session_id is the same as previously recorded
-      if ( static::is_ssl() && Session::is_started() ) {
-        $ssl_session_id = getenv('SSL_SESSION_ID');
-        if (!isset($_SESSION['SSL_SESSION_ID'])) {
-          $_SESSION['SSL_SESSION_ID'] = $ssl_session_id;
+    public static function get_ip()
+    {
+        foreach (static::yield_ip() as $ip) {
+            if (filter_var($ip, FILTER_VALIDATE_IP, ['flags' => FILTER_FLAG_IPV4])) {
+                return $ip;
+            }
         }
 
-        if ($_SESSION['SSL_SESSION_ID'] !== $ssl_session_id) {
-          Session::destroy();
-          Href::redirect($GLOBALS['Linker']->build('ssl_check.php'));
+        return false;
+    }
+
+    public static function get_page($prefix = null)
+    {
+        if (is_null(static::$page)) {
+            if (is_null($prefix)) {
+                $prefix = DIR_WS_CATALOG;
+            }
+
+            static::$page = Text::ltrim_once(
+                parse_url((string) $_SERVER['SCRIPT_NAME'])['path'],
+                $prefix
+            );
         }
-      }
+
+        return static::$page;
     }
 
-    public static function check_user_agent() {
-// verify the browser user agent is the same as previously recorded
-      $http_user_agent = getenv('HTTP_USER_AGENT');
-      if (!isset($_SESSION['SESSION_USER_AGENT'])) {
-        $_SESSION['SESSION_USER_AGENT'] = $http_user_agent;
-      }
-
-      if ($_SESSION['SESSION_USER_AGENT'] !== $http_user_agent) {
-        Session::destroy();
-        Href::redirect($GLOBALS['Linker']->build('login.php'));
-      }
+    public static function is_ssl(): bool
+    {
+        return (getenv('HTTPS') === 'on');
     }
 
-    public static function check_ip() {
-// verify the IP address is the same as previously recorded
-      $ip_address = static::get_ip();
-      if (!isset($_SESSION['SESSION_IP_ADDRESS'])) {
-        $_SESSION['SESSION_IP_ADDRESS'] = $ip_address;
-      }
-
-      if ($_SESSION['SESSION_IP_ADDRESS'] !== $ip_address) {
-        Session::destroy();
-        Href::redirect($GLOBALS['Linker']->build('login.php'));
-      }
+    public static function value($name)
+    {
+        return $_GET[$name] ?? $_POST[$name] ?? null;
     }
 
-  }
+    public static function check_ssl_session_id(): void
+    {
+        // verify the ssl_session_id is the same as previously recorded
+        if (static::is_ssl() && Session::is_started()) {
+            $ssl_session_id = getenv('SSL_SESSION_ID');
+            if (!isset($_SESSION['SSL_SESSION_ID'])) {
+                $_SESSION['SSL_SESSION_ID'] = $ssl_session_id;
+            }
+
+            if ($_SESSION['SSL_SESSION_ID'] !== $ssl_session_id) {
+                Session::destroy();
+                Href::redirect($GLOBALS['Linker']->build('ssl_check.php'));
+            }
+        }
+    }
+
+    public static function check_user_agent(): void
+    {
+        // verify the browser user agent is the same as previously recorded
+        $http_user_agent = getenv('HTTP_USER_AGENT');
+        if (!isset($_SESSION['SESSION_USER_AGENT'])) {
+            $_SESSION['SESSION_USER_AGENT'] = $http_user_agent;
+        }
+
+        if ($_SESSION['SESSION_USER_AGENT'] !== $http_user_agent) {
+            Session::destroy();
+            Href::redirect($GLOBALS['Linker']->build('login.php'));
+        }
+    }
+
+    public static function check_ip(): void
+    {
+        // verify the IP address is the same as previously recorded
+        $ip_address = static::get_ip();
+        if (!isset($_SESSION['SESSION_IP_ADDRESS'])) {
+            $_SESSION['SESSION_IP_ADDRESS'] = $ip_address;
+        }
+
+        if ($_SESSION['SESSION_IP_ADDRESS'] !== $ip_address) {
+            Session::destroy();
+            Href::redirect($GLOBALS['Linker']->build('login.php'));
+        }
+    }
+
+}
