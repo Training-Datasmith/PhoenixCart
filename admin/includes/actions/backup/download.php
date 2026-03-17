@@ -20,7 +20,7 @@ switch (substr((string) $_GET['file'], -3)) {
         $path = Path::normalize(realpath(DIR_FS_BACKUP . $_GET['file']));
         if (Text::is_prefixed_by($path, DIR_FS_BACKUP) && ($buffer = file_get_contents($path))) {
             header('Content-type: application/x-octet-stream');
-            header('Content-disposition: attachment; filename=' . $_GET['file']);
+            header('Content-disposition: attachment; filename="' . str_replace(["\r", "\n", '\\', '"'], '', basename($_GET['file'])) . '"');
 
             echo $buffer;
 

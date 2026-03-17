@@ -81,7 +81,7 @@ header('Last-Modified: ' . gmdate('D,d M Y H:i:s') . ' GMT');
 header('Cache-Control: no-cache, must-revalidate');
 header('Pragma: no-cache');
 header('Content-Type: Application/octet-stream');
-header('Content-disposition: attachment; filename="' . $downloads['orders_products_filename'] . '"');
+header('Content-disposition: attachment; filename="' . str_replace(["\r", "\n", '\\', '"'], '', $downloads['orders_products_filename']) . '"');
 
 // Fallback to readfile() delivery method. This will work on all systems, but will need considerable resources
 readfile($path);

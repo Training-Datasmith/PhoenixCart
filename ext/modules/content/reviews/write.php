@@ -30,7 +30,7 @@ require language::map_to_translation('modules/content/reviews/write.php');
 $hooks->register_pipeline('reviewable');
 
 if (Form::validate_action_is('process')) {
-    $rating = Text::input($_POST['rating']);
+    $rating = max(1, min(5, (int)$_POST['rating']));
     $review = Text::input($_POST['review']);
     $nickname = Text::input($_POST['nickname']);
 

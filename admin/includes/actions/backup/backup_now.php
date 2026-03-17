@@ -126,18 +126,18 @@ fclose($fp);
 
 switch ($_POST['compress']) {
     case 'gzip':
-        exec(LOCAL_EXE_GZIP . ' ' . DIR_FS_BACKUP . $backup_file);
+        exec(LOCAL_EXE_GZIP . ' ' . escapeshellarg(DIR_FS_BACKUP . $backup_file));
         $backup_file .= '.gz';
         break;
     case 'zip':
-        exec(LOCAL_EXE_ZIP . ' -j ' . DIR_FS_BACKUP . "$backup_file.zip " . DIR_FS_BACKUP . $backup_file);
+        exec(LOCAL_EXE_ZIP . ' -j ' . escapeshellarg(DIR_FS_BACKUP . $backup_file . '.zip') . ' ' . escapeshellarg(DIR_FS_BACKUP . $backup_file));
         unlink(DIR_FS_BACKUP . $backup_file);
         $backup_file .= '.zip';
 }
 
 if (isset($_POST['download']) && ('yes' === $_POST['download'])) {
     header('Content-type: application/x-octet-stream');
-    header('Content-disposition: attachment; filename=' . $backup_file);
+    header('Content-disposition: attachment; filename="' . addcslashes($backup_file, '"\\') . '"');
 
     readfile(DIR_FS_BACKUP . $backup_file);
     unlink(DIR_FS_BACKUP . $backup_file);

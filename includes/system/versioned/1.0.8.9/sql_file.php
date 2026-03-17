@@ -24,7 +24,7 @@ class sql_file
         $this->alias = $alias ?? "{$this->directory}/{$this->filename}";
     }
 
-    public function run_sql($sql): void
+    public function run_sql($sql_file): void
     {
         if ($this->split) {
             foreach (
@@ -143,12 +143,12 @@ EOSQL
                 break;
             case '.gz':
                 $restore_from = Text::rtrim_once($restore_file, '.gz');
-                exec(LOCAL_EXE_GUNZIP . " $restore_file -c > $restore_from");
+                exec(LOCAL_EXE_GUNZIP . ' ' . escapeshellarg($restore_file) . ' -c > ' . escapeshellarg($restore_from));
                 $remove_raw = true;
                 break;
             case 'zip':
                 $restore_from = Text::rtrim_once($restore_file, '.zip');
-                exec(LOCAL_EXE_UNZIP . " $restore_file -d " . DIR_FS_BACKUP);
+                exec(LOCAL_EXE_UNZIP . ' ' . escapeshellarg($restore_file) . ' -d ' . escapeshellarg(DIR_FS_BACKUP));
                 $remove_raw = true;
                 break;
             default:
@@ -173,7 +173,7 @@ EOSQL
             return false;
         }
 
-        return $this->restore_sql($restore_from);
+        return $this->restore_sql($restore_file);
     }
 
 }

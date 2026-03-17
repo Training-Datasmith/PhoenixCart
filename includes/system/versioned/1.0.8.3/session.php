@@ -78,10 +78,6 @@ class Session
 
     public static function recreate(): void
     {
-        if (SESSION_RECREATE !== 'True') {
-            return;
-        }
-
         $old_id = session_id();
 
         session_regenerate_id(true);

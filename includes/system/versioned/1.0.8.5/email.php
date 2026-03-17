@@ -362,16 +362,16 @@ class email
         return $xtra_headers;
     }
 
-    public function ensure_encoding($s)
+    public function ensure_encoding($s, $quoted=false)
     {
         return preg_match('{[\x80-\xFF]}', (string) $s)
              ? '=?utf-8?B?' . base64_encode((string) $s) . '?='
-             : $s;
+             : ($quoted ? '"' . addcslashes((string) $s, '"\\') . '"' : $s);
     }
 
     public function format_address(string $address, $name = ''): string
     {
-        return (('' == $name) ? $address : '"' . $this->ensure_encoding($name) . '" <' . $address . '>');
+        return ('' == $name) ? $address : $this->ensure_encoding($name, true) . ' <' . $address . '>';
     }
 
     public function send($to_name, $to_addr, $from_name, $from_addr, $subject = '', $headers = [])

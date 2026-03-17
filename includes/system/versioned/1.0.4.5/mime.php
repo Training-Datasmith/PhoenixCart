@@ -108,7 +108,7 @@ class mime
         if ([] === $this->_subparts) {
             $encoded['body'] = $this->_getEncodedData($this->_body, $this->_encoding) . $this->lf;
         } else {
-            $boundary = '=_' . md5(uniqid(mt_rand()) . microtime());
+            $boundary = '=_' . bin2hex(random_bytes(16));
             $this->_headers['Content-Type'] .= ';' . $this->lf . chr(9) . 'boundary="' . $boundary . '"';
 
             // Add body parts to $subparts

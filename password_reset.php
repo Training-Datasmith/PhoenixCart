@@ -42,7 +42,7 @@ if (isset($_GET['account']) && isset($_GET['key'])) {
     } else {
         $check_customer_query = $db->query($customer_data->build_read(['id', 'email_address', 'password_reset_key', 'password_reset_date'], 'customers', ['email_address' => $email_address]));
         if ($check_customer = $check_customer_query->fetch_assoc()) {
-            if (empty($check_customer['password_reset_key']) || ($check_customer['password_reset_key'] != $password_key) || (strtotime($check_customer['password_reset_date'] . ' +1 day') <= time())) {
+            if (empty($check_customer['password_reset_key']) || !hash_equals($check_customer['password_reset_key'], $password_key) || (strtotime($check_customer['password_reset_date'] . ' +1 day') <= time())) {
                 $error = true;
 
                 $messageStack->add_session('password_forgotten', TEXT_NO_RESET_LINK_FOUND);

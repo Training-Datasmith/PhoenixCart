@@ -79,9 +79,6 @@ if (!isset($_SESSION['language']) || isset($_GET['language'])) {
     $lng = language::build();
 }
 
-// register session variables globally
-extract($_SESSION, EXTR_OVERWRITE + EXTR_REFS);
-
 // redirect to login page if administrator is not yet logged in
 if (!isset($_SESSION['admin'])) {
     $current_page = Request::get_page();

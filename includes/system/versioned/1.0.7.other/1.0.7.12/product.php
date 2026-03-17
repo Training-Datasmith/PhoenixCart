@@ -45,7 +45,7 @@ class Product extends product_builder
 
     public function has($key): bool
     {
-        return isset($this->_data[$key]) || array_key_exists($this->_data, $key);
+        return isset($this->_data[$key]) || array_key_exists($key, $this->_data);
     }
 
     public function get($key)

@@ -30,7 +30,7 @@ class database_core extends mysqli
             $this->set_charset('utf8mb4');
         }
 
-        @parent::query("SET SESSION sql_mode=''");
+        @parent::query("SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO'");
     }
 
     /**
@@ -46,9 +46,6 @@ class database_core extends mysqli
             trigger_error($line, E_USER_WARNING);
         }
 
-        if (ini_get('display_errors')) {
-            die('<font color="#000000"><strong>' . $this->errno . ' - ' . $this->error . '<br><br>' . $sql . '<br><br><small><font color="#ff0000">[PHOENIX FATAL]</font></small><br><br></strong></font>');
-        }
         die('<br><small><font color="#ff0000">[PHOENIX FATAL]</font></small><br>');
     }
 

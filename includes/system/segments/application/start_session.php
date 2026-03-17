@@ -55,11 +55,6 @@ if (SESSION_FORCE_COOKIE_USE == 'True') {
     $session_started = Session::start();
 }
 
-if (Session::is_started()) {
-    // register session variables globally
-    extract($_SESSION, EXTR_OVERWRITE + EXTR_REFS);
-}
-
 // initialize a session token
 if (!isset($_SESSION['sessiontoken'])) {
     Form::reset_session_token();

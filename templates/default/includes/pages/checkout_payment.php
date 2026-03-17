@@ -25,7 +25,7 @@ echo $payment_modules->javascript_validation();
 <?php
   echo new Form('checkout_payment', $Linker->build('checkout_confirmation.php'), 'post', ['class' => 'was-validated', 'id' => 'check_form'], true);
 
-if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($error = ${$_GET['payment_error']}->get_error())) {
+if (isset($_GET['payment_error']) && ctype_alnum(str_replace('_', '', $_GET['payment_error'])) && is_object(${$_GET['payment_error']}) && ($error = ${$_GET['payment_error']}->get_error())) {
     echo '<div class="alert alert-danger">' . "\n";
     echo '<p class="lead"><b>' . htmlspecialchars((string) $error['title']) . "</b></p>\n";
     echo '<p>' . htmlspecialchars((string) $error['error']) . "</p>\n";
