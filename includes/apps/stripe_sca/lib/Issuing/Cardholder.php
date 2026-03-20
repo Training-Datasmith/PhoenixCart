@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Issuing;
 
 /**
@@ -30,11 +28,11 @@ namespace Stripe\Issuing;
  * @property string $status Specifies whether to permit authorizations on this cardholder's cards.
  * @property string $type One of <code>individual</code> or <code>company</code>.
  */
-class Cardholder extends \Stripe\ApiResource
+class Cardholder extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Retrieve;
-    use \Stripe\ApiOperations\Update;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Create;
+    use \Stripe\Api_Operations\Retrieve;
+    use \Stripe\Api_Operations\Update;
     public const OBJECT_NAME = 'issuing.cardholder';
 }

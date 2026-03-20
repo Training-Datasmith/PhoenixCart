@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please read:
- *
- * Copyright (c) 2004-present Fabien Potencier
+* This file is part of the Symfony package.
+*
+* (c) Fabien Potencier <fabien@symfony.com>
+*
+* For the full copyright and license information, please read:
+*
+* Copyright (c) 2004-present Fabien Potencier
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +27,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
- */
-
+*/
 /**
  * Parser and formatter for year format.
  *
@@ -37,36 +35,30 @@ THE SOFTWARE.
  *
  * @internal
  */
-class YearTransformer extends Transformer
+class Year_Transformer extends Transformer
 {
     /**
      * {@inheritdoc}
      */
-    public function format(\DateTime $dateTime, int $length): string
+    public function format(\DateTime $date_time, int $length): string
     {
         if (2 === $length) {
-            return $dateTime->format('y');
+            return $date_time->format('y');
         }
-
-        return $this->padLeft($dateTime->format('Y'), $length);
+        return $this->pad_left($date_time->format('Y'), $length);
     }
-
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string
+    public function get_reverse_matching_reg_exp(int $length): string
     {
         return 2 === $length ? '\d{2}' : '\d{1,4}';
     }
-
     /**
      * {@inheritdoc}
      */
-    public function extractDateOptions(string $matched, int $length): array
+    public function extract_date_options(string $matched, int $length): array
     {
-        return [
-            'year' => (int) $matched,
-        ];
+        return ['year' => (int) $matched];
     }
-
 }

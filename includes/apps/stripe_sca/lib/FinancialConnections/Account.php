@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
-namespace Stripe\FinancialConnections;
+namespace Stripe\Financial_Connections;
 
 /**
  * A Financial Connections Account represents an account that exists outside of
@@ -28,28 +26,24 @@ namespace Stripe\FinancialConnections;
  * @property string $subcategory <p>If <code>category</code> is <code>cash</code>, one of:</p><p>- <code>checking</code> - <code>savings</code> - <code>other</code></p><p>If <code>category</code> is <code>credit</code>, one of:</p><p>- <code>mortgage</code> - <code>line_of_credit</code> - <code>credit_card</code> - <code>other</code></p><p>If <code>category</code> is <code>investment</code> or <code>other</code>, this will be <code>other</code>.</p>
  * @property string[] $supported_payment_method_types The <a href="https://stripe.com/docs/api/payment_methods/object#payment_method_object-type">PaymentMethod type</a>(s) that can be created from this account.
  */
-class Account extends \Stripe\ApiResource
+class Account extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Retrieve;
     public const OBJECT_NAME = 'financial_connections.account';
-
     public const CATEGORY_CASH = 'cash';
     public const CATEGORY_CREDIT = 'credit';
     public const CATEGORY_INVESTMENT = 'investment';
     public const CATEGORY_OTHER = 'other';
-
     public const STATUS_ACTIVE = 'active';
     public const STATUS_DISCONNECTED = 'disconnected';
     public const STATUS_INACTIVE = 'inactive';
-
     public const SUBCATEGORY_CHECKING = 'checking';
     public const SUBCATEGORY_CREDIT_CARD = 'credit_card';
     public const SUBCATEGORY_LINE_OF_CREDIT = 'line_of_credit';
     public const SUBCATEGORY_MORTGAGE = 'mortgage';
     public const SUBCATEGORY_OTHER = 'other';
     public const SUBCATEGORY_SAVINGS = 'savings';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -60,13 +54,11 @@ class Account extends \Stripe\ApiResource
      */
     public function disconnect($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/disconnect';
+        $url = $this->instance_url() . '/disconnect';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param string $id
      * @param null|array $params
@@ -76,16 +68,14 @@ class Account extends \Stripe\ApiResource
      *
      * @return \Stripe\Collection<\Stripe\FinancialConnections\AccountOwner> list of BankConnectionsResourceOwners
      */
-    public static function allOwners($id, $params = null, $opts = null)
+    public static function all_owners($id, $params = null, $opts = null)
     {
-        $url = static::resourceUrl($id) . '/owners';
-        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $url = static::resource_url($id) . '/owners';
+        [$response, $opts] = static::_static_request('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -94,12 +84,11 @@ class Account extends \Stripe\ApiResource
      *
      * @return \Stripe\FinancialConnections\Account the refreshed account
      */
-    public function refreshAccount($params = null, $opts = null): static
+    public function refresh_account($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/refresh';
+        $url = $this->instance_url() . '/refresh';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

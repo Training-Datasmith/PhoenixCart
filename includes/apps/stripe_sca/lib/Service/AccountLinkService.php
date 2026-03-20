@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class AccountLinkService extends \Stripe\Service\AbstractService
+class Account_Link_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Creates an AccountLink object that includes a single-use Stripe URL that the

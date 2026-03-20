@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -18,11 +18,9 @@ declare(strict_types=1);
   $messageStack->add('general', 'Error: Error 2', 'warning');
   if ($messageStack->size('general') > 0) echo $messageStack->output('general');
 */
-
-class messageStack extends alertBlock
+class Message_Stack extends Alert_Block
 {
     public $messages = [];
-
     public function __construct()
     {
         if (isset($_SESSION['messageToStack'])) {
@@ -32,55 +30,33 @@ class messageStack extends alertBlock
             unset($_SESSION['messageToStack']);
         }
     }
-
     public function add($class, $message, $type = 'error'): void
     {
         if ($type == 'error') {
-            $this->messages[] = [
-              'params' => 'class="alert alert-danger alert-dismissible fade show" role="alert"',
-              'class' => $class,
-              'text' => $message,
-            ];
+            $this->messages[] = ['params' => 'class="alert alert-danger alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message];
         } elseif ($type == 'warning') {
-            $this->messages[] = [
-              'params' => 'class="alert alert-warning alert-dismissible fade show" role="alert"',
-              'class' => $class,
-              'text' => $message,
-            ];
+            $this->messages[] = ['params' => 'class="alert alert-warning alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message];
         } elseif ($type == 'success') {
-            $this->messages[] = [
-              'params' => 'class="alert alert-success alert-dismissible fade show" role="alert"',
-              'class' => $class,
-              'text' => $message,
-            ];
+            $this->messages[] = ['params' => 'class="alert alert-success alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message];
         } else {
-            $this->messages[] = [
-              'params' => 'class="alert alert-info alert-dismissible fade show" role="alert"',
-              'class' => $class,
-              'text' => $message,
-            ];
+            $this->messages[] = ['params' => 'class="alert alert-info alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message];
         }
     }
-
     public function add_classed($class, $message, $type = 'error'): void
     {
         $this->add($class, $message, $type);
     }
-
     public function add_session($class, $message, $type = 'error'): void
     {
         if (!isset($_SESSION['messageToStack'])) {
             $_SESSION['messageToStack'] = [];
         }
-
         $_SESSION['messageToStack'][] = ['class' => $class, 'text' => $message, 'type' => $type];
     }
-
     public function reset(): void
     {
         $this->messages = [];
     }
-
     public function output($class)
     {
         $output = [];
@@ -89,21 +65,16 @@ class messageStack extends alertBlock
                 $output[] = $message;
             }
         }
-
-        return $this->alertBlock($output);
+        return $this->alert_block($output);
     }
-
     public function size($class): int
     {
         $count = 0;
-
         foreach ($this->messages as $message) {
             if ($message['class'] == $class) {
                 $count++;
             }
         }
-
         return $count;
     }
-
 }

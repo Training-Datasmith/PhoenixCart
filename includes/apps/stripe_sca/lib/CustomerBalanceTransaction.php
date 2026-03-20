@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -33,10 +31,9 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
  * @property string $type Transaction type: <code>adjustment</code>, <code>applied_to_invoice</code>, <code>credit_note</code>, <code>initial</code>, <code>invoice_overpaid</code>, <code>invoice_too_large</code>, <code>invoice_too_small</code>, <code>unspent_receiver_credit</code>, or <code>unapplied_from_invoice</code>. See the <a href="https://stripe.com/docs/billing/customer/balance#types">Customer Balance page</a> to learn more about transaction types.
  */
-class CustomerBalanceTransaction extends ApiResource
+class Customer_Balance_Transaction extends Api_Resource
 {
     public const OBJECT_NAME = 'customer_balance_transaction';
-
     public const TYPE_ADJUSTMENT = 'adjustment';
     public const TYPE_APPLIED_TO_INVOICE = 'applied_to_invoice';
     public const TYPE_CREDIT_NOTE = 'credit_note';
@@ -45,32 +42,24 @@ class CustomerBalanceTransaction extends ApiResource
     public const TYPE_INVOICE_TOO_LARGE = 'invoice_too_large';
     public const TYPE_INVOICE_TOO_SMALL = 'invoice_too_small';
     public const TYPE_UNSPENT_RECEIVER_CREDIT = 'unspent_receiver_credit';
-
     public const TYPE_ADJUSTEMENT = 'adjustment';
-
     /**
      * @return string the API URL for this balance transaction
      */
-    public function instanceUrl(): string
+    public function instance_url(): string
     {
         $id = $this['id'];
         $customer = $this['customer'];
         if (!$id) {
-            throw new Exception\UnexpectedValueException(
-                "Could not determine which URL to request: class instance has invalid ID: {$id}",
-                null
-            );
+            throw new Exception\UnexpectedValueException("Could not determine which URL to request: class instance has invalid ID: {$id}", null);
         }
         $id = Util\Util::utf8($id);
         $customer = Util\Util::utf8($customer);
-
-        $base = Customer::classUrl();
-        $customerExtn = \urlencode((string) $customer);
+        $base = Customer::class_url();
+        $customer_extn = \urlencode((string) $customer);
         $extn = \urlencode((string) $id);
-
-        return "{$base}/{$customerExtn}/balance_transactions/{$extn}";
+        return "{$base}/{$customer_extn}/balance_transactions/{$extn}";
     }
-
     /**
      * @param array|string $_id
      * @param null|array|string $_opts
@@ -79,14 +68,9 @@ class CustomerBalanceTransaction extends ApiResource
      */
     public static function retrieve($_id, $_opts = null): never
     {
-        $msg = 'Customer Balance Transactions cannot be retrieved without a ' .
-               'customer ID. Retrieve a Customer Balance Transaction using ' .
-               "`Customer::retrieveBalanceTransaction('customer_id', " .
-               "'balance_transaction_id')`.";
-
+        $msg = 'Customer Balance Transactions cannot be retrieved without a ' . 'customer ID. Retrieve a Customer Balance Transaction using ' . "`Customer::retrieveBalanceTransaction('customer_id', " . "'balance_transaction_id')`.";
         throw new Exception\BadMethodCallException($msg);
     }
-
     /**
      * @param string $_id
      * @param null|array $_params
@@ -96,11 +80,7 @@ class CustomerBalanceTransaction extends ApiResource
      */
     public static function update($_id, $_params = null, $_options = null): never
     {
-        $msg = 'Customer Balance Transactions cannot be updated without a ' .
-               'customer ID. Update a Customer Balance Transaction using ' .
-               "`Customer::updateBalanceTransaction('customer_id', " .
-               "'balance_transaction_id', \$updateParams)`.";
-
+        $msg = 'Customer Balance Transactions cannot be updated without a ' . 'customer ID. Update a Customer Balance Transaction using ' . "`Customer::updateBalanceTransaction('customer_id', " . "'balance_transaction_id', \$updateParams)`.";
         throw new Exception\BadMethodCallException($msg);
     }
 }

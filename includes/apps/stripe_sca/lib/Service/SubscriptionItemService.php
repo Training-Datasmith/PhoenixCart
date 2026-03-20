@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class SubscriptionItemService extends \Stripe\Service\AbstractService
+class Subscription_Item_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of your subscription items for a given subscription.
@@ -20,9 +18,8 @@ class SubscriptionItemService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/subscription_items', $params, $opts);
+        return $this->request_collection('get', '/v1/subscription_items', $params, $opts);
     }
-
     /**
      * For the specified subscription item, returns a list of summary objects. Each
      * object in the list provides usage information that’s been summarized from
@@ -43,11 +40,10 @@ class SubscriptionItemService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Collection<\Stripe\UsageRecordSummary>
      */
-    public function allUsageRecordSummaries($parentId, $params = null, $opts = null)
+    public function all_usage_record_summaries($parent_id, $params = null, $opts = null)
     {
-        return $this->requestCollection('get', $this->buildPath('/v1/subscription_items/%s/usage_record_summaries', $parentId), $params, $opts);
+        return $this->request_collection('get', $this->build_path('/v1/subscription_items/%s/usage_record_summaries', $parent_id), $params, $opts);
     }
-
     /**
      * Adds a new item to an existing subscription. No existing items will be changed
      * or replaced.
@@ -63,7 +59,6 @@ class SubscriptionItemService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/subscription_items', $params, $opts);
     }
-
     /**
      * Creates a usage record for a specified subscription item and date, and fills it
      * with a quantity.
@@ -97,11 +92,10 @@ class SubscriptionItemService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\UsageRecord
      */
-    public function createUsageRecord($parentId, $params = null, $opts = null)
+    public function create_usage_record($parent_id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/subscription_items/%s/usage_records', $parentId), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/subscription_items/%s/usage_records', $parent_id), $params, $opts);
     }
-
     /**
      * Deletes an item from the subscription. Removing a subscription item from a
      * subscription will not cancel the subscription.
@@ -116,9 +110,8 @@ class SubscriptionItemService extends \Stripe\Service\AbstractService
      */
     public function delete($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/subscription_items/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/subscription_items/%s', $id), $params, $opts);
     }
-
     /**
      * Retrieves the subscription item with the given ID.
      *
@@ -132,9 +125,8 @@ class SubscriptionItemService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/subscription_items/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/subscription_items/%s', $id), $params, $opts);
     }
-
     /**
      * Updates the plan or quantity of an item on a current subscription.
      *
@@ -148,6 +140,6 @@ class SubscriptionItemService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/subscription_items/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/subscription_items/%s', $id), $params, $opts);
     }
 }

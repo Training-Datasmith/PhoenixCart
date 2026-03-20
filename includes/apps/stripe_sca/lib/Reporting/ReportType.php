@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Reporting;
 
 /**
@@ -28,9 +26,9 @@ namespace Stripe\Reporting;
  * @property int $updated When this Report Type was latest updated. Measured in seconds since the Unix epoch.
  * @property int $version Version of the Report Type. Different versions report with the same ID will have the same purpose, but may take different run parameters or have different result schemas.
  */
-class ReportType extends \Stripe\ApiResource
+class Report_Type extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Retrieve;
     public const OBJECT_NAME = 'reporting.report_type';
 }

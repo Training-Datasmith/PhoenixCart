@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -39,14 +37,13 @@ namespace Stripe;
  * @property string $status Current status of the payout: <code>paid</code>, <code>pending</code>, <code>in_transit</code>, <code>canceled</code> or <code>failed</code>. A payout is <code>pending</code> until it is submitted to the bank, when it becomes <code>in_transit</code>. The status then changes to <code>paid</code> if the transaction goes through, or to <code>failed</code> or <code>canceled</code> (within 5 business days). Some failed payouts may initially show as <code>paid</code> but then change to <code>failed</code>.
  * @property string $type Can be <code>bank_account</code> or <code>card</code>.
  */
-class Payout extends ApiResource
+class Payout extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'payout';
-
     public const FAILURE_ACCOUNT_CLOSED = 'account_closed';
     public const FAILURE_ACCOUNT_FROZEN = 'account_frozen';
     public const FAILURE_BANK_ACCOUNT_RESTRICTED = 'bank_account_restricted';
@@ -62,19 +59,15 @@ class Payout extends ApiResource
     public const FAILURE_INVALID_CURRENCY = 'invalid_currency';
     public const FAILURE_NO_ACCOUNT = 'no_account';
     public const FAILURE_UNSUPPORTED_CARD = 'unsupported_card';
-
     public const METHOD_INSTANT = 'instant';
     public const METHOD_STANDARD = 'standard';
-
     public const STATUS_CANCELED = 'canceled';
     public const STATUS_FAILED = 'failed';
     public const STATUS_IN_TRANSIT = 'in_transit';
     public const STATUS_PAID = 'paid';
     public const STATUS_PENDING = 'pending';
-
     public const TYPE_BANK_ACCOUNT = 'bank_account';
     public const TYPE_CARD = 'card';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -85,13 +78,11 @@ class Payout extends ApiResource
      */
     public function cancel($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/cancel';
+        $url = $this->instance_url() . '/cancel';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -102,10 +93,9 @@ class Payout extends ApiResource
      */
     public function reverse($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/reverse';
+        $url = $this->instance_url() . '/reverse';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

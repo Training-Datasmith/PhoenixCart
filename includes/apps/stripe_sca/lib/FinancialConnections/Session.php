@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
-namespace Stripe\FinancialConnections;
+namespace Stripe\Financial_Connections;
 
 /**
  * A Financial Connections Session is the secure way to programmatically launch the
@@ -20,9 +18,9 @@ namespace Stripe\FinancialConnections;
  * @property string[] $permissions Permissions requested for accounts collected during this session.
  * @property string $return_url For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
  */
-class Session extends \Stripe\ApiResource
+class Session extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Retrieve;
+    use \Stripe\Api_Operations\Create;
+    use \Stripe\Api_Operations\Retrieve;
     public const OBJECT_NAME = 'financial_connections.session';
 }

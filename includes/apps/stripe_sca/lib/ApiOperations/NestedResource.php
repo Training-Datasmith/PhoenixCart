@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Stripe\ApiOperations;
+declare (strict_types=1);
+namespace Stripe\Api_Operations;
 
 /**
  * Trait for resources that have nested resources.
  *
  * This trait should only be applied to classes that derive from StripeObject.
  */
-trait NestedResource
+trait Nested_Resource
 {
     /**
      * @param string $method
@@ -19,32 +18,27 @@ trait NestedResource
      *
      * @return \Stripe\StripeObject
      */
-    protected static function _nestedResourceOperation($method, $url, $params = null, $options = null)
+    protected static function _nested_resource_operation($method, $url, $params = null, $options = null)
     {
-        self::_validateParams($params);
-
-        [$response, $opts] = static::_staticRequest($method, $url, $params, $options);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        self::_validate_params($params);
+        [$response, $opts] = static::_static_request($method, $url, $params, $options);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
-
     /**
      * @param string $id
      * @param null|string $nestedId
      *
      */
-    protected static function _nestedResourceUrl($id, string $nestedPath, $nestedId = null): string
+    protected static function _nested_resource_url($id, string $nested_path, $nested_id = null): string
     {
-        $url = static::resourceUrl($id) . $nestedPath;
-        if (null !== $nestedId) {
-            $url .= "/{$nestedId}";
+        $url = static::resource_url($id) . $nested_path;
+        if (null !== $nested_id) {
+            $url .= "/{$nested_id}";
         }
-
         return $url;
     }
-
     /**
      * @param string $id
      * @param string $nestedPath
@@ -55,13 +49,11 @@ trait NestedResource
      *
      * @return \Stripe\StripeObject
      */
-    protected static function _createNestedResource($id, $nestedPath, $params = null, $options = null)
+    protected static function _create_nested_resource($id, $nested_path, $params = null, $options = null)
     {
-        $url = static::_nestedResourceUrl($id, $nestedPath);
-
-        return self::_nestedResourceOperation('post', $url, $params, $options);
+        $url = static::_nested_resource_url($id, $nested_path);
+        return self::_nested_resource_operation('post', $url, $params, $options);
     }
-
     /**
      * @param string $id
      * @param string $nestedPath
@@ -73,13 +65,11 @@ trait NestedResource
      *
      * @return \Stripe\StripeObject
      */
-    protected static function _retrieveNestedResource($id, $nestedPath, $nestedId, $params = null, $options = null)
+    protected static function _retrieve_nested_resource($id, $nested_path, $nested_id, $params = null, $options = null)
     {
-        $url = static::_nestedResourceUrl($id, $nestedPath, $nestedId);
-
-        return self::_nestedResourceOperation('get', $url, $params, $options);
+        $url = static::_nested_resource_url($id, $nested_path, $nested_id);
+        return self::_nested_resource_operation('get', $url, $params, $options);
     }
-
     /**
      * @param string $id
      * @param string $nestedPath
@@ -91,13 +81,11 @@ trait NestedResource
      *
      * @return \Stripe\StripeObject
      */
-    protected static function _updateNestedResource($id, $nestedPath, $nestedId, $params = null, $options = null)
+    protected static function _update_nested_resource($id, $nested_path, $nested_id, $params = null, $options = null)
     {
-        $url = static::_nestedResourceUrl($id, $nestedPath, $nestedId);
-
-        return self::_nestedResourceOperation('post', $url, $params, $options);
+        $url = static::_nested_resource_url($id, $nested_path, $nested_id);
+        return self::_nested_resource_operation('post', $url, $params, $options);
     }
-
     /**
      * @param string $id
      * @param string $nestedPath
@@ -109,13 +97,11 @@ trait NestedResource
      *
      * @return \Stripe\StripeObject
      */
-    protected static function _deleteNestedResource($id, $nestedPath, $nestedId, $params = null, $options = null)
+    protected static function _delete_nested_resource($id, $nested_path, $nested_id, $params = null, $options = null)
     {
-        $url = static::_nestedResourceUrl($id, $nestedPath, $nestedId);
-
-        return self::_nestedResourceOperation('delete', $url, $params, $options);
+        $url = static::_nested_resource_url($id, $nested_path, $nested_id);
+        return self::_nested_resource_operation('delete', $url, $params, $options);
     }
-
     /**
      * @param string $id
      * @param string $nestedPath
@@ -126,10 +112,9 @@ trait NestedResource
      *
      * @return \Stripe\StripeObject
      */
-    protected static function _allNestedResources($id, $nestedPath, $params = null, $options = null)
+    protected static function _all_nested_resources($id, $nested_path, $params = null, $options = null)
     {
-        $url = static::_nestedResourceUrl($id, $nestedPath);
-
-        return self::_nestedResourceOperation('get', $url, $params, $options);
+        $url = static::_nested_resource_url($id, $nested_path);
+        return self::_nested_resource_operation('get', $url, $params, $options);
     }
 }

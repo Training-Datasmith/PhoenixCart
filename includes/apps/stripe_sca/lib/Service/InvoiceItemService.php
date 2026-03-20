@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class InvoiceItemService extends \Stripe\Service\AbstractService
+class Invoice_Item_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of your invoice items. Invoice items are returned sorted by
@@ -21,9 +19,8 @@ class InvoiceItemService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/invoiceitems', $params, $opts);
+        return $this->request_collection('get', '/v1/invoiceitems', $params, $opts);
     }
-
     /**
      * Creates an item to be added to a draft invoice (up to 250 items per invoice). If
      * no invoice is specified, the item will be on the next invoice created for the
@@ -40,7 +37,6 @@ class InvoiceItemService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/invoiceitems', $params, $opts);
     }
-
     /**
      * Deletes an invoice item, removing it from an invoice. Deleting invoice items is
      * only possible when they’re not attached to invoices, or if it’s attached to a
@@ -56,9 +52,8 @@ class InvoiceItemService extends \Stripe\Service\AbstractService
      */
     public function delete($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/invoiceitems/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/invoiceitems/%s', $id), $params, $opts);
     }
-
     /**
      * Retrieves the invoice item with the given ID.
      *
@@ -72,9 +67,8 @@ class InvoiceItemService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/invoiceitems/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/invoiceitems/%s', $id), $params, $opts);
     }
-
     /**
      * Updates the amount or description of an invoice item on an upcoming invoice.
      * Updating an invoice item is only possible before the invoice it’s attached to is
@@ -90,6 +84,6 @@ class InvoiceItemService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/invoiceitems/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/invoiceitems/%s', $id), $params, $opts);
     }
 }

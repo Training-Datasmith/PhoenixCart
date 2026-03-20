@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
+namespace Stripe\Service\Test_Helpers\Treasury;
 
-namespace Stripe\Service\TestHelpers\Treasury;
-
-class OutboundTransferService extends \Stripe\Service\AbstractService
+class Outbound_Transfer_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Transitions a test mode created OutboundTransfer to the <code>failed</code>
@@ -23,9 +21,8 @@ class OutboundTransferService extends \Stripe\Service\AbstractService
      */
     public function fail($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/treasury/outbound_transfers/%s/fail', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/treasury/outbound_transfers/%s/fail', $id), $params, $opts);
     }
-
     /**
      * Transitions a test mode created OutboundTransfer to the <code>posted</code>
      * status. The OutboundTransfer must already be in the <code>processing</code>
@@ -41,9 +38,8 @@ class OutboundTransferService extends \Stripe\Service\AbstractService
      */
     public function post($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/treasury/outbound_transfers/%s/post', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/treasury/outbound_transfers/%s/post', $id), $params, $opts);
     }
-
     /**
      * Transitions a test mode created OutboundTransfer to the <code>returned</code>
      * status. The OutboundTransfer must already be in the <code>processing</code>
@@ -57,8 +53,8 @@ class OutboundTransferService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Treasury\OutboundTransfer
      */
-    public function returnOutboundTransfer($id, $params = null, $opts = null)
+    public function return_outbound_transfer($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/treasury/outbound_transfers/%s/return', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/treasury/outbound_transfers/%s/return', $id), $params, $opts);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe\Exception;
 
 /**
@@ -9,6 +8,6 @@ namespace Stripe\Exception;
  * servers. That can be for a variety of different reasons from a downed
  * network to a bad TLS certificate.
  */
-class ApiConnectionException extends ApiErrorException
+class Api_Connection_Exception extends Api_Error_Exception
 {
 }

@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class ApplePayDomainService extends \Stripe\Service\AbstractService
+class Apple_Pay_Domain_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * List apple pay domains.
@@ -20,9 +18,8 @@ class ApplePayDomainService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/apple_pay/domains', $params, $opts);
+        return $this->request_collection('get', '/v1/apple_pay/domains', $params, $opts);
     }
-
     /**
      * Create an apple pay domain.
      *
@@ -37,7 +34,6 @@ class ApplePayDomainService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/apple_pay/domains', $params, $opts);
     }
-
     /**
      * Delete an apple pay domain.
      *
@@ -51,9 +47,8 @@ class ApplePayDomainService extends \Stripe\Service\AbstractService
      */
     public function delete($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/apple_pay/domains/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/apple_pay/domains/%s', $id), $params, $opts);
     }
-
     /**
      * Retrieve an apple pay domain.
      *
@@ -67,6 +62,6 @@ class ApplePayDomainService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/apple_pay/domains/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/apple_pay/domains/%s', $id), $params, $opts);
     }
 }

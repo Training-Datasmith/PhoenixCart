@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
+namespace Stripe\Service\Billing_Portal;
 
-namespace Stripe\Service\BillingPortal;
-
-class SessionService extends \Stripe\Service\AbstractService
+class Session_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Creates a session of the customer portal.

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,37 +11,30 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 class Checkout
 {
     public static function register_stages(): void
     {
         $stages = [];
-
         switch (pathinfo((string) Request::get_page(), PATHINFO_FILENAME)) {
             case 'checkout_process':
             case 'checkout_confirmation':
                 $stages[] = 'checkout_confirmation_stage';
-                // no break
+            // no break
             case 'checkout_payment_address':
             case 'checkout_payment':
                 $stages[] = 'checkout_payment_stage';
         }
-
         foreach (array_reverse($stages) as $stage) {
             $GLOBALS['hooks']->register_pipeline($stage);
         }
     }
-
     public static function require_login(): void
     {
         // if the customer is not logged on, redirect to the login page
-        $parameters = [
-          'page' => 'checkout_payment.php',
-        ];
+        $parameters = ['page' => 'checkout_payment.php'];
         $GLOBALS['hooks']->register_pipeline('loginRequired', $parameters);
     }
-
     public static function guarantee_cart(): void
     {
         // if there is nothing in the customer's cart, redirect to the shopping cart page
@@ -49,24 +42,20 @@ class Checkout
             Href::redirect($GLOBALS['Linker']->build('shopping_cart.php'));
         }
     }
-
     public static function guarantee_cart_id(): void
     {
         // register a random ID in the session to check throughout the checkout procedure
         // against alterations in the shopping cart contents
-        if (isset($_SESSION['cartID']) && ($_SESSION['cartID'] != $_SESSION['cart']->cartID)) {
+        if (isset($_SESSION['cartID']) && $_SESSION['cartID'] != $_SESSION['cart']->cart_id) {
             unset($_SESSION['shipping']);
         }
-
-        $_SESSION['cartID'] = $_SESSION['cart']->cartID = $_SESSION['cart']->generate_cart_id();
+        $_SESSION['cartID'] = $_SESSION['cart']->cart_id = $_SESSION['cart']->generate_cart_id();
     }
-
     public static function validate_sendto(): void
     {
         global $customer;
-
         if (isset($_SESSION['sendto'])) {
-            if ((is_numeric($_SESSION['sendto']) && empty($customer->fetch_to_address($_SESSION['sendto']))) || ([] === $_SESSION['sendto'])) {
+            if (is_numeric($_SESSION['sendto']) && empty($customer->fetch_to_address($_SESSION['sendto'])) || [] === $_SESSION['sendto']) {
                 $_SESSION['sendto'] = $customer->get('default_sendto');
                 unset($_SESSION['shipping']);
             }
@@ -75,27 +64,22 @@ class Checkout
             $_SESSION['sendto'] = $customer->get('default_sendto');
         }
     }
-
     public static function validate(): void
     {
         // if no shipping method has been selected, redirect the customer to the shipping method selection page
         // avoid hack attempts during the checkout procedure by checking the internal cartID
-        if (!isset($_SESSION['shipping'], $_SESSION['sendto'], $_SESSION['cart']->cartID, $_SESSION['cartID'])
-          || ($_SESSION['cart']->cartID !== $_SESSION['cartID'])) {
+        if (!isset($_SESSION['shipping'], $_SESSION['sendto'], $_SESSION['cart']->cart_id, $_SESSION['cartID']) || $_SESSION['cart']->cart_id !== $_SESSION['cartID']) {
             Href::redirect($GLOBALS['Linker']->build('checkout_shipping.php'));
         }
     }
-
     public static function validate_billto(): void
     {
         global $customer;
-
         if (isset($_SESSION['billto'])) {
             // verify the selected billing address
-            if (is_numeric($_SESSION['billto']) || ([] === $_SESSION['billto'])) {
-                $check_address_query = $GLOBALS['db']->query('SELECT COUNT(*) AS total FROM address_book WHERE customers_id = ' . (int)$_SESSION['customer_id'] . ' AND address_book_id = ' . (int)$_SESSION['billto']);
+            if (is_numeric($_SESSION['billto']) || [] === $_SESSION['billto']) {
+                $check_address_query = $GLOBALS['db']->query('SELECT COUNT(*) AS total FROM address_book WHERE customers_id = ' . (int) $_SESSION['customer_id'] . ' AND address_book_id = ' . (int) $_SESSION['billto']);
                 $check_address = $check_address_query->fetch_assoc();
-
                 if ($check_address['total'] != '1') {
                     $_SESSION['billto'] = $customer->get('default_billto');
                     unset($_SESSION['payment']);
@@ -106,14 +90,12 @@ class Checkout
             $_SESSION['billto'] = $customer->get('default_billto');
         }
     }
-
     public static function validate_payment(): void
     {
-        if ((!Text::is_empty(MODULE_PAYMENT_INSTALLED)) && (!isset($_SESSION['payment']))) {
+        if (!Text::is_empty(MODULE_PAYMENT_INSTALLED) && !isset($_SESSION['payment'])) {
             Href::redirect($GLOBALS['Linker']->build('checkout_payment.php'));
         }
     }
-
     public static function guarantee_payment(): void
     {
         if (isset($_POST['payment'])) {
@@ -121,16 +103,13 @@ class Checkout
         } elseif (!isset($_SESSION['payment']) && !array_key_exists('payment', $_SESSION)) {
             $_SESSION['payment'] = null;
         }
-
         if (isset($_POST['comments']) && !Text::is_empty($_POST['comments'])) {
             $_SESSION['comments'] = Text::input($_POST['comments']);
         } elseif (!array_key_exists('comments', $_SESSION)) {
             $_SESSION['comments'] = null;
         }
-
         static::validate_payment();
     }
-
     public static function skip_shipping(): void
     {
         // if the order contains only virtual products, forward the customer to the billing page as
@@ -141,83 +120,65 @@ class Checkout
             Href::redirect($GLOBALS['Linker']->build('checkout_payment.php'));
         }
     }
-
     public static function initialize_payment_modules(): void
     {
         $GLOBALS['payment_modules'] = new payment();
     }
-
     public static function initialize_payment_module(): void
     {
         $GLOBALS['payment_modules'] = new payment($_SESSION['payment']);
     }
-
     public static function initialize_shipping_module(): void
     {
         // load the selected shipping module
         $GLOBALS['shipping_modules'] = new shipping($_SESSION['shipping']);
     }
-
     public static function update_payment_module(): void
     {
         global $payment_modules;
-
         $payment_modules->update_status();
         $payment_module = isset($_SESSION['payment'], $GLOBALS[$_SESSION['payment']]) ? $GLOBALS[$_SESSION['payment']] : null;
-
-        if (($payment_modules->selected_module != $_SESSION['payment'])
-          || (is_array($payment_modules->modules) && (count($payment_modules->modules) > 1) && !is_object($payment_module))
-          || (is_object($payment_module) && (!$payment_module->enabled))) {
+        if ($payment_modules->selected_module != $_SESSION['payment'] || is_array($payment_modules->modules) && count($payment_modules->modules) > 1 && !is_object($payment_module) || is_object($payment_module) && !$payment_module->enabled) {
             Href::redirect($GLOBALS['Linker']->build('checkout_payment.php', ['error_message' => ERROR_NO_PAYMENT_MODULE_SELECTED]));
         }
     }
-
     public static function preconfirm_payment(): void
     {
         if (is_array($GLOBALS['payment_modules']->modules)) {
             $GLOBALS['payment_modules']->pre_confirmation_check();
         }
     }
-
     public static function set_order_totals(): void
     {
         $GLOBALS['order_total_modules'] = new order_total();
         $GLOBALS['order']->totals = $GLOBALS['order_total_modules']->process();
     }
-
     public static function prepare_payment(): void
     {
         $GLOBALS['payment_modules']->before_process();
     }
-
     public static function update_stock(): void
     {
         require 'includes/system/segments/checkout/update_stock.php';
     }
-
     public static function update_products_ordered(): void
     {
         require 'includes/system/segments/checkout/update_products_ordered.php';
     }
-
     public static function notify(): void
     {
         $GLOBALS['customer_notification'] = Notifications::notify('checkout', $GLOBALS['order']) ? 1 : 0;
     }
-
     public static function conclude_payment(): void
     {
         $GLOBALS['payment_modules']->after_process();
     }
-
     public static function reset_cart(): void
     {
         $_SESSION['cart']->reset(true);
     }
-
     public static function redirect_success(): void
     {
         Href::redirect($GLOBALS['Linker']->build('checkout_success.php'));
     }
-
 }

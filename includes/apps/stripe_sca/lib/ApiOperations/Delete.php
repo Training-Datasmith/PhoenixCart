@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Stripe\ApiOperations;
+declare (strict_types=1);
+namespace Stripe\Api_Operations;
 
 /**
  * Trait for deletable resources. Adds a `delete()` method to the class.
@@ -21,12 +20,10 @@ trait Delete
      */
     public function delete($params = null, $opts = null)
     {
-        self::_validateParams($params);
-
-        $url = $this->instanceUrl();
+        self::_validate_params($params);
+        $url = $this->instance_url();
         [$response, $opts] = $this->_request('delete', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

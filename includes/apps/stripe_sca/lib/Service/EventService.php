@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class EventService extends \Stripe\Service\AbstractService
+class Event_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * List events, going back up to 30 days. Each event data is rendered according to
@@ -24,9 +22,8 @@ class EventService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/events', $params, $opts);
+        return $this->request_collection('get', '/v1/events', $params, $opts);
     }
-
     /**
      * Retrieves the details of an event. Supply the unique identifier of the event,
      * which you might have received in a webhook.
@@ -41,6 +38,6 @@ class EventService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/events/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/events/%s', $id), $params, $opts);
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -31,20 +29,18 @@ namespace Stripe;
  * @property string $status The status of the top-up is either <code>canceled</code>, <code>failed</code>, <code>pending</code>, <code>reversed</code>, or <code>succeeded</code>.
  * @property null|string $transfer_group A string that identifies this top-up as part of a group.
  */
-class Topup extends ApiResource
+class Topup extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'topup';
-
     public const STATUS_CANCELED = 'canceled';
     public const STATUS_FAILED = 'failed';
     public const STATUS_PENDING = 'pending';
     public const STATUS_REVERSED = 'reversed';
     public const STATUS_SUCCEEDED = 'succeeded';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -55,10 +51,9 @@ class Topup extends ApiResource
      */
     public function cancel($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/cancel';
+        $url = $this->instance_url() . '/cancel';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

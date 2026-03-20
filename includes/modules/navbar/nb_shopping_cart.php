@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,40 +11,17 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 class nb_shopping_cart extends abstract_block_module
 {
     public const CONFIG_KEY_BASE = 'MODULE_NAVBAR_SHOPPING_CART_';
-
     public $group = 'navbar_modules_right';
-
-    public function getOutput(): void
+    public function get_output(): void
     {
         $tpl_data = ['group' => $this->group, 'file' => __FILE__];
         include 'includes/modules/block_template.php';
     }
-
     protected function get_parameters(): array
     {
-        return [
-          $this->config_key_base . 'STATUS' => [
-            'title' => 'Enable Module',
-            'value' => 'True',
-            'desc' => 'Do you want to add the module to your Navbar?',
-            'set_func' => "Config::select_one(['True', 'False'], ",
-          ],
-          $this->config_key_base . 'CONTENT_PLACEMENT' => [
-            'title' => 'Content Placement Group',
-            'value' => 'Right',
-            'desc' => 'Where should the module be loaded?  Lowest is loaded first, per Group.',
-            'set_func' => "Config::select_one(['Home', 'Left', 'Center', 'Right'], ",
-          ],
-          $this->config_key_base . 'SORT_ORDER' => [
-            'title' => 'Sort Order',
-            'value' => '550',
-            'desc' => 'Sort order of display. Lowest is displayed first.',
-          ],
-        ];
+        return [$this->config_key_base . 'STATUS' => ['title' => 'Enable Module', 'value' => 'True', 'desc' => 'Do you want to add the module to your Navbar?', 'set_func' => "Config::select_one(['True', 'False'], "], $this->config_key_base . 'CONTENT_PLACEMENT' => ['title' => 'Content Placement Group', 'value' => 'Right', 'desc' => 'Where should the module be loaded?  Lowest is loaded first, per Group.', 'set_func' => "Config::select_one(['Home', 'Left', 'Center', 'Right'], "], $this->config_key_base . 'SORT_ORDER' => ['title' => 'Sort Order', 'value' => '550', 'desc' => 'Sort order of display. Lowest is displayed first.']];
     }
-
 }

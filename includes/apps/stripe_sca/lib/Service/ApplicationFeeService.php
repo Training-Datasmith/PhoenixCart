@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class ApplicationFeeService extends \Stripe\Service\AbstractService
+class Application_Fee_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of application fees you’ve previously collected. The application
@@ -21,9 +19,8 @@ class ApplicationFeeService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/application_fees', $params, $opts);
+        return $this->request_collection('get', '/v1/application_fees', $params, $opts);
     }
-
     /**
      * You can see a list of the refunds belonging to a specific application fee. Note
      * that the 10 most recent refunds are always available by default on the
@@ -39,11 +36,10 @@ class ApplicationFeeService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Collection<\Stripe\ApplicationFeeRefund>
      */
-    public function allRefunds($parentId, $params = null, $opts = null)
+    public function all_refunds($parent_id, $params = null, $opts = null)
     {
-        return $this->requestCollection('get', $this->buildPath('/v1/application_fees/%s/refunds', $parentId), $params, $opts);
+        return $this->request_collection('get', $this->build_path('/v1/application_fees/%s/refunds', $parent_id), $params, $opts);
     }
-
     /**
      * Refunds an application fee that has previously been collected but not yet
      * refunded. Funds will be refunded to the Stripe account from which the fee was
@@ -64,11 +60,10 @@ class ApplicationFeeService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\ApplicationFeeRefund
      */
-    public function createRefund($parentId, $params = null, $opts = null)
+    public function create_refund($parent_id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/application_fees/%s/refunds', $parentId), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/application_fees/%s/refunds', $parent_id), $params, $opts);
     }
-
     /**
      * Retrieves the details of an application fee that your account has collected. The
      * same information is returned when refunding the application fee.
@@ -83,9 +78,8 @@ class ApplicationFeeService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/application_fees/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/application_fees/%s', $id), $params, $opts);
     }
-
     /**
      * By default, you can see the 10 most recent refunds stored directly on the
      * application fee object, but you can also retrieve details about a specific
@@ -100,11 +94,10 @@ class ApplicationFeeService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\ApplicationFeeRefund
      */
-    public function retrieveRefund($parentId, $id, $params = null, $opts = null)
+    public function retrieve_refund($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/application_fees/%s/refunds/%s', $parentId, $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/application_fees/%s/refunds/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * Updates the specified application fee refund by setting the values of the
      * parameters passed. Any parameters not provided will be left unchanged.
@@ -120,8 +113,8 @@ class ApplicationFeeService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\ApplicationFeeRefund
      */
-    public function updateRefund($parentId, $id, $params = null, $opts = null)
+    public function update_refund($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/application_fees/%s/refunds/%s', $parentId, $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/application_fees/%s/refunds/%s', $parent_id, $id), $params, $opts);
     }
 }

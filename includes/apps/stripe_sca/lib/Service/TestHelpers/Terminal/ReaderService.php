@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
+namespace Stripe\Service\Test_Helpers\Terminal;
 
-namespace Stripe\Service\TestHelpers\Terminal;
-
-class ReaderService extends \Stripe\Service\AbstractService
+class Reader_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Presents a payment method on a simulated reader. Can be used to simulate
@@ -20,8 +18,8 @@ class ReaderService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Terminal\Reader
      */
-    public function presentPaymentMethod($id, $params = null, $opts = null)
+    public function present_payment_method($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/terminal/readers/%s/present_payment_method', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/terminal/readers/%s/present_payment_method', $id), $params, $opts);
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -47,22 +45,19 @@ namespace Stripe;
  * @property \Stripe\StripeObject $total_details
  * @property null|\Stripe\StripeObject $transfer_data The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the invoices.
  */
-class Quote extends ApiResource
+class Quote extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'quote';
-
     public const COLLECTION_METHOD_CHARGE_AUTOMATICALLY = 'charge_automatically';
     public const COLLECTION_METHOD_SEND_INVOICE = 'send_invoice';
-
     public const STATUS_ACCEPTED = 'accepted';
     public const STATUS_CANCELED = 'canceled';
     public const STATUS_DRAFT = 'draft';
     public const STATUS_OPEN = 'open';
-
     /**
      * @param callable $readBodyChunkCallable
      * @param null|array $params
@@ -70,17 +65,15 @@ class Quote extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
-    public function pdf($readBodyChunkCallable, $params = null, $opts = null): void
+    public function pdf($read_body_chunk_callable, $params = null, $opts = null): void
     {
-        $opts = \Stripe\Util\RequestOptions::parse($opts);
-        if (null === $opts->apiBase) {
-            $opts->apiBase = Stripe::$apiUploadBase;
+        $opts = \Stripe\Util\Request_Options::parse($opts);
+        if (null === $opts->api_base) {
+            $opts->api_base = Stripe::$api_upload_base;
         }
-
-        $url = $this->instanceUrl() . '/pdf';
-        $this->_requestStream('get', $url, $readBodyChunkCallable, $params, $opts);
+        $url = $this->instance_url() . '/pdf';
+        $this->_request_stream('get', $url, $read_body_chunk_callable, $params, $opts);
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -91,13 +84,11 @@ class Quote extends ApiResource
      */
     public function accept($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/accept';
+        $url = $this->instance_url() . '/accept';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -108,13 +99,11 @@ class Quote extends ApiResource
      */
     public function cancel($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/cancel';
+        $url = $this->instance_url() . '/cancel';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -123,15 +112,13 @@ class Quote extends ApiResource
      *
      * @return \Stripe\Quote the finalized quote
      */
-    public function finalizeQuote($params = null, $opts = null): static
+    public function finalize_quote($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/finalize';
+        $url = $this->instance_url() . '/finalize';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param string $id
      * @param null|array $params
@@ -141,16 +128,14 @@ class Quote extends ApiResource
      *
      * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
      */
-    public static function allComputedUpfrontLineItems($id, $params = null, $opts = null)
+    public static function all_computed_upfront_line_items($id, $params = null, $opts = null)
     {
-        $url = static::resourceUrl($id) . '/computed_upfront_line_items';
-        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $url = static::resource_url($id) . '/computed_upfront_line_items';
+        [$response, $opts] = static::_static_request('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
-
     /**
      * @param string $id
      * @param null|array $params
@@ -160,13 +145,12 @@ class Quote extends ApiResource
      *
      * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
      */
-    public static function allLineItems($id, $params = null, $opts = null)
+    public static function all_line_items($id, $params = null, $opts = null)
     {
-        $url = static::resourceUrl($id) . '/line_items';
-        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $url = static::resource_url($id) . '/line_items';
+        [$response, $opts] = static::_static_request('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
 }

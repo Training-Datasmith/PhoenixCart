@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Stripe\ApiOperations;
+declare (strict_types=1);
+namespace Stripe\Api_Operations;
 
 /**
  * Trait for resources that need to make API requests.
@@ -16,18 +15,13 @@ trait Request
      *
      * @throws \Stripe\Exception\InvalidArgumentException if $params exists and is not an array
      */
-    protected static function _validateParams($params = null)
+    protected static function _validate_params($params = null)
     {
         if ($params && !\is_array($params)) {
-            $message = 'You must pass an array as the first argument to Stripe API '
-               . 'method calls.  (HINT: an example call to create a charge '
-               . "would be: \"Stripe\\Charge::create(['amount' => 100, "
-               . "'currency' => 'usd', 'source' => 'tok_1234'])\")";
-
+            $message = 'You must pass an array as the first argument to Stripe API ' . 'method calls.  (HINT: an example call to create a charge ' . "would be: \"Stripe\\Charge::create(['amount' => 100, " . "'currency' => 'usd', 'source' => 'tok_1234'])\")";
             throw new \Stripe\Exception\InvalidArgumentException($message);
         }
     }
-
     /**
      * @param string $method HTTP method ('get', 'post', etc.)
      * @param string $url URL for the request
@@ -41,12 +35,10 @@ trait Request
     protected function _request($method, $url, $params = [], $options = null): array
     {
         $opts = $this->_opts->merge($options);
-        [$resp, $options] = static::_staticRequest($method, $url, $params, $opts);
-        $this->setLastResponse($resp);
-
+        [$resp, $options] = static::_static_request($method, $url, $params, $opts);
+        $this->set_last_response($resp);
         return [$resp->json, $options];
     }
-
     /**
      * @param string $method HTTP method ('get', 'post', etc.)
      * @param string $url URL for the request
@@ -56,12 +48,11 @@ trait Request
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
-    protected function _requestStream($method, $url, $readBodyChunk, $params = [], $options = null)
+    protected function _request_stream($method, $url, $read_body_chunk, $params = [], $options = null)
     {
         $opts = $this->_opts->merge($options);
-        static::_staticStreamingRequest($method, $url, $readBodyChunk, $params, $opts);
+        static::_static_streaming_request($method, $url, $read_body_chunk, $params, $opts);
     }
-
     /**
      * @param string $method HTTP method ('get', 'post', etc.)
      * @param string $url URL for the request
@@ -72,17 +63,15 @@ trait Request
      *
      * @return array tuple containing (the JSON response, $options)
      */
-    protected static function _staticRequest($method, $url, $params, $options): array
+    protected static function _static_request($method, $url, $params, $options): array
     {
-        $opts = \Stripe\Util\RequestOptions::parse($options);
-        $baseUrl = $opts->apiBase ?? static::baseUrl();
-        $requestor = new \Stripe\ApiRequestor($opts->apiKey, $baseUrl);
-        [$response, $opts->apiKey] = $requestor->request($method, $url, $params, $opts->headers);
-        $opts->discardNonPersistentHeaders();
-
+        $opts = \Stripe\Util\Request_Options::parse($options);
+        $base_url = $opts->api_base ?? static::base_url();
+        $requestor = new \Stripe\Api_Requestor($opts->api_key, $base_url);
+        [$response, $opts->api_key] = $requestor->request($method, $url, $params, $opts->headers);
+        $opts->discard_non_persistent_headers();
         return [$response, $opts];
     }
-
     /**
      * @param string $method HTTP method ('get', 'post', etc.)
      * @param string $url URL for the request
@@ -92,11 +81,11 @@ trait Request
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
-    protected static function _staticStreamingRequest($method, $url, $readBodyChunk, $params, $options)
+    protected static function _static_streaming_request($method, $url, $read_body_chunk, $params, $options)
     {
-        $opts = \Stripe\Util\RequestOptions::parse($options);
-        $baseUrl = $opts->apiBase ?? static::baseUrl();
-        $requestor = new \Stripe\ApiRequestor($opts->apiKey, $baseUrl);
-        $requestor->requestStream($method, $url, $readBodyChunk, $params, $opts->headers);
+        $opts = \Stripe\Util\Request_Options::parse($options);
+        $base_url = $opts->api_base ?? static::base_url();
+        $requestor = new \Stripe\Api_Requestor($opts->api_key, $base_url);
+        $requestor->request_stream($method, $url, $read_body_chunk, $params, $opts->headers);
     }
 }

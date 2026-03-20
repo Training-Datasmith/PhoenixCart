@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class PaymentMethodService extends \Stripe\Service\AbstractService
+class Payment_Method_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of PaymentMethods for Treasury flows. If you want to list the
@@ -23,9 +21,8 @@ class PaymentMethodService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/payment_methods', $params, $opts);
+        return $this->request_collection('get', '/v1/payment_methods', $params, $opts);
     }
-
     /**
      * Attaches a PaymentMethod object to a Customer.
      *
@@ -56,9 +53,8 @@ class PaymentMethodService extends \Stripe\Service\AbstractService
      */
     public function attach($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payment_methods/%s/attach', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payment_methods/%s/attach', $id), $params, $opts);
     }
-
     /**
      * Creates a PaymentMethod object. Read the <a
      * href="/docs/stripe-js/reference#stripe-create-payment-method">Stripe.js
@@ -81,7 +77,6 @@ class PaymentMethodService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/payment_methods', $params, $opts);
     }
-
     /**
      * Detaches a PaymentMethod object from a Customer. After a PaymentMethod is
      * detached, it can no longer be used for a payment or re-attached to a Customer.
@@ -96,9 +91,8 @@ class PaymentMethodService extends \Stripe\Service\AbstractService
      */
     public function detach($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payment_methods/%s/detach', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payment_methods/%s/detach', $id), $params, $opts);
     }
-
     /**
      * Retrieves a PaymentMethod object attached to the StripeAccount. To retrieve a
      * payment method attached to a Customer, you should use <a
@@ -115,9 +109,8 @@ class PaymentMethodService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/payment_methods/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/payment_methods/%s', $id), $params, $opts);
     }
-
     /**
      * Updates a PaymentMethod object. A PaymentMethod must be attached a customer to
      * be updated.
@@ -132,6 +125,6 @@ class PaymentMethodService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payment_methods/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payment_methods/%s', $id), $params, $opts);
     }
 }

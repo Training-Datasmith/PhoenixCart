@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Stripe\ApiOperations;
+declare (strict_types=1);
+namespace Stripe\Api_Operations;
 
 /**
  * Trait for searchable resources.
@@ -20,20 +19,16 @@ trait Search
      *
      * @return \Stripe\SearchResult of ApiResources
      */
-    protected static function _searchResource($searchUrl, $params = null, $opts = null)
+    protected static function _search_resource($search_url, $params = null, $opts = null)
     {
-        self::_validateParams($params);
-
-        [$response, $opts] = static::_staticRequest('get', $searchUrl, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        if (!($obj instanceof \Stripe\SearchResult)) {
-            throw new \Stripe\Exception\UnexpectedValueException(
-                'Expected type ' . \Stripe\SearchResult::class . ', got "' . $obj::class . '" instead.'
-            );
+        self::_validate_params($params);
+        [$response, $opts] = static::_static_request('get', $search_url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        if (!$obj instanceof \Stripe\Search_Result) {
+            throw new \Stripe\Exception\UnexpectedValueException('Expected type ' . \Stripe\Search_Result::class . ', got "' . $obj::class . '" instead.');
         }
-        $obj->setLastResponse($response);
-        $obj->setFilters($params);
-
+        $obj->set_last_response($response);
+        $obj->set_filters($params);
         return $obj;
     }
 }

@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class SetupIntentService extends \Stripe\Service\AbstractService
+class Setup_Intent_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of SetupIntents.
@@ -20,9 +18,8 @@ class SetupIntentService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/setup_intents', $params, $opts);
+        return $this->request_collection('get', '/v1/setup_intents', $params, $opts);
     }
-
     /**
      * A SetupIntent object can be canceled when it is in one of these statuses:
      * <code>requires_payment_method</code>, <code>requires_confirmation</code>, or
@@ -41,9 +38,8 @@ class SetupIntentService extends \Stripe\Service\AbstractService
      */
     public function cancel($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/setup_intents/%s/cancel', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/setup_intents/%s/cancel', $id), $params, $opts);
     }
-
     /**
      * Confirm that your customer intends to set up the current or provided payment
      * method. For example, you would confirm a SetupIntent when a customer hits the
@@ -66,9 +62,8 @@ class SetupIntentService extends \Stripe\Service\AbstractService
      */
     public function confirm($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/setup_intents/%s/confirm', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/setup_intents/%s/confirm', $id), $params, $opts);
     }
-
     /**
      * Creates a SetupIntent object.
      *
@@ -87,7 +82,6 @@ class SetupIntentService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/setup_intents', $params, $opts);
     }
-
     /**
      * Retrieves the details of a SetupIntent that has previously been created.
      *
@@ -108,9 +102,8 @@ class SetupIntentService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/setup_intents/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/setup_intents/%s', $id), $params, $opts);
     }
-
     /**
      * Updates a SetupIntent object.
      *
@@ -124,9 +117,8 @@ class SetupIntentService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/setup_intents/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/setup_intents/%s', $id), $params, $opts);
     }
-
     /**
      * Verifies microdeposits on a SetupIntent object.
      *
@@ -138,8 +130,8 @@ class SetupIntentService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\SetupIntent
      */
-    public function verifyMicrodeposits($id, $params = null, $opts = null)
+    public function verify_microdeposits($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/setup_intents/%s/verify_microdeposits', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/setup_intents/%s/verify_microdeposits', $id), $params, $opts);
     }
 }

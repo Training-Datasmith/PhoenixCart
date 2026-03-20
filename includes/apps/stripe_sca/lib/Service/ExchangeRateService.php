@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class ExchangeRateService extends \Stripe\Service\AbstractService
+class Exchange_Rate_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of objects that contain the rates at which foreign currencies are
@@ -21,9 +19,8 @@ class ExchangeRateService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/exchange_rates', $params, $opts);
+        return $this->request_collection('get', '/v1/exchange_rates', $params, $opts);
     }
-
     /**
      * Retrieves the exchange rates from the given currency to every supported
      * currency.
@@ -38,6 +35,6 @@ class ExchangeRateService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/exchange_rates/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/exchange_rates/%s', $id), $params, $opts);
     }
 }

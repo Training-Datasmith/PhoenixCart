@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Apps;
 
 /**
@@ -36,12 +34,11 @@ namespace Stripe\Apps;
  * @property null|string $payload The plaintext secret value to be stored.
  * @property \Stripe\StripeObject $scope
  */
-class Secret extends \Stripe\ApiResource
+class Secret extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Create;
     public const OBJECT_NAME = 'apps.secret';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -50,16 +47,14 @@ class Secret extends \Stripe\ApiResource
      *
      * @return \Stripe\Apps\Secret the deleted secret
      */
-    public static function deleteWhere($params = null, $opts = null)
+    public static function delete_where($params = null, $opts = null)
     {
-        $url = static::classUrl() . '/delete';
-        [$response, $opts] = static::_staticRequest('post', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $url = static::class_url() . '/delete';
+        [$response, $opts] = static::_static_request('post', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -70,11 +65,10 @@ class Secret extends \Stripe\ApiResource
      */
     public static function find($params = null, $opts = null)
     {
-        $url = static::classUrl() . '/find';
-        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $url = static::class_url() . '/find';
+        [$response, $opts] = static::_static_request('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
 }

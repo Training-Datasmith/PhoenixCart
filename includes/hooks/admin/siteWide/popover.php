@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,17 +11,15 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
-class hook_admin_siteWide_popover
+class Hook_admin_site_Wide_popover
 {
-    public function listen_injectBodyEnd(): string
+    public function listen_inject_body_end(): string
     {
         return <<<pp
-<script>
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-</script>
-pp;
+        <script>
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+        </script>
+        pp;
     }
-
 }

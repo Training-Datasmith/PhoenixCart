@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Radar;
 
 /**
@@ -22,11 +20,11 @@ namespace Stripe\Radar;
  * @property string $value The value of the item.
  * @property string $value_list The identifier of the value list this item belongs to.
  */
-class ValueListItem extends \Stripe\ApiResource
+class Value_List_Item extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Delete;
-    use \Stripe\ApiOperations\Retrieve;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Create;
+    use \Stripe\Api_Operations\Delete;
+    use \Stripe\Api_Operations\Retrieve;
     public const OBJECT_NAME = 'radar.value_list_item';
 }

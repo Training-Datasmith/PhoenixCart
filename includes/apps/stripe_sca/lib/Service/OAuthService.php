@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe\Service;
 
-class OAuthService extends \Stripe\Service\AbstractService
+class O_Auth_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Sends a request to Stripe's Connect API.
@@ -16,14 +15,12 @@ class OAuthService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\StripeObject the object returned by Stripe's Connect API
      */
-    protected function requestConnect($method, $path, $params, $opts)
+    protected function request_connect($method, $path, $params, $opts)
     {
-        $opts = $this->_parseOpts($opts);
-        $opts->apiBase = $this->_getBase($opts);
-
+        $opts = $this->_parse_opts($opts);
+        $opts->api_base = $this->_get_base($opts);
         return $this->request($method, $path, $params, $opts);
     }
-
     /**
      * Generates a URL to Stripe's OAuth form.
      *
@@ -32,22 +29,18 @@ class OAuthService extends \Stripe\Service\AbstractService
      *
      * @return string the URL to Stripe's OAuth form
      */
-    public function authorizeUrl($params = null, $opts = null): string
+    public function authorize_url($params = null, $opts = null): string
     {
         $params = $params ?: [];
-
-        $opts = $this->_parseOpts($opts);
-        $base = $this->_getBase($opts);
-
-        $params['client_id'] = $this->_getClientId($params);
+        $opts = $this->_parse_opts($opts);
+        $base = $this->_get_base($opts);
+        $params['client_id'] = $this->_get_client_id($params);
         if (!\array_key_exists('response_type', $params)) {
             $params['response_type'] = 'code';
         }
-        $query = \Stripe\Util\Util::encodeParameters($params);
-
+        $query = \Stripe\Util\Util::encode_parameters($params);
         return $base . '/oauth/authorize?' . $query;
     }
-
     /**
      * Use an authoriztion code to connect an account to your platform and
      * fetch the user's credentials.
@@ -62,11 +55,9 @@ class OAuthService extends \Stripe\Service\AbstractService
     public function token($params = null, $opts = null)
     {
         $params = $params ?: [];
-        $params['client_secret'] = $this->_getClientSecret($params);
-
-        return $this->requestConnect('post', '/oauth/token', $params, $opts);
+        $params['client_secret'] = $this->_get_client_secret($params);
+        return $this->request_connect('post', '/oauth/token', $params, $opts);
     }
-
     /**
      * Disconnects an account from your platform.
      *
@@ -80,43 +71,29 @@ class OAuthService extends \Stripe\Service\AbstractService
     public function deauthorize($params = null, $opts = null)
     {
         $params = $params ?: [];
-        $params['client_id'] = $this->_getClientId($params);
-
-        return $this->requestConnect('post', '/oauth/deauthorize', $params, $opts);
+        $params['client_id'] = $this->_get_client_id($params);
+        return $this->request_connect('post', '/oauth/deauthorize', $params, $opts);
     }
-
-    private function _getClientId($params = null)
+    private function _get_client_id($params = null)
     {
-        $clientId = ($params && \array_key_exists('client_id', $params)) ? $params['client_id'] : null;
-
-        if (null === $clientId) {
-            $clientId = $this->client->getClientId();
+        $client_id = $params && \array_key_exists('client_id', $params) ? $params['client_id'] : null;
+        if (null === $client_id) {
+            $client_id = $this->client->get_client_id();
         }
-        if (null === $clientId) {
-            $msg = 'No client_id provided. (HINT: set your client_id using '
-              . '`new \Stripe\StripeClient([clientId => <CLIENT-ID>
-                ])`)".  You can find your client_ids '
-              . 'in your Stripe dashboard at '
-              . 'https://dashboard.stripe.com/account/applications/settings, '
-              . 'after registering your account as a platform. See '
-              . 'https://stripe.com/docs/connect/standard-accounts for details, '
-              . 'or email support@stripe.com if you have any questions.';
-
-            throw new \Stripe\Exception\AuthenticationException($msg);
+        if (null === $client_id) {
+            $msg = 'No client_id provided. (HINT: set your client_id using ' . '`new \Stripe\StripeClient([clientId => <CLIENT-ID>
+                ])`)".  You can find your client_ids ' . 'in your Stripe dashboard at ' . 'https://dashboard.stripe.com/account/applications/settings, ' . 'after registering your account as a platform. See ' . 'https://stripe.com/docs/connect/standard-accounts for details, ' . 'or email support@stripe.com if you have any questions.';
+            throw new \Stripe\Exception\Authentication_Exception($msg);
         }
-
-        return $clientId;
+        return $client_id;
     }
-
-    private function _getClientSecret($params = null)
+    private function _get_client_secret($params = null)
     {
         if (\array_key_exists('client_secret', $params)) {
             return $params['client_secret'];
         }
-
-        return $this->client->getApiKey();
+        return $this->client->get_api_key();
     }
-
     /**
      * @param array|\Stripe\Util\RequestOptions $opts the special modifiers of the request
      *
@@ -124,7 +101,7 @@ class OAuthService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Util\RequestOptions
      */
-    private function _parseOpts($opts)
+    private function _parse_opts($opts)
     {
         if (\is_array($opts)) {
             if (\array_key_exists('connect_base', $opts)) {
@@ -134,17 +111,15 @@ class OAuthService extends \Stripe\Service\AbstractService
                 throw new \Stripe\Exception\InvalidArgumentException('Use `api_base`, not `connect_base`');
             }
         }
-
-        return \Stripe\Util\RequestOptions::parse($opts);
+        return \Stripe\Util\Request_Options::parse($opts);
     }
-
     /**
      * @param \Stripe\Util\RequestOptions $opts
      *
      * @return string
      */
-    private function _getBase($opts)
+    private function _get_base($opts)
     {
-        return $opts->apiBase ?? $this->client->getConnectBase();
+        return $opts->api_base ?? $this->client->get_connect_base();
     }
 }

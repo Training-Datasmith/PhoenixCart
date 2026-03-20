@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -22,15 +20,13 @@ namespace Stripe;
  * @property bool $refunded Whether the fee has been fully refunded. If the fee is only partially refunded, this attribute will still be false.
  * @property \Stripe\Collection<\Stripe\StripeObject> $refunds A list of refunds that have been applied to the fee.
  */
-class ApplicationFee extends ApiResource
+class Application_Fee extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\NestedResource;
-    use ApiOperations\Retrieve;
+    use Api_Operations\All;
+    use Api_Operations\Nested_Resource;
+    use Api_Operations\Retrieve;
     public const OBJECT_NAME = 'application_fee';
-
     public const PATH_REFUNDS = '/refunds';
-
     /**
      * @param string $id the ID of the application fee on which to retrieve the fee refunds
      * @param null|array $params
@@ -40,11 +36,10 @@ class ApplicationFee extends ApiResource
      *
      * @return \Stripe\Collection<\Stripe\ApplicationFeeRefund> the list of fee refunds
      */
-    public static function allRefunds($id, $params = null, $opts = null)
+    public static function all_refunds($id, $params = null, $opts = null)
     {
-        return self::_allNestedResources($id, static::PATH_REFUNDS, $params, $opts);
+        return self::_all_nested_resources($id, static::PATH_REFUNDS, $params, $opts);
     }
-
     /**
      * @param string $id the ID of the application fee on which to create the fee refund
      * @param null|array $params
@@ -54,11 +49,10 @@ class ApplicationFee extends ApiResource
      *
      * @return \Stripe\ApplicationFeeRefund
      */
-    public static function createRefund($id, $params = null, $opts = null)
+    public static function create_refund($id, $params = null, $opts = null)
     {
-        return self::_createNestedResource($id, static::PATH_REFUNDS, $params, $opts);
+        return self::_create_nested_resource($id, static::PATH_REFUNDS, $params, $opts);
     }
-
     /**
      * @param string $id the ID of the application fee to which the fee refund belongs
      * @param string $refundId the ID of the fee refund to retrieve
@@ -69,11 +63,10 @@ class ApplicationFee extends ApiResource
      *
      * @return \Stripe\ApplicationFeeRefund
      */
-    public static function retrieveRefund($id, $refundId, $params = null, $opts = null)
+    public static function retrieve_refund($id, $refund_id, $params = null, $opts = null)
     {
-        return self::_retrieveNestedResource($id, static::PATH_REFUNDS, $refundId, $params, $opts);
+        return self::_retrieve_nested_resource($id, static::PATH_REFUNDS, $refund_id, $params, $opts);
     }
-
     /**
      * @param string $id the ID of the application fee to which the fee refund belongs
      * @param string $refundId the ID of the fee refund to update
@@ -84,8 +77,8 @@ class ApplicationFee extends ApiResource
      *
      * @return \Stripe\ApplicationFeeRefund
      */
-    public static function updateRefund($id, $refundId, $params = null, $opts = null)
+    public static function update_refund($id, $refund_id, $params = null, $opts = null)
     {
-        return self::_updateNestedResource($id, static::PATH_REFUNDS, $refundId, $params, $opts);
+        return self::_update_nested_resource($id, static::PATH_REFUNDS, $refund_id, $params, $opts);
     }
 }

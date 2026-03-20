@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -32,14 +30,13 @@ namespace Stripe;
  * @property null|string $state <a href="https://en.wikipedia.org/wiki/ISO_3166-2:US">ISO 3166-2 subdivision code</a>, without country prefix. For example, &quot;NY&quot; for New York, United States.
  * @property null|string $tax_type The high-level tax type, such as <code>vat</code> or <code>sales_tax</code>.
  */
-class TaxRate extends ApiResource
+class Tax_Rate extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'tax_rate';
-
     public const TAX_TYPE_GST = 'gst';
     public const TAX_TYPE_HST = 'hst';
     public const TAX_TYPE_JCT = 'jct';

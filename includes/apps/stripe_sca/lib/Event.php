@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -55,12 +53,11 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $request Information on the API request that instigated the event.
  * @property string $type Description of the event (e.g., <code>invoice.created</code> or <code>charge.refunded</code>).
  */
-class Event extends ApiResource
+class Event extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
+    use Api_Operations\All;
+    use Api_Operations\Retrieve;
     public const OBJECT_NAME = 'event';
-
     public const ACCOUNT_APPLICATION_AUTHORIZED = 'account.application.authorized';
     public const ACCOUNT_APPLICATION_DEAUTHORIZED = 'account.application.deauthorized';
     public const ACCOUNT_EXTERNAL_ACCOUNT_CREATED = 'account.external_account.created';

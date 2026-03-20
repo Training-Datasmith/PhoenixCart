@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,16 +11,15 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
-class hook_shop_siteWide_modalFix
+class Hook_shop_site_Wide_modal_Fix
 {
-    public function listen_injectBodyEnd(): string
+    public function listen_inject_body_end(): string
     {
         return <<<EOD
-<script>
-document.addEventListener('show.bs.modal', e => e.target.inert = false);
-document.addEventListener('hide.bs.modal', e => e.target.inert = true);
-</script>
-EOD;
+        <script>
+        document.addEventListener('show.bs.modal', e => e.target.inert = false);
+        document.addEventListener('hide.bs.modal', e => e.target.inert = true);
+        </script>
+        EOD;
     }
 }

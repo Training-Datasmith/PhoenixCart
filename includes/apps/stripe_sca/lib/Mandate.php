@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -21,8 +19,8 @@ namespace Stripe;
  * @property string $status The status of the mandate, which indicates whether it can be used to initiate a payment.
  * @property string $type The type of the mandate.
  */
-class Mandate extends ApiResource
+class Mandate extends Api_Resource
 {
-    use ApiOperations\Retrieve;
+    use Api_Operations\Retrieve;
     public const OBJECT_NAME = 'mandate';
 }

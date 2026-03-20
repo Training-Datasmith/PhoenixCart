@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe\Exception;
 
 /**
@@ -9,6 +8,6 @@ namespace Stripe\Exception;
  * error from the API it doesn't know about. Receiving this error usually
  * means that your client library is outdated and should be upgraded.
  */
-class UnknownApiErrorException extends ApiErrorException
+class Unknown_Api_Error_Exception extends Api_Error_Exception
 {
 }

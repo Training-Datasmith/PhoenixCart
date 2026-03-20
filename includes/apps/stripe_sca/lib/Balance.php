@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -29,8 +27,8 @@ namespace Stripe;
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property \Stripe\StripeObject[] $pending Funds that are not yet available in the balance, due to the 7-day rolling pay cycle. The pending balance for each currency, and for each payment type, can be found in the <code>source_types</code> property.
  */
-class Balance extends SingletonApiResource
+class Balance extends Singleton_Api_Resource
 {
-    use ApiOperations\SingletonRetrieve;
+    use Api_Operations\Singleton_Retrieve;
     public const OBJECT_NAME = 'balance';
 }

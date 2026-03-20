@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class EphemeralKeyService extends \Stripe\Service\AbstractService
+class Ephemeral_Key_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Invalidates a short-lived API key for a given resource.
@@ -21,9 +19,8 @@ class EphemeralKeyService extends \Stripe\Service\AbstractService
      */
     public function delete($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/ephemeral_keys/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/ephemeral_keys/%s', $id), $params, $opts);
     }
-
     /**
      * Creates a short-lived API key for a given resource.
      *
@@ -39,7 +36,6 @@ class EphemeralKeyService extends \Stripe\Service\AbstractService
         if (!$opts || !isset($opts['stripe_version'])) {
             throw new \Stripe\Exception\InvalidArgumentException('stripe_version must be specified to create an ephemeral key');
         }
-
         return $this->request('post', '/v1/ephemeral_keys', $params, $opts);
     }
 }

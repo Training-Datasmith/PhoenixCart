@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -28,12 +26,11 @@ namespace Stripe;
  * @property string $reason The reason the review is currently open or closed. One of <code>rule</code>, <code>manual</code>, <code>approved</code>, <code>refunded</code>, <code>refunded_as_fraud</code>, <code>disputed</code>, or <code>redacted</code>.
  * @property null|\Stripe\StripeObject $session Information related to the browsing session of the user who initiated the payment.
  */
-class Review extends ApiResource
+class Review extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
+    use Api_Operations\All;
+    use Api_Operations\Retrieve;
     public const OBJECT_NAME = 'review';
-
     /**
      * Possible string representations of the current, the opening or the closure reason of the review.
      * Not all of these enumeration apply to all of the ´reason´ fields. Please consult the Review object to
@@ -47,7 +44,6 @@ class Review extends ApiResource
     public const REASON_REFUNDED = 'refunded';
     public const REASON_REFUNDED_AS_FRAUD = 'refunded_as_fraud';
     public const REASON_RULE = 'rule';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -58,10 +54,9 @@ class Review extends ApiResource
      */
     public function approve($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/approve';
+        $url = $this->instance_url() . '/approve';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

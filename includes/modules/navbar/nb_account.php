@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,46 +11,22 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 class nb_account extends abstract_block_module
 {
     public const CONFIG_KEY_BASE = 'MODULE_NAVBAR_ACCOUNT_';
-
     public $group = 'navbar_modules_left';
-
-    public function getOutput(): void
+    public function get_output(): void
     {
         if (($GLOBALS['customer'] ?? null) instanceof customer) {
-            $navbarAccountText = sprintf(MODULE_NAVBAR_ACCOUNT_LOGGED_IN, $GLOBALS['customer']->get('short_name'));
+            $navbar_account_text = sprintf(MODULE_NAVBAR_ACCOUNT_LOGGED_IN, $GLOBALS['customer']->get('short_name'));
         } else {
-            $navbarAccountText = MODULE_NAVBAR_ACCOUNT_LOGGED_OUT;
+            $navbar_account_text = MODULE_NAVBAR_ACCOUNT_LOGGED_OUT;
         }
-
-        $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
+        $tpl_data = ['group' => $this->group, 'file' => __FILE__];
         include 'includes/modules/block_template.php';
     }
-
     public function get_parameters(): array
     {
-        return [
-          $this->config_key_base . 'STATUS' => [
-            'title' => 'Enable Module',
-            'value' => 'True',
-            'desc' => 'Do you want to add the module to your Navbar?',
-            'set_func' => "Config::select_one(['True', 'False'], ",
-          ],
-          $this->config_key_base . 'CONTENT_PLACEMENT' => [
-            'title' => 'Content Placement Group',
-            'value' => 'Left',
-            'desc' => 'Where should the module be loaded?  Lowest is loaded first, per Group.',
-            'set_func' => "Config::select_one(['Home', 'Left', 'Center', 'Right'], ",
-          ],
-          $this->config_key_base . 'SORT_ORDER' => [
-            'title' => 'Sort Order',
-            'value' => '540',
-            'desc' => 'Sort order of display. Lowest is displayed first.',
-          ],
-        ];
+        return [$this->config_key_base . 'STATUS' => ['title' => 'Enable Module', 'value' => 'True', 'desc' => 'Do you want to add the module to your Navbar?', 'set_func' => "Config::select_one(['True', 'False'], "], $this->config_key_base . 'CONTENT_PLACEMENT' => ['title' => 'Content Placement Group', 'value' => 'Left', 'desc' => 'Where should the module be loaded?  Lowest is loaded first, per Group.', 'set_func' => "Config::select_one(['Home', 'Left', 'Center', 'Right'], "], $this->config_key_base . 'SORT_ORDER' => ['title' => 'Sort Order', 'value' => '540', 'desc' => 'Sort order of display. Lowest is displayed first.']];
     }
-
 }

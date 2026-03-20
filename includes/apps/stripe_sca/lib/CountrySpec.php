@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -23,9 +21,9 @@ namespace Stripe;
  * @property string[] $supported_transfer_countries Countries that can accept transfers from the specified country.
  * @property \Stripe\StripeObject $verification_fields
  */
-class CountrySpec extends ApiResource
+class Country_Spec extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
+    use Api_Operations\All;
+    use Api_Operations\Retrieve;
     public const OBJECT_NAME = 'country_spec';
 }

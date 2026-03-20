@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -22,7 +20,7 @@ namespace Stripe;
  * @property null|int $quantity The quantity of products being purchased.
  * @property \Stripe\StripeObject[] $taxes The taxes applied to the line item.
  */
-class LineItem extends ApiResource
+class Line_Item extends Api_Resource
 {
     public const OBJECT_NAME = 'item';
 }

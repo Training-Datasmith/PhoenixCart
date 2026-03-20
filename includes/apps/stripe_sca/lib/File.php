@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -29,16 +27,14 @@ namespace Stripe;
  * @property null|string $type The type of the file returned (e.g., <code>csv</code>, <code>pdf</code>, <code>jpg</code>, or <code>png</code>).
  * @property null|string $url The URL from which the file can be downloaded using your live secret API key.
  */
-class File extends ApiResource
+class File extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
-
-    use ApiOperations\Create {
+    use Api_Operations\All;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Create {
         create as protected _create;
     }
     public const OBJECT_NAME = 'file';
-
     public const PURPOSE_ACCOUNT_REQUIREMENT = 'account_requirement';
     public const PURPOSE_ADDITIONAL_VERIFICATION = 'additional_verification';
     public const PURPOSE_BUSINESS_ICON = 'business_icon';
@@ -54,13 +50,11 @@ class File extends ApiResource
     public const PURPOSE_SIGMA_SCHEDULED_QUERY = 'sigma_scheduled_query';
     public const PURPOSE_TAX_DOCUMENT_USER_UPLOAD = 'tax_document_user_upload';
     public const PURPOSE_TERMINAL_READER_SPLASHSCREEN = 'terminal_reader_splashscreen';
-
     // This resource can have two different object names. In latter API
     // versions, only `file` is used, but since stripe-php may be used with
     // any API version, we need to support deserializing the older
     // `file_upload` object into the same class.
     public const OBJECT_NAME_ALT = 'file_upload';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -71,14 +65,13 @@ class File extends ApiResource
      */
     public static function create($params = null, $opts = null)
     {
-        $opts = \Stripe\Util\RequestOptions::parse($opts);
-        if (null === $opts->apiBase) {
-            $opts->apiBase = Stripe::$apiUploadBase;
+        $opts = \Stripe\Util\Request_Options::parse($opts);
+        if (null === $opts->api_base) {
+            $opts->api_base = Stripe::$api_upload_base;
         }
         // Manually flatten params, otherwise curl's multipart encoder will
         // choke on nested arrays.
-        $flatParams = \array_column(\Stripe\Util\Util::flattenParams($params), 1, 0);
-
-        return static::_create($flatParams, $opts);
+        $flat_params = \array_column(\Stripe\Util\Util::flatten_params($params), 1, 0);
+        return static::_create($flat_params, $opts);
     }
 }

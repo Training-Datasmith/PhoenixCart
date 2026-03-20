@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -56,28 +54,24 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $trial_settings Settings related to subscription trials.
  * @property null|int $trial_start If the subscription has a trial, the beginning of that trial.
  */
-class Subscription extends ApiResource
+class Subscription extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Search;
-    use ApiOperations\Update;
-
-    use ApiOperations\Delete {
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Search;
+    use Api_Operations\Update;
+    use Api_Operations\Delete {
         delete as protected _delete;
     }
     public const OBJECT_NAME = 'subscription';
-
     public const PAYMENT_BEHAVIOR_ALLOW_INCOMPLETE = 'allow_incomplete';
     public const PAYMENT_BEHAVIOR_DEFAULT_INCOMPLETE = 'default_incomplete';
     public const PAYMENT_BEHAVIOR_ERROR_IF_INCOMPLETE = 'error_if_incomplete';
     public const PAYMENT_BEHAVIOR_PENDING_IF_INCOMPLETE = 'pending_if_incomplete';
-
     public const PRORATION_BEHAVIOR_ALWAYS_INVOICE = 'always_invoice';
     public const PRORATION_BEHAVIOR_CREATE_PRORATIONS = 'create_prorations';
     public const PRORATION_BEHAVIOR_NONE = 'none';
-
     public const STATUS_ACTIVE = 'active';
     public const STATUS_CANCELED = 'canceled';
     public const STATUS_INCOMPLETE = 'incomplete';
@@ -86,19 +80,14 @@ class Subscription extends ApiResource
     public const STATUS_PAUSED = 'paused';
     public const STATUS_TRIALING = 'trialing';
     public const STATUS_UNPAID = 'unpaid';
-
-    public static function getSavedNestedResources()
+    public static function get_saved_nested_resources()
     {
-        static $savedNestedResources = null;
-        if (null === $savedNestedResources) {
-            $savedNestedResources = new Util\Set([
-                'source',
-            ]);
+        static $saved_nested_resources = null;
+        if (null === $saved_nested_resources) {
+            $saved_nested_resources = new Util\Set(['source']);
         }
-
-        return $savedNestedResources;
+        return $saved_nested_resources;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -107,15 +96,13 @@ class Subscription extends ApiResource
      *
      * @return \Stripe\Subscription the updated subscription
      */
-    public function deleteDiscount($params = null, $opts = null): static
+    public function delete_discount($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/discount';
+        $url = $this->instance_url() . '/discount';
         [$response, $opts] = $this->_request('delete', $url, $params, $opts);
-        $this->refreshFrom(['discount' => null], $opts, true);
-
+        $this->refresh_from(['discount' => null], $opts, true);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -126,13 +113,11 @@ class Subscription extends ApiResource
      */
     public function cancel($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl();
+        $url = $this->instance_url();
         [$response, $opts] = $this->_request('delete', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -143,13 +128,11 @@ class Subscription extends ApiResource
      */
     public function resume($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/resume';
+        $url = $this->instance_url() . '/resume';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -161,7 +144,6 @@ class Subscription extends ApiResource
     public static function search($params = null, $opts = null)
     {
         $url = '/v1/subscriptions/search';
-
-        return self::_searchResource($url, $params, $opts);
+        return self::_search_resource($url, $params, $opts);
     }
 }

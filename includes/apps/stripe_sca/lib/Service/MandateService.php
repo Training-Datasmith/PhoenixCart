@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class MandateService extends \Stripe\Service\AbstractService
+class Mandate_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Retrieves a Mandate object.
@@ -21,6 +19,6 @@ class MandateService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/mandates/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/mandates/%s', $id), $params, $opts);
     }
 }

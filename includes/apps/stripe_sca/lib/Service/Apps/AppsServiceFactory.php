@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Apps;
 
 /**
@@ -11,17 +9,14 @@ namespace Stripe\Service\Apps;
  *
  * @property SecretService $secrets
  */
-class AppsServiceFactory extends \Stripe\Service\AbstractServiceFactory
+class Apps_Service_Factory extends \Stripe\Service\Abstract_Service_Factory
 {
     /**
      * @var array<string, string>
      */
-    private static array $classMap = [
-        'secrets' => SecretService::class,
-    ];
-
-    protected function getServiceClass($name)
+    private static array $class_map = ['secrets' => Secret_Service::class];
+    protected function get_service_class($name)
     {
-        return \array_key_exists($name, self::$classMap) ? self::$classMap[$name] : null;
+        return \array_key_exists($name, self::$class_map) ? self::$class_map[$name] : null;
     }
 }

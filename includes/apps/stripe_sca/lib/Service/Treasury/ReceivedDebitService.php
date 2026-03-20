@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Treasury;
 
-class ReceivedDebitService extends \Stripe\Service\AbstractService
+class Received_Debit_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of ReceivedDebits.
@@ -20,9 +18,8 @@ class ReceivedDebitService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/treasury/received_debits', $params, $opts);
+        return $this->request_collection('get', '/v1/treasury/received_debits', $params, $opts);
     }
-
     /**
      * Retrieves the details of an existing ReceivedDebit by passing the unique
      * ReceivedDebit ID from the ReceivedDebit list.
@@ -37,6 +34,6 @@ class ReceivedDebitService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/treasury/received_debits/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/treasury/received_debits/%s', $id), $params, $opts);
     }
 }

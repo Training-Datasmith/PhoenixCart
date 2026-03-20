@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -17,7 +17,6 @@ declare(strict_types=1);
 
   Modified by Jan Wildeboer, et. al.
 */
-
 class mime
 {
     protected $_encoding;
@@ -25,7 +24,6 @@ class mime
     protected $_encoded = [];
     protected $_headers = [];
     protected string $lf;
-
     /**
      * Constructor.
      *
@@ -44,8 +42,7 @@ class mime
     public function __construct(protected $_body, $params = [])
     {
         // Make sure we use the correct linefeed sequence
-        $this->lf = (EMAIL_LINEFEED === 'CRLF') ? "\r\n" : "\n";
-
+        $this->lf = EMAIL_LINEFEED === 'CRLF' ? "\r\n" : "\n";
         foreach ($params as $key => $value) {
             switch ($key) {
                 case 'content_type':
@@ -80,16 +77,13 @@ class mime
                     break;
             }
         }
-
         // Default content-type
         if (!isset($headers['Content-Type'])) {
             $headers['Content-Type'] = 'text/plain';
         }
-
         // Assign stuff to member variables
         $this->_headers = $headers;
     }
-
     /**
      * encode()
      *
@@ -104,34 +98,26 @@ class mime
     public function encode()
     {
         $encoded = $this->_encoded;
-
         if ([] === $this->_subparts) {
-            $encoded['body'] = $this->_getEncodedData($this->_body, $this->_encoding) . $this->lf;
+            $encoded['body'] = $this->_get_encoded_data($this->_body, $this->_encoding) . $this->lf;
         } else {
             $boundary = '=_' . bin2hex(random_bytes(16));
             $this->_headers['Content-Type'] .= ';' . $this->lf . chr(9) . 'boundary="' . $boundary . '"';
-
             // Add body parts to $subparts
             foreach ($this->_subparts as $_subpart) {
                 $tmp = $_subpart->encode();
-
                 $headers = [];
                 foreach ($tmp['headers'] as $key => $value) {
                     $headers[] = $key . ': ' . $value;
                 }
-
                 $subparts[] = implode($this->lf, $headers) . $this->lf . $this->lf . $tmp['body'];
             }
-
-            $encoded['body'] = '--' . $boundary . $this->lf . implode('--' . $boundary . $this->lf, $subparts) . '--' . $boundary.'--' . $this->lf;
+            $encoded['body'] = '--' . $boundary . $this->lf . implode('--' . $boundary . $this->lf, $subparts) . '--' . $boundary . '--' . $this->lf;
         }
-
         // Add headers to $encoded
         $encoded['headers'] = $this->_headers;
-
         return $encoded;
     }
-
     /**
      * &addSubPart()
      *
@@ -144,13 +130,11 @@ class mime
      * @return The part you just added.
      * @access public
      */
-    public function addSubPart($body, $params)
+    public function add_sub_part($body, $params)
     {
         $this->_subparts[] = new mime($body, $params);
-
         return $this->_subparts[count($this->_subparts) - 1];
     }
-
     /**
      * _getEncodedData()
      *
@@ -161,7 +145,7 @@ class mime
      *                  or quoted-printable.
      * @access private
      */
-    public function _getEncodedData($data, $encoding)
+    public function _get_encoded_data($data, $encoding)
     {
         switch ($encoding) {
             case '7bit':
@@ -172,7 +156,6 @@ class mime
                 return rtrim(chunk_split(base64_encode((string) $data), 76, $this->lf));
         }
     }
-
     /**
      * quotedPrintableEncode()
      *
@@ -184,32 +167,28 @@ class mime
      *
      * @access private
      */
-    public function _quotedPrintableEncode($input, $line_max = 76): string
+    public function _quoted_printable_encode($input, $line_max = 76): string
     {
         $lines = preg_split("/\r\n|\r|\n/", (string) $input);
         $eol = $this->lf;
         $escape = '=';
         $output = '';
-
         foreach ($lines as $line) {
             $linlen = strlen($line);
             $newline = '';
-
             for ($i = 0; $i < $linlen; $i++) {
                 $char = substr($line, $i, 1);
                 $dec = ord($char);
-
                 // convert space at eol only
-                if (($dec == 32) && ($i == ($linlen - 1))) {
+                if ($dec == 32 && $i == $linlen - 1) {
                     $char = '=20';
                 } elseif ($dec == 9) {
                     // Do nothing if a tab.
-                } elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) {
+                } elseif ($dec == 61 || $dec < 32 || $dec > 126) {
                     $char = $escape . strtoupper(sprintf('%02s', dechex($dec)));
                 }
-
                 // $this->lf is not counted
-                if ((strlen($newline) + strlen($char)) >= $line_max) {
+                if (strlen($newline) + strlen($char) >= $line_max) {
                     // soft line break; " =\r\n" is okay
                     $output .= $newline . $escape . $eol;
                     $newline = '';
@@ -220,7 +199,6 @@ class mime
         }
         // Don't want last crlf
         $output = substr($output, 0, -1 * strlen((string) $eol));
-
         return $output;
     }
 }

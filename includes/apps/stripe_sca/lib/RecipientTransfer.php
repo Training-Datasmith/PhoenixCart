@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
 /**
@@ -32,7 +31,7 @@ namespace Stripe;
  * @property string $status
  * @property string $type
  */
-class RecipientTransfer extends ApiResource
+class Recipient_Transfer extends Api_Resource
 {
     public const OBJECT_NAME = 'recipient_transfer';
 }

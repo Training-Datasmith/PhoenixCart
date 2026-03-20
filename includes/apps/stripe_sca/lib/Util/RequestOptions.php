@@ -1,40 +1,29 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe\Util;
 
-class RequestOptions
+class Request_Options
 {
     /**
      * @var array<string> a list of headers that should be persisted across requests
      */
-    public static $HEADERS_TO_PERSIST = [
-        'Stripe-Account',
-        'Stripe-Version',
-    ];
-
+    public static $HEADERS_TO_PERSIST = ['Stripe-Account', 'Stripe-Version'];
     /**
      * @param null|string $apiKey
      * @param array<string, string> $headers
      * @param null|string $apiBase
      */
-    public function __construct(public $apiKey = null, public $headers = [], public $apiBase = null)
+    public function __construct(public $api_key = null, public $headers = [], public $api_base = null)
     {
     }
-
     /**
      * @return array<string, string>
      */
     public function __debugInfo()
     {
-        return [
-            'apiKey' => $this->redactedApiKey(),
-            'headers' => $this->headers,
-            'apiBase' => $this->apiBase,
-        ];
+        return ['apiKey' => $this->redacted_api_key(), 'headers' => $this->headers, 'apiBase' => $this->api_base];
     }
-
     /**
      * Unpacks an options array and merges it into the existing RequestOptions
      * object.
@@ -47,21 +36,19 @@ class RequestOptions
     public function merge($options, $strict = false)
     {
         $other_options = self::parse($options, $strict);
-        if (null === $other_options->apiKey) {
-            $other_options->apiKey = $this->apiKey;
+        if (null === $other_options->api_key) {
+            $other_options->api_key = $this->api_key;
         }
-        if (null === $other_options->apiBase) {
-            $other_options->apiBase = $this->apiBase;
+        if (null === $other_options->api_base) {
+            $other_options->api_base = $this->api_base;
         }
         $other_options->headers = \array_merge($this->headers, $other_options->headers);
-
         return $other_options;
     }
-
     /**
      * Discards all headers that we don't want to persist across requests.
      */
-    public function discardNonPersistentHeaders(): void
+    public function discard_non_persistent_headers(): void
     {
         foreach ($this->headers as $k => $v) {
             if (!\in_array($k, self::$HEADERS_TO_PERSIST, true)) {
@@ -69,7 +56,6 @@ class RequestOptions
             }
         }
     }
-
     /**
      * Unpacks an options array into an RequestOptions object.
      *
@@ -83,27 +69,20 @@ class RequestOptions
         if ($options instanceof self) {
             return clone $options;
         }
-
         if (null === $options) {
-            return new RequestOptions(null, []);
+            return new Request_Options(null, []);
         }
-
         if (\is_string($options)) {
             if ($strict) {
-                $message = 'Do not pass a string for request options. If you want to set the '
-                    . 'API key, pass an array like ["api_key" => <apiKey>] instead.';
-
+                $message = 'Do not pass a string for request options. If you want to set the ' . 'API key, pass an array like ["api_key" => <apiKey>] instead.';
                 throw new \Stripe\Exception\InvalidArgumentException($message);
             }
-
-            return new RequestOptions($options, []);
+            return new Request_Options($options, []);
         }
-
         if (\is_array($options)) {
             $headers = [];
             $key = null;
             $base = null;
-
             if (\array_key_exists('api_key', $options)) {
                 $key = $options['api_key'];
                 unset($options['api_key']);
@@ -124,37 +103,24 @@ class RequestOptions
                 $base = $options['api_base'];
                 unset($options['api_base']);
             }
-
             if ($strict && !empty($options)) {
                 $message = 'Got unexpected keys in options array: ' . \implode(', ', \array_keys($options));
-
                 throw new \Stripe\Exception\InvalidArgumentException($message);
             }
-
-            return new RequestOptions($key, $headers, $base);
+            return new Request_Options($key, $headers, $base);
         }
-
-        $message = 'The second argument to Stripe API method calls is an '
-           . 'optional per-request apiKey, which must be a string, or '
-           . 'per-request options, which must be an array. (HINT: you can set '
-           . 'a global apiKey by "Stripe::setApiKey(<apiKey>)")';
-
+        $message = 'The second argument to Stripe API method calls is an ' . 'optional per-request apiKey, which must be a string, or ' . 'per-request options, which must be an array. (HINT: you can set ' . 'a global apiKey by "Stripe::setApiKey(<apiKey>)")';
         throw new \Stripe\Exception\InvalidArgumentException($message);
     }
-
-    private function redactedApiKey(): string
+    private function redacted_api_key(): string
     {
-        if (null === $this->apiKey) {
+        if (null === $this->api_key) {
             return '';
         }
-
-        $pieces = \explode('_', $this->apiKey, 3);
+        $pieces = \explode('_', $this->api_key, 3);
         $last = \array_pop($pieces);
-        $redactedLast = \strlen($last) > 4
-            ? (\str_repeat('*', \strlen($last) - 4) . \substr($last, -4))
-            : $last;
-        $pieces[] = $redactedLast;
-
+        $redacted_last = \strlen($last) > 4 ? \str_repeat('*', \strlen($last) - 4) . \substr($last, -4) : $last;
+        $pieces[] = $redacted_last;
         return \implode('_', $pieces);
     }
 }

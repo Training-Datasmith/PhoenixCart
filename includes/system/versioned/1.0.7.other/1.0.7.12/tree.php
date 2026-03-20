@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,56 +11,44 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 abstract class Tree implements \Stringable
 {
     protected static $_parents = [];
-
     protected $_data = [];
     protected $root_id = 0;
-
     public function exists($id)
     {
         return isset(static::$_parents[$id]);
     }
-
     public function get_children($id)
     {
         return array_keys($this->_data[$id] ?? []);
     }
-
     public function get_descendants($id, &$results = [])
     {
         foreach ($this->get_children($id) as $child_id) {
             $results[] = $child_id;
             $this->get_descendants($child_id, $results);
         }
-
         return $results;
     }
-
     public function get_ancestors($id, &$results = [])
     {
-        while (($id = $this->get_parent_id($id)) && ($id != $this->root_id)) {
+        while (($id = $this->get_parent_id($id)) && $id != $this->root_id) {
             $results[] = $id;
         }
-
         return $results;
     }
-
     public function find_path($id, $glue = '_')
     {
         $nodes = array_reverse($this->get_ancestors($id));
         $nodes[] = $id;
-
         return implode($glue, $nodes);
     }
-
     public function parse_path($path)
     {
         return array_unique(array_map(intval(...), explode('_', (string) $path)), SORT_NUMERIC);
     }
-
     /**
      * Return node information
      *
@@ -72,16 +60,12 @@ abstract class Tree implements \Stringable
     {
         if (isset(static::$_parents[$id])) {
             $data = $this->_data[static::$_parents[$id]][$id];
-
             $data['id'] = $id;
             $data['parent_id'] = static::$_parents[$id];
-
-            return (is_null($key) ? $data : $data[$key]);
+            return is_null($key) ? $data : $data[$key];
         }
-
         return null;
     }
-
     /**
      * Return the parent ID of a node
      *
@@ -92,42 +76,36 @@ abstract class Tree implements \Stringable
     {
         return static::$_parents[$id] ?? null;
     }
-
     public function get_root_id()
     {
         return $this->root_id;
     }
-
     public function set_root_id($root_id): void
     {
         $this->root_id = $root_id;
     }
-
     /**
      * Return a formated string representation of the category structure relationship data
      *
      * @access public
      * @return string
      */
-    public function getTree()
+    public function get_tree()
     {
         $display = new tree_display($this);
-
-        return "$display";
+        return "{$display}";
     }
-
     /**
-         * Magic function; return a formated string representation of the category structure relationship data
-         *
-         * This is used when echoing the class object, eg:
-         *
-         * echo $tree;
-         *
-         * @access public
-         */
+     * Magic function; return a formated string representation of the category structure relationship data
+     *
+     * This is used when echoing the class object, eg:
+     *
+     * echo $tree;
+     *
+     * @access public
+     */
     public function __toString(): string
     {
-        return $this->getTree();
+        return $this->get_tree();
     }
-
 }

@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class TaxRateService extends \Stripe\Service\AbstractService
+class Tax_Rate_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of your tax rates. Tax rates are returned sorted by creation
@@ -21,9 +19,8 @@ class TaxRateService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/tax_rates', $params, $opts);
+        return $this->request_collection('get', '/v1/tax_rates', $params, $opts);
     }
-
     /**
      * Creates a new tax rate.
      *
@@ -38,7 +35,6 @@ class TaxRateService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/tax_rates', $params, $opts);
     }
-
     /**
      * Retrieves a tax rate with the given ID.
      *
@@ -52,9 +48,8 @@ class TaxRateService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/tax_rates/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/tax_rates/%s', $id), $params, $opts);
     }
-
     /**
      * Updates an existing tax rate.
      *
@@ -68,6 +63,6 @@ class TaxRateService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/tax_rates/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/tax_rates/%s', $id), $params, $opts);
     }
 }

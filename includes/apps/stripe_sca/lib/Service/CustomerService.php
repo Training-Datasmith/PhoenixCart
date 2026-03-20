@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class CustomerService extends \Stripe\Service\AbstractService
+class Customer_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of your customers. The customers are returned sorted by creation
@@ -21,9 +19,8 @@ class CustomerService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/customers', $params, $opts);
+        return $this->request_collection('get', '/v1/customers', $params, $opts);
     }
-
     /**
      * Returns a list of transactions that updated the customer’s <a
      * href="/docs/billing/customer/balance">balances</a>.
@@ -36,11 +33,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Collection<\Stripe\CustomerBalanceTransaction>
      */
-    public function allBalanceTransactions($parentId, $params = null, $opts = null)
+    public function all_balance_transactions($parent_id, $params = null, $opts = null)
     {
-        return $this->requestCollection('get', $this->buildPath('/v1/customers/%s/balance_transactions', $parentId), $params, $opts);
+        return $this->request_collection('get', $this->build_path('/v1/customers/%s/balance_transactions', $parent_id), $params, $opts);
     }
-
     /**
      * Returns a list of transactions that modified the customer’s <a
      * href="/docs/payments/customer-balance">cash balance</a>.
@@ -53,11 +49,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Collection<\Stripe\CustomerCashBalanceTransaction>
      */
-    public function allCashBalanceTransactions($parentId, $params = null, $opts = null)
+    public function all_cash_balance_transactions($parent_id, $params = null, $opts = null)
     {
-        return $this->requestCollection('get', $this->buildPath('/v1/customers/%s/cash_balance_transactions', $parentId), $params, $opts);
+        return $this->request_collection('get', $this->build_path('/v1/customers/%s/cash_balance_transactions', $parent_id), $params, $opts);
     }
-
     /**
      * Returns a list of PaymentMethods for a given Customer.
      *
@@ -69,11 +64,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Collection<\Stripe\PaymentMethod>
      */
-    public function allPaymentMethods($id, $params = null, $opts = null)
+    public function all_payment_methods($id, $params = null, $opts = null)
     {
-        return $this->requestCollection('get', $this->buildPath('/v1/customers/%s/payment_methods', $id), $params, $opts);
+        return $this->request_collection('get', $this->build_path('/v1/customers/%s/payment_methods', $id), $params, $opts);
     }
-
     /**
      * List sources for a specified customer.
      *
@@ -85,11 +79,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Collection<\Stripe\BankAccount|\Stripe\Card|\Stripe\Source>
      */
-    public function allSources($parentId, $params = null, $opts = null)
+    public function all_sources($parent_id, $params = null, $opts = null)
     {
-        return $this->requestCollection('get', $this->buildPath('/v1/customers/%s/sources', $parentId), $params, $opts);
+        return $this->request_collection('get', $this->build_path('/v1/customers/%s/sources', $parent_id), $params, $opts);
     }
-
     /**
      * Returns a list of tax IDs for a customer.
      *
@@ -101,11 +94,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Collection<\Stripe\TaxId>
      */
-    public function allTaxIds($parentId, $params = null, $opts = null)
+    public function all_tax_ids($parent_id, $params = null, $opts = null)
     {
-        return $this->requestCollection('get', $this->buildPath('/v1/customers/%s/tax_ids', $parentId), $params, $opts);
+        return $this->request_collection('get', $this->build_path('/v1/customers/%s/tax_ids', $parent_id), $params, $opts);
     }
-
     /**
      * Creates a new customer object.
      *
@@ -120,7 +112,6 @@ class CustomerService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/customers', $params, $opts);
     }
-
     /**
      * Creates an immutable transaction that updates the customer’s credit <a
      * href="/docs/billing/customer/balance">balance</a>.
@@ -133,11 +124,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\CustomerBalanceTransaction
      */
-    public function createBalanceTransaction($parentId, $params = null, $opts = null)
+    public function create_balance_transaction($parent_id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/customers/%s/balance_transactions', $parentId), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/customers/%s/balance_transactions', $parent_id), $params, $opts);
     }
-
     /**
      * Retrieve funding instructions for a customer cash balance. If funding
      * instructions do not yet exist for the customer, new funding instructions will be
@@ -153,11 +143,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Customer
      */
-    public function createFundingInstructions($id, $params = null, $opts = null)
+    public function create_funding_instructions($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/customers/%s/funding_instructions', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/customers/%s/funding_instructions', $id), $params, $opts);
     }
-
     /**
      * When you create a new credit card, you must specify a customer or recipient on
      * which to create it.
@@ -175,11 +164,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\BankAccount|\Stripe\Card|\Stripe\Source
      */
-    public function createSource($parentId, $params = null, $opts = null)
+    public function create_source($parent_id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/customers/%s/sources', $parentId), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/customers/%s/sources', $parent_id), $params, $opts);
     }
-
     /**
      * Creates a new <code>TaxID</code> object for a customer.
      *
@@ -191,11 +179,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\TaxId
      */
-    public function createTaxId($parentId, $params = null, $opts = null)
+    public function create_tax_id($parent_id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/customers/%s/tax_ids', $parentId), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/customers/%s/tax_ids', $parent_id), $params, $opts);
     }
-
     /**
      * Permanently deletes a customer. It cannot be undone. Also immediately cancels
      * any active subscriptions on the customer.
@@ -210,9 +197,8 @@ class CustomerService extends \Stripe\Service\AbstractService
      */
     public function delete($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/customers/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/customers/%s', $id), $params, $opts);
     }
-
     /**
      * Removes the currently applied discount on a customer.
      *
@@ -224,11 +210,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Customer
      */
-    public function deleteDiscount($id, $params = null, $opts = null)
+    public function delete_discount($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/customers/%s/discount', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/customers/%s/discount', $id), $params, $opts);
     }
-
     /**
      * @param string $parentId
      * @param string $id
@@ -239,11 +224,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\BankAccount|\Stripe\Card|\Stripe\Source
      */
-    public function deleteSource($parentId, $id, $params = null, $opts = null)
+    public function delete_source($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/customers/%s/sources/%s', $parentId, $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/customers/%s/sources/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * Deletes an existing <code>TaxID</code> object.
      *
@@ -256,11 +240,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\TaxId
      */
-    public function deleteTaxId($parentId, $id, $params = null, $opts = null)
+    public function delete_tax_id($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/customers/%s/tax_ids/%s', $parentId, $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/customers/%s/tax_ids/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * Retrieves a Customer object.
      *
@@ -274,9 +257,8 @@ class CustomerService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/customers/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/customers/%s', $id), $params, $opts);
     }
-
     /**
      * Retrieves a specific customer balance transaction that updated the customer’s <a
      * href="/docs/billing/customer/balance">balances</a>.
@@ -290,11 +272,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\CustomerBalanceTransaction
      */
-    public function retrieveBalanceTransaction($parentId, $id, $params = null, $opts = null)
+    public function retrieve_balance_transaction($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/customers/%s/balance_transactions/%s', $parentId, $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/customers/%s/balance_transactions/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * Retrieves a customer’s cash balance.
      *
@@ -306,11 +287,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\CashBalance
      */
-    public function retrieveCashBalance($parentId, $params = null, $opts = null)
+    public function retrieve_cash_balance($parent_id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/customers/%s/cash_balance', $parentId), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/customers/%s/cash_balance', $parent_id), $params, $opts);
     }
-
     /**
      * Retrieves a specific cash balance transaction, which updated the customer’s <a
      * href="/docs/payments/customer-balance">cash balance</a>.
@@ -324,11 +304,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\CustomerCashBalanceTransaction
      */
-    public function retrieveCashBalanceTransaction($parentId, $id, $params = null, $opts = null)
+    public function retrieve_cash_balance_transaction($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/customers/%s/cash_balance_transactions/%s', $parentId, $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/customers/%s/cash_balance_transactions/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * Retrieves a PaymentMethod object for a given Customer.
      *
@@ -341,11 +320,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Customer
      */
-    public function retrievePaymentMethod($parentId, $id, $params = null, $opts = null)
+    public function retrieve_payment_method($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/customers/%s/payment_methods/%s', $parentId, $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/customers/%s/payment_methods/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * Retrieve a specified source for a given customer.
      *
@@ -358,11 +336,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\BankAccount|\Stripe\Card|\Stripe\Source
      */
-    public function retrieveSource($parentId, $id, $params = null, $opts = null)
+    public function retrieve_source($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/customers/%s/sources/%s', $parentId, $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/customers/%s/sources/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * Retrieves the <code>TaxID</code> object with the given identifier.
      *
@@ -375,11 +352,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\TaxId
      */
-    public function retrieveTaxId($parentId, $id, $params = null, $opts = null)
+    public function retrieve_tax_id($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/customers/%s/tax_ids/%s', $parentId, $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/customers/%s/tax_ids/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * Search for customers you’ve previously created using Stripe’s <a
      * href="/docs/search#search-query-language">Search Query Language</a>. Don’t use
@@ -397,9 +373,8 @@ class CustomerService extends \Stripe\Service\AbstractService
      */
     public function search($params = null, $opts = null)
     {
-        return $this->requestSearchResult('get', '/v1/customers/search', $params, $opts);
+        return $this->request_search_result('get', '/v1/customers/search', $params, $opts);
     }
-
     /**
      * Updates the specified customer by setting the values of the parameters passed.
      * Any parameters not provided will be left unchanged. For example, if you pass the
@@ -425,9 +400,8 @@ class CustomerService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/customers/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/customers/%s', $id), $params, $opts);
     }
-
     /**
      * Most credit balance transaction fields are immutable, but you may update its
      * <code>description</code> and <code>metadata</code>.
@@ -441,11 +415,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\CustomerBalanceTransaction
      */
-    public function updateBalanceTransaction($parentId, $id, $params = null, $opts = null)
+    public function update_balance_transaction($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/customers/%s/balance_transactions/%s', $parentId, $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/customers/%s/balance_transactions/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * Changes the settings on a customer’s cash balance.
      *
@@ -457,11 +430,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\CashBalance
      */
-    public function updateCashBalance($parentId, $params = null, $opts = null)
+    public function update_cash_balance($parent_id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/customers/%s/cash_balance', $parentId), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/customers/%s/cash_balance', $parent_id), $params, $opts);
     }
-
     /**
      * @param string $parentId
      * @param string $id
@@ -472,11 +444,10 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\BankAccount|\Stripe\Card|\Stripe\Source
      */
-    public function updateSource($parentId, $id, $params = null, $opts = null)
+    public function update_source($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/customers/%s/sources/%s', $parentId, $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/customers/%s/sources/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * @param string $parentId
      * @param string $id
@@ -487,8 +458,8 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\BankAccount|\Stripe\Card|\Stripe\Source
      */
-    public function verifySource($parentId, $id, $params = null, $opts = null)
+    public function verify_source($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/customers/%s/sources/%s/verify', $parentId, $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/customers/%s/sources/%s/verify', $parent_id, $id), $params, $opts);
     }
 }

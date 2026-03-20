@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Identity;
 
-class VerificationSessionService extends \Stripe\Service\AbstractService
+class Verification_Session_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of VerificationSessions.
@@ -20,9 +18,8 @@ class VerificationSessionService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/identity/verification_sessions', $params, $opts);
+        return $this->request_collection('get', '/v1/identity/verification_sessions', $params, $opts);
     }
-
     /**
      * A VerificationSession object can be canceled when it is in
      * <code>requires_input</code> <a
@@ -41,9 +38,8 @@ class VerificationSessionService extends \Stripe\Service\AbstractService
      */
     public function cancel($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/identity/verification_sessions/%s/cancel', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/identity/verification_sessions/%s/cancel', $id), $params, $opts);
     }
-
     /**
      * Creates a VerificationSession object.
      *
@@ -68,7 +64,6 @@ class VerificationSessionService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/identity/verification_sessions', $params, $opts);
     }
-
     /**
      * Redact a VerificationSession to remove all collected information from Stripe.
      * This will redact the VerificationSession and all objects related to it,
@@ -104,9 +99,8 @@ class VerificationSessionService extends \Stripe\Service\AbstractService
      */
     public function redact($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/identity/verification_sessions/%s/redact', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/identity/verification_sessions/%s/redact', $id), $params, $opts);
     }
-
     /**
      * Retrieves the details of a VerificationSession that was previously created.
      *
@@ -124,9 +118,8 @@ class VerificationSessionService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/identity/verification_sessions/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/identity/verification_sessions/%s', $id), $params, $opts);
     }
-
     /**
      * Updates a VerificationSession object.
      *
@@ -143,6 +136,6 @@ class VerificationSessionService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/identity/verification_sessions/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/identity/verification_sessions/%s', $id), $params, $opts);
     }
 }

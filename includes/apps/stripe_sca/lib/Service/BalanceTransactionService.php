@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class BalanceTransactionService extends \Stripe\Service\AbstractService
+class Balance_Transaction_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of transactions that have contributed to the Stripe account
@@ -25,9 +23,8 @@ class BalanceTransactionService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/balance_transactions', $params, $opts);
+        return $this->request_collection('get', '/v1/balance_transactions', $params, $opts);
     }
-
     /**
      * Retrieves the balance transaction with the given ID.
      *
@@ -44,6 +41,6 @@ class BalanceTransactionService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/balance_transactions/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/balance_transactions/%s', $id), $params, $opts);
     }
 }

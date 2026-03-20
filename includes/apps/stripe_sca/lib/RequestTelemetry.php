@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
 /**
@@ -9,7 +8,7 @@ namespace Stripe;
  *
  * Tracks client request telemetry
  */
-class RequestTelemetry
+class Request_Telemetry
 {
     /**
      * Initialize a new telemetry object.
@@ -17,7 +16,7 @@ class RequestTelemetry
      * @param string $requestId the request's request ID
      * @param int $requestDuration the request's duration in milliseconds
      */
-    public function __construct(public $requestId, public $requestDuration)
+    public function __construct(public $request_id, public $request_duration)
     {
     }
 }

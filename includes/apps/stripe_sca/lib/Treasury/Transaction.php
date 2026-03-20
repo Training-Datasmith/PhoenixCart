@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Treasury;
 
 /**
@@ -27,12 +25,11 @@ namespace Stripe\Treasury;
  * @property string $status Status of the Transaction.
  * @property \Stripe\StripeObject $status_transitions
  */
-class Transaction extends \Stripe\ApiResource
+class Transaction extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Retrieve;
     public const OBJECT_NAME = 'treasury.transaction';
-
     public const FLOW_TYPE_CREDIT_REVERSAL = 'credit_reversal';
     public const FLOW_TYPE_DEBIT_REVERSAL = 'debit_reversal';
     public const FLOW_TYPE_INBOUND_TRANSFER = 'inbound_transfer';
@@ -42,7 +39,6 @@ class Transaction extends \Stripe\ApiResource
     public const FLOW_TYPE_OUTBOUND_TRANSFER = 'outbound_transfer';
     public const FLOW_TYPE_RECEIVED_CREDIT = 'received_credit';
     public const FLOW_TYPE_RECEIVED_DEBIT = 'received_debit';
-
     public const STATUS_OPEN = 'open';
     public const STATUS_POSTED = 'posted';
     public const STATUS_VOID = 'void';

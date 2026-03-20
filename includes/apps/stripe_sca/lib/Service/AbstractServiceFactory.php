@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe\Service;
 
 /**
@@ -14,11 +13,10 @@ namespace Stripe\Service;
  * 2. Lazily initialize each service instance the first time the property for
  *    a given service is used.
  */
-abstract class AbstractServiceFactory
+abstract class Abstract_Service_Factory
 {
     /** @var array<string, AbstractService|AbstractServiceFactory> */
     private array $services;
-
     /**
      * @param \Stripe\StripeClientInterface $client
      */
@@ -26,38 +24,32 @@ abstract class AbstractServiceFactory
     {
         $this->services = [];
     }
-
     /**
      * @param string $name
      *
      * @return null|string
      */
-    abstract protected function getServiceClass($name);
-
+    abstract protected function get_service_class($name);
     /**
      * @return null|AbstractService|AbstractServiceFactory
      */
     public function __get(string $name): mixed
     {
-        return $this->getService($name);
+        return $this->get_service($name);
     }
-
     /**
      * @return null|AbstractService|AbstractServiceFactory
      */
-    public function getService(string $name)
+    public function get_service(string $name)
     {
-        $serviceClass = $this->getServiceClass($name);
-        if (null !== $serviceClass) {
+        $service_class = $this->get_service_class($name);
+        if (null !== $service_class) {
             if (!\array_key_exists($name, $this->services)) {
-                $this->services[$name] = new $serviceClass($this->client);
+                $this->services[$name] = new $service_class($this->client);
             }
-
             return $this->services[$name];
         }
-
         \trigger_error('Undefined property: ' . static::class . '::$' . $name);
-
         return null;
     }
 }

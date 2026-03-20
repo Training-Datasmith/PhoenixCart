@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
+namespace Stripe\Service\Test_Helpers\Treasury;
 
-namespace Stripe\Service\TestHelpers\Treasury;
-
-class OutboundPaymentService extends \Stripe\Service\AbstractService
+class Outbound_Payment_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Transitions a test mode created OutboundPayment to the <code>failed</code>
@@ -23,9 +21,8 @@ class OutboundPaymentService extends \Stripe\Service\AbstractService
      */
     public function fail($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/treasury/outbound_payments/%s/fail', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/treasury/outbound_payments/%s/fail', $id), $params, $opts);
     }
-
     /**
      * Transitions a test mode created OutboundPayment to the <code>posted</code>
      * status. The OutboundPayment must already be in the <code>processing</code>
@@ -41,9 +38,8 @@ class OutboundPaymentService extends \Stripe\Service\AbstractService
      */
     public function post($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/treasury/outbound_payments/%s/post', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/treasury/outbound_payments/%s/post', $id), $params, $opts);
     }
-
     /**
      * Transitions a test mode created OutboundPayment to the <code>returned</code>
      * status. The OutboundPayment must already be in the <code>processing</code>
@@ -57,8 +53,8 @@ class OutboundPaymentService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Treasury\OutboundPayment
      */
-    public function returnOutboundPayment($id, $params = null, $opts = null)
+    public function return_outbound_payment($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/treasury/outbound_payments/%s/return', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/treasury/outbound_payments/%s/return', $id), $params, $opts);
     }
 }

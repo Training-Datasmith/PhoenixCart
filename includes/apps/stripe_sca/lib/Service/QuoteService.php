@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class QuoteService extends \Stripe\Service\AbstractService
+class Quote_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Accepts the specified quote.
@@ -21,9 +19,8 @@ class QuoteService extends \Stripe\Service\AbstractService
      */
     public function accept($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/quotes/%s/accept', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/quotes/%s/accept', $id), $params, $opts);
     }
-
     /**
      * Returns a list of your quotes.
      *
@@ -36,9 +33,8 @@ class QuoteService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/quotes', $params, $opts);
+        return $this->request_collection('get', '/v1/quotes', $params, $opts);
     }
-
     /**
      * When retrieving a quote, there is an includable <a
      * href="https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items"><strong>computed.upfront.line_items</strong></a>
@@ -53,11 +49,10 @@ class QuoteService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Collection<\Stripe\LineItem>
      */
-    public function allComputedUpfrontLineItems($id, $params = null, $opts = null)
+    public function all_computed_upfront_line_items($id, $params = null, $opts = null)
     {
-        return $this->requestCollection('get', $this->buildPath('/v1/quotes/%s/computed_upfront_line_items', $id), $params, $opts);
+        return $this->request_collection('get', $this->build_path('/v1/quotes/%s/computed_upfront_line_items', $id), $params, $opts);
     }
-
     /**
      * When retrieving a quote, there is an includable <strong>line_items</strong>
      * property containing the first handful of those items. There is also a URL where
@@ -71,11 +66,10 @@ class QuoteService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Collection<\Stripe\LineItem>
      */
-    public function allLineItems($id, $params = null, $opts = null)
+    public function all_line_items($id, $params = null, $opts = null)
     {
-        return $this->requestCollection('get', $this->buildPath('/v1/quotes/%s/line_items', $id), $params, $opts);
+        return $this->request_collection('get', $this->build_path('/v1/quotes/%s/line_items', $id), $params, $opts);
     }
-
     /**
      * Cancels the quote.
      *
@@ -89,9 +83,8 @@ class QuoteService extends \Stripe\Service\AbstractService
      */
     public function cancel($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/quotes/%s/cancel', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/quotes/%s/cancel', $id), $params, $opts);
     }
-
     /**
      * A quote models prices and services for a customer. Default options for
      * <code>header</code>, <code>description</code>, <code>footer</code>, and
@@ -109,7 +102,6 @@ class QuoteService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/quotes', $params, $opts);
     }
-
     /**
      * Finalizes the quote.
      *
@@ -121,11 +113,10 @@ class QuoteService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Quote
      */
-    public function finalizeQuote($id, $params = null, $opts = null)
+    public function finalize_quote($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/quotes/%s/finalize', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/quotes/%s/finalize', $id), $params, $opts);
     }
-
     /**
      * Retrieves the quote with the given ID.
      *
@@ -139,9 +130,8 @@ class QuoteService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/quotes/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/quotes/%s', $id), $params, $opts);
     }
-
     /**
      * A quote models prices and services for a customer.
      *
@@ -155,9 +145,8 @@ class QuoteService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/quotes/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/quotes/%s', $id), $params, $opts);
     }
-
     /**
      * Download the PDF for a finalized quote.
      *
@@ -168,12 +157,12 @@ class QuoteService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      */
-    public function pdf($id, $readBodyChunkCallable, $params = null, $opts = null): void
+    public function pdf($id, $read_body_chunk_callable, $params = null, $opts = null): void
     {
-        $opts = \Stripe\Util\RequestOptions::parse($opts);
-        if (!isset($opts->apiBase)) {
-            $opts->apiBase = $this->getClient()->getFilesBase();
+        $opts = \Stripe\Util\Request_Options::parse($opts);
+        if (!isset($opts->api_base)) {
+            $opts->api_base = $this->get_client()->get_files_base();
         }
-        $this->requestStream('get', $this->buildPath('/v1/quotes/%s/pdf', $id), $readBodyChunkCallable, $params, $opts);
+        $this->request_stream('get', $this->build_path('/v1/quotes/%s/pdf', $id), $read_body_chunk_callable, $params, $opts);
     }
 }

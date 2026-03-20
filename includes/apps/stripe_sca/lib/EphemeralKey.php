@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -14,15 +12,13 @@ namespace Stripe;
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property string $secret The key's secret. You can use this value to make authorized requests to the Stripe API.
  */
-class EphemeralKey extends ApiResource
+class Ephemeral_Key extends Api_Resource
 {
-    use ApiOperations\Create {
+    use Api_Operations\Create {
         create as protected _create;
     }
-
-    use ApiOperations\Delete;
+    use Api_Operations\Delete;
     public const OBJECT_NAME = 'ephemeral_key';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -37,7 +33,6 @@ class EphemeralKey extends ApiResource
         if (!$opts || !isset($opts['stripe_version'])) {
             throw new Exception\InvalidArgumentException('stripe_version must be specified to create an ephemeral key');
         }
-
         return self::_create($params, $opts);
     }
 }

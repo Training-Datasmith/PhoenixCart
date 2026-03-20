@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
+namespace Stripe\Service\Test_Helpers\Issuing;
 
-namespace Stripe\Service\TestHelpers\Issuing;
-
-class CardService extends \Stripe\Service\AbstractService
+class Card_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Updates the shipping status of the specified Issuing <code>Card</code> object to
@@ -20,11 +18,10 @@ class CardService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Issuing\Card
      */
-    public function deliverCard($id, $params = null, $opts = null)
+    public function deliver_card($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/issuing/cards/%s/shipping/deliver', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/issuing/cards/%s/shipping/deliver', $id), $params, $opts);
     }
-
     /**
      * Updates the shipping status of the specified Issuing <code>Card</code> object to
      * <code>failure</code>.
@@ -37,11 +34,10 @@ class CardService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Issuing\Card
      */
-    public function failCard($id, $params = null, $opts = null)
+    public function fail_card($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/issuing/cards/%s/shipping/fail', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/issuing/cards/%s/shipping/fail', $id), $params, $opts);
     }
-
     /**
      * Updates the shipping status of the specified Issuing <code>Card</code> object to
      * <code>returned</code>.
@@ -54,11 +50,10 @@ class CardService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Issuing\Card
      */
-    public function returnCard($id, $params = null, $opts = null)
+    public function return_card($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/issuing/cards/%s/shipping/return', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/issuing/cards/%s/shipping/return', $id), $params, $opts);
     }
-
     /**
      * Updates the shipping status of the specified Issuing <code>Card</code> object to
      * <code>shipped</code>.
@@ -71,8 +66,8 @@ class CardService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Issuing\Card
      */
-    public function shipCard($id, $params = null, $opts = null)
+    public function ship_card($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/issuing/cards/%s/shipping/ship', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/issuing/cards/%s/shipping/ship', $id), $params, $opts);
     }
 }

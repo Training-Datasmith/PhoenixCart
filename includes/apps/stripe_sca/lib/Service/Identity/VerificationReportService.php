@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Identity;
 
-class VerificationReportService extends \Stripe\Service\AbstractService
+class Verification_Report_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * List all verification reports.
@@ -20,9 +18,8 @@ class VerificationReportService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/identity/verification_reports', $params, $opts);
+        return $this->request_collection('get', '/v1/identity/verification_reports', $params, $opts);
     }
-
     /**
      * Retrieves an existing VerificationReport.
      *
@@ -36,6 +33,6 @@ class VerificationReportService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/identity/verification_reports/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/identity/verification_reports/%s', $id), $params, $opts);
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -22,40 +20,31 @@ namespace Stripe;
  * @property \Stripe\StripeObject $requirements
  * @property string $status The status of the capability. Can be <code>active</code>, <code>inactive</code>, <code>pending</code>, or <code>unrequested</code>.
  */
-class Capability extends ApiResource
+class Capability extends Api_Resource
 {
-    use ApiOperations\Update;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'capability';
-
     public const STATUS_ACTIVE = 'active';
     public const STATUS_INACTIVE = 'inactive';
     public const STATUS_PENDING = 'pending';
     public const STATUS_UNREQUESTED = 'unrequested';
-
     /**
      * @return string the API URL for this Stripe account reversal
      */
-    public function instanceUrl(): string
+    public function instance_url(): string
     {
         $id = $this['id'];
         $account = $this['account'];
         if (!$id) {
-            throw new Exception\UnexpectedValueException(
-                'Could not determine which URL to request: ' .
-                "class instance has invalid ID: {$id}",
-                null
-            );
+            throw new Exception\UnexpectedValueException('Could not determine which URL to request: ' . "class instance has invalid ID: {$id}", null);
         }
         $id = Util\Util::utf8($id);
         $account = Util\Util::utf8($account);
-
-        $base = Account::classUrl();
-        $accountExtn = \urlencode((string) $account);
+        $base = Account::class_url();
+        $account_extn = \urlencode((string) $account);
         $extn = \urlencode((string) $id);
-
-        return "{$base}/{$accountExtn}/capabilities/{$extn}";
+        return "{$base}/{$account_extn}/capabilities/{$extn}";
     }
-
     /**
      * @param array|string $_id
      * @param null|array|string $_opts
@@ -64,13 +53,9 @@ class Capability extends ApiResource
      */
     public static function retrieve($_id, $_opts = null): never
     {
-        $msg = 'Capabilities cannot be retrieved without an account ID. ' .
-               'Retrieve a capability using `Account::retrieveCapability(' .
-               "'account_id', 'capability_id')`.";
-
+        $msg = 'Capabilities cannot be retrieved without an account ID. ' . 'Retrieve a capability using `Account::retrieveCapability(' . "'account_id', 'capability_id')`.";
         throw new Exception\BadMethodCallException($msg);
     }
-
     /**
      * @param string $_id
      * @param null|array $_params
@@ -80,10 +65,7 @@ class Capability extends ApiResource
      */
     public static function update($_id, $_params = null, $_options = null): never
     {
-        $msg = 'Capabilities cannot be updated without an account ID. ' .
-               'Update a capability using `Account::updateCapability(' .
-               "'account_id', 'capability_id', \$updateParams)`.";
-
+        $msg = 'Capabilities cannot be updated without an account ID. ' . 'Update a capability using `Account::updateCapability(' . "'account_id', 'capability_id', \$updateParams)`.";
         throw new Exception\BadMethodCallException($msg);
     }
 }

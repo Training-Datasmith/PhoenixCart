@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -66,21 +64,19 @@ namespace Stripe;
  * @property string $status <a href="https://stripe.com/docs/payments/intents#intent-statuses">Status</a> of this SetupIntent, one of <code>requires_payment_method</code>, <code>requires_confirmation</code>, <code>requires_action</code>, <code>processing</code>, <code>canceled</code>, or <code>succeeded</code>.
  * @property string $usage <p>Indicates how the payment method is intended to be used in the future.</p><p>Use <code>on_session</code> if you intend to only reuse the payment method when the customer is in your checkout flow. Use <code>off_session</code> if your customer may or may not be in your checkout flow. If not provided, this value defaults to <code>off_session</code>.</p>
  */
-class SetupIntent extends ApiResource
+class Setup_Intent extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'setup_intent';
-
     public const STATUS_CANCELED = 'canceled';
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_REQUIRES_ACTION = 'requires_action';
     public const STATUS_REQUIRES_CONFIRMATION = 'requires_confirmation';
     public const STATUS_REQUIRES_PAYMENT_METHOD = 'requires_payment_method';
     public const STATUS_SUCCEEDED = 'succeeded';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -91,13 +87,11 @@ class SetupIntent extends ApiResource
      */
     public function cancel($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/cancel';
+        $url = $this->instance_url() . '/cancel';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -108,13 +102,11 @@ class SetupIntent extends ApiResource
      */
     public function confirm($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/confirm';
+        $url = $this->instance_url() . '/confirm';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -123,12 +115,11 @@ class SetupIntent extends ApiResource
      *
      * @return \Stripe\SetupIntent the verified setup intent
      */
-    public function verifyMicrodeposits($params = null, $opts = null): static
+    public function verify_microdeposits($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/verify_microdeposits';
+        $url = $this->instance_url() . '/verify_microdeposits';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

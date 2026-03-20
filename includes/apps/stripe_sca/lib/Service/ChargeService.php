@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class ChargeService extends \Stripe\Service\AbstractService
+class Charge_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of charges you’ve previously created. The charges are returned in
@@ -21,9 +19,8 @@ class ChargeService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/charges', $params, $opts);
+        return $this->request_collection('get', '/v1/charges', $params, $opts);
     }
-
     /**
      * Capture the payment of an existing, uncaptured, charge. This is the second half
      * of the two-step payment flow, where first you <a href="#create_charge">created a
@@ -44,9 +41,8 @@ class ChargeService extends \Stripe\Service\AbstractService
      */
     public function capture($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/charges/%s/capture', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/charges/%s/capture', $id), $params, $opts);
     }
-
     /**
      * To charge a credit card or other payment source, you create a
      * <code>Charge</code> object. If your API key is in test mode, the supplied
@@ -65,7 +61,6 @@ class ChargeService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/charges', $params, $opts);
     }
-
     /**
      * Retrieves the details of a charge that has previously been created. Supply the
      * unique charge ID that was returned from your previous request, and Stripe will
@@ -82,9 +77,8 @@ class ChargeService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/charges/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/charges/%s', $id), $params, $opts);
     }
-
     /**
      * Search for charges you’ve previously created using Stripe’s <a
      * href="/docs/search#search-query-language">Search Query Language</a>. Don’t use
@@ -102,9 +96,8 @@ class ChargeService extends \Stripe\Service\AbstractService
      */
     public function search($params = null, $opts = null)
     {
-        return $this->requestSearchResult('get', '/v1/charges/search', $params, $opts);
+        return $this->request_search_result('get', '/v1/charges/search', $params, $opts);
     }
-
     /**
      * Updates the specified charge by setting the values of the parameters passed. Any
      * parameters not provided will be left unchanged.
@@ -119,6 +112,6 @@ class ChargeService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/charges/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/charges/%s', $id), $params, $opts);
     }
 }

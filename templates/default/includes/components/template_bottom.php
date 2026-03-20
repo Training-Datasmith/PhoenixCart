@@ -1,4 +1,5 @@
 <?php
+
 /*
   $Id$
 
@@ -13,49 +14,55 @@
 
         </main>
       
-      <?= $hooks->cat('injectBodyContentEnd') ?>
+      <?php 
+echo $hooks->cat('injectBodyContentEnd');
+?>
 
       </div> <!-- bodyContent //-->
 
-<?php
-  if ($Template->has_blocks('boxes_column_left') && ($tpl_template->getGridColumnWidth() > 0)) {
-      ?>
-
-      <div id="columnLeft" class="col-md-<?= $tpl_template->getGridColumnWidth() ?> order-2 order-md-1">
-        <?= $Template->get_blocks('boxes_column_left') ?>
-      </div>
-
-<?php
-  }
-
-if ($Template->has_blocks('boxes_column_right') && ($tpl_template->getGridColumnWidth() > 0)) {
+<?php 
+if ($Template->has_blocks('boxes_column_left') && $tpl_template->get_grid_column_width() > 0) {
     ?>
 
-      <div id="columnRight" class="col-md-<?= $tpl_template->getGridColumnWidth() ?> order-last">
-        <?= $Template->get_blocks('boxes_column_right') ?>
+      <div id="columnLeft" class="col-md-<?php 
+    echo $tpl_template->get_grid_column_width();
+    ?> order-2 order-md-1">
+        <?php 
+    echo $Template->get_blocks('boxes_column_left');
+    ?>
       </div>
 
-<?php
+<?php 
+}
+if ($Template->has_blocks('boxes_column_right') && $tpl_template->get_grid_column_width() > 0) {
+    ?>
+
+      <div id="columnRight" class="col-md-<?php 
+    echo $tpl_template->get_grid_column_width();
+    ?> order-last">
+        <?php 
+    echo $Template->get_blocks('boxes_column_right');
+    ?>
+      </div>
+
+<?php 
 }
 ?>
 
     </div> <!-- row -->
 
-    <?= $hooks->cat('injectBodyWrapperEnd') ?>
+    <?php 
+echo $hooks->cat('injectBodyWrapperEnd');
+?>
 
   </div> <!-- bodyWrapper //-->
 
-  <?php
-  echo $hooks->cat('injectBeforeFooter');
-
+  <?php 
+echo $hooks->cat('injectBeforeFooter');
 require $Template->map('footer.php', 'component');
-
 echo $hooks->cat('injectAfterFooter');
-
 echo $hooks->cat('injectSiteEnd');
-
 echo $Template->get_blocks('footer_scripts');
-
 echo $hooks->cat('injectBodyEnd');
 ?>
 

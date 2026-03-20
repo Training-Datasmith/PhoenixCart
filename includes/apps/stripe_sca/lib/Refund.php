@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -33,29 +31,25 @@ namespace Stripe;
  * @property null|string $status Status of the refund. For credit card refunds, this can be <code>pending</code>, <code>succeeded</code>, or <code>failed</code>. For other types of refunds, it can be <code>pending</code>, <code>requires_action</code>, <code>succeeded</code>, <code>failed</code>, or <code>canceled</code>. Refer to our <a href="https://stripe.com/docs/refunds#failed-refunds">refunds</a> documentation for more details.
  * @property null|string|\Stripe\TransferReversal $transfer_reversal If the accompanying transfer was reversed, the transfer reversal object. Only applicable if the charge was created using the destination parameter.
  */
-class Refund extends ApiResource
+class Refund extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'refund';
-
     public const FAILURE_REASON_EXPIRED_OR_CANCELED_CARD = 'expired_or_canceled_card';
     public const FAILURE_REASON_LOST_OR_STOLEN_CARD = 'lost_or_stolen_card';
     public const FAILURE_REASON_UNKNOWN = 'unknown';
-
     public const REASON_DUPLICATE = 'duplicate';
     public const REASON_EXPIRED_UNCAPTURED_CHARGE = 'expired_uncaptured_charge';
     public const REASON_FRAUDULENT = 'fraudulent';
     public const REASON_REQUESTED_BY_CUSTOMER = 'requested_by_customer';
-
     public const STATUS_CANCELED = 'canceled';
     public const STATUS_FAILED = 'failed';
     public const STATUS_PENDING = 'pending';
     public const STATUS_REQUIRES_ACTION = 'requires_action';
     public const STATUS_SUCCEEDED = 'succeeded';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -66,10 +60,9 @@ class Refund extends ApiResource
      */
     public function cancel($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/cancel';
+        $url = $this->instance_url() . '/cancel';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

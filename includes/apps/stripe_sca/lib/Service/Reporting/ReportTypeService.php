@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Reporting;
 
-class ReportTypeService extends \Stripe\Service\AbstractService
+class Report_Type_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a full list of Report Types.
@@ -20,9 +18,8 @@ class ReportTypeService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/reporting/report_types', $params, $opts);
+        return $this->request_collection('get', '/v1/reporting/report_types', $params, $opts);
     }
-
     /**
      * Retrieves the details of a Report Type. (Certain report types require a <a
      * href="https://stripe.com/docs/keys#test-live-modes">live-mode API key</a>.).
@@ -37,6 +34,6 @@ class ReportTypeService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/reporting/report_types/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/reporting/report_types/%s', $id), $params, $opts);
     }
 }

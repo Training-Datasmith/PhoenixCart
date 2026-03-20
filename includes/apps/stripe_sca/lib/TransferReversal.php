@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -35,37 +33,29 @@ namespace Stripe;
  * @property null|string|\Stripe\Refund $source_refund ID of the refund responsible for the transfer reversal.
  * @property string|\Stripe\Transfer $transfer ID of the transfer that was reversed.
  */
-class TransferReversal extends ApiResource
+class Transfer_Reversal extends Api_Resource
 {
-    use ApiOperations\Update {
+    use Api_Operations\Update {
         save as protected _save;
     }
     public const OBJECT_NAME = 'transfer_reversal';
-
     /**
      * @return string the API URL for this Stripe transfer reversal
      */
-    public function instanceUrl(): string
+    public function instance_url(): string
     {
         $id = $this['id'];
         $transfer = $this['transfer'];
         if (!$id) {
-            throw new Exception\UnexpectedValueException(
-                'Could not determine which URL to request: ' .
-                "class instance has invalid ID: {$id}",
-                null
-            );
+            throw new Exception\UnexpectedValueException('Could not determine which URL to request: ' . "class instance has invalid ID: {$id}", null);
         }
         $id = Util\Util::utf8($id);
         $transfer = Util\Util::utf8($transfer);
-
-        $base = Transfer::classUrl();
-        $transferExtn = \urlencode((string) $transfer);
+        $base = Transfer::class_url();
+        $transfer_extn = \urlencode((string) $transfer);
         $extn = \urlencode((string) $id);
-
-        return "{$base}/{$transferExtn}/reversals/{$extn}";
+        return "{$base}/{$transfer_extn}/reversals/{$extn}";
     }
-
     /**
      * @param null|array|string $opts
      *

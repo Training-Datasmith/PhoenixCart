@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -23,7 +23,6 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 class paypal_standard extends abstract_payment_module
 {
     public const CONFIG_KEY_BASE = 'MODULE_PAYMENT_PAYPAL_STANDARD_';
@@ -34,15 +33,12 @@ class paypal_standard extends abstract_payment_module
     public $form_action_url;
     protected $api;
     protected $customer_comments;
-
     public const ADDON = 'PPSTANDARD';
     public const VARIANT = 'CORE';
     public const VERSION = '1.5';
-
     public function __construct()
     {
         parent::__construct();
-
         $this->description = sprintf($this->description, Guarantor::ensure_global('Linker')->build(static::RETURN_URL), Guarantor::ensure_global('Linker')->build('ext/modules/payment/paypal_standard_ipn.php'));
         if (null !== $this->base_constant('STATUS')) {
             if ($this->base_constant('GATEWAY') == 'Sandbox') {
@@ -53,44 +49,36 @@ class paypal_standard extends abstract_payment_module
                 $this->form_action_url = 'https://www.paypal.com/cgi-bin/webscr';
             }
         }
-
         if ($this->enabled === true) {
             if (Text::is_empty($this->base_constant('PDT_TOKEN'))) {
-
                 $this->description .= '<div class="alert alert-warning">' . MODULE_PAYMENT_PAYPAL_STANDARD_ERROR_ADMIN_CONFIGURATION_PDT . '</div>';
-
                 $this->enabled = false;
             }
             if (Text::is_empty($this->base_constant('ID'))) {
                 $this->description .= '<div class="alert alert-warning">' . MODULE_PAYMENT_PAYPAL_STANDARD_ERROR_ADMIN_CONFIGURATION_SELLER . '</div>';
-
                 $this->enabled = false;
-
             }
         }
-
         if ($this->enabled === true) {
             if (isset($order) && is_object($order)) {
                 $this->update_status();
             }
         }
-
         // Before the stock quantity check is performed in checkout_process.php, detect if the quantity
         // has already been deducted in the IPN to avoid a quantity == 0 redirect
         if ($this->enabled === true) {
             if (static::RETURN_URL === basename((string) Request::get_page())) {
-                if (isset($_SESSION['payment']) && ($_SESSION['payment'] == $this->code)) {
+                if (isset($_SESSION['payment']) && $_SESSION['payment'] == $this->code) {
                     $this->pre_before_check();
                 }
             }
         }
     }
-
     public function update_status(): void
     {
         parent::update_status();
         // paypal posts back to checkout_process so cookie must be samesite none
-        if ($this->enabled === true && 'checkout_confirmation.php' === basename((string) Request::get_page()) && ($_SESSION['payment'] == $this->code)) {
+        if ($this->enabled === true && 'checkout_confirmation.php' === basename((string) Request::get_page()) && $_SESSION['payment'] == $this->code) {
             $options = COOKIE_OPTIONS;
             unset($options['lifetime']);
             if (!isset($options['expires'])) {
@@ -104,324 +92,261 @@ class paypal_standard extends abstract_payment_module
             }
         }
     }
-
     protected function extract_order_id(): string
     {
         return substr((string) $_SESSION['cart_' . $this->code . '_ID'], strpos((string) $_SESSION['cart_' . $this->code . '_ID'], '-') + 1);
     }
-
     public function selection()
     {
         if (isset($_SESSION['cart_' . $this->code . '_ID'])) {
             $order_id = $this->extract_order_id();
-
-            $check_query = $GLOBALS['db']->query('SELECT orders_id FROM orders_status_history WHERE orders_id = ' . (int)$order_id . ' LIMIT 1');
-
+            $check_query = $GLOBALS['db']->query('SELECT orders_id FROM orders_status_history WHERE orders_id = ' . (int) $order_id . ' LIMIT 1');
             if (mysqli_num_rows($check_query) < 1) {
                 order::remove($order_id);
                 unset($_SESSION['cart_' . $this->code . '_ID']);
             }
         }
-
         return parent::selection();
     }
-
     protected function pre_before_check()
     {
         $result = false;
-
         $pptx_params = [];
-
         $seller_accounts = [$this->base_constant('ID')];
         if (!Text::is_empty($this->base_constant('PRIMARY_ID'))) {
             $seller_accounts[] = $this->base_constant('PRIMARY_ID');
         }
-
-        if ((isset($_POST['receiver_email']) && in_array($_POST['receiver_email'], $seller_accounts)) || (isset($_POST['business']) && in_array($_POST['business'], $seller_accounts))) {
+        if (isset($_POST['receiver_email']) && in_array($_POST['receiver_email'], $seller_accounts) || isset($_POST['business']) && in_array($_POST['business'], $seller_accounts)) {
             $parameters = 'cmd=_notify-validate&';
-
             foreach ($_POST as $key => $value) {
                 if ($key != 'cmd') {
                     $parameters .= $key . '=' . urlencode(stripslashes((string) $value)) . '&';
                 }
             }
-
             $parameters = substr($parameters, 0, -1);
-
-            $result = $this->callAPI($this->form_action_url, $parameters);
-
+            $result = $this->call_api($this->form_action_url, $parameters);
             foreach ($_POST as $key => $value) {
                 $pptx_params[$key] = stripslashes((string) $value);
             }
-
             foreach ($_GET as $key => $value) {
                 $pptx_params['GET ' . $key] = stripslashes((string) $value);
             }
-
-            $this->log('PS', '_notify-validate', ($result == 'VERIFIED') ? 1 : -1, $pptx_params, $result, ($this->base_constant('STATUS') == '1') ? 'live' : 'sandbox');
-        } elseif (isset($_GET['tx']) && !Text::is_empty($this->base_constant('PDT_TOKEN'))) { // PDT
+            $this->log('PS', '_notify-validate', $result == 'VERIFIED' ? 1 : -1, $pptx_params, $result, $this->base_constant('STATUS') == '1' ? 'live' : 'sandbox');
+        } elseif (isset($_GET['tx']) && !Text::is_empty($this->base_constant('PDT_TOKEN'))) {
+            // PDT
             $pptx_params['cmd'] = '_notify-synch';
-
             $parameters = 'cmd=_notify-synch&tx=' . urlencode(stripslashes((string) $_GET['tx'])) . '&at=' . urlencode((string) $this->base_constant('PDT_TOKEN'));
-
-            $pdt_raw = $this->callAPI($this->form_action_url, $parameters);
-
+            $pdt_raw = $this->call_api($this->form_action_url, $parameters);
             if (!empty($pdt_raw)) {
                 $pdt = explode("\n", trim((string) $pdt_raw));
-
                 if (isset($pdt[0])) {
                     if ('SUCCESS' === $pdt[0]) {
                         $result = 'VERIFIED';
-
                         unset($pdt[0]);
                     } else {
                         $result = $pdt_raw;
                     }
                 }
-
                 if (!empty($pdt) && is_array($pdt)) {
                     foreach ($pdt as $line) {
                         $p = explode('=', $line, 2);
-
                         if (count($p) === 2) {
                             $pptx_params[trim($p[0])] = trim(urldecode($p[1]));
                         }
                     }
                 }
             }
-
             foreach ($_GET as $key => $value) {
                 $pptx_params['GET ' . $key] = stripslashes((string) $value);
             }
-
-            $this->log('PS', $pptx_params['cmd'], ($result == 'VERIFIED') ? 1 : -1, $pptx_params, $result, ($this->base_constant('STATUS') == '1') ? 'live' : 'sandbox');
-
+            $this->log('PS', $pptx_params['cmd'], $result == 'VERIFIED' ? 1 : -1, $pptx_params, $result, $this->base_constant('STATUS') == '1' ? 'live' : 'sandbox');
         } else {
-
             $parameters = 'cmd=_notify-validate&';
-
             foreach ($_POST as $key => $value) {
                 if ($key != 'cmd') {
                     $parameters .= $key . '=' . urlencode(stripslashes((string) $value)) . '&';
                 }
             }
-
             $parameters = substr($parameters, 0, -1);
-
-            $result = $this->callAPI($this->form_action_url, $parameters);
-
+            $result = $this->call_api($this->form_action_url, $parameters);
             foreach ($_POST as $key => $value) {
                 $pptx_params[$key] = stripslashes((string) $value);
             }
-
             foreach ($_GET as $key => $value) {
                 $pptx_params['GET ' . $key] = stripslashes((string) $value);
             }
-
-            $this->log('PS', '_notify-validate', ($result == 'VERIFIED') ? 1 : -1, $pptx_params, $result, ($this->base_constant('STATUS') == '1') ? 'live' : 'sandbox');
-
+            $this->log('PS', '_notify-validate', $result == 'VERIFIED' ? 1 : -1, $pptx_params, $result, $this->base_constant('STATUS') == '1' ? 'live' : 'sandbox');
         }
-
         if ($result != 'VERIFIED') {
             if (defined('MODULE_PAYMENT_PAYPAL_STANDARD_TEXT_INVALID_TRANSACTION')) {
-                $messageStack->add_session('header', MODULE_PAYMENT_PAYPAL_STANDARD_TEXT_INVALID_TRANSACTION);
+                $message_stack->add_session('header', MODULE_PAYMENT_PAYPAL_STANDARD_TEXT_INVALID_TRANSACTION);
             }
-
-            $this->sendDebugEmail($result);
-
+            $this->send_debug_email($result);
             Href::redirect($GLOBALS['Linker']->build('shopping_cart.php'));
         }
-
-        $this->verifyTransaction($pptx_params);
-
+        $this->verify_transaction($pptx_params);
         $GLOBALS['order_id'] = $this->extract_order_id();
-
-        $check_query = $GLOBALS['db']->query('SELECT orders_status, customer_comments FROM orders WHERE orders_id = ' . (int)$GLOBALS['order_id'] . ' AND customers_id = ' . (int)$_SESSION['customer_id']);
-
-        if (!mysqli_num_rows($check_query) || $GLOBALS['order_id'] != $this->orderid_from_invoice($pptx_params['invoice'] ?? '') || ($_SESSION['customer_id'] != $pptx_params['custom'])) {
+        $check_query = $GLOBALS['db']->query('SELECT orders_status, customer_comments FROM orders WHERE orders_id = ' . (int) $GLOBALS['order_id'] . ' AND customers_id = ' . (int) $_SESSION['customer_id']);
+        if (!mysqli_num_rows($check_query) || $GLOBALS['order_id'] != $this->orderid_from_invoice($pptx_params['invoice'] ?? '') || $_SESSION['customer_id'] != $pptx_params['custom']) {
             Href::redirect($GLOBALS['Linker']->build('shopping_cart.php'));
         }
-
         $check = $check_query->fetch_assoc();
         // store comments for later use in history
         $this->customer_comments = $check['customer_comments'];
-
         // skip before_process() if order was already processed in IPN
         if ($check['orders_status'] != $this->base_constant('PREPARE_ORDER_STATUS_ID')) {
             /* if ( !empty($check['customer_comments']) ) {
-              $sql_data = [
-                'orders_id' => $GLOBALS['order_id'],
-                'orders_status_id' => (int)$check['orders_status'],
-                'date_added' => 'NOW()',
-                'customer_notified' => '0',
-                'comments' => $check['customer_comments'],
-              ];
-
-              $GLOBALS['db']->perform('orders_status_history', $sql_data);
-            } */
-
+                          $sql_data = [
+                            'orders_id' => $GLOBALS['order_id'],
+                            'orders_status_id' => (int)$check['orders_status'],
+                            'date_added' => 'NOW()',
+                            'customer_notified' => '0',
+                            'comments' => $check['customer_comments'],
+                          ];
+            
+                          $GLOBALS['db']->perform('orders_status_history', $sql_data);
+                        } */
             // load the after_process function from the payment modules
             $this->after_process();
         }
     }
-
     public function before_process(): void
     {
         $GLOBALS['order']->set_id($this->extract_order_id());
-
         $GLOBALS['order']->info['order_status'] = DEFAULT_ORDERS_STATUS_ID;
         if ($this->base_constant('ORDER_STATUS_ID') > 0) {
             $GLOBALS['order']->info['order_status'] = $this->base_constant('ORDER_STATUS_ID');
         }
-
-        $GLOBALS['db']->query('UPDATE orders SET orders_status = ' . (int)$GLOBALS['order']->info['order_status'] . ', last_modified = NOW() WHERE orders_id = ' . (int)$GLOBALS['order']->get_id());
-
+        $GLOBALS['db']->query('UPDATE orders SET orders_status = ' . (int) $GLOBALS['order']->info['order_status'] . ', last_modified = NOW() WHERE orders_id = ' . (int) $GLOBALS['order']->get_id());
         $_POST['comments'] = $GLOBALS['order']->info['comments'] = $this->customer_comments;
-        $order = & $GLOBALS['order']; // needed for insert history segment
+        $order =& $GLOBALS['order'];
+        // needed for insert history segment
         $GLOBALS['hooks']->register_pipeline('after');
-
         require 'includes/system/segments/checkout/insert_history.php';
-
         // load the after_process function from the payment modules
         $this->after_process();
     }
-
     public function after_process(): void
     {
         unset($_SESSION['cart_PayPal_Standard_ID']);
-
         $GLOBALS['hooks']->register_pipeline('reset');
-
         Href::redirect($GLOBALS['Linker']->build('checkout_success.php'));
     }
-
     public function pre_confirmation_check(): void
     {
-        if (empty($_SESSION['cart']->cartID)) {
-            $_SESSION['cartID'] = $_SESSION['cart']->cartID = $_SESSION['cart']->generate_cart_id();
+        if (empty($_SESSION['cart']->cart_id)) {
+            $_SESSION['cartID'] = $_SESSION['cart']->cart_id = $_SESSION['cart']->generate_cart_id();
         }
     }
-
-    public function callAPI($url, $parameters)
+    public function call_api($url, $parameters)
     {
-        if (! isset($this->api)) {
+        if (!isset($this->api)) {
             $this->api = new paypal_api($this->base_constant('VERIFY_SSL'), $this->base_constant('PROXY'));
         }
-        return $this->api->makeCall($url, $parameters);
+        return $this->api->make_call($url, $parameters);
     }
-
     public function confirmation(): bool
     {
         $insert_order = false;
         if (isset($_SESSION['cart_' . $this->code . '_ID'])) {
             $order_id = $this->extract_order_id();
-
-            $curr_check = $GLOBALS['db']->query('SELECT currency FROM orders WHERE orders_id = ' . (int)$order_id);
+            $curr_check = $GLOBALS['db']->query('SELECT currency FROM orders WHERE orders_id = ' . (int) $order_id);
             $curr = $curr_check->fetch_assoc();
-
-            if (($curr['currency'] != $GLOBALS['order']->info['currency']) || (!str_starts_with((string) $GLOBALS['cart_' . $this->code . '_ID'], (string) $_SESSION['cartID']))) {
-                $check_query = $GLOBALS['db']->query('SELECT orders_id FROM orders_status_history WHERE orders_id = ' . (int)$order_id . ' LIMIT 1');
-
+            if ($curr['currency'] != $GLOBALS['order']->info['currency'] || !str_starts_with((string) $GLOBALS['cart_' . $this->code . '_ID'], (string) $_SESSION['cartID'])) {
+                $check_query = $GLOBALS['db']->query('SELECT orders_id FROM orders_status_history WHERE orders_id = ' . (int) $order_id . ' LIMIT 1');
                 if (mysqli_num_rows($check_query) < 1) {
                     order::remove($order_id);
                 }
-
                 $insert_order = true;
-
             } else {
                 $GLOBALS['order']->set_id($order_id);
             }
         } else {
             $insert_order = true;
         }
-
         if ($insert_order) {
             $GLOBALS['order']->info['order_status'] = $this->base_constant('PREPARE_ORDER_STATUS_ID');
             require 'includes/system/segments/checkout/build_order_totals.php';
             require 'includes/system/segments/checkout/insert_order.php';
-
             $_SESSION['cart_' . $this->code . '_ID'] = $_SESSION['cartID'] . '-' . $GLOBALS['order']->get_id();
         }
-
         // from 1.0.9.9 comments field is on checkout_confirmation page - update order with comments using ajax on form submit
         $script = <<<EOS
-<script>
-  const configError = '{$this->base_constant('CONFIG_ERROR')}';
-  const commentError = '{$this->base_constant('UPDATE_COMMENT_ERROR')}';
-  const commentsField = document.getElementById('inputComments');
-  const confirmForm = document.querySelector('form[name="checkout_confirmation"]');
-  const confirmButton = (null != confirmForm) ? confirmForm.querySelector('.{$this->base_constant('CONFIRM_BTN')}') : null;
-  if (null != confirmForm && null != confirmButton) {
-    confirmForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      confirmButton.disabled = true;
-      const span = confirmButton.querySelector('span');
-      span.classList.remove('fa-check-circle', 'fa-exclamation-triangle');
-      span.classList.add('fa-spinner', 'fa-spin');
-      const comments = (null != commentsField) ? commentsField.value : 'nofield';
-      if (comments === 'nofield' || comments.trim() === '') {
-        confirmForm.submit();
-      } else {
-        const data = {
-          cartid: '{$_SESSION['cartID']}',
-          orderid: {$GLOBALS['order']->get_id()},
-          comments: comments
-        };
-        let status;
-        fetch('ext/modules/payment/paypal/checkout_confirmation.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => {
-          status = response.status;
-          return response.text();
-        })
-        .then(text => {
-          try {
-            const data = JSON.parse(text);
-            if (data.error) {
-              throw new Error(data.error);
-            } else if (data.orderid) {
-              console.log(data.result);
-              confirmForm.submit();
-            } else {
-              throw new Error(JSON.stringify(data));
-              hiterror = true;
+        <script>
+          const configError = '{$this->base_constant('CONFIG_ERROR')}';
+          const commentError = '{$this->base_constant('UPDATE_COMMENT_ERROR')}';
+          const commentsField = document.getElementById('inputComments');
+          const confirmForm = document.querySelector('form[name="checkout_confirmation"]');
+          const confirmButton = (null != confirmForm) ? confirmForm.querySelector('.{$this->base_constant('CONFIRM_BTN')}') : null;
+          if (null != confirmForm && null != confirmButton) {
+            confirmForm.addEventListener('submit', function(e) {
+              e.preventDefault();
+              confirmButton.disabled = true;
+              const span = confirmButton.querySelector('span');
+              span.classList.remove('fa-check-circle', 'fa-exclamation-triangle');
+              span.classList.add('fa-spinner', 'fa-spin');
+              const comments = (null != commentsField) ? commentsField.value : 'nofield';
+              if (comments === 'nofield' || comments.trim() === '') {
+                confirmForm.submit();
+              } else {
+                const data = {
+                  cartid: '{$_SESSION['cartID']}',
+                  orderid: {$GLOBALS['order']->get_id()},
+                  comments: comments
+                };
+                let status;
+                fetch('ext/modules/payment/paypal/checkout_confirmation.php', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(data)
+                })
+                .then(response => {
+                  status = response.status;
+                  return response.text();
+                })
+                .then(text => {
+                  try {
+                    const data = JSON.parse(text);
+                    if (data.error) {
+                      throw new Error(data.error);
+                    } else if (data.orderid) {
+                      console.log(data.result);
+                      confirmForm.submit();
+                    } else {
+                      throw new Error(JSON.stringify(data));
+                      hiterror = true;
+                    }
+                  } catch (e) {
+                    console.error(e);
+                    throw new Error('invalid response: ' + text);
+                  }
+                })
+                .catch(function(err) {
+                  console.error(err);
+                  confirmButton.disabled = false;
+                  span.classList.remove('fa-spinner', 'fa-spin');
+                  span.classList.add('fa-exclamation-triangle');
+                  alert("[" + status + "] " + commentError);
+                });
+              }
+            });
+          } else {
+            alert(configError);
+            if (null != confirmForm) {
+              confirmForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+              });
             }
-          } catch (e) {
-            console.error(e);
-            throw new Error('invalid response: ' + text);
           }
-        })
-        .catch(function(err) {
-          console.error(err);
-          confirmButton.disabled = false;
-          span.classList.remove('fa-spinner', 'fa-spin');
-          span.classList.add('fa-exclamation-triangle');
-          alert("[" + status + "] " + commentError);
-        });
-      }
-    });
-  } else {
-    alert(configError);
-    if (null != confirmForm) {
-      confirmForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-      });
-    }
-  }
-</script>
-EOS;
-        $parameters = [ 'script' => &$script ];
+        </script>
+        EOS;
+        $parameters = ['script' => &$script];
         $GLOBALS['hooks']->cat('ppstandardOrderScript', $parameters);
-
         $GLOBALS['Template']->add_block($script, 'footer_scripts');
         return false;
     }
-
     public function order_comments(array $indata)
     {
         $orderid = $this->extract_order_id();
@@ -431,23 +356,19 @@ EOS;
         // 1.0.9.9+ comments from post, previously from order object
         $comments = $GLOBALS['db']->escape($indata['comments'] != 'nofield' ? Text::input($indata['comments']) : $GLOBALS['order']->info['comments'] ?? '');
         // record on order record for later use in history
-        $GLOBALS['db']->query("UPDATE orders SET customer_comments = '{$comments}' WHERE orders_id = " . (int)$orderid);
+        $GLOBALS['db']->query("UPDATE orders SET customer_comments = '{$comments}' WHERE orders_id = " . (int) $orderid);
         return $orderid;
     }
-
     public function log($module, string $action, $result, $request, $response, $server, $is_ipn = false)
     {
-        if (!in_array($this->base_constant('LOG_TRANSACTIONS'), ['True', 'False'])
-        || (($this->base_constant('LOG_TRANSACTIONS') == 'False') && ($result === 1))) {
+        if (!in_array($this->base_constant('LOG_TRANSACTIONS'), ['True', 'False']) || $this->base_constant('LOG_TRANSACTIONS') == 'False' && $result === 1) {
             return false;
         }
-
         $filter = ['ACCT', 'CVV2', 'ISSUENUMBER'];
-
         if (is_array($request)) {
             $request_string = '';
             foreach ($request as $key => $value) {
-                if ((str_contains((string) $key, '_nh-dns')) || in_array($key, $filter)) {
+                if (str_contains((string) $key, '_nh-dns') || in_array($key, $filter)) {
                     $value = '**********';
                 }
                 $request_string .= $key . ': ' . $value . "\n";
@@ -455,13 +376,12 @@ EOS;
         } else {
             $request_string = $request;
         }
-
         if (is_array($response)) {
             $response_string = '';
             foreach ($response as $key => $value) {
                 if (is_array($value)) {
                     $value = http_build_query($value);
-                } elseif ((str_contains((string) $key, '_nh-dns')) || in_array($key, $filter)) {
+                } elseif (str_contains((string) $key, '_nh-dns') || in_array($key, $filter)) {
                     $value = '**********';
                 }
                 $response_string .= $key . ': ' . $value . "\n";
@@ -469,73 +389,51 @@ EOS;
         } else {
             $response_string = $response;
         }
-
-        $data = [
-          'customers_id' => ($_SESSION['customer_id'] ?? 0),
-          'module' => $module,
-          'action' => $action . (($is_ipn === true) ? ' [IPN]' : ''),
-          'result' => $result,
-          'server' => ($server === 'live') ? 1 : -1,
-          'request' => trim((string) $request_string),
-          'response' => trim((string) $response_string),
-          'ip_address' => sprintf('%u', ip2long(Request::get_ip())),
-          'date_added' => 'NOW()',
-        ];
-
+        $data = ['customers_id' => $_SESSION['customer_id'] ?? 0, 'module' => $module, 'action' => $action . ($is_ipn === true ? ' [IPN]' : ''), 'result' => $result, 'server' => $server === 'live' ? 1 : -1, 'request' => trim((string) $request_string), 'response' => trim((string) $response_string), 'ip_address' => sprintf('%u', ip2long(Request::get_ip())), 'date_added' => 'NOW()'];
         $GLOBALS['db']->perform('paypal_log', $data);
     }
-
     public function install($parameter_key = null): void
     {
         parent::install($parameter_key);
         $this->db_check();
     }
-
     public function keys(): array
     {
         $parameters = $this->get_parameters();
-
         if ($this->check()) {
-            $missing_parameters = array_filter($parameters, fn ($k) => !defined($k), ARRAY_FILTER_USE_KEY);
-
+            $missing_parameters = array_filter($parameters, fn($k) => !defined($k), ARRAY_FILTER_USE_KEY);
             if ($missing_parameters) {
                 self::_install($missing_parameters);
                 $this->db_check();
             }
         }
-
         return array_keys($parameters);
     }
-
     protected function db_check()
     {
         if (mysqli_num_rows($GLOBALS['db']->query("SHOW TABLES LIKE 'paypal_log'")) != 1) {
-            $GLOBALS['db']->query(
-                <<<'EOSQL'
-CREATE TABLE paypal_log (
-  id int unsigned NOT NULL auto_increment,
-  customers_id int NOT NULL,
-  module varchar(8) NOT NULL,
-  action varchar(255) NOT NULL,
-  result tinyint NOT NULL,
-  server tinyint NOT NULL,
-  request text NOT NULL,
-  response text NOT NULL,
-  ip_address int unsigned,
-  date_added datetime,
-  PRIMARY KEY (id),
-  KEY idx_oapl_module (module)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-EOSQL
-            );
+            $GLOBALS['db']->query(<<<'EOSQL'
+            CREATE TABLE paypal_log (
+              id int unsigned NOT NULL auto_increment,
+              customers_id int NOT NULL,
+              module varchar(8) NOT NULL,
+              action varchar(255) NOT NULL,
+              result tinyint NOT NULL,
+              server tinyint NOT NULL,
+              request text NOT NULL,
+              response text NOT NULL,
+              ip_address int unsigned,
+              date_added datetime,
+              PRIMARY KEY (id),
+              KEY idx_oapl_module (module)
+            ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+            
+            EOSQL);
         }
         if (mysqli_num_rows($GLOBALS['db']->query("SHOW COLUMNS FROM orders WHERE Field = 'customer_comments'")) != 1) {
             $GLOBALS['db']->query('ALTER TABLE orders ADD customer_comments TEXT');
         }
-
     }
-
     public function process_button(): string
     {
         $total_tax = $GLOBALS['order']->info['tax'];
@@ -543,11 +441,8 @@ EOSQL
         if (isset($_SESSION['shipping']['cost'])) {
             $total_tax = $GLOBALS['order']->info['tax'] - ($GLOBALS['order']->info['shipping_cost'] - $_SESSION['shipping']['cost']);
         }
-
         $ipn_language = null;
-
         $lng = new language();
-
         if (count($lng->catalog_languages) > 1) {
             foreach ($lng->catalog_languages as $key => $value) {
                 if ($value['directory'] == $_SESSION['language']) {
@@ -556,39 +451,19 @@ EOSQL
                 }
             }
         }
-
         $notify_url = $GLOBALS['Linker']->build('ext/modules/payment/paypal/standard_ipn.php', [], false);
-        if (! is_null($ipn_language)) {
+        if (!is_null($ipn_language)) {
             $notify_url->set_parameter('language', $ipn_language);
         }
-        $amount = ($GLOBALS['order']->info['total'] - $GLOBALS['order']->info['shipping_cost'] - $total_tax);
+        $amount = $GLOBALS['order']->info['total'] - $GLOBALS['order']->info['shipping_cost'] - $total_tax;
         $amount = $GLOBALS['currencies']->format_raw($amount);
-
         $order_id = $this->extract_order_id();
         $process_button_string = '';
-        $params = [
-          'cmd' => '_cart',
-          'upload' => '1',
-          'item_name_1' => STORE_NAME,
-          'shipping_1' => $GLOBALS['currencies']->format_raw($GLOBALS['order']->info['shipping_cost']),
-          'business' => $this->base_constant('ID'),
-          'amount_1' => $amount,
-          'currency_code' => $GLOBALS['currency'],
-          'invoice' => $this->base_constant('INVOICE_PREFIX') . $order_id,
-          'custom' => $_SESSION['customer_id'],
-          'no_note' => '1',
-          'notify_url' => $notify_url,
-          'rm' => '2',
-          'return' => $GLOBALS['Linker']->build(static::RETURN_URL),
-          'cancel_return' => $GLOBALS['Linker']->build('checkout_payment.php'),
-          'bn' => 'CEPHX_PS',
-          'paymentaction' => ($this->base_constant('TRANSACTION_METHOD') == 'Sale' ? 'sale' : 'authorization'),
-        ];
-
-        if ((! Text::is_empty($this->base_constant('TEXT_RETURN_BUTTON'))) && strlen((string) $this->base_constant('TEXT_RETURN_BUTTON')) <= 60) {
+        $params = ['cmd' => '_cart', 'upload' => '1', 'item_name_1' => STORE_NAME, 'shipping_1' => $GLOBALS['currencies']->format_raw($GLOBALS['order']->info['shipping_cost']), 'business' => $this->base_constant('ID'), 'amount_1' => $amount, 'currency_code' => $GLOBALS['currency'], 'invoice' => $this->base_constant('INVOICE_PREFIX') . $order_id, 'custom' => $_SESSION['customer_id'], 'no_note' => '1', 'notify_url' => $notify_url, 'rm' => '2', 'return' => $GLOBALS['Linker']->build(static::RETURN_URL), 'cancel_return' => $GLOBALS['Linker']->build('checkout_payment.php'), 'bn' => 'CEPHX_PS', 'paymentaction' => $this->base_constant('TRANSACTION_METHOD') == 'Sale' ? 'sale' : 'authorization'];
+        if (!Text::is_empty($this->base_constant('TEXT_RETURN_BUTTON')) && strlen((string) $this->base_constant('TEXT_RETURN_BUTTON')) <= 60) {
             $params['cbt'] = $this->base_constant('TEXT_RETURN_BUTTON');
         }
-        if (is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0)) {
+        if (is_numeric($_SESSION['sendto']) && $_SESSION['sendto'] > 0) {
             $parameters['address_override'] = '1';
             $GLOBALS['customer_data']->get('country', $GLOBALS['order']->delivery);
             $parameters['first_name'] = $GLOBALS['customer_data']->get('firstname', $GLOBALS['order']->delivery);
@@ -596,11 +471,7 @@ EOSQL
             $parameters['address1'] = $GLOBALS['customer_data']->get('street_address', $GLOBALS['order']->delivery);
             $parameters['address2'] = $GLOBALS['customer_data']->get('suburb', $GLOBALS['order']->delivery);
             $parameters['city'] = $GLOBALS['customer_data']->get('city', $GLOBALS['order']->delivery);
-            $parameters['state'] = Zone::fetch_code(
-                $GLOBALS['customer_data']->get('zone_id', $GLOBALS['order']->delivery),
-                $GLOBALS['customer_data']->get('country_id', $GLOBALS['order']->delivery),
-                $GLOBALS['customer_data']->get('state', $GLOBALS['order']->delivery)
-            );
+            $parameters['state'] = Zone::fetch_code($GLOBALS['customer_data']->get('zone_id', $GLOBALS['order']->delivery), $GLOBALS['customer_data']->get('country_id', $GLOBALS['order']->delivery), $GLOBALS['customer_data']->get('state', $GLOBALS['order']->delivery));
             $parameters['zip'] = $GLOBALS['customer_data']->get('postcode', $GLOBALS['order']->delivery);
             $parameters['country'] = $GLOBALS['customer_data']->get('country_iso_code_2', $GLOBALS['order']->delivery);
         } else {
@@ -611,41 +482,28 @@ EOSQL
             $parameters['address1'] = $GLOBALS['customer_data']->get('street_address', $GLOBALS['order']->billing);
             $parameters['address2'] = $GLOBALS['customer_data']->get('suburb', $GLOBALS['order']->billing);
             $parameters['city'] = $GLOBALS['customer_data']->get('city', $GLOBALS['order']->billing);
-            $parameters['state'] = Zone::fetch_code(
-                $GLOBALS['customer_data']->get('zone_id', $GLOBALS['order']->billing),
-                $GLOBALS['customer_data']->get('country_id', $GLOBALS['order']->billing),
-                $GLOBALS['customer_data']->get('state', $GLOBALS['order']->billing)
-            );
+            $parameters['state'] = Zone::fetch_code($GLOBALS['customer_data']->get('zone_id', $GLOBALS['order']->billing), $GLOBALS['customer_data']->get('country_id', $GLOBALS['order']->billing), $GLOBALS['customer_data']->get('state', $GLOBALS['order']->billing));
             $parameters['zip'] = $GLOBALS['customer_data']->get('postcode', $GLOBALS['order']->billing);
             $parameters['country'] = $GLOBALS['customer_data']->get('country_iso_code_2', $GLOBALS['order']->billing);
         }
-
         $item_params = [];
-
         $line_item_no = 1;
-
         foreach ($GLOBALS['order']->products as $product) {
             if (DISPLAY_PRICE_WITH_TAX == 'true') {
                 $product_price = $GLOBALS['currencies']->format_raw($product['final_price'] + Tax::calculate($product['final_price'], $product['tax']));
             } else {
                 $product_price = $GLOBALS['currencies']->format_raw($product['final_price']);
             }
-
             $item_params['item_name_' . $line_item_no] = $product['name'];
             $item_params['amount_' . $line_item_no] = $product_price;
             $item_params['quantity_' . $line_item_no] = $product['qty'];
-
             $line_item_no++;
         }
-
         $items_total = $GLOBALS['currencies']->format_raw($GLOBALS['order']->info['subtotal']);
-
         $has_negative_price = false;
-
         // order totals are processed on checkout confirmation but not captured into a variable
-        foreach (($GLOBALS['order_total_modules']->modules ?? []) as $value) {
+        foreach ($GLOBALS['order_total_modules']->modules ?? [] as $value) {
             $class = pathinfo((string) $value, PATHINFO_FILENAME);
-
             if ($GLOBALS[$class]->enabled) {
                 foreach ($GLOBALS[$class]->output as $order_total) {
                     if (Text::is_empty($order_total['title'])) {
@@ -667,28 +525,21 @@ EOSQL
                 }
             }
         }
-
         $paypal_item_total = $items_total + $params['shipping_1'];
-
         if (DISPLAY_PRICE_WITH_TAX == 'false') {
             $item_params['tax_cart'] = $GLOBALS['currencies']->format_raw($total_tax);
-
             $paypal_item_total += $item_params['tax_cart'];
         }
-
-        if (($has_negative_price == false) && ($GLOBALS['currencies']->format_raw($paypal_item_total) == $GLOBALS['currencies']->format_raw($GLOBALS['order']->info['total']))) {
+        if ($has_negative_price == false && $GLOBALS['currencies']->format_raw($paypal_item_total) == $GLOBALS['currencies']->format_raw($GLOBALS['order']->info['total'])) {
             $params = array_merge($params, $item_params);
         } else {
             $params['tax_cart'] = $GLOBALS['currencies']->format_raw($total_tax);
         }
-
         foreach ($params as $key => $value) {
             $process_button_string .= new Input($key, ['value' => $value], 'hidden');
         }
-
         return $process_button_string;
     }
-
     public function orderid_from_invoice($invoice)
     {
         if (strlen((string) $invoice) > strlen((string) $this->base_constant('INVOICE_PREFIX'))) {
@@ -696,167 +547,73 @@ EOSQL
         }
         return $invoice;
     }
-
-    public function verifyTransaction(array $pptx_params, $is_ipn = false): void
+    public function verify_transaction(array $pptx_params, $is_ipn = false): void
     {
         $pptx_orderid = $this->orderid_from_invoice($pptx_params['invoice'] ?? '');
-        if (is_numeric($pptx_orderid) && ($pptx_orderid > 0) && isset($pptx_params['custom']) && is_numeric($pptx_params['custom']) && ($pptx_params['custom'] > 0)) {
-            $order_query = $GLOBALS['db']->query('SELECT orders_id, currency, currency_value FROM orders WHERE orders_id = ' . (int)$pptx_orderid . ' AND customers_id = ' . (int)$pptx_params['custom']);
-
+        if (is_numeric($pptx_orderid) && $pptx_orderid > 0 && isset($pptx_params['custom']) && is_numeric($pptx_params['custom']) && $pptx_params['custom'] > 0) {
+            $order_query = $GLOBALS['db']->query('SELECT orders_id, currency, currency_value FROM orders WHERE orders_id = ' . (int) $pptx_orderid . ' AND customers_id = ' . (int) $pptx_params['custom']);
             if (mysqli_num_rows($order_query) === 1) {
                 $order = $order_query->fetch_assoc();
-
-                $total_query = $GLOBALS['db']->query('SELECT value FROM orders_total WHERE orders_id = ' . (int)$order['orders_id'] . " AND class = 'ot_total' limit 1");
+                $total_query = $GLOBALS['db']->query('SELECT value FROM orders_total WHERE orders_id = ' . (int) $order['orders_id'] . " AND class = 'ot_total' limit 1");
                 $total = $total_query->fetch_assoc();
-
-                $comment_status = 'Transaction ID: ' . htmlspecialchars((string) $pptx_params['txn_id']) . "\n"
-                                . 'Payer Status: ' . htmlspecialchars((string) $pptx_params['payer_status']) . "\n"
-                                . 'Address Status: ' . htmlspecialchars((string) $pptx_params['address_status']) . "\n"
-                                . 'Payment Status: ' . htmlspecialchars((string) $pptx_params['payment_status']) . "\n"
-                                . 'Payment Type: ' . htmlspecialchars((string) $pptx_params['payment_type']) . "\n"
-                                . 'Pending Reason: ' . htmlspecialchars($pptx_params['pending_reason'] ?? '');
-
+                $comment_status = 'Transaction ID: ' . htmlspecialchars((string) $pptx_params['txn_id']) . "\n" . 'Payer Status: ' . htmlspecialchars((string) $pptx_params['payer_status']) . "\n" . 'Address Status: ' . htmlspecialchars((string) $pptx_params['address_status']) . "\n" . 'Payment Status: ' . htmlspecialchars((string) $pptx_params['payment_status']) . "\n" . 'Payment Type: ' . htmlspecialchars((string) $pptx_params['payment_type']) . "\n" . 'Pending Reason: ' . htmlspecialchars($pptx_params['pending_reason'] ?? '');
                 if ($pptx_params['mc_gross'] != $GLOBALS['currencies']->format_raw($total['value'], true, $order['currency'], $order['currency_value'])) {
                     $comment_status .= "\n" . 'Error Total Mismatch: PayPal transaction value (' . htmlspecialchars((string) $pptx_params['mc_gross']) . ') does not match order value (' . $GLOBALS['currencies']->format_raw($total['value'], true, $order['currency'], $order['currency_value']) . ')';
                 }
-
                 if ($is_ipn === true) {
                     $comment_status .= "\n" . 'Source: IPN';
                 }
-
-                $sql_data = [
-                  'orders_id' => (int)$order['orders_id'],
-                  'orders_status_id' => $this->base_constant('TRANSACTIONS_ORDER_STATUS_ID'),
-                  'date_added' => 'NOW()',
-                  'customer_notified' => '0',
-                  'comments' => $comment_status,
-                ];
-
+                $sql_data = ['orders_id' => (int) $order['orders_id'], 'orders_status_id' => $this->base_constant('TRANSACTIONS_ORDER_STATUS_ID'), 'date_added' => 'NOW()', 'customer_notified' => '0', 'comments' => $comment_status];
                 $GLOBALS['db']->perform('orders_status_history', $sql_data);
             }
         }
     }
-
     protected function get_parameters(): array
     {
         return [
-          static::CONFIG_KEY_BASE . 'STATUS' => [
-            'title' => 'Enable Paypal Standard',
-            'desc' => 'Do you want to accept payments with the module?',
-            'value' => 'True',
-            'set_func' => "Config::select_one(['True', 'False'], ",
-          ],
-          static::CONFIG_KEY_BASE . 'ID' => [
-            'title' => 'Seller Email',
-            'desc' => 'The paypal-registered email for which you are accepting payments',
-          ],
-          static::CONFIG_KEY_BASE . 'PRIMARY_ID' => [
-            'title' => 'Primary Paypal Email',
-            'desc' => 'Leave empty if the seller email is the main paypal email. If they are different put the main email here for IPN validation',
-          ],
-          static::CONFIG_KEY_BASE . 'PDT_TOKEN' => [
-            'title' => 'PDT Identity Token',
-            'desc' => 'Your Payment Data Transfer (PDT) Identity Token. Copy from your Paypal account Website Payment Preferences page. Used to verify transactions and help prevent your payments being hijacked.',
-          ],
-          static::CONFIG_KEY_BASE . 'TRANSACTION_METHOD' => [
-            'title' => 'Transaction Method',
-            'desc' => 'The processing method to use for each transaction.',
-            'value' => 'Sale',
-            'set_func' => "Config::select_one(['Authorization', 'Sale'], ",
-          ],
-          static::CONFIG_KEY_BASE . 'PREPARE_ORDER_STATUS_ID' => [
-            'title' => 'Set Preparing Order Status',
-            'desc' => 'Set the status of prepared orders made with this payment module to this value',
-            'value' => abstract_payment_module::ensure_order_status(static::CONFIG_KEY_BASE . 'PREPARE_ORDER_STATUS_ID', 'Preparing [Paypal Standard]'),
-            'use_func' => 'order_status::fetch_name',
-            'set_func' => 'Config::select_order_status(',
-          ],
-          static::CONFIG_KEY_BASE . 'ORDER_STATUS_ID' => [
-            'title' => 'Set Order Status',
-            'desc' => 'Set the status of orders made with this payment module to this value',
-            'value' => '0',
-            'use_func' => 'order_status::fetch_name',
-            'set_func' => 'Config::select_order_status(',
-          ],
-          static::CONFIG_KEY_BASE . 'TRANSACTIONS_ORDER_STATUS_ID' => [
-            'title' => 'Transactions Order Status Level',
-            'desc' => 'Include transaction information in this order status level.',
-            'value' => abstract_payment_module::ensure_order_status(static::CONFIG_KEY_BASE . 'TRANSACTIONS_ORDER_STATUS_ID', 'Paypal [Transactions]'),
-            'use_func' => 'order_status::fetch_name',
-            'set_func' => 'Config::select_order_status(',
-          ],
-          static::CONFIG_KEY_BASE . 'ZONE' => [
-            'title' => 'Payment Zone',
-            'desc' => 'If a zone is selected, only enable this payment method for that zone.',
-            'value' => '0',
-            'use_func' => 'geo_zone::fetch_name',
-            'set_func' => 'Config::select_geo_zone(',
-          ],
-          static::CONFIG_KEY_BASE . 'GATEWAY' => [
-            'title' => 'Paypal Environment',
-            'desc' => 'Use the testing (Sandbox) environment or Live at Paypal?',
-            'value' => 'Live',
-            'set_func' => "Config::select_one(['Live', 'Sandbox'], ",
-          ],
-          /* static::CONFIG_KEY_BASE . 'VERIFY_SSL' => [
-            'title' => 'Verify SSL Certificate',
-            'desc' => 'Verify the gateway server SSL certificate on connection?',
-            'value' => 'True',
-            'set_func' => "Config::select_one(['True', 'False'], ",
-          ],
-          static::CONFIG_KEY_BASE . 'PROXY' => [
-            'title' => 'Proxy Server',
-            'desc' => 'A few installations need to send API requests via a proxy server. Configure it here, e.g. 123.45.67.89:8080',
-          ], */
-          static::CONFIG_KEY_BASE . 'CONFIRM_BTN' => [
-            'title' => 'Confirm Button',
-            'desc' => 'Class of submit button on checkout confirmation page',
-            'value' => 'btn-success',
-          ],
-          static::CONFIG_KEY_BASE . 'INVOICE_PREFIX' => [
-            'title' => 'Invoice Prefix',
-            'desc' => 'If sending payments from multiple stores, use a prefix to make invoice refs unique. Added before the order ID.',
-            'value' => '',
-          ],
-          static::CONFIG_KEY_BASE . 'LOG_TRANSACTIONS' => [
-            'title' => 'Log Transactions',
-            'desc' => 'Log details of transactions',
-            'value' => 'True',
-            'set_func' => "Config::select_one(['True', 'False'], ",
-          ],
-          static::CONFIG_KEY_BASE . 'DEBUG_EMAIL' => [
-            'title' => 'Debug E-Mail Address',
-            'desc' => 'All parameters of an invalid transaction will be sent to this email address if one is entered.',
-          ],
-          static::CONFIG_KEY_BASE . 'SORT_ORDER' => [
-            'title' => 'Sort order of display.',
-            'desc' => 'Sort order of display. Lowest is displayed first.',
-            'value' => '0',
-          ],
+            static::CONFIG_KEY_BASE . 'STATUS' => ['title' => 'Enable Paypal Standard', 'desc' => 'Do you want to accept payments with the module?', 'value' => 'True', 'set_func' => "Config::select_one(['True', 'False'], "],
+            static::CONFIG_KEY_BASE . 'ID' => ['title' => 'Seller Email', 'desc' => 'The paypal-registered email for which you are accepting payments'],
+            static::CONFIG_KEY_BASE . 'PRIMARY_ID' => ['title' => 'Primary Paypal Email', 'desc' => 'Leave empty if the seller email is the main paypal email. If they are different put the main email here for IPN validation'],
+            static::CONFIG_KEY_BASE . 'PDT_TOKEN' => ['title' => 'PDT Identity Token', 'desc' => 'Your Payment Data Transfer (PDT) Identity Token. Copy from your Paypal account Website Payment Preferences page. Used to verify transactions and help prevent your payments being hijacked.'],
+            static::CONFIG_KEY_BASE . 'TRANSACTION_METHOD' => ['title' => 'Transaction Method', 'desc' => 'The processing method to use for each transaction.', 'value' => 'Sale', 'set_func' => "Config::select_one(['Authorization', 'Sale'], "],
+            static::CONFIG_KEY_BASE . 'PREPARE_ORDER_STATUS_ID' => ['title' => 'Set Preparing Order Status', 'desc' => 'Set the status of prepared orders made with this payment module to this value', 'value' => abstract_payment_module::ensure_order_status(static::CONFIG_KEY_BASE . 'PREPARE_ORDER_STATUS_ID', 'Preparing [Paypal Standard]'), 'use_func' => 'order_status::fetch_name', 'set_func' => 'Config::select_order_status('],
+            static::CONFIG_KEY_BASE . 'ORDER_STATUS_ID' => ['title' => 'Set Order Status', 'desc' => 'Set the status of orders made with this payment module to this value', 'value' => '0', 'use_func' => 'order_status::fetch_name', 'set_func' => 'Config::select_order_status('],
+            static::CONFIG_KEY_BASE . 'TRANSACTIONS_ORDER_STATUS_ID' => ['title' => 'Transactions Order Status Level', 'desc' => 'Include transaction information in this order status level.', 'value' => abstract_payment_module::ensure_order_status(static::CONFIG_KEY_BASE . 'TRANSACTIONS_ORDER_STATUS_ID', 'Paypal [Transactions]'), 'use_func' => 'order_status::fetch_name', 'set_func' => 'Config::select_order_status('],
+            static::CONFIG_KEY_BASE . 'ZONE' => ['title' => 'Payment Zone', 'desc' => 'If a zone is selected, only enable this payment method for that zone.', 'value' => '0', 'use_func' => 'geo_zone::fetch_name', 'set_func' => 'Config::select_geo_zone('],
+            static::CONFIG_KEY_BASE . 'GATEWAY' => ['title' => 'Paypal Environment', 'desc' => 'Use the testing (Sandbox) environment or Live at Paypal?', 'value' => 'Live', 'set_func' => "Config::select_one(['Live', 'Sandbox'], "],
+            /* static::CONFIG_KEY_BASE . 'VERIFY_SSL' => [
+                 'title' => 'Verify SSL Certificate',
+                 'desc' => 'Verify the gateway server SSL certificate on connection?',
+                 'value' => 'True',
+                 'set_func' => "Config::select_one(['True', 'False'], ",
+               ],
+               static::CONFIG_KEY_BASE . 'PROXY' => [
+                 'title' => 'Proxy Server',
+                 'desc' => 'A few installations need to send API requests via a proxy server. Configure it here, e.g. 123.45.67.89:8080',
+               ], */
+            static::CONFIG_KEY_BASE . 'CONFIRM_BTN' => ['title' => 'Confirm Button', 'desc' => 'Class of submit button on checkout confirmation page', 'value' => 'btn-success'],
+            static::CONFIG_KEY_BASE . 'INVOICE_PREFIX' => ['title' => 'Invoice Prefix', 'desc' => 'If sending payments from multiple stores, use a prefix to make invoice refs unique. Added before the order ID.', 'value' => ''],
+            static::CONFIG_KEY_BASE . 'LOG_TRANSACTIONS' => ['title' => 'Log Transactions', 'desc' => 'Log details of transactions', 'value' => 'True', 'set_func' => "Config::select_one(['True', 'False'], "],
+            static::CONFIG_KEY_BASE . 'DEBUG_EMAIL' => ['title' => 'Debug E-Mail Address', 'desc' => 'All parameters of an invalid transaction will be sent to this email address if one is entered.'],
+            static::CONFIG_KEY_BASE . 'SORT_ORDER' => ['title' => 'Sort order of display.', 'desc' => 'Sort order of display. Lowest is displayed first.', 'value' => '0'],
         ];
     }
-
-    public function sendDebugEmail($response = []): void
+    public function send_debug_email($response = []): void
     {
         if (!Text::is_empty(constant(static::CONFIG_KEY_BASE . 'DEBUG_EMAIL'))) {
             $email_body = '';
-
             if (!empty($response)) {
                 $email_body .= 'RESPONSE:' . "\n\n" . print_r($response, true) . "\n\n";
             }
-
             if (!empty($_POST)) {
                 $email_body .= '$_POST:' . "\n\n" . print_r($_POST, true) . "\n\n";
             }
-
             if (!empty($_GET)) {
                 $email_body .= '$_GET:' . "\n\n" . print_r($_GET, true) . "\n\n";
             }
-
             if (!empty($email_body)) {
                 Notifications::mail('', constant(static::CONFIG_KEY_BASE . 'DEBUG_EMAIL'), $this->code . ' Debug E-Mail', trim($email_body), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
             }
         }
     }
-
 }

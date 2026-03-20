@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Terminal;
 
 /**
@@ -20,12 +18,12 @@ namespace Stripe\Terminal;
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property \Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
  */
-class Location extends \Stripe\ApiResource
+class Location extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Delete;
-    use \Stripe\ApiOperations\Retrieve;
-    use \Stripe\ApiOperations\Update;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Create;
+    use \Stripe\Api_Operations\Delete;
+    use \Stripe\Api_Operations\Retrieve;
+    use \Stripe\Api_Operations\Update;
     public const OBJECT_NAME = 'terminal.location';
 }

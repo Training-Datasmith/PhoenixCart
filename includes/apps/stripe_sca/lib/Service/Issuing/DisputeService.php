@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Issuing;
 
-class DisputeService extends \Stripe\Service\AbstractService
+class Dispute_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of Issuing <code>Dispute</code> objects. The objects are sorted
@@ -22,9 +20,8 @@ class DisputeService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/issuing/disputes', $params, $opts);
+        return $this->request_collection('get', '/v1/issuing/disputes', $params, $opts);
     }
-
     /**
      * Creates an Issuing <code>Dispute</code> object. Individual pieces of evidence
      * within the <code>evidence</code> object are optional at this point. Stripe only
@@ -43,7 +40,6 @@ class DisputeService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/issuing/disputes', $params, $opts);
     }
-
     /**
      * Retrieves an Issuing <code>Dispute</code> object.
      *
@@ -57,9 +53,8 @@ class DisputeService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/issuing/disputes/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/issuing/disputes/%s', $id), $params, $opts);
     }
-
     /**
      * Submits an Issuing <code>Dispute</code> to the card network. Stripe validates
      * that all evidence fields required for the dispute’s reason are present. For more
@@ -77,9 +72,8 @@ class DisputeService extends \Stripe\Service\AbstractService
      */
     public function submit($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/issuing/disputes/%s/submit', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/issuing/disputes/%s/submit', $id), $params, $opts);
     }
-
     /**
      * Updates the specified Issuing <code>Dispute</code> object by setting the values
      * of the parameters passed. Any parameters not provided will be left unchanged.
@@ -96,6 +90,6 @@ class DisputeService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/issuing/disputes/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/issuing/disputes/%s', $id), $params, $opts);
     }
 }

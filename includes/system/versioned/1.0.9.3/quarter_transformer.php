@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please read:
- *
- * Copyright (c) 2004-present Fabien Potencier
+* This file is part of the Symfony package.
+*
+* (c) Fabien Potencier <fabien@symfony.com>
+*
+* For the full copyright and license information, please read:
+*
+* Copyright (c) 2004-present Fabien Potencier
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +27,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
- */
-
+*/
 /**
  * Parser and formatter for quarter format.
  *
@@ -37,45 +35,41 @@ THE SOFTWARE.
  *
  * @internal
  */
-class QuarterTransformer extends Transformer
+class Quarter_Transformer extends Transformer
 {
     /**
      * {@inheritdoc}
      */
-    public function format(\DateTime $dateTime, int $length): string
+    public function format(\DateTime $date_time, int $length): string
     {
-        $month = (int) $dateTime->format('n');
+        $month = (int) $date_time->format('n');
         $quarter = (int) floor(($month - 1) / 3) + 1;
         switch ($length) {
             case 1:
             case 2:
-                return $this->padLeft($quarter, $length);
+                return $this->pad_left($quarter, $length);
             case 3:
-                return 'Q'.$quarter;
+                return 'Q' . $quarter;
             case 4:
                 $map = [1 => '1st quarter', 2 => '2nd quarter', 3 => '3rd quarter', 4 => '4th quarter'];
-
                 return $map[$quarter];
             default:
                 if (\defined('INTL_ICU_VERSION') && version_compare(\INTL_ICU_VERSION, '70.1', '<')) {
                     $map = [1 => '1st quarter', 2 => '2nd quarter', 3 => '3rd quarter', 4 => '4th quarter'];
-
                     return $map[$quarter];
                 }
                 return $quarter;
         }
     }
-
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string
+    public function get_reverse_matching_reg_exp(int $length): string
     {
         return match ($length) {
-            1, 2 => '\d{'.$length.'}',
+            1, 2 => '\d{' . $length . '}',
             3 => 'Q\d',
             default => '(?:1st|2nd|3rd|4th) quarter',
         };
     }
-
 }

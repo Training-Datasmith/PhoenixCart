@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Stripe\ApiOperations;
+declare (strict_types=1);
+namespace Stripe\Api_Operations;
 
 /**
  * Trait for listable resources. Adds a `all()` static method to the class.
@@ -21,19 +20,15 @@ trait All
      */
     public static function all($params = null, $opts = null)
     {
-        self::_validateParams($params);
-        $url = static::classUrl();
-
-        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        if (!($obj instanceof \Stripe\Collection)) {
-            throw new \Stripe\Exception\UnexpectedValueException(
-                'Expected type ' . \Stripe\Collection::class . ', got "' . $obj::class . '" instead.'
-            );
+        self::_validate_params($params);
+        $url = static::class_url();
+        [$response, $opts] = static::_static_request('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        if (!$obj instanceof \Stripe\Collection) {
+            throw new \Stripe\Exception\UnexpectedValueException('Expected type ' . \Stripe\Collection::class . ', got "' . $obj::class . '" instead.');
         }
-        $obj->setLastResponse($response);
-        $obj->setFilters($params);
-
+        $obj->set_last_response($response);
+        $obj->set_filters($params);
         return $obj;
     }
 }

@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class BalanceService extends \Stripe\Service\AbstractService
+class Balance_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Retrieves the current account balance, based on the authentication that was used

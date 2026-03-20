@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
 /**
@@ -37,7 +36,7 @@ namespace Stripe;
  * @property string $type The type of error returned. One of `api_error`,
  *   `card_error`, `idempotency_error`, or `invalid_request_error`.
  */
-class ErrorObject extends StripeObject
+class Error_Object extends Stripe_Object
 {
     /**
      * Possible string representations of an error's code.
@@ -179,7 +178,6 @@ class ErrorObject extends StripeObject
     public const CODE_TRANSFER_SOURCE_BALANCE_PARAMETERS_MISMATCH = 'transfer_source_balance_parameters_mismatch';
     public const CODE_TRANSFERS_NOT_ALLOWED = 'transfers_not_allowed';
     public const CODE_URL_INVALID = 'url_invalid';
-
     /**
      * Refreshes this object using the provided values.
      *
@@ -187,24 +185,12 @@ class ErrorObject extends StripeObject
      * @param null|array|string|Util\RequestOptions $opts
      * @param bool $partial defaults to false
      */
-    public function refreshFrom($values, $opts, $partial = false): void
+    public function refresh_from($values, $opts, $partial = false): void
     {
         // Unlike most other API resources, the API will omit attributes in
         // error objects when they have a null value. We manually set default
         // values here to facilitate generic error handling.
-        $values = \array_merge([
-            'charge' => null,
-            'code' => null,
-            'decline_code' => null,
-            'doc_url' => null,
-            'message' => null,
-            'param' => null,
-            'payment_intent' => null,
-            'payment_method' => null,
-            'setup_intent' => null,
-            'source' => null,
-            'type' => null,
-        ], $values);
-        parent::refreshFrom($values, $opts, $partial);
+        $values = \array_merge(['charge' => null, 'code' => null, 'decline_code' => null, 'doc_url' => null, 'message' => null, 'param' => null, 'payment_intent' => null, 'payment_method' => null, 'setup_intent' => null, 'source' => null, 'type' => null], $values);
+        parent::refresh_from($values, $opts, $partial);
     }
 }

@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class SubscriptionScheduleService extends \Stripe\Service\AbstractService
+class Subscription_Schedule_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Retrieves the list of your subscription schedules.
@@ -20,9 +18,8 @@ class SubscriptionScheduleService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/subscription_schedules', $params, $opts);
+        return $this->request_collection('get', '/v1/subscription_schedules', $params, $opts);
     }
-
     /**
      * Cancels a subscription schedule and its associated subscription immediately (if
      * the subscription schedule has an active subscription). A subscription schedule
@@ -39,9 +36,8 @@ class SubscriptionScheduleService extends \Stripe\Service\AbstractService
      */
     public function cancel($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/subscription_schedules/%s/cancel', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/subscription_schedules/%s/cancel', $id), $params, $opts);
     }
-
     /**
      * Creates a new subscription schedule object. Each customer can have up to 500
      * active or scheduled subscriptions.
@@ -57,7 +53,6 @@ class SubscriptionScheduleService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/subscription_schedules', $params, $opts);
     }
-
     /**
      * Releases the subscription schedule immediately, which will stop scheduling of
      * its phases, but leave any existing subscription in place. A schedule can only be
@@ -76,9 +71,8 @@ class SubscriptionScheduleService extends \Stripe\Service\AbstractService
      */
     public function release($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/subscription_schedules/%s/release', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/subscription_schedules/%s/release', $id), $params, $opts);
     }
-
     /**
      * Retrieves the details of an existing subscription schedule. You only need to
      * supply the unique subscription schedule identifier that was returned upon
@@ -94,9 +88,8 @@ class SubscriptionScheduleService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/subscription_schedules/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/subscription_schedules/%s', $id), $params, $opts);
     }
-
     /**
      * Updates an existing subscription schedule.
      *
@@ -110,6 +103,6 @@ class SubscriptionScheduleService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/subscription_schedules/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/subscription_schedules/%s', $id), $params, $opts);
     }
 }

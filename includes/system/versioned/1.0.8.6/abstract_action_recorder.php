@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,25 +11,19 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 abstract class abstract_action_recorder extends abstract_module
 {
     public $minutes;
     public $attempts;
     public $identifier;
-
     public function __construct()
     {
         if (is_null($this->config_key_base)) {
             $this->config_key_base = static::CONFIG_KEY_BASE;
         }
-
         $this->code = static::class;
-        $this->title = static::get_constant(static::CONFIG_KEY_BASE . 'TEXT_TITLE')
-                    ?? static::get_constant(static::CONFIG_KEY_BASE . 'TITLE');
-        $this->description = static::get_constant(static::CONFIG_KEY_BASE . 'TEXT_DESCRIPTION')
-                          ?? static::get_constant(static::CONFIG_KEY_BASE . 'DESCRIPTION');
-
+        $this->title = static::get_constant(static::CONFIG_KEY_BASE . 'TEXT_TITLE') ?? static::get_constant(static::CONFIG_KEY_BASE . 'TITLE');
+        $this->description = static::get_constant(static::CONFIG_KEY_BASE . 'TEXT_DESCRIPTION') ?? static::get_constant(static::CONFIG_KEY_BASE . 'DESCRIPTION');
         $this->status_key = $this->config_key_base . 'MINUTES';
         if (defined($this->status_key)) {
             $this->enabled = constant($this->status_key) > 0;
@@ -37,17 +31,13 @@ abstract class abstract_action_recorder extends abstract_module
             $this->attempts = $this->base_constant('ATTEMPTS');
         }
     }
-
-    public function setIdentifier(): void
+    public function set_identifier(): void
     {
         $this->identifier = Request::get_ip();
     }
-
-    public function expireEntries()
+    public function expire_entries()
     {
-        $GLOBALS['db']->query("DELETE FROM action_recorder WHERE module = '" . $this->code . "' AND date_added < DATE_SUB(NOW(), INTERVAL " . (int)$this->minutes  . ' MINUTE)');
-
+        $GLOBALS['db']->query("DELETE FROM action_recorder WHERE module = '" . $this->code . "' AND date_added < DATE_SUB(NOW(), INTERVAL " . (int) $this->minutes . ' MINUTE)');
         return mysqli_affected_rows($GLOBALS['db']);
     }
-
 }

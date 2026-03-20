@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,46 +11,22 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 class ar_admin_login extends abstract_action_recorder
 {
     public const CONFIG_KEY_BASE = 'MODULE_ACTION_RECORDER_ADMIN_LOGIN_';
-
-    public function canPerform($user_id, $user_name): bool
+    public function can_perform($user_id, $user_name): bool
     {
-        $check_query = $GLOBALS['db']->query(sprintf(
-            <<<'EOSQL'
-SELECT id
- FROM action_recorder
- WHERE module = '%s' AND (user_name = '%s' OR identifier = '%s') AND date_added >= DATE_SUB(NOW(), INTERVAL %d MINUTE) AND success = 0
- ORDER BY date_added DESC
- LIMIT %d
-EOSQL
-            ,
-            $GLOBALS['db']->escape($this->code),
-            $GLOBALS['db']->escape($user_name),
-            $GLOBALS['db']->escape($this->identifier),
-            (int)$this->minutes,
-            (int)$this->attempts
-        ));
-
+        $check_query = $GLOBALS['db']->query(sprintf(<<<'EOSQL'
+        SELECT id
+         FROM action_recorder
+         WHERE module = '%s' AND (user_name = '%s' OR identifier = '%s') AND date_added >= DATE_SUB(NOW(), INTERVAL %d MINUTE) AND success = 0
+         ORDER BY date_added DESC
+         LIMIT %d
+        EOSQL, $GLOBALS['db']->escape($this->code), $GLOBALS['db']->escape($user_name), $GLOBALS['db']->escape($this->identifier), (int) $this->minutes, (int) $this->attempts));
         return mysqli_num_rows($check_query) < $this->attempts;
     }
-
     protected function get_parameters(): array
     {
-        return [
-          $this->config_key_base . 'MINUTES' => [
-            'title' => 'Allowed Minutes',
-            'value' => '5',
-            'desc' => 'Number of minutes to allow login attempts to occur.',
-          ],
-          $this->config_key_base . 'ATTEMPTS' => [
-            'title' => 'Allowed Attempts',
-            'value' => '3',
-            'desc' => 'Number of login attempts to allow within the specified period.',
-          ],
-        ];
+        return [$this->config_key_base . 'MINUTES' => ['title' => 'Allowed Minutes', 'value' => '5', 'desc' => 'Number of minutes to allow login attempts to occur.'], $this->config_key_base . 'ATTEMPTS' => ['title' => 'Allowed Attempts', 'value' => '3', 'desc' => 'Number of login attempts to allow within the specified period.']];
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,17 +11,15 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
-class hook_admin_siteWide_tooltip
+class Hook_admin_site_Wide_tooltip
 {
-    public function listen_injectBodyEnd(): string
+    public function listen_inject_body_end(): string
     {
         return <<<tt
-<script>
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-</script>
-tt;
+        <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        </script>
+        tt;
     }
-
 }

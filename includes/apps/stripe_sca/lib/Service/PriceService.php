@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class PriceService extends \Stripe\Service\AbstractService
+class Price_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of your prices.
@@ -20,9 +18,8 @@ class PriceService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/prices', $params, $opts);
+        return $this->request_collection('get', '/v1/prices', $params, $opts);
     }
-
     /**
      * Creates a new price for an existing product. The price can be recurring or
      * one-time.
@@ -38,7 +35,6 @@ class PriceService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/prices', $params, $opts);
     }
-
     /**
      * Retrieves the price with the given ID.
      *
@@ -52,9 +48,8 @@ class PriceService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/prices/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/prices/%s', $id), $params, $opts);
     }
-
     /**
      * Search for prices you’ve previously created using Stripe’s <a
      * href="/docs/search#search-query-language">Search Query Language</a>. Don’t use
@@ -72,9 +67,8 @@ class PriceService extends \Stripe\Service\AbstractService
      */
     public function search($params = null, $opts = null)
     {
-        return $this->requestSearchResult('get', '/v1/prices/search', $params, $opts);
+        return $this->request_search_result('get', '/v1/prices/search', $params, $opts);
     }
-
     /**
      * Updates the specified price by setting the values of the parameters passed. Any
      * parameters not provided are left unchanged.
@@ -89,6 +83,6 @@ class PriceService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/prices/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/prices/%s', $id), $params, $opts);
     }
 }

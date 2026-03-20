@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Stripe\Http_Client;
 
-namespace Stripe\HttpClient;
-
-interface ClientInterface
+interface Client_Interface
 {
     /**
      * @param string $method The HTTP method being used
@@ -20,5 +19,5 @@ interface ClientInterface
      * @return array an array whose first element is raw request body, second
      *    element is HTTP status code and third array of HTTP headers
      */
-    public function request($method, $absUrl, $headers, $params, $hasFile);
+    public function request($method, $abs_url, $headers, $params, $has_file);
 }

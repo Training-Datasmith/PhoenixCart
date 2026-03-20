@@ -1,16 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe\Util;
 
 use ArrayIterator;
 use IteratorAggregate;
-
 class Set implements IteratorAggregate
 {
     private array $_elts;
-
     public function __construct($members = [])
     {
         $this->_elts = [];
@@ -18,33 +15,28 @@ class Set implements IteratorAggregate
             $this->_elts[$item] = true;
         }
     }
-
     public function includes(mixed $elt): bool
     {
         return isset($this->_elts[$elt]);
     }
-
     public function add(mixed $elt): void
     {
         $this->_elts[$elt] = true;
     }
-
     public function discard(mixed $elt): void
     {
         unset($this->_elts[$elt]);
     }
-
-    public function toArray(): array
+    public function to_array(): array
     {
         return \array_keys($this->_elts);
     }
-
     /**
      * @return ArrayIterator
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function getIterator()
     {
-        return new ArrayIterator($this->toArray());
+        return new ArrayIterator($this->to_array());
     }
 }

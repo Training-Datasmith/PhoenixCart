@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,25 +11,20 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
-class hook_shop_siteWide_Favicon
+class Hook_shop_site_Wide_favicon
 {
-    public function listen_injectSiteStart(): void
+    public function listen_inject_site_start(): void
     {
         $favicon = '';
         $array = ['16', '128', '192', '256'];
-
         foreach ($array as $size) {
             $favicon_image = HTTP_SERVER . DIR_WS_CATALOG . 'images/favicon/' . $size . '_' . FAVICON_LOGO;
-
             $favicon .= <<<favicon
-<link rel="icon" href="{$favicon_image}" sizes="{$size}x{$size}">
-
-favicon;
+            <link rel="icon" href="{$favicon_image}" sizes="{$size}x{$size}">
+            
+            favicon;
         }
-
         $favicon .= '<link rel="apple-touch-icon" href="' . HTTP_SERVER . DIR_WS_CATALOG . 'images/favicon/192_' . FAVICON_LOGO . '">' . PHP_EOL;
-
         echo $favicon;
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -58,14 +56,13 @@ namespace Stripe;
  * @property \Stripe\StripeObject $us_bank_account
  * @property \Stripe\StripeObject $wechat_pay
  */
-class PaymentMethod extends ApiResource
+class Payment_Method extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'payment_method';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -76,13 +73,11 @@ class PaymentMethod extends ApiResource
      */
     public function attach($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/attach';
+        $url = $this->instance_url() . '/attach';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -93,10 +88,9 @@ class PaymentMethod extends ApiResource
      */
     public function detach($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/detach';
+        $url = $this->instance_url() . '/detach';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

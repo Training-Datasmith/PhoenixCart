@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -11,7 +9,7 @@ namespace Stripe;
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
  * @property string $url The URL for the login link.
  */
-class LoginLink extends ApiResource
+class Login_Link extends Api_Resource
 {
     public const OBJECT_NAME = 'login_link';
 }

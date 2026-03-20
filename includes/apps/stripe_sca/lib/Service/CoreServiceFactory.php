@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
 /**
@@ -67,73 +65,14 @@ namespace Stripe\Service;
  * @property Treasury\TreasuryServiceFactory $treasury
  * @property WebhookEndpointService $webhookEndpoints
  */
-class CoreServiceFactory extends \Stripe\Service\AbstractServiceFactory
+class Core_Service_Factory extends \Stripe\Service\Abstract_Service_Factory
 {
     /**
      * @var array<string, string>
      */
-    private static array $classMap = [
-        'accountLinks' => AccountLinkService::class,
-        'accounts' => AccountService::class,
-        'applePayDomains' => ApplePayDomainService::class,
-        'applicationFees' => ApplicationFeeService::class,
-        'apps' => Apps\AppsServiceFactory::class,
-        'balance' => BalanceService::class,
-        'balanceTransactions' => BalanceTransactionService::class,
-        'billingPortal' => BillingPortal\BillingPortalServiceFactory::class,
-        'charges' => ChargeService::class,
-        'checkout' => Checkout\CheckoutServiceFactory::class,
-        'countrySpecs' => CountrySpecService::class,
-        'coupons' => CouponService::class,
-        'creditNotes' => CreditNoteService::class,
-        'customers' => CustomerService::class,
-        'disputes' => DisputeService::class,
-        'ephemeralKeys' => EphemeralKeyService::class,
-        'events' => EventService::class,
-        'exchangeRates' => ExchangeRateService::class,
-        'fileLinks' => FileLinkService::class,
-        'files' => FileService::class,
-        'financialConnections' => FinancialConnections\FinancialConnectionsServiceFactory::class,
-        'identity' => Identity\IdentityServiceFactory::class,
-        'invoiceItems' => InvoiceItemService::class,
-        'invoices' => InvoiceService::class,
-        'issuing' => Issuing\IssuingServiceFactory::class,
-        'mandates' => MandateService::class,
-        'oauth' => OAuthService::class,
-        'paymentIntents' => PaymentIntentService::class,
-        'paymentLinks' => PaymentLinkService::class,
-        'paymentMethods' => PaymentMethodService::class,
-        'payouts' => PayoutService::class,
-        'plans' => PlanService::class,
-        'prices' => PriceService::class,
-        'products' => ProductService::class,
-        'promotionCodes' => PromotionCodeService::class,
-        'quotes' => QuoteService::class,
-        'radar' => Radar\RadarServiceFactory::class,
-        'refunds' => RefundService::class,
-        'reporting' => Reporting\ReportingServiceFactory::class,
-        'reviews' => ReviewService::class,
-        'setupAttempts' => SetupAttemptService::class,
-        'setupIntents' => SetupIntentService::class,
-        'shippingRates' => ShippingRateService::class,
-        'sigma' => Sigma\SigmaServiceFactory::class,
-        'sources' => SourceService::class,
-        'subscriptionItems' => SubscriptionItemService::class,
-        'subscriptions' => SubscriptionService::class,
-        'subscriptionSchedules' => SubscriptionScheduleService::class,
-        'taxCodes' => TaxCodeService::class,
-        'taxRates' => TaxRateService::class,
-        'terminal' => Terminal\TerminalServiceFactory::class,
-        'testHelpers' => TestHelpers\TestHelpersServiceFactory::class,
-        'tokens' => TokenService::class,
-        'topups' => TopupService::class,
-        'transfers' => TransferService::class,
-        'treasury' => Treasury\TreasuryServiceFactory::class,
-        'webhookEndpoints' => WebhookEndpointService::class,
-    ];
-
-    protected function getServiceClass($name)
+    private static array $class_map = ['accountLinks' => Account_Link_Service::class, 'accounts' => Account_Service::class, 'applePayDomains' => Apple_Pay_Domain_Service::class, 'applicationFees' => Application_Fee_Service::class, 'apps' => Apps\Apps_Service_Factory::class, 'balance' => Balance_Service::class, 'balanceTransactions' => Balance_Transaction_Service::class, 'billingPortal' => Billing_Portal\Billing_Portal_Service_Factory::class, 'charges' => Charge_Service::class, 'checkout' => Checkout\Checkout_Service_Factory::class, 'countrySpecs' => Country_Spec_Service::class, 'coupons' => Coupon_Service::class, 'creditNotes' => Credit_Note_Service::class, 'customers' => Customer_Service::class, 'disputes' => Dispute_Service::class, 'ephemeralKeys' => Ephemeral_Key_Service::class, 'events' => Event_Service::class, 'exchangeRates' => Exchange_Rate_Service::class, 'fileLinks' => File_Link_Service::class, 'files' => File_Service::class, 'financialConnections' => Financial_Connections\Financial_Connections_Service_Factory::class, 'identity' => Identity\Identity_Service_Factory::class, 'invoiceItems' => Invoice_Item_Service::class, 'invoices' => Invoice_Service::class, 'issuing' => Issuing\Issuing_Service_Factory::class, 'mandates' => Mandate_Service::class, 'oauth' => O_Auth_Service::class, 'paymentIntents' => Payment_Intent_Service::class, 'paymentLinks' => Payment_Link_Service::class, 'paymentMethods' => Payment_Method_Service::class, 'payouts' => Payout_Service::class, 'plans' => Plan_Service::class, 'prices' => Price_Service::class, 'products' => Product_Service::class, 'promotionCodes' => Promotion_Code_Service::class, 'quotes' => Quote_Service::class, 'radar' => Radar\Radar_Service_Factory::class, 'refunds' => Refund_Service::class, 'reporting' => Reporting\Reporting_Service_Factory::class, 'reviews' => Review_Service::class, 'setupAttempts' => Setup_Attempt_Service::class, 'setupIntents' => Setup_Intent_Service::class, 'shippingRates' => Shipping_Rate_Service::class, 'sigma' => Sigma\Sigma_Service_Factory::class, 'sources' => Source_Service::class, 'subscriptionItems' => Subscription_Item_Service::class, 'subscriptions' => Subscription_Service::class, 'subscriptionSchedules' => Subscription_Schedule_Service::class, 'taxCodes' => Tax_Code_Service::class, 'taxRates' => Tax_Rate_Service::class, 'terminal' => Terminal\Terminal_Service_Factory::class, 'testHelpers' => Test_Helpers\Test_Helpers_Service_Factory::class, 'tokens' => Token_Service::class, 'topups' => Topup_Service::class, 'transfers' => Transfer_Service::class, 'treasury' => Treasury\Treasury_Service_Factory::class, 'webhookEndpoints' => Webhook_Endpoint_Service::class];
+    protected function get_service_class($name)
     {
-        return \array_key_exists($name, self::$classMap) ? self::$classMap[$name] : null;
+        return \array_key_exists($name, self::$class_map) ? self::$class_map[$name] : null;
     }
 }

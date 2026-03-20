@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Radar;
 
-class ValueListItemService extends \Stripe\Service\AbstractService
+class Value_List_Item_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of <code>ValueListItem</code> objects. The objects are sorted in
@@ -22,9 +20,8 @@ class ValueListItemService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/radar/value_list_items', $params, $opts);
+        return $this->request_collection('get', '/v1/radar/value_list_items', $params, $opts);
     }
-
     /**
      * Creates a new <code>ValueListItem</code> object, which is added to the specified
      * parent value list.
@@ -40,7 +37,6 @@ class ValueListItemService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/radar/value_list_items', $params, $opts);
     }
-
     /**
      * Deletes a <code>ValueListItem</code> object, removing it from its parent value
      * list.
@@ -55,9 +51,8 @@ class ValueListItemService extends \Stripe\Service\AbstractService
      */
     public function delete($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/radar/value_list_items/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/radar/value_list_items/%s', $id), $params, $opts);
     }
-
     /**
      * Retrieves a <code>ValueListItem</code> object.
      *
@@ -71,6 +66,6 @@ class ValueListItemService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/radar/value_list_items/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/radar/value_list_items/%s', $id), $params, $opts);
     }
 }

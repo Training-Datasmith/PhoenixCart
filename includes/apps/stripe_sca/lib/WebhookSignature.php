@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
-abstract class WebhookSignature
+abstract class Webhook_Signature
 {
     public const EXPECTED_SCHEME = 'v1';
-
     /**
      * Verifies the signature header sent by Stripe. Throws an
      * Exception\SignatureVerificationException exception if the verification fails for
@@ -24,58 +22,37 @@ abstract class WebhookSignature
      *
      * @return bool
      */
-    public static function verifyHeader($payload, $header, $secret, $tolerance = null)
+    public static function verify_header($payload, $header, $secret, $tolerance = null)
     {
         // Extract timestamp and signatures from header
-        $timestamp = self::getTimestamp($header);
-        $signatures = self::getSignatures($header, self::EXPECTED_SCHEME);
+        $timestamp = self::get_timestamp($header);
+        $signatures = self::get_signatures($header, self::EXPECTED_SCHEME);
         if (-1 === $timestamp) {
-            throw Exception\SignatureVerificationException::factory(
-                'Unable to extract timestamp and signatures from header',
-                $payload,
-                $header
-            );
+            throw Exception\Signature_Verification_Exception::factory('Unable to extract timestamp and signatures from header', $payload, $header);
         }
         if (empty($signatures)) {
-            throw Exception\SignatureVerificationException::factory(
-                'No signatures found with expected scheme',
-                $payload,
-                $header
-            );
+            throw Exception\Signature_Verification_Exception::factory('No signatures found with expected scheme', $payload, $header);
         }
-
         // Check if expected signature is found in list of signatures from
         // header
-        $signedPayload = "{$timestamp}.{$payload}";
-        $expectedSignature = self::computeSignature($signedPayload, $secret);
-        $signatureFound = false;
+        $signed_payload = "{$timestamp}.{$payload}";
+        $expected_signature = self::compute_signature($signed_payload, $secret);
+        $signature_found = false;
         foreach ($signatures as $signature) {
-            if (Util\Util::secureCompare($expectedSignature, $signature)) {
-                $signatureFound = true;
-
+            if (Util\Util::secure_compare($expected_signature, $signature)) {
+                $signature_found = true;
                 break;
             }
         }
-        if (!$signatureFound) {
-            throw Exception\SignatureVerificationException::factory(
-                'No signatures found matching the expected signature for payload',
-                $payload,
-                $header
-            );
+        if (!$signature_found) {
+            throw Exception\Signature_Verification_Exception::factory('No signatures found matching the expected signature for payload', $payload, $header);
         }
-
         // Check if timestamp is within tolerance
-        if (($tolerance > 0) && (\abs(\time() - $timestamp) > $tolerance)) {
-            throw Exception\SignatureVerificationException::factory(
-                'Timestamp outside the tolerance zone',
-                $payload,
-                $header
-            );
+        if ($tolerance > 0 && \abs(\time() - $timestamp) > $tolerance) {
+            throw Exception\Signature_Verification_Exception::factory('Timestamp outside the tolerance zone', $payload, $header);
         }
-
         return true;
     }
-
     /**
      * Extracts the timestamp in a signature header.
      *
@@ -84,24 +61,20 @@ abstract class WebhookSignature
      * @return int the timestamp contained in the header, or -1 if no valid
      *  timestamp is found
      */
-    private static function getTimestamp($header): int
+    private static function get_timestamp($header): int
     {
         $items = \explode(',', $header);
-
         foreach ($items as $item) {
-            $itemParts = \explode('=', $item, 2);
-            if ('t' === $itemParts[0]) {
-                if (!\is_numeric($itemParts[1])) {
+            $item_parts = \explode('=', $item, 2);
+            if ('t' === $item_parts[0]) {
+                if (!\is_numeric($item_parts[1])) {
                     return -1;
                 }
-
-                return (int) ($itemParts[1]);
+                return (int) $item_parts[1];
             }
         }
-
         return -1;
     }
-
     /**
      * Extracts the signatures matching a given scheme in a signature header.
      *
@@ -110,21 +83,18 @@ abstract class WebhookSignature
      *
      * @return array the list of signatures matching the provided scheme
      */
-    private static function getSignatures($header, string $scheme): array
+    private static function get_signatures($header, string $scheme): array
     {
         $signatures = [];
         $items = \explode(',', $header);
-
         foreach ($items as $item) {
-            $itemParts = \explode('=', $item, 2);
-            if (\trim($itemParts[0]) === $scheme) {
-                $signatures[] = $itemParts[1];
+            $item_parts = \explode('=', $item, 2);
+            if (\trim($item_parts[0]) === $scheme) {
+                $signatures[] = $item_parts[1];
             }
         }
-
         return $signatures;
     }
-
     /**
      * Computes the signature for a given payload and secret.
      *
@@ -135,7 +105,7 @@ abstract class WebhookSignature
      *
      * @return string the signature as a string
      */
-    private static function computeSignature(string $payload, $secret): string
+    private static function compute_signature(string $payload, $secret): string
     {
         return \hash_hmac('sha256', $payload, $secret);
     }

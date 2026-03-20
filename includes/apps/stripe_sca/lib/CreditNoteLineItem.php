@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -24,7 +22,7 @@ namespace Stripe;
  * @property null|string $unit_amount_decimal Same as <code>unit_amount</code>, but contains a decimal value with at most 12 decimal places.
  * @property null|string $unit_amount_excluding_tax The amount in %s representing the unit amount being credited for this line item, excluding all tax and discounts.
  */
-class CreditNoteLineItem extends ApiResource
+class Credit_Note_Line_Item extends Api_Resource
 {
     public const OBJECT_NAME = 'credit_note_line_item';
 }

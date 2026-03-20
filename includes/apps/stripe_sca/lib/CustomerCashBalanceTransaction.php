@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -27,12 +25,11 @@ namespace Stripe;
  * @property string $type The type of the cash balance transaction. One of <code>applied_to_payment</code>, <code>unapplied_from_payment</code>, <code>refunded_from_payment</code>, <code>funded</code>, <code>return_initiated</code>, or <code>return_canceled</code>. New types may be added in future. See <a href="https://stripe.com/docs/payments/customer-balance#types">Customer Balance</a> to learn more about these types.
  * @property \Stripe\StripeObject $unapplied_from_payment
  */
-class CustomerCashBalanceTransaction extends ApiResource
+class Customer_Cash_Balance_Transaction extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
+    use Api_Operations\All;
+    use Api_Operations\Retrieve;
     public const OBJECT_NAME = 'customer_cash_balance_transaction';
-
     public const TYPE_APPLIED_TO_PAYMENT = 'applied_to_payment';
     public const TYPE_FUNDED = 'funded';
     public const TYPE_FUNDING_REVERSED = 'funding_reversed';

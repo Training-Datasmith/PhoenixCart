@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,87 +11,68 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 class customer_data extends requirements_manager
 {
     public $modules;
     private $grouped_modules;
-
     // class constructor
     public function __construct()
     {
         if (defined('MODULE_CUSTOMER_DATA_INSTALLED') && !Text::is_empty(MODULE_CUSTOMER_DATA_INSTALLED)) {
             $this->modules = explode(';', (string) MODULE_CUSTOMER_DATA_INSTALLED);
-
             foreach ($this->modules as $basename) {
                 $class = pathinfo($basename, PATHINFO_FILENAME);
-
                 if (!isset($GLOBALS[$class])) {
                     $GLOBALS[$class] = new $class();
                 }
-
-                if (!$GLOBALS[$class]->isEnabled()) {
+                if (!$GLOBALS[$class]->is_enabled()) {
                     continue;
                 }
-
-                $this->objects[] = &$GLOBALS[$class];
-
+                $this->objects[] =& $GLOBALS[$class];
                 if (method_exists($GLOBALS[$class], 'get_group')) {
                     $group = $GLOBALS[$class]->get_group();
                     if (is_scalar($group)) {
                         Guarantor::guarantee_subarray($this->grouped_modules, $group);
-                        $this->grouped_modules[$group][] = &$GLOBALS[$class];
+                        $this->grouped_modules[$group][] =& $GLOBALS[$class];
                     }
                 }
-
                 foreach ($GLOBALS[$class]::PROVIDES as $provided) {
-                    $this->providers[$provided] = &$GLOBALS[$class];
+                    $this->providers[$provided] =& $GLOBALS[$class];
                 }
             }
-
             foreach ($this->grouped_modules as &$modules) {
-                uasort($modules, fn ($a, $b) => $a->sort_order <=> $b->sort_order);
+                uasort($modules, fn($a, $b) => $a->sort_order <=> $b->sort_order);
             }
             unset($modules);
         }
     }
-
     public function get_grouped_modules()
     {
         return $this->grouped_modules;
     }
-
     public function get($field, array &$customer_details)
     {
         if (is_array($field)) {
             $customer_data = $this;
-            return array_map(
-                function ($v) use ($customer_data, &$customer_details) {
-                    return $customer_data->get($v, $customer_details);
-                },
-                $field
-            );
+            return array_map(function ($v) use ($customer_data, &$customer_details) {
+                return $customer_data->get($v, $customer_details);
+            }, $field);
         }
-
         if (!isset($customer_details[$field])) {
             if (!isset($this->providers[$field])) {
                 return false;
             }
-
             $this->providers[$field]->get($field, $customer_details);
         }
-
         return $customer_details[$field] ?? null;
     }
-
     public function display_input($fields = null, &$customer_details = []): void
     {
         if (!isset($fields)) {
             $fields = $this->list_all_capabilities();
         }
-
         $seen = [];
-        foreach ((array)$fields as $field) {
+        foreach ((array) $fields as $field) {
             if (!isset($this->providers[$field])) {
                 continue;
             }
@@ -105,15 +86,10 @@ class customer_data extends requirements_manager
             $seen[] = $this->providers[$field];
         }
     }
-
     public function get_fields_for_page($page): array
     {
-        return array_keys(array_unique(array_filter(
-            $this->providers,
-            fn ($p) => method_exists($p, 'has_page') && $p->has_page($page)
-        ), SORT_REGULAR));
+        return array_keys(array_unique(array_filter($this->providers, fn($p) => method_exists($p, 'has_page') && $p->has_page($page)), SORT_REGULAR));
     }
-
     /**
      * @param array $requests A list of the customer data needed, e.g. name.
      * @param string $table From what table should duplicate data be loaded.  May be 'customers', 'address_book', or 'both'.
@@ -123,7 +99,6 @@ class customer_data extends requirements_manager
     {
         return customer_query::build_read($this->build_db_tables($requests, $table), $this->build_db_table_values($criteria, $table));
     }
-
     public function add_search_criteria($sql, $key)
     {
         $db_tables = [];
@@ -132,19 +107,15 @@ class customer_data extends requirements_manager
                 $module->build_db_aliases($db_tables);
             }
         }
-
         return customer_query::add_search_criteria($sql, $key, $db_tables);
     }
-
     public function get_failover($requirement): string|false
     {
         if ('sortable_name' === $requirement) {
             return 'name';
         }
-
         return false;
     }
-
     public function add_order_by(string $sql, $criteria = ['id']): string
     {
         $order_by_columns = [];
@@ -158,50 +129,37 @@ class customer_data extends requirements_manager
                 $direction = $criterion;
                 $criterion = $index;
             }
-
             while (!isset($this->providers[$criterion]) || !method_exists($this->providers[$criterion], 'add_order_by')) {
                 $criterion = $this->get_failover($criterion);
                 if (false === $criterion) {
                     continue 2;
                 }
             }
-
             $this->providers[$criterion]->add_order_by($order_by_columns, $criterion, $direction);
         }
-
         if ([] !== $order_by_columns) {
             return $sql . customer_query::add_order_by($order_by_columns);
         }
-
-        return $sql . customer_query::add_order_by([ 'customers' => [ 'customers_id' => null ]]);
+        return $sql . customer_query::add_order_by(['customers' => ['customers_id' => null]]);
     }
-
     public function count_by_criteria($criteria, $table = 'both')
     {
         return customer_query::count_by_criteria($this->build_db_table_values($criteria, $table));
     }
-
     public function add_address(&$field_values): void
     {
         customer_write::create($this->build_db_table_values($field_values, 'address_book'), $field_values);
     }
-
     public function create(array &$field_values, $table = 'both'): void
     {
         customer_write::create($this->build_db_table_values($field_values, $table), $field_values);
-
         if (isset($field_values['address_book_id']) && isset($field_values['customers_id'])) {
-            $GLOBALS['db']->query('UPDATE customers SET customers_default_address_id = ' . (int)$field_values['address_book_id']
-              . ' WHERE customers_id = ' . (int)$field_values['customers_id']);
+            $GLOBALS['db']->query('UPDATE customers SET customers_default_address_id = ' . (int) $field_values['address_book_id'] . ' WHERE customers_id = ' . (int) $field_values['customers_id']);
         }
-
-        $GLOBALS['db']->query('INSERT INTO customers_info (customers_info_id, customers_info_number_of_logons, customers_info_date_account_created) VALUES ('
-          . (int)$field_values['customers_id'] . ', 0, NOW())');
+        $GLOBALS['db']->query('INSERT INTO customers_info (customers_info_id, customers_info_number_of_logons, customers_info_date_account_created) VALUES (' . (int) $field_values['customers_id'] . ', 0, NOW())');
     }
-
     public function update($field_values, $criteria = [], $table = 'both'): void
     {
         customer_write::update($this->build_db_table_values($field_values, $table), $this->build_db_table_values($criteria, $table));
     }
-
 }

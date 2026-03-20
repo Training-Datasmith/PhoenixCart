@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -15,7 +13,7 @@ namespace Stripe;
  * @property string $subscription_item The ID of the subscription item this summary is describing.
  * @property int $total_usage The total usage within this usage period.
  */
-class UsageRecordSummary extends ApiResource
+class Usage_Record_Summary extends Api_Resource
 {
     public const OBJECT_NAME = 'usage_record_summary';
 }

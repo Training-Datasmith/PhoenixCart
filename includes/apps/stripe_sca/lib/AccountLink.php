@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -20,8 +18,8 @@ namespace Stripe;
  * @property int $expires_at The timestamp at which this account link will expire.
  * @property string $url The URL for the account link.
  */
-class AccountLink extends ApiResource
+class Account_Link extends Api_Resource
 {
-    use ApiOperations\Create;
+    use Api_Operations\Create;
     public const OBJECT_NAME = 'account_link';
 }

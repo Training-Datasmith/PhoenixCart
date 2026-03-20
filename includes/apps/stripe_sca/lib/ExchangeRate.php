@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -23,9 +21,9 @@ namespace Stripe;
  * @property string $object String representing the object's type. Objects of the same type share the same value.
  * @property \Stripe\StripeObject $rates Hash where the keys are supported currencies and the values are the exchange rate at which the base id currency converts to the key currency.
  */
-class ExchangeRate extends ApiResource
+class Exchange_Rate extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
+    use Api_Operations\All;
+    use Api_Operations\Retrieve;
     public const OBJECT_NAME = 'exchange_rate';
 }

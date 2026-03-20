@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -33,13 +31,12 @@ namespace Stripe;
  * @property string $reason Reason given by cardholder for dispute. Possible values are <code>bank_cannot_process</code>, <code>check_returned</code>, <code>credit_not_processed</code>, <code>customer_initiated</code>, <code>debit_not_authorized</code>, <code>duplicate</code>, <code>fraudulent</code>, <code>general</code>, <code>incorrect_account_details</code>, <code>insufficient_funds</code>, <code>product_not_received</code>, <code>product_unacceptable</code>, <code>subscription_canceled</code>, or <code>unrecognized</code>. Read more about <a href="https://stripe.com/docs/disputes/categories">dispute reasons</a>.
  * @property string $status Current status of dispute. Possible values are <code>warning_needs_response</code>, <code>warning_under_review</code>, <code>warning_closed</code>, <code>needs_response</code>, <code>under_review</code>, <code>charge_refunded</code>, <code>won</code>, or <code>lost</code>.
  */
-class Dispute extends ApiResource
+class Dispute extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'dispute';
-
     public const REASON_BANK_CANNOT_PROCESS = 'bank_cannot_process';
     public const REASON_CHECK_RETURNED = 'check_returned';
     public const REASON_CREDIT_NOT_PROCESSED = 'credit_not_processed';
@@ -54,7 +51,6 @@ class Dispute extends ApiResource
     public const REASON_PRODUCT_UNACCEPTABLE = 'product_unacceptable';
     public const REASON_SUBSCRIPTION_CANCELED = 'subscription_canceled';
     public const REASON_UNRECOGNIZED = 'unrecognized';
-
     public const STATUS_CHARGE_REFUNDED = 'charge_refunded';
     public const STATUS_LOST = 'lost';
     public const STATUS_NEEDS_RESPONSE = 'needs_response';
@@ -63,7 +59,6 @@ class Dispute extends ApiResource
     public const STATUS_WARNING_NEEDS_RESPONSE = 'warning_needs_response';
     public const STATUS_WARNING_UNDER_REVIEW = 'warning_under_review';
     public const STATUS_WON = 'won';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -74,10 +69,9 @@ class Dispute extends ApiResource
      */
     public function close($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/close';
+        $url = $this->instance_url() . '/close';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

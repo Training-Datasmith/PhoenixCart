@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe\Util;
 
 /**
@@ -24,7 +23,7 @@ namespace Stripe\Util;
  * can be made by implementors is that if an Exception instance is given
  * to produce a stack trace, it MUST be in a key named "exception".
  */
-interface LoggerInterface
+interface Logger_Interface
 {
     /**
      * Runtime errors that do not require immediate action but should typically

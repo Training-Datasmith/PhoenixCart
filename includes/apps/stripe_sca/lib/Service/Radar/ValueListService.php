@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Radar;
 
-class ValueListService extends \Stripe\Service\AbstractService
+class Value_List_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of <code>ValueList</code> objects. The objects are sorted in
@@ -22,9 +20,8 @@ class ValueListService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/radar/value_lists', $params, $opts);
+        return $this->request_collection('get', '/v1/radar/value_lists', $params, $opts);
     }
-
     /**
      * Creates a new <code>ValueList</code> object, which can then be referenced in
      * rules.
@@ -40,7 +37,6 @@ class ValueListService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/radar/value_lists', $params, $opts);
     }
-
     /**
      * Deletes a <code>ValueList</code> object, also deleting any items contained
      * within the value list. To be deleted, a value list must not be referenced in any
@@ -56,9 +52,8 @@ class ValueListService extends \Stripe\Service\AbstractService
      */
     public function delete($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/radar/value_lists/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/radar/value_lists/%s', $id), $params, $opts);
     }
-
     /**
      * Retrieves a <code>ValueList</code> object.
      *
@@ -72,9 +67,8 @@ class ValueListService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/radar/value_lists/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/radar/value_lists/%s', $id), $params, $opts);
     }
-
     /**
      * Updates a <code>ValueList</code> object by setting the values of the parameters
      * passed. Any parameters not provided will be left unchanged. Note that
@@ -90,6 +84,6 @@ class ValueListService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/radar/value_lists/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/radar/value_lists/%s', $id), $params, $opts);
     }
 }

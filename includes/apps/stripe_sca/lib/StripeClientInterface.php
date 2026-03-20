@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
 /**
  * Interface for a Stripe client.
  */
-interface StripeClientInterface extends BaseStripeClientInterface
+interface Stripe_Client_Interface extends Base_Stripe_Client_Interface
 {
     /**
      * Sends a request to Stripe's API.

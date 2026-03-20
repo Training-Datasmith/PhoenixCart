@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please read:
- *
- * Copyright (c) 2004-present Fabien Potencier
+* This file is part of the Symfony package.
+*
+* (c) Fabien Potencier <fabien@symfony.com>
+*
+* For the full copyright and license information, please read:
+*
+* Copyright (c) 2004-present Fabien Potencier
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +27,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
- */
-
+*/
 /**
  * Parser and formatter for the second format.
  *
@@ -37,34 +35,28 @@ THE SOFTWARE.
  *
  * @internal
  */
-class SecondTransformer extends Transformer
+class Second_Transformer extends Transformer
 {
     /**
      * {@inheritdoc}
      */
-    public function format(\DateTime $dateTime, int $length): string
+    public function format(\DateTime $date_time, int $length): string
     {
-        $secondOfMinute = (int) $dateTime->format('s');
-
-        return $this->padLeft($secondOfMinute, $length);
+        $second_of_minute = (int) $date_time->format('s');
+        return $this->pad_left($second_of_minute, $length);
     }
-
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string
+    public function get_reverse_matching_reg_exp(int $length): string
     {
-        return 1 === $length ? '\d{1,2}' : '\d{'.$length.'}';
+        return 1 === $length ? '\d{1,2}' : '\d{' . $length . '}';
     }
-
     /**
      * {@inheritdoc}
      */
-    public function extractDateOptions(string $matched, int $length): array
+    public function extract_date_options(string $matched, int $length): array
     {
-        return [
-            'second' => (int) $matched,
-        ];
+        return ['second' => (int) $matched];
     }
-
 }

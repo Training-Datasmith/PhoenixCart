@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -26,17 +24,15 @@ namespace Stripe;
  * @property null|string|\Stripe\TaxCode $tax_code A <a href="https://stripe.com/docs/tax/tax-categories">tax code</a> ID. The Shipping tax code is <code>txcd_92010001</code>.
  * @property string $type The type of calculation to use on the shipping rate. Can only be <code>fixed_amount</code> for now.
  */
-class ShippingRate extends ApiResource
+class Shipping_Rate extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'shipping_rate';
-
     public const TAX_BEHAVIOR_EXCLUSIVE = 'exclusive';
     public const TAX_BEHAVIOR_INCLUSIVE = 'inclusive';
     public const TAX_BEHAVIOR_UNSPECIFIED = 'unspecified';
-
     public const TYPE_FIXED_AMOUNT = 'fixed_amount';
 }

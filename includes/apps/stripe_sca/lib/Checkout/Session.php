@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Checkout;
 
 /**
@@ -73,39 +71,31 @@ namespace Stripe\Checkout;
  * @property null|\Stripe\StripeObject $total_details Tax and discount details for the computed total amount.
  * @property null|string $url The URL to the Checkout Session. Redirect customers to this URL to take them to Checkout. If you’re using <a href="https://stripe.com/docs/payments/checkout/custom-domains">Custom Domains</a>, the URL will use your subdomain. Otherwise, it’ll use <code>checkout.stripe.com.</code> This value is only present when the session is active.
  */
-class Session extends \Stripe\ApiResource
+class Session extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Retrieve;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Create;
+    use \Stripe\Api_Operations\Retrieve;
     public const OBJECT_NAME = 'checkout.session';
-
     public const BILLING_ADDRESS_COLLECTION_AUTO = 'auto';
     public const BILLING_ADDRESS_COLLECTION_REQUIRED = 'required';
-
     public const CUSTOMER_CREATION_ALWAYS = 'always';
     public const CUSTOMER_CREATION_IF_REQUIRED = 'if_required';
-
     public const MODE_PAYMENT = 'payment';
     public const MODE_SETUP = 'setup';
     public const MODE_SUBSCRIPTION = 'subscription';
-
     public const PAYMENT_METHOD_COLLECTION_ALWAYS = 'always';
     public const PAYMENT_METHOD_COLLECTION_IF_REQUIRED = 'if_required';
-
     public const PAYMENT_STATUS_NO_PAYMENT_REQUIRED = 'no_payment_required';
     public const PAYMENT_STATUS_PAID = 'paid';
     public const PAYMENT_STATUS_UNPAID = 'unpaid';
-
     public const STATUS_COMPLETE = 'complete';
     public const STATUS_EXPIRED = 'expired';
     public const STATUS_OPEN = 'open';
-
     public const SUBMIT_TYPE_AUTO = 'auto';
     public const SUBMIT_TYPE_BOOK = 'book';
     public const SUBMIT_TYPE_DONATE = 'donate';
     public const SUBMIT_TYPE_PAY = 'pay';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -116,13 +106,11 @@ class Session extends \Stripe\ApiResource
      */
     public function expire($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/expire';
+        $url = $this->instance_url() . '/expire';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param string $id
      * @param null|array $params
@@ -132,13 +120,12 @@ class Session extends \Stripe\ApiResource
      *
      * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
      */
-    public static function allLineItems($id, $params = null, $opts = null)
+    public static function all_line_items($id, $params = null, $opts = null)
     {
-        $url = static::resourceUrl($id) . '/line_items';
-        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $url = static::resource_url($id) . '/line_items';
+        [$response, $opts] = static::_static_request('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
 }

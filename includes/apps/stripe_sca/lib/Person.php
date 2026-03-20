@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -52,46 +50,35 @@ namespace Stripe;
  * @property bool $ssn_last_4_provided Whether the last four digits of the person's Social Security number have been provided (U.S. only).
  * @property \Stripe\StripeObject $verification
  */
-class Person extends ApiResource
+class Person extends Api_Resource
 {
-    use ApiOperations\Delete;
-    use ApiOperations\Update;
+    use Api_Operations\Delete;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'person';
-
     public const GENDER_FEMALE = 'female';
     public const GENDER_MALE = 'male';
-
     public const POLITICAL_EXPOSURE_EXISTING = 'existing';
     public const POLITICAL_EXPOSURE_NONE = 'none';
-
     public const VERIFICATION_STATUS_PENDING = 'pending';
     public const VERIFICATION_STATUS_UNVERIFIED = 'unverified';
     public const VERIFICATION_STATUS_VERIFIED = 'verified';
-
     /**
      * @return string the API URL for this Stripe account reversal
      */
-    public function instanceUrl(): string
+    public function instance_url(): string
     {
         $id = $this['id'];
         $account = $this['account'];
         if (!$id) {
-            throw new Exception\UnexpectedValueException(
-                'Could not determine which URL to request: ' .
-                "class instance has invalid ID: {$id}",
-                null
-            );
+            throw new Exception\UnexpectedValueException('Could not determine which URL to request: ' . "class instance has invalid ID: {$id}", null);
         }
         $id = Util\Util::utf8($id);
         $account = Util\Util::utf8($account);
-
-        $base = Account::classUrl();
-        $accountExtn = \urlencode((string) $account);
+        $base = Account::class_url();
+        $account_extn = \urlencode((string) $account);
         $extn = \urlencode((string) $id);
-
-        return "{$base}/{$accountExtn}/persons/{$extn}";
+        return "{$base}/{$account_extn}/persons/{$extn}";
     }
-
     /**
      * @param array|string $_id
      * @param null|array|string $_opts
@@ -100,13 +87,9 @@ class Person extends ApiResource
      */
     public static function retrieve($_id, $_opts = null): never
     {
-        $msg = 'Persons cannot be retrieved without an account ID. Retrieve ' .
-               "a person using `Account::retrievePerson('account_id', " .
-               "'person_id')`.";
-
+        $msg = 'Persons cannot be retrieved without an account ID. Retrieve ' . "a person using `Account::retrievePerson('account_id', " . "'person_id')`.";
         throw new Exception\BadMethodCallException($msg);
     }
-
     /**
      * @param string $_id
      * @param null|array $_params
@@ -116,10 +99,7 @@ class Person extends ApiResource
      */
     public static function update($_id, $_params = null, $_options = null): never
     {
-        $msg = 'Persons cannot be updated without an account ID. Update ' .
-               "a person using `Account::updatePerson('account_id', " .
-               "'person_id', \$updateParams)`.";
-
+        $msg = 'Persons cannot be updated without an account ID. Update ' . "a person using `Account::updatePerson('account_id', " . "'person_id', \$updateParams)`.";
         throw new Exception\BadMethodCallException($msg);
     }
 }

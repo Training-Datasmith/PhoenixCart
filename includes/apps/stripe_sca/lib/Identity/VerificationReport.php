@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Identity;
 
 /**
@@ -35,12 +33,11 @@ namespace Stripe\Identity;
  * @property string $type Type of report.
  * @property null|string $verification_session ID of the VerificationSession that created this report.
  */
-class VerificationReport extends \Stripe\ApiResource
+class Verification_Report extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Retrieve;
     public const OBJECT_NAME = 'identity.verification_report';
-
     public const TYPE_DOCUMENT = 'document';
     public const TYPE_ID_NUMBER = 'id_number';
 }

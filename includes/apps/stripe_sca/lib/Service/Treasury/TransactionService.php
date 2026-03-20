@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Treasury;
 
-class TransactionService extends \Stripe\Service\AbstractService
+class Transaction_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Retrieves a list of Transaction objects.
@@ -20,9 +18,8 @@ class TransactionService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/treasury/transactions', $params, $opts);
+        return $this->request_collection('get', '/v1/treasury/transactions', $params, $opts);
     }
-
     /**
      * Retrieves the details of an existing Transaction.
      *
@@ -36,6 +33,6 @@ class TransactionService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/treasury/transactions/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/treasury/transactions/%s', $id), $params, $opts);
     }
 }

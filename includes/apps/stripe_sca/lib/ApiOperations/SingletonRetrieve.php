@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Stripe\ApiOperations;
+declare (strict_types=1);
+namespace Stripe\Api_Operations;
 
 /**
  * Trait for retrievable singleton resources. Adds a `retrieve()` static method to the
@@ -10,7 +9,7 @@ namespace Stripe\ApiOperations;
  *
  * This trait should only be applied to classes that derive from SingletonApiResource.
  */
-trait SingletonRetrieve
+trait Singleton_Retrieve
 {
     /**
      * @param array|string $id the ID of the API resource to retrieve,
@@ -21,10 +20,9 @@ trait SingletonRetrieve
      */
     public static function retrieve($opts = null): static
     {
-        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        $opts = \Stripe\Util\Request_Options::parse($opts);
         $instance = new static(null, $opts);
         $instance->refresh();
-
         return $instance;
     }
 }

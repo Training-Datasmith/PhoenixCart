@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class CountrySpecService extends \Stripe\Service\AbstractService
+class Country_Spec_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Lists all Country Spec objects available in the API.
@@ -20,9 +18,8 @@ class CountrySpecService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/country_specs', $params, $opts);
+        return $this->request_collection('get', '/v1/country_specs', $params, $opts);
     }
-
     /**
      * Returns a Country Spec for a given Country code.
      *
@@ -36,6 +33,6 @@ class CountrySpecService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/country_specs/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/country_specs/%s', $id), $params, $opts);
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Identity;
 
 /**
@@ -37,22 +35,19 @@ namespace Stripe\Identity;
  * @property null|string $url The short-lived URL that you use to redirect a user to Stripe to submit their identity information. This URL expires after 48 hours and can only be used once. Don’t store it, log it, send it in emails or expose it to anyone other than the user. Refer to our docs on <a href="https://stripe.com/docs/identity/verify-identity-documents?platform=web&amp;type=redirect">verifying identity documents</a> to learn how to redirect users to Stripe.
  * @property null|\Stripe\StripeObject $verified_outputs The user’s verified data.
  */
-class VerificationSession extends \Stripe\ApiResource
+class Verification_Session extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Retrieve;
-    use \Stripe\ApiOperations\Update;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Create;
+    use \Stripe\Api_Operations\Retrieve;
+    use \Stripe\Api_Operations\Update;
     public const OBJECT_NAME = 'identity.verification_session';
-
     public const STATUS_CANCELED = 'canceled';
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_REQUIRES_INPUT = 'requires_input';
     public const STATUS_VERIFIED = 'verified';
-
     public const TYPE_DOCUMENT = 'document';
     public const TYPE_ID_NUMBER = 'id_number';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -63,13 +58,11 @@ class VerificationSession extends \Stripe\ApiResource
      */
     public function cancel($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/cancel';
+        $url = $this->instance_url() . '/cancel';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -80,10 +73,9 @@ class VerificationSession extends \Stripe\ApiResource
      */
     public function redact($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/redact';
+        $url = $this->instance_url() . '/redact';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

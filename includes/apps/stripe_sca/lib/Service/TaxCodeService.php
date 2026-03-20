@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class TaxCodeService extends \Stripe\Service\AbstractService
+class Tax_Code_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * A list of <a href="https://stripe.com/docs/tax/tax-categories">all tax codes
@@ -21,9 +19,8 @@ class TaxCodeService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/tax_codes', $params, $opts);
+        return $this->request_collection('get', '/v1/tax_codes', $params, $opts);
     }
-
     /**
      * Retrieves the details of an existing tax code. Supply the unique tax code ID and
      * Stripe will return the corresponding tax code information.
@@ -38,6 +35,6 @@ class TaxCodeService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/tax_codes/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/tax_codes/%s', $id), $params, $opts);
     }
 }

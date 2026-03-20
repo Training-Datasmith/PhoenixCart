@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class RefundService extends \Stripe\Service\AbstractService
+class Refund_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of all refunds you’ve previously created. The refunds are
@@ -23,9 +21,8 @@ class RefundService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/refunds', $params, $opts);
+        return $this->request_collection('get', '/v1/refunds', $params, $opts);
     }
-
     /**
      * Cancels a refund with a status of <code>requires_action</code>.
      *
@@ -42,9 +39,8 @@ class RefundService extends \Stripe\Service\AbstractService
      */
     public function cancel($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/refunds/%s/cancel', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/refunds/%s/cancel', $id), $params, $opts);
     }
-
     /**
      * Create a refund.
      *
@@ -59,7 +55,6 @@ class RefundService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/refunds', $params, $opts);
     }
-
     /**
      * Retrieves the details of an existing refund.
      *
@@ -73,9 +68,8 @@ class RefundService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/refunds/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/refunds/%s', $id), $params, $opts);
     }
-
     /**
      * Updates the specified refund by setting the values of the parameters passed. Any
      * parameters not provided will be left unchanged.
@@ -92,6 +86,6 @@ class RefundService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/refunds/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/refunds/%s', $id), $params, $opts);
     }
 }

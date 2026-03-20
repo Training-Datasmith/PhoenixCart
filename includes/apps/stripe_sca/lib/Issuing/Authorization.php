@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Issuing;
 
 /**
@@ -41,13 +39,12 @@ namespace Stripe\Issuing;
  * @property \Stripe\StripeObject $verification_data
  * @property null|string $wallet The digital wallet used for this transaction. One of <code>apple_pay</code>, <code>google_pay</code>, or <code>samsung_pay</code>. Will populate as <code>null</code> when no digital wallet was utilized.
  */
-class Authorization extends \Stripe\ApiResource
+class Authorization extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
-    use \Stripe\ApiOperations\Update;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Retrieve;
+    use \Stripe\Api_Operations\Update;
     public const OBJECT_NAME = 'issuing.authorization';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -58,13 +55,11 @@ class Authorization extends \Stripe\ApiResource
      */
     public function approve($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/approve';
+        $url = $this->instance_url() . '/approve';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -75,10 +70,9 @@ class Authorization extends \Stripe\ApiResource
      */
     public function decline($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/decline';
+        $url = $this->instance_url() . '/decline';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

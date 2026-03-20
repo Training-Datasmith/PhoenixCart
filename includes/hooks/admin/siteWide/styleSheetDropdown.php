@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,12 +11,10 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
-class hook_admin_siteWide_styleSheetDropdown
+class Hook_admin_site_Wide_style_Sheet_Dropdown
 {
-    public function listen_injectSiteStart(): string
+    public function listen_inject_site_start(): string
     {
         return '<style>#navbarAdmin ul.navbar-nav li.dropdown:hover > ul.dropdown-menu { max-height:500px; overflow-y:auto; }</style>' . PHP_EOL;
     }
-
 }

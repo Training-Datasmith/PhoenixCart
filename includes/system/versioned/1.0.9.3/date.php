@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,11 +11,9 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 class Date
 {
     protected $timestamp;
-
     /**
      * Construct a Date object.
      * Strings need to be in this format: YYYY-MM-DD HH:MM:SS
@@ -25,20 +23,12 @@ class Date
     {
         if (is_int($date)) {
             $this->timestamp = $date;
-        } elseif (($date === '0000-00-00 00:00:00') || !$date) {
+        } elseif ($date === '0000-00-00 00:00:00' || !$date) {
             $this->timestamp = false;
         } else {
-            $this->timestamp = mktime(
-                (int)substr((string) $date, 11, 2),
-                (int)substr((string) $date, 14, 2),
-                (int)substr((string) $date, 17, 2),
-                (int)substr((string) $date, 5, 2),
-                (int)substr((string) $date, 8, 2),
-                (int)substr((string) $date, 0, 4)
-            );
+            $this->timestamp = mktime((int) substr((string) $date, 11, 2), (int) substr((string) $date, 14, 2), (int) substr((string) $date, 17, 2), (int) substr((string) $date, 5, 2), (int) substr((string) $date, 8, 2), (int) substr((string) $date, 0, 4));
         }
     }
-
     /**
      * Format this date with IntlDateFormatter.
      * @param string $format An IntlDateFormatter format string.
@@ -46,11 +36,8 @@ class Date
      */
     public function format($format)
     {
-        return $this->timestamp
-             ? (new IntlDateFormatter('en', IntlDateFormatter::FULL, IntlDateFormatter::NONE, null, IntlDateFormatter::GREGORIAN, $format))->format($this->timestamp)
-             : false;
+        return $this->timestamp ? (new Intl_Date_Formatter('en', Intl_Date_Formatter::FULL, Intl_Date_Formatter::NONE, null, Intl_Date_Formatter::GREGORIAN, $format))->format($this->timestamp) : false;
     }
-
     /**
      * Return the timestamp.
      */
@@ -58,7 +45,6 @@ class Date
     {
         return $this->timestamp;
     }
-
     // Output in the selected locale date format, long version
     // $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
     public static function expound($raw_date)
@@ -66,7 +52,6 @@ class Date
         $timestamp = (new Date($raw_date))->get_timestamp();
         return $timestamp ? $GLOBALS['long_date_formatter']->format($timestamp) : false;
     }
-
     ////
     // Output in the selected locale date format, shorter version
     // $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
@@ -75,7 +60,6 @@ class Date
         $timestamp = (new Date($raw_date))->get_timestamp();
         return $timestamp ? $GLOBALS['short_date_formatter']->format($timestamp) : false;
     }
-
     /**
      * Create with the current date.
      */
@@ -83,5 +67,4 @@ class Date
     {
         return new Date(time());
     }
-
 }

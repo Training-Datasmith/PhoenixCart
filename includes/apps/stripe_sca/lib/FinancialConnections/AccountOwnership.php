@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
-namespace Stripe\FinancialConnections;
+namespace Stripe\Financial_Connections;
 
 /**
  * Describes a snapshot of the owners of an account at a particular point in time.
@@ -14,7 +12,7 @@ namespace Stripe\FinancialConnections;
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
  * @property \Stripe\Collection<\Stripe\FinancialConnections\AccountOwner> $owners A paginated list of owners for this account.
  */
-class AccountOwnership extends \Stripe\ApiResource
+class Account_Ownership extends \Stripe\Api_Resource
 {
     public const OBJECT_NAME = 'financial_connections.account_ownership';
 }

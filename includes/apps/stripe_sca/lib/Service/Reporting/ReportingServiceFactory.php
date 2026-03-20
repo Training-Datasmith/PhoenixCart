@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Reporting;
 
 /**
@@ -12,18 +10,14 @@ namespace Stripe\Service\Reporting;
  * @property ReportRunService $reportRuns
  * @property ReportTypeService $reportTypes
  */
-class ReportingServiceFactory extends \Stripe\Service\AbstractServiceFactory
+class Reporting_Service_Factory extends \Stripe\Service\Abstract_Service_Factory
 {
     /**
      * @var array<string, string>
      */
-    private static array $classMap = [
-        'reportRuns' => ReportRunService::class,
-        'reportTypes' => ReportTypeService::class,
-    ];
-
-    protected function getServiceClass($name)
+    private static array $class_map = ['reportRuns' => Report_Run_Service::class, 'reportTypes' => Report_Type_Service::class];
+    protected function get_service_class($name)
     {
-        return \array_key_exists($name, self::$classMap) ? self::$classMap[$name] : null;
+        return \array_key_exists($name, self::$class_map) ? self::$class_map[$name] : null;
     }
 }

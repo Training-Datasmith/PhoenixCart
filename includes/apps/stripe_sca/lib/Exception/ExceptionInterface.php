@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe\Exception;
 
 // TODO: remove this check once we drop support for PHP 5
@@ -9,7 +8,7 @@ if (\interface_exists(\Throwable::class, false)) {
     /**
      * The base interface for all Stripe exceptions.
      */
-    interface ExceptionInterface extends \Throwable
+    interface Exception_Interface extends \Throwable
     {
     }
 } else {
@@ -17,7 +16,7 @@ if (\interface_exists(\Throwable::class, false)) {
      * The base interface for all Stripe exceptions.
      */
     // phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
-    interface ExceptionInterface
+    interface Exception_Interface
     {
     }
     // phpcs:enable

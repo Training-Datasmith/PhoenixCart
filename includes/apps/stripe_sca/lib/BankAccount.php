@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -38,12 +36,11 @@ namespace Stripe;
  * @property null|string $routing_number The routing transit number for the bank account.
  * @property string $status <p>For bank accounts, possible values are <code>new</code>, <code>validated</code>, <code>verified</code>, <code>verification_failed</code>, or <code>errored</code>. A bank account that hasn't had any activity or validation performed is <code>new</code>. If Stripe can determine that the bank account exists, its status will be <code>validated</code>. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be <code>verified</code>. If the verification failed for any reason, such as microdeposit failure, the status will be <code>verification_failed</code>. If a transfer sent to this bank account fails, we'll set the status to <code>errored</code> and will not continue to send transfers until the bank details are updated.</p><p>For external accounts, possible values are <code>new</code> and <code>errored</code>. Validations aren't run against external accounts because they're only used for payouts. This means the other statuses don't apply. If a transfer fails, the status is set to <code>errored</code> and transfers are stopped until account details are updated.</p>
  */
-class BankAccount extends ApiResource
+class Bank_Account extends Api_Resource
 {
-    use ApiOperations\Delete;
-    use ApiOperations\Update;
+    use Api_Operations\Delete;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'bank_account';
-
     /**
      * Possible string representations of the bank verification status.
      *
@@ -54,32 +51,28 @@ class BankAccount extends ApiResource
     public const STATUS_VERIFIED = 'verified';
     public const STATUS_VERIFICATION_FAILED = 'verification_failed';
     public const STATUS_ERRORED = 'errored';
-
     /**
      * @return string The instance URL for this resource. It needs to be special
      *    cased because it doesn't fit into the standard resource pattern.
      */
-    public function instanceUrl(): string
+    public function instance_url(): string
     {
         if ($this['customer']) {
-            $base = Customer::classUrl();
+            $base = Customer::class_url();
             $parent = $this['customer'];
             $path = 'sources';
         } elseif ($this['account']) {
-            $base = Account::classUrl();
+            $base = Account::class_url();
             $parent = $this['account'];
             $path = 'external_accounts';
         } else {
             $msg = 'Bank accounts cannot be accessed without a customer ID or account ID.';
-
             throw new Exception\UnexpectedValueException($msg, null);
         }
-        $parentExtn = \urlencode((string) Util\Util::utf8($parent));
+        $parent_extn = \urlencode((string) Util\Util::utf8($parent));
         $extn = \urlencode((string) Util\Util::utf8($this['id']));
-
-        return "{$base}/{$parentExtn}/{$path}/{$extn}";
+        return "{$base}/{$parent_extn}/{$path}/{$extn}";
     }
-
     /**
      * @param array|string $_id
      * @param null|array|string $_opts
@@ -88,15 +81,9 @@ class BankAccount extends ApiResource
      */
     public static function retrieve($_id, $_opts = null): never
     {
-        $msg = 'Bank accounts cannot be retrieved without a customer ID or ' .
-               'an account ID. Retrieve a bank account using ' .
-               "`Customer::retrieveSource('customer_id', " .
-               "'bank_account_id')` or `Account::retrieveExternalAccount(" .
-               "'account_id', 'bank_account_id')`.";
-
+        $msg = 'Bank accounts cannot be retrieved without a customer ID or ' . 'an account ID. Retrieve a bank account using ' . "`Customer::retrieveSource('customer_id', " . "'bank_account_id')` or `Account::retrieveExternalAccount(" . "'account_id', 'bank_account_id')`.";
         throw new Exception\BadMethodCallException($msg);
     }
-
     /**
      * @param string $_id
      * @param null|array $_params
@@ -106,15 +93,9 @@ class BankAccount extends ApiResource
      */
     public static function update($_id, $_params = null, $_options = null): never
     {
-        $msg = 'Bank accounts cannot be updated without a customer ID or an ' .
-               'account ID. Update a bank account using ' .
-               "`Customer::updateSource('customer_id', 'bank_account_id', " .
-               '$updateParams)` or `Account::updateExternalAccount(' .
-               "'account_id', 'bank_account_id', \$updateParams)`.";
-
+        $msg = 'Bank accounts cannot be updated without a customer ID or an ' . 'account ID. Update a bank account using ' . "`Customer::updateSource('customer_id', 'bank_account_id', " . '$updateParams)` or `Account::updateExternalAccount(' . "'account_id', 'bank_account_id', \$updateParams)`.";
         throw new Exception\BadMethodCallException($msg);
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -125,10 +106,9 @@ class BankAccount extends ApiResource
      */
     public function verify($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/verify';
+        $url = $this->instance_url() . '/verify';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

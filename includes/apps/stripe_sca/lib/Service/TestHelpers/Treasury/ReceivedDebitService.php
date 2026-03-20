@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
+namespace Stripe\Service\Test_Helpers\Treasury;
 
-namespace Stripe\Service\TestHelpers\Treasury;
-
-class ReceivedDebitService extends \Stripe\Service\AbstractService
+class Received_Debit_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Use this endpoint to simulate a test mode ReceivedDebit initiated by a third

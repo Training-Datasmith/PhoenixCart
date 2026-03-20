@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please read:
- *
- * Copyright (c) 2004-present Fabien Potencier
+* This file is part of the Symfony package.
+*
+* (c) Fabien Potencier <fabien@symfony.com>
+*
+* For the full copyright and license information, please read:
+*
+* Copyright (c) 2004-present Fabien Potencier
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +27,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
- */
-
+*/
 /**
  * Base class for hour transformers.
  *
@@ -37,7 +35,7 @@ THE SOFTWARE.
  *
  * @internal
  */
-abstract class HourTransformer extends Transformer
+abstract class Hour_Transformer extends Transformer
 {
     /**
      * Returns a normalized hour value suitable for the hour transformer type.
@@ -47,17 +45,12 @@ abstract class HourTransformer extends Transformer
      *
      * @return int The normalized hour value
      */
-    abstract public function normalizeHour(int $hour, ?string $marker = null): int;
-
+    abstract public function normalize_hour(int $hour, ?string $marker = null): int;
     /**
      * {@inheritdoc}
      */
-    public function extractDateOptions(string $matched, int $length): array
+    public function extract_date_options(string $matched, int $length): array
     {
-        return [
-            'hour' => (int) $matched,
-            'hourInstance' => $this,
-        ];
+        return ['hour' => (int) $matched, 'hourInstance' => $this];
     }
-
 }

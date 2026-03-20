@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Sigma;
 
-class ScheduledQueryRunService extends \Stripe\Service\AbstractService
+class Scheduled_Query_Run_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of scheduled query runs.
@@ -20,9 +18,8 @@ class ScheduledQueryRunService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/sigma/scheduled_query_runs', $params, $opts);
+        return $this->request_collection('get', '/v1/sigma/scheduled_query_runs', $params, $opts);
     }
-
     /**
      * Retrieves the details of an scheduled query run.
      *
@@ -36,6 +33,6 @@ class ScheduledQueryRunService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/sigma/scheduled_query_runs/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/sigma/scheduled_query_runs/%s', $id), $params, $opts);
     }
 }

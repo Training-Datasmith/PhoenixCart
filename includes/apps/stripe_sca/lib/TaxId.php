@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -24,11 +22,10 @@ namespace Stripe;
  * @property string $value Value of the tax ID.
  * @property null|\Stripe\StripeObject $verification Tax ID verification information.
  */
-class TaxId extends ApiResource
+class Tax_Id extends Api_Resource
 {
-    use ApiOperations\Delete;
+    use Api_Operations\Delete;
     public const OBJECT_NAME = 'tax_id';
-
     public const TYPE_AE_TRN = 'ae_trn';
     public const TYPE_AU_ABN = 'au_abn';
     public const TYPE_AU_ARN = 'au_arn';
@@ -81,34 +78,27 @@ class TaxId extends ApiResource
     public const TYPE_UNKNOWN = 'unknown';
     public const TYPE_US_EIN = 'us_ein';
     public const TYPE_ZA_VAT = 'za_vat';
-
     public const VERIFICATION_STATUS_PENDING = 'pending';
     public const VERIFICATION_STATUS_UNAVAILABLE = 'unavailable';
     public const VERIFICATION_STATUS_UNVERIFIED = 'unverified';
     public const VERIFICATION_STATUS_VERIFIED = 'verified';
-
     /**
      * @return string the API URL for this tax id
      */
-    public function instanceUrl(): string
+    public function instance_url(): string
     {
         $id = $this['id'];
         $customer = $this['customer'];
         if (!$id) {
-            throw new Exception\UnexpectedValueException(
-                "Could not determine which URL to request: class instance has invalid ID: {$id}"
-            );
+            throw new Exception\UnexpectedValueException("Could not determine which URL to request: class instance has invalid ID: {$id}");
         }
         $id = Util\Util::utf8($id);
         $customer = Util\Util::utf8($customer);
-
-        $base = Customer::classUrl();
-        $customerExtn = \urlencode((string) $customer);
+        $base = Customer::class_url();
+        $customer_extn = \urlencode((string) $customer);
         $extn = \urlencode((string) $id);
-
-        return "{$base}/{$customerExtn}/tax_ids/{$extn}";
+        return "{$base}/{$customer_extn}/tax_ids/{$extn}";
     }
-
     /**
      * @param array|string $_id
      * @param null|array|string $_opts
@@ -117,10 +107,7 @@ class TaxId extends ApiResource
      */
     public static function retrieve($_id, $_opts = null): never
     {
-        $msg = 'Tax IDs cannot be retrieved without a customer ID. Retrieve ' .
-               "a tax ID using `Customer::retrieveTaxId('customer_id', " .
-               "'tax_id_id')`.";
-
+        $msg = 'Tax IDs cannot be retrieved without a customer ID. Retrieve ' . "a tax ID using `Customer::retrieveTaxId('customer_id', " . "'tax_id_id')`.";
         throw new Exception\BadMethodCallException($msg);
     }
 }

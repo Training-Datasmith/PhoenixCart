@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class CouponService extends \Stripe\Service\AbstractService
+class Coupon_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of your coupons.
@@ -20,9 +18,8 @@ class CouponService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/coupons', $params, $opts);
+        return $this->request_collection('get', '/v1/coupons', $params, $opts);
     }
-
     /**
      * You can create coupons easily via the <a
      * href="https://dashboard.stripe.com/coupons">coupon management</a> page of the
@@ -50,7 +47,6 @@ class CouponService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/coupons', $params, $opts);
     }
-
     /**
      * You can delete coupons via the <a
      * href="https://dashboard.stripe.com/coupons">coupon management</a> page of the
@@ -68,9 +64,8 @@ class CouponService extends \Stripe\Service\AbstractService
      */
     public function delete($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/coupons/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/coupons/%s', $id), $params, $opts);
     }
-
     /**
      * Retrieves the coupon with the given ID.
      *
@@ -84,9 +79,8 @@ class CouponService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/coupons/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/coupons/%s', $id), $params, $opts);
     }
-
     /**
      * Updates the metadata of a coupon. Other coupon details (currency, duration,
      * amount_off) are, by design, not editable.
@@ -101,6 +95,6 @@ class CouponService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/coupons/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/coupons/%s', $id), $params, $opts);
     }
 }

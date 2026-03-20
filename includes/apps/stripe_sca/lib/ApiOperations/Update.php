@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Stripe\ApiOperations;
+declare (strict_types=1);
+namespace Stripe\Api_Operations;
 
 /**
  * Trait for updatable resources. Adds an `update()` static method and a
@@ -23,16 +22,13 @@ trait Update
      */
     public static function update($id, $params = null, $opts = null)
     {
-        self::_validateParams($params);
-        $url = static::resourceUrl($id);
-
-        [$response, $opts] = static::_staticRequest('post', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        self::_validate_params($params);
+        $url = static::resource_url($id);
+        [$response, $opts] = static::_static_request('post', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
-
     /**
      * @param null|array|string $opts
      *
@@ -46,13 +42,12 @@ trait Update
      */
     public function save($opts = null)
     {
-        $params = $this->serializeParameters();
+        $params = $this->serialize_parameters();
         if (\count($params) > 0) {
-            $url = $this->instanceUrl();
+            $url = $this->instance_url();
             [$response, $opts] = $this->_request('post', $url, $params, $opts);
-            $this->refreshFrom($response, $opts);
+            $this->refresh_from($response, $opts);
         }
-
         return $this;
     }
 }

@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
+namespace Stripe\Service\Financial_Connections;
 
-namespace Stripe\Service\FinancialConnections;
-
-class SessionService extends \Stripe\Service\AbstractService
+class Session_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * To launch the Financial Connections authorization flow, create a
@@ -24,7 +22,6 @@ class SessionService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/financial_connections/sessions', $params, $opts);
     }
-
     /**
      * Retrieves the details of a Financial Connections <code>Session</code>.
      *
@@ -38,6 +35,6 @@ class SessionService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/financial_connections/sessions/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/financial_connections/sessions/%s', $id), $params, $opts);
     }
 }

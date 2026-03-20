@@ -1,21 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Stripe\Exception\OAuth;
+declare (strict_types=1);
+namespace Stripe\Exception\O_Auth;
 
 /**
  * Implements properties and methods common to all (non-SPL) Stripe OAuth
  * exceptions.
  */
-abstract class OAuthErrorException extends \Stripe\Exception\ApiErrorException
+abstract class O_Auth_Error_Exception extends \Stripe\Exception\Api_Error_Exception
 {
-    protected function constructErrorObject()
+    protected function construct_error_object()
     {
-        if (null === $this->jsonBody) {
+        if (null === $this->json_body) {
             return null;
         }
-
-        return \Stripe\OAuthErrorObject::constructFrom($this->jsonBody);
+        return \Stripe\O_Auth_Error_Object::construct_from($this->json_body);
     }
 }

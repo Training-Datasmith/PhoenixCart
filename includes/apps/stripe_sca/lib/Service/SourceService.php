@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class SourceService extends \Stripe\Service\AbstractService
+class Source_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * List source transactions for a given source.
@@ -19,11 +17,10 @@ class SourceService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Collection<\Stripe\SourceTransaction>
      */
-    public function allSourceTransactions($id, $params = null, $opts = null)
+    public function all_source_transactions($id, $params = null, $opts = null)
     {
-        return $this->requestCollection('get', $this->buildPath('/v1/sources/%s/source_transactions', $id), $params, $opts);
+        return $this->request_collection('get', $this->build_path('/v1/sources/%s/source_transactions', $id), $params, $opts);
     }
-
     /**
      * Creates a new source object.
      *
@@ -38,7 +35,6 @@ class SourceService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/sources', $params, $opts);
     }
-
     /**
      * Delete a specified source for a given customer.
      *
@@ -51,11 +47,10 @@ class SourceService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Source
      */
-    public function detach($parentId, $id, $params = null, $opts = null)
+    public function detach($parent_id, $id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/customers/%s/sources/%s', $parentId, $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/customers/%s/sources/%s', $parent_id, $id), $params, $opts);
     }
-
     /**
      * Retrieves an existing source object. Supply the unique source ID from a source
      * creation request and Stripe will return the corresponding up-to-date source
@@ -71,9 +66,8 @@ class SourceService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/sources/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/sources/%s', $id), $params, $opts);
     }
-
     /**
      * Updates the specified source by setting the values of the parameters passed. Any
      * parameters not provided will be left unchanged.
@@ -93,9 +87,8 @@ class SourceService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/sources/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/sources/%s', $id), $params, $opts);
     }
-
     /**
      * Verify a given source.
      *
@@ -109,6 +102,6 @@ class SourceService extends \Stripe\Service\AbstractService
      */
     public function verify($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/sources/%s/verify', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/sources/%s/verify', $id), $params, $opts);
     }
 }

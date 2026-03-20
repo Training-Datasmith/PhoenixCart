@@ -1,26 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
-class BaseStripeClient implements StripeClientInterface, StripeStreamingClientInterface
+class Base_Stripe_Client implements Stripe_Client_Interface, Stripe_Streaming_Client_Interface
 {
     /** @var string default base URL for Stripe's API */
     public const DEFAULT_API_BASE = 'https://api.stripe.com';
-
     /** @var string default base URL for Stripe's OAuth API */
     public const DEFAULT_CONNECT_BASE = 'https://connect.stripe.com';
-
     /** @var string default base URL for Stripe's Files API */
     public const DEFAULT_FILES_BASE = 'https://files.stripe.com';
-
     /** @var array<string, mixed> */
     private array $config;
-
     /** @var \Stripe\Util\RequestOptions */
-    private $defaultOpts;
-
+    private $default_opts;
     /**
      * Initializes a new instance of the {@link BaseStripeClient} class.
      *
@@ -56,68 +50,56 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
         } elseif (!\is_array($config)) {
             throw new \Stripe\Exception\InvalidArgumentException('$config must be a string or an array');
         }
-
-        $config = \array_merge($this->getDefaultConfig(), $config);
-        $this->validateConfig($config);
-
+        $config = \array_merge($this->get_default_config(), $config);
+        $this->validate_config($config);
         $this->config = $config;
-
-        $this->defaultOpts = \Stripe\Util\RequestOptions::parse([
-            'stripe_account' => $config['stripe_account'],
-            'stripe_version' => $config['stripe_version'],
-        ]);
+        $this->default_opts = \Stripe\Util\Request_Options::parse(['stripe_account' => $config['stripe_account'], 'stripe_version' => $config['stripe_version']]);
     }
-
     /**
      * Gets the API key used by the client to send requests.
      *
      * @return null|string the API key used by the client to send requests
      */
-    public function getApiKey()
+    public function get_api_key()
     {
         return $this->config['api_key'];
     }
-
     /**
      * Gets the client ID used by the client in OAuth requests.
      *
      * @return null|string the client ID used by the client in OAuth requests
      */
-    public function getClientId()
+    public function get_client_id()
     {
         return $this->config['client_id'];
     }
-
     /**
      * Gets the base URL for Stripe's API.
      *
      * @return string the base URL for Stripe's API
      */
-    public function getApiBase()
+    public function get_api_base()
     {
         return $this->config['api_base'];
     }
-
     /**
      * Gets the base URL for Stripe's OAuth API.
      *
      * @return string the base URL for Stripe's OAuth API
      */
-    public function getConnectBase()
+    public function get_connect_base()
     {
         return $this->config['connect_base'];
     }
-
     /**
      * Gets the base URL for Stripe's Files API.
      *
      * @return string the base URL for Stripe's Files API
      */
-    public function getFilesBase()
+    public function get_files_base()
     {
         return $this->config['files_base'];
     }
-
     /**
      * Sends a request to Stripe's API.
      *
@@ -130,17 +112,15 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
      */
     public function request($method, $path, $params, $opts)
     {
-        $opts = $this->defaultOpts->merge($opts, true);
-        $baseUrl = $opts->apiBase ?: $this->getApiBase();
-        $requestor = new \Stripe\ApiRequestor($this->apiKeyForRequest($opts), $baseUrl);
-        [$response, $opts->apiKey] = $requestor->request($method, $path, $params, $opts->headers);
-        $opts->discardNonPersistentHeaders();
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $opts = $this->default_opts->merge($opts, true);
+        $base_url = $opts->api_base ?: $this->get_api_base();
+        $requestor = new \Stripe\Api_Requestor($this->api_key_for_request($opts), $base_url);
+        [$response, $opts->api_key] = $requestor->request($method, $path, $params, $opts->headers);
+        $opts->discard_non_persistent_headers();
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
-
     /**
      * Sends a request to Stripe's API, passing chunks of the streamed response
      * into a user-provided $readBodyChunkCallable callback.
@@ -152,14 +132,13 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
      * @param array|\Stripe\Util\RequestOptions $opts the special modifiers of the request
      * with chunks of bytes from the body if the request is successful
      */
-    public function requestStream($method, $path, $readBodyChunkCallable, $params, $opts): void
+    public function request_stream($method, $path, $read_body_chunk_callable, $params, $opts): void
     {
-        $opts = $this->defaultOpts->merge($opts, true);
-        $baseUrl = $opts->apiBase ?: $this->getApiBase();
-        $requestor = new \Stripe\ApiRequestor($this->apiKeyForRequest($opts), $baseUrl);
-        [$response, $opts->apiKey] = $requestor->requestStream($method, $path, $readBodyChunkCallable, $params, $opts->headers);
+        $opts = $this->default_opts->merge($opts, true);
+        $base_url = $opts->api_base ?: $this->get_api_base();
+        $requestor = new \Stripe\Api_Requestor($this->api_key_for_request($opts), $base_url);
+        [$response, $opts->api_key] = $requestor->request_stream($method, $path, $read_body_chunk_callable, $params, $opts->headers);
     }
-
     /**
      * Sends a request to Stripe's API.
      *
@@ -170,20 +149,17 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
      *
      * @return \Stripe\Collection of ApiResources
      */
-    public function requestCollection($method, $path, $params, $opts)
+    public function request_collection($method, $path, $params, $opts)
     {
         $obj = $this->request($method, $path, $params, $opts);
-        if (!($obj instanceof \Stripe\Collection)) {
+        if (!$obj instanceof \Stripe\Collection) {
             $received_class = $obj::class;
             $msg = "Expected to receive `Stripe\\Collection` object from Stripe API. Instead received `{$received_class}`.";
-
             throw new \Stripe\Exception\UnexpectedValueException($msg);
         }
-        $obj->setFilters($params);
-
+        $obj->set_filters($params);
         return $obj;
     }
-
     /**
      * Sends a request to Stripe's API.
      *
@@ -194,20 +170,17 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
      *
      * @return \Stripe\SearchResult of ApiResources
      */
-    public function requestSearchResult($method, $path, $params, $opts)
+    public function request_search_result($method, $path, $params, $opts)
     {
         $obj = $this->request($method, $path, $params, $opts);
-        if (!($obj instanceof \Stripe\SearchResult)) {
+        if (!$obj instanceof \Stripe\Search_Result) {
             $received_class = $obj::class;
             $msg = "Expected to receive `Stripe\\SearchResult` object from Stripe API. Instead received `{$received_class}`.";
-
             throw new \Stripe\Exception\UnexpectedValueException($msg);
         }
-        $obj->setFilters($params);
-
+        $obj->set_filters($params);
         return $obj;
     }
-
     /**
      * @param \Stripe\Util\RequestOptions $opts
      *
@@ -215,100 +188,73 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
      *
      * @return string
      */
-    private function apiKeyForRequest($opts)
+    private function api_key_for_request($opts)
     {
-        $apiKey = $opts->apiKey ?: $this->getApiKey();
-
-        if (null === $apiKey) {
-            $msg = 'No API key provided. Set your API key when constructing the '
-                . 'StripeClient instance, or provide it on a per-request basis '
-                . 'using the `api_key` key in the $opts argument.';
-
-            throw new \Stripe\Exception\AuthenticationException($msg);
+        $api_key = $opts->api_key ?: $this->get_api_key();
+        if (null === $api_key) {
+            $msg = 'No API key provided. Set your API key when constructing the ' . 'StripeClient instance, or provide it on a per-request basis ' . 'using the `api_key` key in the $opts argument.';
+            throw new \Stripe\Exception\Authentication_Exception($msg);
         }
-
-        return $apiKey;
+        return $api_key;
     }
-
     /**
      * TODO: replace this with a private constant when we drop support for PHP < 5.
      *
      * @return array<string, mixed>
      */
-    private function getDefaultConfig(): array
+    private function get_default_config(): array
     {
-        return [
-            'api_key' => null,
-            'client_id' => null,
-            'stripe_account' => null,
-            'stripe_version' => null,
-            'api_base' => self::DEFAULT_API_BASE,
-            'connect_base' => self::DEFAULT_CONNECT_BASE,
-            'files_base' => self::DEFAULT_FILES_BASE,
-        ];
+        return ['api_key' => null, 'client_id' => null, 'stripe_account' => null, 'stripe_version' => null, 'api_base' => self::DEFAULT_API_BASE, 'connect_base' => self::DEFAULT_CONNECT_BASE, 'files_base' => self::DEFAULT_FILES_BASE];
     }
-
     /**
      * @param array<string, mixed> $config
      *
      * @throws \Stripe\Exception\InvalidArgumentException
      */
-    private function validateConfig(array $config): void
+    private function validate_config(array $config): void
     {
         // api_key
         if (null !== $config['api_key'] && !\is_string($config['api_key'])) {
             throw new \Stripe\Exception\InvalidArgumentException('api_key must be null or a string');
         }
-
-        if (null !== $config['api_key'] && ('' === $config['api_key'])) {
+        if (null !== $config['api_key'] && '' === $config['api_key']) {
             $msg = 'api_key cannot be the empty string';
-
             throw new \Stripe\Exception\InvalidArgumentException($msg);
         }
-
-        if (null !== $config['api_key'] && (\preg_match('/\s/', $config['api_key']))) {
+        if (null !== $config['api_key'] && \preg_match('/\s/', $config['api_key'])) {
             $msg = 'api_key cannot contain whitespace';
-
             throw new \Stripe\Exception\InvalidArgumentException($msg);
         }
-
         // client_id
         if (null !== $config['client_id'] && !\is_string($config['client_id'])) {
             throw new \Stripe\Exception\InvalidArgumentException('client_id must be null or a string');
         }
-
         // stripe_account
         if (null !== $config['stripe_account'] && !\is_string($config['stripe_account'])) {
             throw new \Stripe\Exception\InvalidArgumentException('stripe_account must be null or a string');
         }
-
         // stripe_version
         if (null !== $config['stripe_version'] && !\is_string($config['stripe_version'])) {
             throw new \Stripe\Exception\InvalidArgumentException('stripe_version must be null or a string');
         }
-
         // api_base
         if (!\is_string($config['api_base'])) {
             throw new \Stripe\Exception\InvalidArgumentException('api_base must be a string');
         }
-
         // connect_base
         if (!\is_string($config['connect_base'])) {
             throw new \Stripe\Exception\InvalidArgumentException('connect_base must be a string');
         }
-
         // files_base
         if (!\is_string($config['files_base'])) {
             throw new \Stripe\Exception\InvalidArgumentException('files_base must be a string');
         }
-
         // check absence of extra keys
-        $extraConfigKeys = \array_diff(\array_keys($config), \array_keys($this->getDefaultConfig()));
-        if (!empty($extraConfigKeys)) {
+        $extra_config_keys = \array_diff(\array_keys($config), \array_keys($this->get_default_config()));
+        if (!empty($extra_config_keys)) {
             // Wrap in single quote to more easily catch trailing spaces errors
-            $invalidKeys = "'" . \implode("', '", $extraConfigKeys) . "'";
-
-            throw new \Stripe\Exception\InvalidArgumentException('Found unknown key(s) in configuration array: ' . $invalidKeys);
+            $invalid_keys = "'" . \implode("', '", $extra_config_keys) . "'";
+            throw new \Stripe\Exception\InvalidArgumentException('Found unknown key(s) in configuration array: ' . $invalid_keys);
         }
     }
 }

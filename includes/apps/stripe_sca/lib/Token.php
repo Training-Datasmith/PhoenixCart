@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -45,12 +43,11 @@ namespace Stripe;
  * @property string $type Type of the token: <code>account</code>, <code>bank_account</code>, <code>card</code>, or <code>pii</code>.
  * @property bool $used Whether this token has already been used (tokens can be used only once).
  */
-class Token extends ApiResource
+class Token extends Api_Resource
 {
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
     public const OBJECT_NAME = 'token';
-
     public const TYPE_ACCOUNT = 'account';
     public const TYPE_BANK_ACCOUNT = 'bank_account';
     public const TYPE_CARD = 'card';

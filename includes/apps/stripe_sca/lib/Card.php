@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -43,12 +41,11 @@ namespace Stripe;
  * @property null|string $status For external accounts, possible values are <code>new</code> and <code>errored</code>. If a transfer fails, the status is set to <code>errored</code> and transfers are stopped until account details are updated.
  * @property null|string $tokenization_method If the card number is tokenized, this is the method that was used. Can be <code>android_pay</code> (includes Google Pay), <code>apple_pay</code>, <code>masterpass</code>, <code>visa_checkout</code>, or null.
  */
-class Card extends ApiResource
+class Card extends Api_Resource
 {
-    use ApiOperations\Delete;
-    use ApiOperations\Update;
+    use Api_Operations\Delete;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'card';
-
     /**
      * Possible string representations of the CVC check status.
      *
@@ -58,7 +55,6 @@ class Card extends ApiResource
     public const CVC_CHECK_PASS = 'pass';
     public const CVC_CHECK_UNAVAILABLE = 'unavailable';
     public const CVC_CHECK_UNCHECKED = 'unchecked';
-
     /**
      * Possible string representations of the funding of the card.
      *
@@ -68,7 +64,6 @@ class Card extends ApiResource
     public const FUNDING_DEBIT = 'debit';
     public const FUNDING_PREPAID = 'prepaid';
     public const FUNDING_UNKNOWN = 'unknown';
-
     /**
      * Possible string representations of the tokenization method when using Apple Pay or Google Pay.
      *
@@ -76,33 +71,29 @@ class Card extends ApiResource
      */
     public const TOKENIZATION_METHOD_APPLE_PAY = 'apple_pay';
     public const TOKENIZATION_METHOD_GOOGLE_PAY = 'google_pay';
-
     /**
      * @return string The instance URL for this resource. It needs to be special
      *    cased because cards are nested resources that may belong to different
      *    top-level resources.
      */
-    public function instanceUrl(): string
+    public function instance_url(): string
     {
         if ($this['customer']) {
-            $base = Customer::classUrl();
+            $base = Customer::class_url();
             $parent = $this['customer'];
             $path = 'sources';
         } elseif ($this['account']) {
-            $base = Account::classUrl();
+            $base = Account::class_url();
             $parent = $this['account'];
             $path = 'external_accounts';
         } else {
             $msg = 'Cards cannot be accessed without a customer ID, or account ID.';
-
             throw new Exception\UnexpectedValueException($msg);
         }
-        $parentExtn = \urlencode((string) Util\Util::utf8($parent));
+        $parent_extn = \urlencode((string) Util\Util::utf8($parent));
         $extn = \urlencode((string) Util\Util::utf8($this['id']));
-
-        return "{$base}/{$parentExtn}/{$path}/{$extn}";
+        return "{$base}/{$parent_extn}/{$path}/{$extn}";
     }
-
     /**
      * @param array|string $_id
      * @param null|array|string $_opts
@@ -111,14 +102,9 @@ class Card extends ApiResource
      */
     public static function retrieve($_id, $_opts = null): never
     {
-        $msg = 'Cards cannot be retrieved without a customer ID or an ' .
-               'account ID. Retrieve a card using ' .
-               "`Customer::retrieveSource('customer_id', 'card_id')` or " .
-               "`Account::retrieveExternalAccount('account_id', 'card_id')`.";
-
+        $msg = 'Cards cannot be retrieved without a customer ID or an ' . 'account ID. Retrieve a card using ' . "`Customer::retrieveSource('customer_id', 'card_id')` or " . "`Account::retrieveExternalAccount('account_id', 'card_id')`.";
         throw new Exception\BadMethodCallException($msg);
     }
-
     /**
      * @param string $_id
      * @param null|array $_params
@@ -128,12 +114,7 @@ class Card extends ApiResource
      */
     public static function update($_id, $_params = null, $_options = null): never
     {
-        $msg = 'Cards cannot be updated without a customer ID or an ' .
-               'account ID. Update a card using ' .
-               "`Customer::updateSource('customer_id', 'card_id', " .
-               '$updateParams)` or `Account::updateExternalAccount(' .
-               "'account_id', 'card_id', \$updateParams)`.";
-
+        $msg = 'Cards cannot be updated without a customer ID or an ' . 'account ID. Update a card using ' . "`Customer::updateSource('customer_id', 'card_id', " . '$updateParams)` or `Account::updateExternalAccount(' . "'account_id', 'card_id', \$updateParams)`.";
         throw new Exception\BadMethodCallException($msg);
     }
 }

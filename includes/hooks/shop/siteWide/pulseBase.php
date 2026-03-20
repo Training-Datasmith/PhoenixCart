@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,19 +11,16 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
-class hook_shop_siteWide_pulseBase
+class Hook_shop_site_Wide_pulse_Base
 {
-    public function listen_injectBodyEnd(): string
+    public function listen_inject_body_end(): string
     {
         $pulse = <<<HTML
-<script src="./ext/modules/pulse/pulse.js" defer></script>
-<script>
-  window.pulse = window.pulse || [];
-</script>
-HTML;
-
+        <script src="./ext/modules/pulse/pulse.js" defer></script>
+        <script>
+          window.pulse = window.pulse || [];
+        </script>
+        HTML;
         return PHP_EOL . $pulse;
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,7 +11,6 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 class database_core extends mysqli
 {
     /**
@@ -25,46 +24,38 @@ class database_core extends mysqli
     public function __construct($server = DB_SERVER, $username = DB_SERVER_USERNAME, $password = DB_SERVER_PASSWORD, $database = DB_DATABASE)
     {
         parent::__construct($server, $username, $password, $database);
-
         if (is_null($this->connect_error)) {
             $this->set_charset('utf8mb4');
         }
-
         @parent::query("SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO'");
     }
-
     /**
      * Report a fatal error if a database query fails.
      */
     public function report_error(string $sql): void
     {
-        if (defined('STORE_DB_TRANSACTIONS') && (STORE_DB_TRANSACTIONS == 'true')) {
+        if (defined('STORE_DB_TRANSACTIONS') && STORE_DB_TRANSACTIONS == 'true') {
             error_log("ERROR: [{$this->errno}] {$this->error}\n" . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
         }
-
-        foreach (str_split("DB: [{$this->errno}] {$this->error} from <$sql>", 1024) as $line) {
+        foreach (str_split("DB: [{$this->errno}] {$this->error} from <{$sql}>", 1024) as $line) {
             trigger_error($line, E_USER_WARNING);
         }
-
         die('<br><small><font color="#ff0000">[PHOENIX FATAL]</font></small><br>');
     }
-
     /**
      * Run SQL query, logging and reporting errors if necessary.
      *
      * @param string $sql
      * @return boolean
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function query($sql, int $resultmode = MYSQLI_STORE_RESULT)
     {
-        if (defined('STORE_DB_TRANSACTIONS') && (STORE_DB_TRANSACTIONS == 'true')) {
+        if (defined('STORE_DB_TRANSACTIONS') && STORE_DB_TRANSACTIONS == 'true') {
             error_log('QUERY: ' . $sql . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
         }
-
         return parent::query($sql, $resultmode) ?: $this->report_error($sql);
     }
-
     /**
      * Escape a string for safe insertion into a SQL statement.
      */
@@ -72,7 +63,6 @@ class database_core extends mysqli
     {
         return $this->real_escape_string($input);
     }
-
     /**
      * Escape any non-whitelisted string.
      *
@@ -80,13 +70,12 @@ class database_core extends mysqli
      */
     public function normalize_value($value): string
     {
-        return match (strtoupper("$value")) {
+        return match (strtoupper("{$value}")) {
             'NOW()' => 'NOW()',
             'NULL' => 'NULL',
             default => "'" . $this->real_escape_string($value) . "'",
         };
     }
-
     /**
      * Perform an insert or update on the specified table.
      *
@@ -98,18 +87,12 @@ class database_core extends mysqli
     public function perform(string $table, $data, $action = 'insert', string $parameters = '')
     {
         if ($action == 'insert') {
-            $query = 'INSERT INTO ' . $table . ' (' . implode(', ', array_keys($data))
-                   . ') VALUES ('
-                   . implode(', ', array_map($this->normalize_value(...), $data)) . ')';
+            $query = 'INSERT INTO ' . $table . ' (' . implode(', ', array_keys($data)) . ') VALUES (' . implode(', ', array_map($this->normalize_value(...), $data)) . ')';
         } elseif ($action == 'update') {
-            $query = 'UPDATE ' . $table . ' SET '
-                   . implode(', ', array_map(fn (int|string $column, int|string $value) => "$column = $value", array_keys($data), array_map($this->normalize_value(...), $data)))
-                   . ' WHERE ' . $parameters;
+            $query = 'UPDATE ' . $table . ' SET ' . implode(', ', array_map(fn(int|string $column, int|string $value) => "{$column} = {$value}", array_keys($data), array_map($this->normalize_value(...), $data))) . ' WHERE ' . $parameters;
         }
-
         return $this->query($query);
     }
-
     /**
      * Fetch all the results from a query.
      *
@@ -119,22 +102,18 @@ class database_core extends mysqli
      */
     public function fetch_all($db_query): array
     {
-        if (!($db_query instanceof mysqli_result) && is_string($db_query)) {
+        if (!$db_query instanceof mysqli_result && is_string($db_query)) {
             $db_query = $this->query($db_query);
         }
-
         if (method_exists($db_query, 'fetch_all')) {
             return $db_query->fetch_all(MYSQLI_ASSOC);
         }
-
         $results = [];
         while ($result = $db_query->fetch_assoc()) {
             $results[] = $result;
         }
-
         return $results;
     }
-
     /**
      * Copy rows in the specified tables.
      *
@@ -149,24 +128,16 @@ class database_core extends mysqli
         foreach ($db as $table => $columns) {
             $values = [];
             foreach ($columns as $name => $v) {
-                if (is_null($v) && $key_value && ($name === $key)) {
+                if (is_null($v) && $key_value && $name === $key) {
                     $v = $key_value;
                 }
-
-                $values[] = ($v ?? $name);
+                $values[] = $v ?? $name;
             }
-
-            $this->query('INSERT INTO ' . $table
-              . ' (' . implode(', ', array_keys($columns))
-              . ') SELECT ' . implode(', ', $values)
-              . ' FROM ' . $table . ' WHERE ' . $key . ' = ' . $value);
-
+            $this->query('INSERT INTO ' . $table . ' (' . implode(', ', array_keys($columns)) . ') SELECT ' . implode(', ', $values) . ' FROM ' . $table . ' WHERE ' . $key . ' = ' . $value);
             if (!$key_value) {
                 $key_value = mysqli_insert_id($this);
             }
         }
-
         return $key_value;
     }
-
 }

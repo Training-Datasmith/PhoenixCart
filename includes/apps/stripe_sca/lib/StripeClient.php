@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -67,16 +65,14 @@ namespace Stripe;
  * @property \Stripe\Service\Treasury\TreasuryServiceFactory $treasury
  * @property \Stripe\Service\WebhookEndpointService $webhookEndpoints
  */
-class StripeClient extends BaseStripeClient
+class Stripe_Client extends Base_Stripe_Client
 {
-    private ?\Stripe\Service\CoreServiceFactory $coreServiceFactory = null;
-
+    private ?\Stripe\Service\Core_Service_Factory $core_service_factory = null;
     public function __get(string $name): mixed
     {
-        if (null === $this->coreServiceFactory) {
-            $this->coreServiceFactory = new \Stripe\Service\CoreServiceFactory($this);
+        if (null === $this->core_service_factory) {
+            $this->core_service_factory = new \Stripe\Service\Core_Service_Factory($this);
         }
-
-        return $this->coreServiceFactory->__get($name);
+        return $this->core_service_factory->__get($name);
     }
 }

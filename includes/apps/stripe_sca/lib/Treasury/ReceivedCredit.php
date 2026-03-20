@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Treasury;
 
 /**
@@ -29,21 +27,18 @@ namespace Stripe\Treasury;
  * @property string $status Status of the ReceivedCredit. ReceivedCredits are created either <code>succeeded</code> (approved) or <code>failed</code> (declined). If a ReceivedCredit is declined, the failure reason can be found in the <code>failure_code</code> field.
  * @property null|string|\Stripe\Treasury\Transaction $transaction The Transaction associated with this object.
  */
-class ReceivedCredit extends \Stripe\ApiResource
+class Received_Credit extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Retrieve;
     public const OBJECT_NAME = 'treasury.received_credit';
-
     public const FAILURE_CODE_ACCOUNT_CLOSED = 'account_closed';
     public const FAILURE_CODE_ACCOUNT_FROZEN = 'account_frozen';
     public const FAILURE_CODE_OTHER = 'other';
-
     public const NETWORK_ACH = 'ach';
     public const NETWORK_CARD = 'card';
     public const NETWORK_STRIPE = 'stripe';
     public const NETWORK_US_DOMESTIC_WIRE = 'us_domestic_wire';
-
     public const STATUS_FAILED = 'failed';
     public const STATUS_SUCCEEDED = 'succeeded';
 }

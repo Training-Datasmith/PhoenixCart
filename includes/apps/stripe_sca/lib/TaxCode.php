@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -15,9 +13,9 @@ namespace Stripe;
  * @property string $description A detailed description of which types of products the tax code represents.
  * @property string $name A short name for the tax code.
  */
-class TaxCode extends ApiResource
+class Tax_Code extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
+    use Api_Operations\All;
+    use Api_Operations\Retrieve;
     public const OBJECT_NAME = 'tax_code';
 }

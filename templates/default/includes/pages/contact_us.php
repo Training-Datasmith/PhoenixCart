@@ -1,4 +1,5 @@
 <?php
+
 /*
   $Id$
 
@@ -9,20 +10,18 @@
 
   Released under the GNU General Public License
 */
-
 $breadcrumb->add(NAVBAR_TITLE, $Linker->build('contact_us.php'));
-
 require $Template->map('template_top.php', 'component');
-
-if ($messageStack->size('contact') > 0) {
-    echo $messageStack->output('contact');
+if ($message_stack->size('contact') > 0) {
+    echo $message_stack->output('contact');
 }
 ?>
 
   <div class="row">
-    <?= $Template->get_content('contact_us') ?>
+    <?php 
+echo $Template->get_content('contact_us');
+?>
   </div>
 
-<?php
+<?php 
 require $Template->map('template_bottom.php', 'component');
-?>

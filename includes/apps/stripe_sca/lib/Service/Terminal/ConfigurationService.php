@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Terminal;
 
-class ConfigurationService extends \Stripe\Service\AbstractService
+class Configuration_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of <code>Configuration</code> objects.
@@ -20,9 +18,8 @@ class ConfigurationService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/terminal/configurations', $params, $opts);
+        return $this->request_collection('get', '/v1/terminal/configurations', $params, $opts);
     }
-
     /**
      * Creates a new <code>Configuration</code> object.
      *
@@ -37,7 +34,6 @@ class ConfigurationService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/terminal/configurations', $params, $opts);
     }
-
     /**
      * Deletes a <code>Configuration</code> object.
      *
@@ -51,9 +47,8 @@ class ConfigurationService extends \Stripe\Service\AbstractService
      */
     public function delete($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/terminal/configurations/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/terminal/configurations/%s', $id), $params, $opts);
     }
-
     /**
      * Retrieves a <code>Configuration</code> object.
      *
@@ -67,9 +62,8 @@ class ConfigurationService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/terminal/configurations/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/terminal/configurations/%s', $id), $params, $opts);
     }
-
     /**
      * Updates a new <code>Configuration</code> object.
      *
@@ -83,6 +77,6 @@ class ConfigurationService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/terminal/configurations/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/terminal/configurations/%s', $id), $params, $opts);
     }
 }

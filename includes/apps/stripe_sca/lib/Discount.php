@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
 /**
@@ -19,7 +18,7 @@ namespace Stripe;
  * @property int $start Date that the coupon was applied.
  * @property null|string $subscription The subscription that this coupon is applied to, if it is applied to a particular subscription.
  */
-class Discount extends StripeObject
+class Discount extends Stripe_Object
 {
     public const OBJECT_NAME = 'discount';
 }

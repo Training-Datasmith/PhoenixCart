@@ -1,4 +1,5 @@
 <?php
+
 /*
 * $Id: cards.php
 * $Loc: /templates/default/includes/ext/modules/content/account/stripe_sca/
@@ -21,70 +22,74 @@
 *
 *
 */
-
-$breadcrumb->add(MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_NAVBAR_TITLE_1, "$account_link");
-$breadcrumb->add(MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_NAVBAR_TITLE_2, "$cards_link");
-
+$breadcrumb->add(MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_NAVBAR_TITLE_1, "{$account_link}");
+$breadcrumb->add(MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_NAVBAR_TITLE_2, "{$cards_link}");
 $delete_button = new Button(SMALL_IMAGE_BUTTON_DELETE, 'fas fa-trash');
-$back_button = (new Button(IMAGE_BUTTON_BACK, 'fas fa-angle-left'))->set('href', "$account_link");
-
+$back_button = (new Button(IMAGE_BUTTON_BACK, 'fas fa-angle-left'))->set('href', "{$account_link}");
 require $Template->map('template_top.php', 'component');
 ?>
 
-  <h1 class="display-4"><?= MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_HEADING_TITLE ?></h1>
+  <h1 class="display-4"><?php 
+echo MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_HEADING_TITLE;
+?></h1>
 
-<?php
-  if ($messageStack->size('cards') > 0) {
-      echo $messageStack->output('cards');
-  }
+<?php 
+if ($message_stack->size('cards') > 0) {
+    echo $message_stack->output('cards');
+}
 ?>
 
-  <?= MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_TEXT_DESCRIPTION ?>
+  <?php 
+echo MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_TEXT_DESCRIPTION;
+?>
 
-  <h4><?= MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_SAVED_CARDS_TITLE ?></h4>
+  <h4><?php 
+echo MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_SAVED_CARDS_TITLE;
+?></h4>
 
   <div class="contentText row align-items-center">
 
-<?php
-  $tokens_query = $db->query(sprintf(<<<'EOSQL'
+<?php 
+$tokens_query = $db->query(sprintf(<<<'EOSQL'
 SELECT id, card_type, number_filtered, expiry_date 
   FROM customers_stripe_tokens 
   WHERE customers_id = %s 
   ORDER BY date_added
-EOSQL
-      , (int)$_SESSION['customer_id']));
-
+EOSQL, (int) $_SESSION['customer_id']));
 if (mysqli_num_rows($tokens_query) > 0) {
     while ($tokens = $tokens_query->fetch_assoc()) {
-
-        $delete_button->set('href', (string)$cards_link->add_parameters([
-          'action' => 'delete',
-          'customer_id' => (int)$_SESSION['customer_id'],
-          'id' => (int)$tokens['id'],
-          'formid' => $_SESSION['sessiontoken'],
-        ]));
+        $delete_button->set('href', (string) $cards_link->add_parameters(['action' => 'delete', 'customer_id' => (int) $_SESSION['customer_id'], 'id' => (int) $tokens['id'], 'formid' => $_SESSION['sessiontoken']]));
         ?>
 
-      <div class="col-sm-6 mb-2"><strong><?= htmlspecialchars((string) $tokens['card_type']) ?></strong>&nbsp;&nbsp;****<?= htmlspecialchars((string) $tokens['number_filtered']) . '&nbsp;&nbsp;' . htmlspecialchars(substr((string) $tokens['expiry_date'], 0, 2) . '/' . substr((string) $tokens['expiry_date'], 2)) ?></div>
-      <div class="col-sm-6 mb-2 text-end"><?= $delete_button ?></div>
+      <div class="col-sm-6 mb-2"><strong><?php 
+        echo htmlspecialchars((string) $tokens['card_type']);
+        ?></strong>&nbsp;&nbsp;****<?php 
+        echo htmlspecialchars((string) $tokens['number_filtered']) . '&nbsp;&nbsp;' . htmlspecialchars(substr((string) $tokens['expiry_date'], 0, 2) . '/' . substr((string) $tokens['expiry_date'], 2));
+        ?></div>
+      <div class="col-sm-6 mb-2 text-end"><?php 
+        echo $delete_button;
+        ?></div>
 
-<?php
+<?php 
     }
 } else {
     ?>
 
-    <div class="alert alert-danger col"><?= MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_TEXT_NO_CARDS ?></div>
+    <div class="alert alert-danger col"><?php 
+    echo MODULE_CONTENT_ACCOUNT_STRIPE_SCA_CARDS_TEXT_NO_CARDS;
+    ?></div>
 
-<?php
+<?php 
 }
 ?>
 
   </div>
 
   <div class="mt-3">
-    <?= $back_button ?>
+    <?php 
+echo $back_button;
+?>
   </div>
 
-<?php
-  require $Template->map('template_bottom.php', 'component');
-?>
+<?php 
+require $Template->map('template_bottom.php', 'component');

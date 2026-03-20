@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Terminal;
 
-class ConnectionTokenService extends \Stripe\Service\AbstractService
+class Connection_Token_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * To connect to a reader the Stripe Terminal SDK needs to retrieve a short-lived

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,101 +11,67 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 class tree_display extends displayable_tree_accessor implements \Stringable
 {
-    protected function _buildBranch($parent_id, $level = 0)
+    protected function _build_branch($parent_id, $level = 0)
     {
-        $result = ((($level === 0) && ($this->parent_group_apply_to_root === true)) || ($level > 0))
-                ? $this->parent_group_start_string
-                : '';
-
+        $result = $level === 0 && $this->parent_group_apply_to_root === true || $level > 0 ? $this->parent_group_start_string : '';
         foreach ($this->tree->get_children($parent_id) ?? [] as $id) {
             $name = $this->tree->get($id, 'name');
-            $link = ($this->breadcrumb_usage === true)
-                  ? $this->buildBreadcrumb($id)
-                  : $id;
-
+            $link = $this->breadcrumb_usage === true ? $this->build_breadcrumb($id) : $id;
             $result .= $this->child_start_string;
-
             if ($this->tree->get_children($id)) {
                 $result .= $this->parent_start_string;
             }
-
             if ($level === 0) {
                 $result .= $this->root_start_string;
             }
-
-            if (($this->follow_path === true) && in_array($id, $this->path_array)) {
+            if ($this->follow_path === true && in_array($id, $this->path_array)) {
                 $link_title = $this->path_start_string . $name . $this->path_end_string;
             } else {
                 $link_title = $name;
             }
-
             $result .= '<a class="list-group-item list-group-item-action" href="' . $this->tree->build_path_link($link) . '">';
             $result .= str_repeat((string) $this->spacer_string, $this->spacer_multiplier * $level);
             $result .= $link_title . '</a>';
-
             if ($level === 0) {
                 $result .= $this->root_end_string;
             }
-
             if ($this->tree->get_children($id)) {
                 $result .= $this->parent_end_string;
-
-                if ((($this->max_level == '0') || ($this->max_level > $level + 1))
-                  && (($this->follow_path !== true) || in_array($id, $this->path_array))) {
-                    $result .= $this->_buildBranch($id, $level + 1);
+                if (($this->max_level == '0' || $this->max_level > $level + 1) && ($this->follow_path !== true || in_array($id, $this->path_array))) {
+                    $result .= $this->_build_branch($id, $level + 1);
                 }
             }
-
             $result .= $this->child_end_string;
         }
-
-        if ((($level === 0) && ($this->parent_group_apply_to_root === true)) || ($level > 0)) {
+        if ($level === 0 && $this->parent_group_apply_to_root === true || $level > 0) {
             $result .= $this->parent_group_end_string;
         }
-
         return $result;
     }
-
-    public function buildBranchArray($parent_id, $level = 0, $result = [])
+    public function build_branch_array($parent_id, $level = 0, $result = [])
     {
         foreach ($this->tree->get_children($parent_id) as $id) {
-            $link = $this->breadcrumb_usage
-                  ? $this->buildBreadcrumb($id)
-                  : $id;
-
-            $result[] = [
-              'id' => $link,
-              'image' => $this->tree->get($id, 'image'),
-              'title' => str_repeat((string) $this->spacer_string, $this->spacer_multiplier * $level) . $this->tree->get($id, 'name'),
-            ];
-
-            if (isset($this->_data[$id])
-              && (($this->max_level == '0') || ($this->max_level > $level + 1))
-              && (($this->follow_path !== true) || in_array($id, $this->path_array))) {
-                $result = $this->buildBranchArray($id, $level + 1, $result);
+            $link = $this->breadcrumb_usage ? $this->build_breadcrumb($id) : $id;
+            $result[] = ['id' => $link, 'image' => $this->tree->get($id, 'image'), 'title' => str_repeat((string) $this->spacer_string, $this->spacer_multiplier * $level) . $this->tree->get($id, 'name')];
+            if (isset($this->_data[$id]) && ($this->max_level == '0' || $this->max_level > $level + 1) && ($this->follow_path !== true || in_array($id, $this->path_array))) {
+                $result = $this->build_branch_array($id, $level + 1, $result);
             }
         }
-
         return $result;
     }
-
-    public function buildBreadcrumb($id, $level = null): string
+    public function build_breadcrumb($id, $level = null): string
     {
         $ancestors = array_reverse($this->tree->get_ancestors($id));
         $ancestors[] = $id;
-
         return implode($this->breadcrumb_separator, $ancestors);
     }
-
     /**
-         * @access public
-         */
+     * @access public
+     */
     public function __toString(): string
     {
-        return (string) $this->_buildBranch($this->tree->get_root_id());
+        return (string) $this->_build_branch($this->tree->get_root_id());
     }
-
 }

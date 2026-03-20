@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Treasury;
 
 /**
@@ -20,7 +18,7 @@ namespace Stripe\Treasury;
  * @property \Stripe\StripeObject $outbound_payments Settings related to Outbound Payments features on a Financial Account
  * @property \Stripe\StripeObject $outbound_transfers OutboundTransfers contains outbound transfers features for a FinancialAccount.
  */
-class FinancialAccountFeatures extends \Stripe\ApiResource
+class Financial_Account_Features extends \Stripe\Api_Resource
 {
     public const OBJECT_NAME = 'treasury.financial_account_features';
 }

@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Sigma;
 
 /**
@@ -25,13 +23,12 @@ namespace Stripe\Sigma;
  * @property string $status The query's execution status, which will be <code>completed</code> for successful runs, and <code>canceled</code>, <code>failed</code>, or <code>timed_out</code> otherwise.
  * @property string $title Title of the query.
  */
-class ScheduledQueryRun extends \Stripe\ApiResource
+class Scheduled_Query_Run extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Retrieve;
     public const OBJECT_NAME = 'scheduled_query_run';
-
-    public static function classUrl(): string
+    public static function class_url(): string
     {
         return '/v1/sigma/scheduled_query_runs';
     }

@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Apps;
 
-class SecretService extends \Stripe\Service\AbstractService
+class Secret_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * List all secrets stored on the given scope.
@@ -20,9 +18,8 @@ class SecretService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/apps/secrets', $params, $opts);
+        return $this->request_collection('get', '/v1/apps/secrets', $params, $opts);
     }
-
     /**
      * Create or replace a secret in the secret store.
      *
@@ -37,7 +34,6 @@ class SecretService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/apps/secrets', $params, $opts);
     }
-
     /**
      * Deletes a secret from the secret store by name and scope.
      *
@@ -48,11 +44,10 @@ class SecretService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Apps\Secret
      */
-    public function deleteWhere($params = null, $opts = null)
+    public function delete_where($params = null, $opts = null)
     {
         return $this->request('post', '/v1/apps/secrets/delete', $params, $opts);
     }
-
     /**
      * Finds a secret in the secret store by name and scope.
      *

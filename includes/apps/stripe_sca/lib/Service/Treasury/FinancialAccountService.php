@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Treasury;
 
-class FinancialAccountService extends \Stripe\Service\AbstractService
+class Financial_Account_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of FinancialAccounts.
@@ -20,9 +18,8 @@ class FinancialAccountService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/treasury/financial_accounts', $params, $opts);
+        return $this->request_collection('get', '/v1/treasury/financial_accounts', $params, $opts);
     }
-
     /**
      * Creates a new FinancialAccount. For now, each connected account can only have
      * one FinancialAccount.
@@ -38,7 +35,6 @@ class FinancialAccountService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/treasury/financial_accounts', $params, $opts);
     }
-
     /**
      * Retrieves the details of a FinancialAccount.
      *
@@ -52,9 +48,8 @@ class FinancialAccountService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/treasury/financial_accounts/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/treasury/financial_accounts/%s', $id), $params, $opts);
     }
-
     /**
      * Retrieves Features information associated with the FinancialAccount.
      *
@@ -66,11 +61,10 @@ class FinancialAccountService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Treasury\FinancialAccount
      */
-    public function retrieveFeatures($id, $params = null, $opts = null)
+    public function retrieve_features($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/treasury/financial_accounts/%s/features', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/treasury/financial_accounts/%s/features', $id), $params, $opts);
     }
-
     /**
      * Updates the details of a FinancialAccount.
      *
@@ -84,9 +78,8 @@ class FinancialAccountService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/treasury/financial_accounts/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/treasury/financial_accounts/%s', $id), $params, $opts);
     }
-
     /**
      * Updates the Features associated with a FinancialAccount.
      *
@@ -98,8 +91,8 @@ class FinancialAccountService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Treasury\FinancialAccount
      */
-    public function updateFeatures($id, $params = null, $opts = null)
+    public function update_features($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/treasury/financial_accounts/%s/features', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/treasury/financial_accounts/%s/features', $id), $params, $opts);
     }
 }

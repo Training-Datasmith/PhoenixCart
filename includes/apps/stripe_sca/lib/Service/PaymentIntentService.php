@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class PaymentIntentService extends \Stripe\Service\AbstractService
+class Payment_Intent_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of PaymentIntents.
@@ -20,9 +18,8 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/payment_intents', $params, $opts);
+        return $this->request_collection('get', '/v1/payment_intents', $params, $opts);
     }
-
     /**
      * Manually reconcile the remaining amount for a customer_balance PaymentIntent.
      *
@@ -34,11 +31,10 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\PaymentIntent
      */
-    public function applyCustomerBalance($id, $params = null, $opts = null)
+    public function apply_customer_balance($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payment_intents/%s/apply_customer_balance', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payment_intents/%s/apply_customer_balance', $id), $params, $opts);
     }
-
     /**
      * A PaymentIntent object can be canceled when it is in one of these statuses:
      * <code>requires_payment_method</code>, <code>requires_capture</code>,
@@ -64,9 +60,8 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      */
     public function cancel($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payment_intents/%s/cancel', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payment_intents/%s/cancel', $id), $params, $opts);
     }
-
     /**
      * Capture the funds of an existing uncaptured PaymentIntent when its status is
      * <code>requires_capture</code>.
@@ -87,9 +82,8 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      */
     public function capture($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payment_intents/%s/capture', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payment_intents/%s/capture', $id), $params, $opts);
     }
-
     /**
      * Confirm that your customer intends to pay with current or provided payment
      * method. Upon confirmation, the PaymentIntent will attempt to initiate a payment.
@@ -125,9 +119,8 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      */
     public function confirm($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payment_intents/%s/confirm', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payment_intents/%s/confirm', $id), $params, $opts);
     }
-
     /**
      * Creates a PaymentIntent object.
      *
@@ -152,7 +145,6 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/payment_intents', $params, $opts);
     }
-
     /**
      * Perform an incremental authorization on an eligible <a
      * href="/docs/api/payment_intents/object">PaymentIntent</a>. To be eligible, the
@@ -189,11 +181,10 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\PaymentIntent
      */
-    public function incrementAuthorization($id, $params = null, $opts = null)
+    public function increment_authorization($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payment_intents/%s/increment_authorization', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payment_intents/%s/increment_authorization', $id), $params, $opts);
     }
-
     /**
      * Retrieves the details of a PaymentIntent that has previously been created.
      *
@@ -214,9 +205,8 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/payment_intents/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/payment_intents/%s', $id), $params, $opts);
     }
-
     /**
      * Search for PaymentIntents you’ve previously created using Stripe’s <a
      * href="/docs/search#search-query-language">Search Query Language</a>. Don’t use
@@ -234,9 +224,8 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      */
     public function search($params = null, $opts = null)
     {
-        return $this->requestSearchResult('get', '/v1/payment_intents/search', $params, $opts);
+        return $this->request_search_result('get', '/v1/payment_intents/search', $params, $opts);
     }
-
     /**
      * Updates properties on a PaymentIntent object without confirming.
      *
@@ -256,9 +245,8 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payment_intents/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payment_intents/%s', $id), $params, $opts);
     }
-
     /**
      * Verifies microdeposits on a PaymentIntent object.
      *
@@ -270,8 +258,8 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\PaymentIntent
      */
-    public function verifyMicrodeposits($id, $params = null, $opts = null)
+    public function verify_microdeposits($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payment_intents/%s/verify_microdeposits', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payment_intents/%s/verify_microdeposits', $id), $params, $opts);
     }
 }

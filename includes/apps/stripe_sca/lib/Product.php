@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -44,19 +42,17 @@ namespace Stripe;
  * @property int $updated Time at which the object was last updated. Measured in seconds since the Unix epoch.
  * @property null|string $url A URL of a publicly-accessible webpage for this product.
  */
-class Product extends ApiResource
+class Product extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Delete;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Search;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Delete;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Search;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'product';
-
     public const TYPE_GOOD = 'good';
     public const TYPE_SERVICE = 'service';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -68,7 +64,6 @@ class Product extends ApiResource
     public static function search($params = null, $opts = null)
     {
         $url = '/v1/products/search';
-
-        return self::_searchResource($url, $params, $opts);
+        return self::_search_resource($url, $params, $opts);
     }
 }

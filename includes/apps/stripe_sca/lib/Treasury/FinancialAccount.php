@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Treasury;
 
 /**
@@ -28,17 +26,15 @@ namespace Stripe\Treasury;
  * @property \Stripe\StripeObject $status_details
  * @property string[] $supported_currencies The currencies the FinancialAccount can hold a balance in. Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>, in lowercase.
  */
-class FinancialAccount extends \Stripe\ApiResource
+class Financial_Account extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Retrieve;
-    use \Stripe\ApiOperations\Update;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Create;
+    use \Stripe\Api_Operations\Retrieve;
+    use \Stripe\Api_Operations\Update;
     public const OBJECT_NAME = 'treasury.financial_account';
-
     public const STATUS_CLOSED = 'closed';
     public const STATUS_OPEN = 'open';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -47,16 +43,14 @@ class FinancialAccount extends \Stripe\ApiResource
      *
      * @return \Stripe\Treasury\FinancialAccount the retrieved financial account
      */
-    public function retrieveFeatures($params = null, $opts = null)
+    public function retrieve_features($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/features';
+        $url = $this->instance_url() . '/features';
         [$response, $opts] = $this->_request('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response, $opts);
-        $obj->setLastResponse($response);
-
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -65,12 +59,11 @@ class FinancialAccount extends \Stripe\ApiResource
      *
      * @return \Stripe\Treasury\FinancialAccount the updated financial account
      */
-    public function updateFeatures($params = null, $opts = null): static
+    public function update_features($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/features';
+        $url = $this->instance_url() . '/features';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

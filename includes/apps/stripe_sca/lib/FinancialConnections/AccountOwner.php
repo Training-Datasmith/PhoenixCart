@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
-namespace Stripe\FinancialConnections;
+namespace Stripe\Financial_Connections;
 
 /**
  * @property string $id Unique identifier for the object.
@@ -16,7 +14,7 @@ namespace Stripe\FinancialConnections;
  * @property null|string $raw_address The raw physical address of the owner.
  * @property null|int $refreshed_at The timestamp of the refresh that updated this owner.
  */
-class AccountOwner extends \Stripe\ApiResource
+class Account_Owner extends \Stripe\Api_Resource
 {
     public const OBJECT_NAME = 'financial_connections.account_owner';
 }

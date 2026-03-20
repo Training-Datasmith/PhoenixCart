@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
 abstract class Webhook
 {
     public const DEFAULT_TOLERANCE = 300;
-
     /**
      * Returns an Event instance using the provided JSON payload. Throws an
      * Exception\UnexpectedValueException if the payload is not valid JSON, and
@@ -26,19 +24,15 @@ abstract class Webhook
      *
      * @return Event the Event instance
      */
-    public static function constructEvent($payload, $sigHeader, $secret, $tolerance = self::DEFAULT_TOLERANCE)
+    public static function construct_event($payload, $sig_header, $secret, $tolerance = self::DEFAULT_TOLERANCE)
     {
-        WebhookSignature::verifyHeader($payload, $sigHeader, $secret, $tolerance);
-
+        Webhook_Signature::verify_header($payload, $sig_header, $secret, $tolerance);
         $data = \json_decode($payload, true);
-        $jsonError = \json_last_error();
-        if (null === $data && \JSON_ERROR_NONE !== $jsonError) {
-            $msg = "Invalid payload: {$payload} "
-              . "(json_last_error() was {$jsonError})";
-
+        $json_error = \json_last_error();
+        if (null === $data && \JSON_ERROR_NONE !== $json_error) {
+            $msg = "Invalid payload: {$payload} " . "(json_last_error() was {$json_error})";
             throw new Exception\UnexpectedValueException($msg);
         }
-
-        return Event::constructFrom($data);
+        return Event::construct_from($data);
     }
 }

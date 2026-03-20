@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class DisputeService extends \Stripe\Service\AbstractService
+class Dispute_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of your disputes.
@@ -20,9 +18,8 @@ class DisputeService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/disputes', $params, $opts);
+        return $this->request_collection('get', '/v1/disputes', $params, $opts);
     }
-
     /**
      * Closing the dispute for a charge indicates that you do not have any evidence to
      * submit and are essentially dismissing the dispute, acknowledging it as lost.
@@ -40,9 +37,8 @@ class DisputeService extends \Stripe\Service\AbstractService
      */
     public function close($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/disputes/%s/close', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/disputes/%s/close', $id), $params, $opts);
     }
-
     /**
      * Retrieves the dispute with the given ID.
      *
@@ -56,9 +52,8 @@ class DisputeService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/disputes/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/disputes/%s', $id), $params, $opts);
     }
-
     /**
      * When you get a dispute, contacting your customer is always the best first step.
      * If that doesn’t work, you can submit evidence to help us resolve the dispute in
@@ -80,6 +75,6 @@ class DisputeService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/disputes/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/disputes/%s', $id), $params, $opts);
     }
 }

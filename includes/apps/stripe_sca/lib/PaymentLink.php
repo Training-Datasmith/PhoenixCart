@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -49,28 +47,23 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $transfer_data The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
  * @property string $url The public URL that can be shared with customers.
  */
-class PaymentLink extends ApiResource
+class Payment_Link extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'payment_link';
-
     public const BILLING_ADDRESS_COLLECTION_AUTO = 'auto';
     public const BILLING_ADDRESS_COLLECTION_REQUIRED = 'required';
-
     public const CUSTOMER_CREATION_ALWAYS = 'always';
     public const CUSTOMER_CREATION_IF_REQUIRED = 'if_required';
-
     public const PAYMENT_METHOD_COLLECTION_ALWAYS = 'always';
     public const PAYMENT_METHOD_COLLECTION_IF_REQUIRED = 'if_required';
-
     public const SUBMIT_TYPE_AUTO = 'auto';
     public const SUBMIT_TYPE_BOOK = 'book';
     public const SUBMIT_TYPE_DONATE = 'donate';
     public const SUBMIT_TYPE_PAY = 'pay';
-
     /**
      * @param string $id
      * @param null|array $params
@@ -80,13 +73,12 @@ class PaymentLink extends ApiResource
      *
      * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
      */
-    public static function allLineItems($id, $params = null, $opts = null)
+    public static function all_line_items($id, $params = null, $opts = null)
     {
-        $url = static::resourceUrl($id) . '/line_items';
-        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $url = static::resource_url($id) . '/line_items';
+        [$response, $opts] = static::_static_request('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
 }

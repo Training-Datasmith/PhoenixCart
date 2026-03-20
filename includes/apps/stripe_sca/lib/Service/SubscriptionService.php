@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class SubscriptionService extends \Stripe\Service\AbstractService
+class Subscription_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * By default, returns a list of subscriptions that have not been canceled. In
@@ -21,9 +19,8 @@ class SubscriptionService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/subscriptions', $params, $opts);
+        return $this->request_collection('get', '/v1/subscriptions', $params, $opts);
     }
-
     /**
      * Cancels a customer’s subscription immediately. The customer will not be charged
      * again for the subscription.
@@ -53,9 +50,8 @@ class SubscriptionService extends \Stripe\Service\AbstractService
      */
     public function cancel($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/subscriptions/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/subscriptions/%s', $id), $params, $opts);
     }
-
     /**
      * Creates a new subscription on an existing customer. Each customer can have up to
      * 500 active or scheduled subscriptions.
@@ -82,7 +78,6 @@ class SubscriptionService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/subscriptions', $params, $opts);
     }
-
     /**
      * Removes the currently applied discount on a subscription.
      *
@@ -94,11 +89,10 @@ class SubscriptionService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Subscription
      */
-    public function deleteDiscount($id, $params = null, $opts = null)
+    public function delete_discount($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/subscriptions/%s/discount', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/subscriptions/%s/discount', $id), $params, $opts);
     }
-
     /**
      * Initiates resumption of a paused subscription, optionally resetting the billing
      * cycle anchor and creating prorations. If a resumption invoice is generated, it
@@ -117,9 +111,8 @@ class SubscriptionService extends \Stripe\Service\AbstractService
      */
     public function resume($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/subscriptions/%s/resume', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/subscriptions/%s/resume', $id), $params, $opts);
     }
-
     /**
      * Retrieves the subscription with the given ID.
      *
@@ -133,9 +126,8 @@ class SubscriptionService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/subscriptions/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/subscriptions/%s', $id), $params, $opts);
     }
-
     /**
      * Search for subscriptions you’ve previously created using Stripe’s <a
      * href="/docs/search#search-query-language">Search Query Language</a>. Don’t use
@@ -153,9 +145,8 @@ class SubscriptionService extends \Stripe\Service\AbstractService
      */
     public function search($params = null, $opts = null)
     {
-        return $this->requestSearchResult('get', '/v1/subscriptions/search', $params, $opts);
+        return $this->request_search_result('get', '/v1/subscriptions/search', $params, $opts);
     }
-
     /**
      * Updates an existing subscription on a customer to match the specified
      * parameters. When changing plans or quantities, we will optionally prorate the
@@ -173,6 +164,6 @@ class SubscriptionService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/subscriptions/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/subscriptions/%s', $id), $params, $opts);
     }
 }

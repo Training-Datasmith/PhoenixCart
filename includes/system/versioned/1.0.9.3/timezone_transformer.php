@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please read:
- *
- * Copyright (c) 2004-present Fabien Potencier
+* This file is part of the Symfony package.
+*
+* (c) Fabien Potencier <fabien@symfony.com>
+*
+* For the full copyright and license information, please read:
+*
+* Copyright (c) 2004-present Fabien Potencier
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +27,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
- */
-
+*/
 /**
  * Parser and formatter for time zone format.
  *
@@ -37,64 +35,52 @@ THE SOFTWARE.
  *
  * @internal
  */
-class TimezoneTransformer extends Transformer
+class Timezone_Transformer extends Transformer
 {
     /**
      * {@inheritdoc}
      *
      * @throws DomainException When time zone is different than UTC or GMT (Etc/GMT)
      */
-    public function format(DateTime $dateTime, int $length): string
+    public function format(DateTime $date_time, int $length): string
     {
-        $timeZone = substr($dateTime->getTimezone()->getName(), 0, 3);
-
-        if (!in_array($timeZone, ['Etc', 'UTC', 'GMT'])) {
+        $time_zone = substr($date_time->get_timezone()->get_name(), 0, 3);
+        if (!in_array($time_zone, ['Etc', 'UTC', 'GMT'])) {
             throw new DomainException('Time zone different than GMT or UTC is not supported as a formatting output.');
         }
-
-        if ('Etc' === $timeZone) {
+        if ('Etc' === $time_zone) {
             // i.e. Etc/GMT+1, Etc/UTC, Etc/Zulu
-            $timeZone = substr($dateTime->getTimezone()->getName(), 4);
+            $time_zone = substr($date_time->get_timezone()->get_name(), 4);
         }
-
         // From ICU >= 59.1 GMT and UTC are no longer unified
-        if (in_array($timeZone, ['UTC', 'UCT', 'Universal', 'Zulu'])) {
+        if (in_array($time_zone, ['UTC', 'UCT', 'Universal', 'Zulu'])) {
             // offset is not supported with UTC
             return $length > 3 ? 'Coordinated Universal Time' : 'UTC';
         }
-
-        $offset = (int) $dateTime->format('O');
-
+        $offset = (int) $date_time->format('O');
         // From ICU >= 4.8, the zero offset is no more used, example: GMT instead of GMT+00:00
         if (0 === $offset) {
             return $length > 3 ? 'Greenwich Mean Time' : 'GMT';
         }
-
         if ($length > 3) {
-            return $dateTime->format('\G\M\TP');
+            return $date_time->format('\G\M\TP');
         }
-
         return sprintf('GMT%s%d', $offset >= 0 ? '+' : '', $offset / 100);
     }
-
     /**
      * {@inheritdoc}
      */
-    public function getReverseMatchingRegExp(int $length): string
+    public function get_reverse_matching_reg_exp(int $length): string
     {
         return 'GMT[+-]\d{2}:?\d{2}';
     }
-
     /**
      * {@inheritdoc}
      */
-    public function extractDateOptions(string $matched, int $length): array
+    public function extract_date_options(string $matched, int $length): array
     {
-        return [
-            'timezone' => self::getEtcTimeZoneId($matched),
-        ];
+        return ['timezone' => self::get_etc_time_zone_id($matched)];
     }
-
     /**
      * Get an Etc/GMT timezone identifier for the specified timezone.
      *
@@ -114,21 +100,17 @@ class TimezoneTransformer extends Transformer
      * @throws DomainException   When the GMT time zone have minutes offset different than zero
      * @throws InvalidArgumentException When the value cannot be matched with pattern
      */
-    public static function getEtcTimeZoneId(string $formattedTimeZone): string
+    public static function get_etc_time_zone_id(string $formatted_time_zone): string
     {
-        if (preg_match('/GMT(?P<signal>[+-])(?P<hours>\d{2}):?(?P<minutes>\d{2})/', $formattedTimeZone, $matches)) {
+        if (preg_match('/GMT(?P<signal>[+-])(?P<hours>\d{2}):?(?P<minutes>\d{2})/', $formatted_time_zone, $matches)) {
             $hours = (int) $matches['hours'];
             $minutes = (int) $matches['minutes'];
             $signal = '-' === $matches['signal'] ? '+' : '-';
-
             if (0 < $minutes) {
-                throw new DomainException(sprintf('It is not possible to use a GMT time zone with minutes offset different than zero (0). GMT time zone tried: "%s".', $formattedTimeZone));
+                throw new DomainException(sprintf('It is not possible to use a GMT time zone with minutes offset different than zero (0). GMT time zone tried: "%s".', $formatted_time_zone));
             }
-
-            return 'Etc/GMT'.(0 !== $hours ? $signal.$hours : '');
+            return 'Etc/GMT' . (0 !== $hours ? $signal . $hours : '');
         }
-
-        throw new InvalidArgumentException(sprintf('The GMT time zone "%s" does not match with the supported formats GMT[+-]HH:MM or GMT[+-]HHMM.', $formattedTimeZone));
+        throw new InvalidArgumentException(sprintf('The GMT time zone "%s" does not match with the supported formats GMT[+-]HH:MM or GMT[+-]HHMM.', $formatted_time_zone));
     }
-
 }

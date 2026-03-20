@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -43,26 +41,22 @@ namespace Stripe;
  * @property string $type Type of this credit note, one of <code>pre_payment</code> or <code>post_payment</code>. A <code>pre_payment</code> credit note means it was issued when the invoice was open. A <code>post_payment</code> credit note means it was issued when the invoice was paid.
  * @property null|int $voided_at The time that the credit note was voided.
  */
-class CreditNote extends ApiResource
+class Credit_Note extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\NestedResource;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Nested_Resource;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'credit_note';
-
     public const REASON_DUPLICATE = 'duplicate';
     public const REASON_FRAUDULENT = 'fraudulent';
     public const REASON_ORDER_CHANGE = 'order_change';
     public const REASON_PRODUCT_UNSATISFACTORY = 'product_unsatisfactory';
-
     public const STATUS_ISSUED = 'issued';
     public const STATUS_VOID = 'void';
-
     public const TYPE_POST_PAYMENT = 'post_payment';
     public const TYPE_PRE_PAYMENT = 'pre_payment';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -73,14 +67,12 @@ class CreditNote extends ApiResource
      */
     public static function preview($params = null, $opts = null)
     {
-        $url = static::classUrl() . '/preview';
-        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $url = static::class_url() . '/preview';
+        [$response, $opts] = static::_static_request('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -89,16 +81,14 @@ class CreditNote extends ApiResource
      *
      * @return \Stripe\Collection<\Stripe\CreditNoteLineItem> list of CreditNoteLineItems
      */
-    public static function previewLines($params = null, $opts = null)
+    public static function preview_lines($params = null, $opts = null)
     {
-        $url = static::classUrl() . '/preview/lines';
-        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $url = static::class_url() . '/preview/lines';
+        [$response, $opts] = static::_static_request('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -107,17 +97,14 @@ class CreditNote extends ApiResource
      *
      * @return \Stripe\CreditNote the voided credit note
      */
-    public function voidCreditNote($params = null, $opts = null): static
+    public function void_credit_note($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/void';
+        $url = $this->instance_url() . '/void';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     public const PATH_LINES = '/lines';
-
     /**
      * @param string $id the ID of the credit note on which to retrieve the credit note line items
      * @param null|array $params
@@ -127,8 +114,8 @@ class CreditNote extends ApiResource
      *
      * @return \Stripe\Collection<\Stripe\CreditNoteLineItem> the list of credit note line items
      */
-    public static function allLines($id, $params = null, $opts = null)
+    public static function all_lines($id, $params = null, $opts = null)
     {
-        return self::_allNestedResources($id, static::PATH_LINES, $params, $opts);
+        return self::_all_nested_resources($id, static::PATH_LINES, $params, $opts);
     }
 }

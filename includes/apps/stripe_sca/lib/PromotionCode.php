@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -25,11 +23,11 @@ namespace Stripe;
  * @property \Stripe\StripeObject $restrictions
  * @property int $times_redeemed Number of times this promotion code has been used.
  */
-class PromotionCode extends ApiResource
+class Promotion_Code extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'promotion_code';
 }

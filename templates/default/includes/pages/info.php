@@ -1,4 +1,5 @@
 <?php
+
 /*
   $Id$
 
@@ -9,29 +10,21 @@
 
   Released under the GNU General Public License
 */
-
-$containers = info_pages::getContainer([
-  'pd.pages_id' => (int)$_GET['pages_id'],
-  'pd.languages_id' => (int)$_SESSION['languages_id'],
-  'p.pages_status' => 1,
-]);
-
+$containers = info_pages::get_container(['pd.pages_id' => (int) $_GET['pages_id'], 'pd.languages_id' => (int) $_SESSION['languages_id'], 'p.pages_status' => 1]);
 if (empty($containers)) {
     Href::redirect($Linker->build('index.php'));
 }
-
 $page = $containers[0];
-$breadcrumb->add($page['pages_title'], $Linker->build('info.php', ['pages_id' => (int)$page['pages_id']]));
-
+$breadcrumb->add($page['pages_title'], $Linker->build('info.php', ['pages_id' => (int) $page['pages_id']]));
 require $Template->map('template_top.php', 'component');
-
 $page_content = $Template->get_content('info');
 ?>
 
     <div class="row">
-      <?= $page_content ?>
+      <?php 
+echo $page_content;
+?>
     </div>
 
-  <?php
+  <?php 
 require $Template->map('template_bottom.php', 'component');
-?>

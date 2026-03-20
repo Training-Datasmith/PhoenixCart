@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Radar;
 
-class EarlyFraudWarningService extends \Stripe\Service\AbstractService
+class Early_Fraud_Warning_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of early fraud warnings.
@@ -20,9 +18,8 @@ class EarlyFraudWarningService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/radar/early_fraud_warnings', $params, $opts);
+        return $this->request_collection('get', '/v1/radar/early_fraud_warnings', $params, $opts);
     }
-
     /**
      * Retrieves the details of an early fraud warning that has previously been
      * created.
@@ -40,6 +37,6 @@ class EarlyFraudWarningService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/radar/early_fraud_warnings/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/radar/early_fraud_warnings/%s', $id), $params, $opts);
     }
 }

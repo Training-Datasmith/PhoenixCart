@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Issuing;
 
-class AuthorizationService extends \Stripe\Service\AbstractService
+class Authorization_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of Issuing <code>Authorization</code> objects. The objects are
@@ -22,9 +20,8 @@ class AuthorizationService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/issuing/authorizations', $params, $opts);
+        return $this->request_collection('get', '/v1/issuing/authorizations', $params, $opts);
     }
-
     /**
      * Approves a pending Issuing <code>Authorization</code> object. This request
      * should be made within the timeout window of the <a
@@ -43,9 +40,8 @@ class AuthorizationService extends \Stripe\Service\AbstractService
      */
     public function approve($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/issuing/authorizations/%s/approve', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/issuing/authorizations/%s/approve', $id), $params, $opts);
     }
-
     /**
      * Declines a pending Issuing <code>Authorization</code> object. This request
      * should be made within the timeout window of the <a
@@ -64,9 +60,8 @@ class AuthorizationService extends \Stripe\Service\AbstractService
      */
     public function decline($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/issuing/authorizations/%s/decline', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/issuing/authorizations/%s/decline', $id), $params, $opts);
     }
-
     /**
      * Retrieves an Issuing <code>Authorization</code> object.
      *
@@ -80,9 +75,8 @@ class AuthorizationService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/issuing/authorizations/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/issuing/authorizations/%s', $id), $params, $opts);
     }
-
     /**
      * Updates the specified Issuing <code>Authorization</code> object by setting the
      * values of the parameters passed. Any parameters not provided will be left
@@ -98,6 +92,6 @@ class AuthorizationService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/issuing/authorizations/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/issuing/authorizations/%s', $id), $params, $opts);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
 /**
@@ -16,7 +15,7 @@ namespace Stripe;
  * @property string $currency
  * @property string $type
  */
-class SourceTransaction extends ApiResource
+class Source_Transaction extends Api_Resource
 {
     public const OBJECT_NAME = 'source_transaction';
 }

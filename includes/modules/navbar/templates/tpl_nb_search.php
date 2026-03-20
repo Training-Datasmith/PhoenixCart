@@ -1,24 +1,22 @@
 <li class="nav-item nb-search">
   <a class="nav-link border rounded bg-body-tertiary" style="width: 15rem;" href="#" data-bs-toggle="modal" data-bs-target="#searchModal">
-    <?= MODULE_NAVBAR_SEARCH_PUBLIC_TEXT ?>
+    <?php 
+echo MODULE_NAVBAR_SEARCH_PUBLIC_TEXT;
+?>
   </a>
 </li>
 
-<?php
+<?php 
 $form = new Form('quick_find', $GLOBALS['Linker']->build('advanced_search_result.php')->set_include_session(false), 'get');
-    $form->hide_session_id()->hide('search_in_description', '0');
-
-    $search_text = TEXT_SEARCH_PLACEHOLDER;
-    $search_label = MODULE_NAVBAR_SEARCH_ARIA_LABEL;
-    $search_button = MODULE_NAVBAR_SEARCH_SEARCH_TEXT;
-
-    $advanced_search_link = $GLOBALS['Linker']->build('advanced_search.php');
-    $advanced_search_text = MODULE_NAVBAR_SEARCH_ADVANCED;
-
-    $input = new Input('keywords', ['autocomplete' => 'off', 'id' => 'keywords', 'placeholder' => $search_text, 'aria-label' => $search_label], 'search');
-    $input->require();
-
-    $searchModal = <<<SM
+$form->hide_session_id()->hide('search_in_description', '0');
+$search_text = TEXT_SEARCH_PLACEHOLDER;
+$search_label = MODULE_NAVBAR_SEARCH_ARIA_LABEL;
+$search_button = MODULE_NAVBAR_SEARCH_SEARCH_TEXT;
+$advanced_search_link = $GLOBALS['Linker']->build('advanced_search.php');
+$advanced_search_text = MODULE_NAVBAR_SEARCH_ADVANCED;
+$input = new Input('keywords', ['autocomplete' => 'off', 'id' => 'keywords', 'placeholder' => $search_text, 'aria-label' => $search_label], 'search');
+$input->require();
+$search_modal = <<<SM
 <div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content rounded">
@@ -45,12 +43,11 @@ sModal.addEventListener('shown.bs.modal', () => {
 })
 </script>
 SM;
+$GLOBALS['Template']->add_block($search_modal, 'footer_scripts');
+?>
 
-    $GLOBALS['Template']->add_block($searchModal, 'footer_scripts');
-    ?>
-
-<?php
-    /*
+<?php 
+/*
   $Id$
 
   CE Phoenix, E-Commerce made Easy
@@ -60,4 +57,3 @@ SM;
 
   Released under the GNU General Public License
 */
-    ?>

@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
+namespace Stripe\Service\Test_Helpers;
 
-namespace Stripe\Service\TestHelpers;
-
-class TestClockService extends \Stripe\Service\AbstractService
+class Test_Clock_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Starts advancing a test clock to a specified time in the future. Advancement is
@@ -22,9 +20,8 @@ class TestClockService extends \Stripe\Service\AbstractService
      */
     public function advance($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/test_clocks/%s/advance', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/test_clocks/%s/advance', $id), $params, $opts);
     }
-
     /**
      * Returns a list of your test clocks.
      *
@@ -37,9 +34,8 @@ class TestClockService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/test_helpers/test_clocks', $params, $opts);
+        return $this->request_collection('get', '/v1/test_helpers/test_clocks', $params, $opts);
     }
-
     /**
      * Creates a new test clock that can be attached to new customers and quotes.
      *
@@ -54,7 +50,6 @@ class TestClockService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/test_helpers/test_clocks', $params, $opts);
     }
-
     /**
      * Deletes a test clock.
      *
@@ -68,9 +63,8 @@ class TestClockService extends \Stripe\Service\AbstractService
      */
     public function delete($id, $params = null, $opts = null)
     {
-        return $this->request('delete', $this->buildPath('/v1/test_helpers/test_clocks/%s', $id), $params, $opts);
+        return $this->request('delete', $this->build_path('/v1/test_helpers/test_clocks/%s', $id), $params, $opts);
     }
-
     /**
      * Retrieves a test clock.
      *
@@ -84,6 +78,6 @@ class TestClockService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/test_helpers/test_clocks/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/test_helpers/test_clocks/%s', $id), $params, $opts);
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service\Radar;
 
 /**
@@ -13,19 +11,14 @@ namespace Stripe\Service\Radar;
  * @property ValueListItemService $valueListItems
  * @property ValueListService $valueLists
  */
-class RadarServiceFactory extends \Stripe\Service\AbstractServiceFactory
+class Radar_Service_Factory extends \Stripe\Service\Abstract_Service_Factory
 {
     /**
      * @var array<string, string>
      */
-    private static array $classMap = [
-        'earlyFraudWarnings' => EarlyFraudWarningService::class,
-        'valueListItems' => ValueListItemService::class,
-        'valueLists' => ValueListService::class,
-    ];
-
-    protected function getServiceClass($name)
+    private static array $class_map = ['earlyFraudWarnings' => Early_Fraud_Warning_Service::class, 'valueListItems' => Value_List_Item_Service::class, 'valueLists' => Value_List_Service::class];
+    protected function get_service_class($name)
     {
-        return \array_key_exists($name, self::$classMap) ? self::$classMap[$name] : null;
+        return \array_key_exists($name, self::$class_map) ? self::$class_map[$name] : null;
     }
 }

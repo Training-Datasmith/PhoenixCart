@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -24,37 +22,29 @@ namespace Stripe;
  * @property string|\Stripe\ApplicationFee $fee ID of the application fee that was refunded.
  * @property null|\Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
  */
-class ApplicationFeeRefund extends ApiResource
+class Application_Fee_Refund extends Api_Resource
 {
-    use ApiOperations\Update {
+    use Api_Operations\Update {
         save as protected _save;
     }
     public const OBJECT_NAME = 'fee_refund';
-
     /**
      * @return string the API URL for this Stripe refund
      */
-    public function instanceUrl(): string
+    public function instance_url(): string
     {
         $id = $this['id'];
         $fee = $this['fee'];
         if (!$id) {
-            throw new Exception\UnexpectedValueException(
-                'Could not determine which URL to request: ' .
-                "class instance has invalid ID: {$id}",
-                null
-            );
+            throw new Exception\UnexpectedValueException('Could not determine which URL to request: ' . "class instance has invalid ID: {$id}", null);
         }
         $id = Util\Util::utf8($id);
         $fee = Util\Util::utf8($fee);
-
-        $base = ApplicationFee::classUrl();
-        $feeExtn = \urlencode((string) $fee);
+        $base = Application_Fee::class_url();
+        $fee_extn = \urlencode((string) $fee);
         $extn = \urlencode((string) $id);
-
-        return "{$base}/{$feeExtn}/refunds/{$extn}";
+        return "{$base}/{$fee_extn}/refunds/{$extn}";
     }
-
     /**
      * @param null|array|string $opts
      *

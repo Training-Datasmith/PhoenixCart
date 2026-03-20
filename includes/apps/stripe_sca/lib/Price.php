@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -47,28 +45,23 @@ namespace Stripe;
  * @property null|int $unit_amount The unit amount in %s to be charged, represented as a whole integer if possible. Only set if <code>billing_scheme=per_unit</code>.
  * @property null|string $unit_amount_decimal The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if <code>billing_scheme=per_unit</code>.
  */
-class Price extends ApiResource
+class Price extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Search;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Search;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'price';
-
     public const BILLING_SCHEME_PER_UNIT = 'per_unit';
     public const BILLING_SCHEME_TIERED = 'tiered';
-
     public const TAX_BEHAVIOR_EXCLUSIVE = 'exclusive';
     public const TAX_BEHAVIOR_INCLUSIVE = 'inclusive';
     public const TAX_BEHAVIOR_UNSPECIFIED = 'unspecified';
-
     public const TIERS_MODE_GRADUATED = 'graduated';
     public const TIERS_MODE_VOLUME = 'volume';
-
     public const TYPE_ONE_TIME = 'one_time';
     public const TYPE_RECURRING = 'recurring';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -80,7 +73,6 @@ class Price extends ApiResource
     public static function search($params = null, $opts = null)
     {
         $url = '/v1/prices/search';
-
-        return self::_searchResource($url, $params, $opts);
+        return self::_search_resource($url, $params, $opts);
     }
 }

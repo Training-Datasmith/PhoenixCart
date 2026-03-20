@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /*
   $Id$
 
@@ -11,12 +11,10 @@ declare(strict_types=1);
 
   Released under the GNU General Public License
 */
-
 class hook_shop_write_css
 {
-    public function listen_injectSiteEnd(): string
+    public function listen_inject_site_end(): string
     {
         return '<style>.rating > input { display: none; } .rating > label:before { content: "\f005"; margin: 2px; font-size: 1.5em; font-family: "Font Awesome 5 Free"; display: inline-block; } .rating > label { color: #ccc; } .rating > input:checked ~ label { color: #ffca08; font-weight: 900; } .rating > input:hover ~ label { color: #ffca08; cursor: pointer; font-weight: 900; }</style>';
     }
-
 }

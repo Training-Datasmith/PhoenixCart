@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -38,21 +36,18 @@ namespace Stripe;
  * @property string $source_type The source balance this transfer came from. One of <code>card</code>, <code>fpx</code>, or <code>bank_account</code>.
  * @property null|string $transfer_group A string that identifies this transaction as part of a group. See the <a href="https://stripe.com/docs/connect/charges-transfers#transfer-options">Connect documentation</a> for details.
  */
-class Transfer extends ApiResource
+class Transfer extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\NestedResource;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Nested_Resource;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'transfer';
-
     public const SOURCE_TYPE_BANK_ACCOUNT = 'bank_account';
     public const SOURCE_TYPE_CARD = 'card';
     public const SOURCE_TYPE_FPX = 'fpx';
-
     public const PATH_REVERSALS = '/reversals';
-
     /**
      * @param string $id the ID of the transfer on which to retrieve the transfer reversals
      * @param null|array $params
@@ -62,11 +57,10 @@ class Transfer extends ApiResource
      *
      * @return \Stripe\Collection<\Stripe\TransferReversal> the list of transfer reversals
      */
-    public static function allReversals($id, $params = null, $opts = null)
+    public static function all_reversals($id, $params = null, $opts = null)
     {
-        return self::_allNestedResources($id, static::PATH_REVERSALS, $params, $opts);
+        return self::_all_nested_resources($id, static::PATH_REVERSALS, $params, $opts);
     }
-
     /**
      * @param string $id the ID of the transfer on which to create the transfer reversal
      * @param null|array $params
@@ -76,11 +70,10 @@ class Transfer extends ApiResource
      *
      * @return \Stripe\TransferReversal
      */
-    public static function createReversal($id, $params = null, $opts = null)
+    public static function create_reversal($id, $params = null, $opts = null)
     {
-        return self::_createNestedResource($id, static::PATH_REVERSALS, $params, $opts);
+        return self::_create_nested_resource($id, static::PATH_REVERSALS, $params, $opts);
     }
-
     /**
      * @param string $id the ID of the transfer to which the transfer reversal belongs
      * @param string $reversalId the ID of the transfer reversal to retrieve
@@ -91,11 +84,10 @@ class Transfer extends ApiResource
      *
      * @return \Stripe\TransferReversal
      */
-    public static function retrieveReversal($id, $reversalId, $params = null, $opts = null)
+    public static function retrieve_reversal($id, $reversal_id, $params = null, $opts = null)
     {
-        return self::_retrieveNestedResource($id, static::PATH_REVERSALS, $reversalId, $params, $opts);
+        return self::_retrieve_nested_resource($id, static::PATH_REVERSALS, $reversal_id, $params, $opts);
     }
-
     /**
      * @param string $id the ID of the transfer to which the transfer reversal belongs
      * @param string $reversalId the ID of the transfer reversal to update
@@ -106,8 +98,8 @@ class Transfer extends ApiResource
      *
      * @return \Stripe\TransferReversal
      */
-    public static function updateReversal($id, $reversalId, $params = null, $opts = null)
+    public static function update_reversal($id, $reversal_id, $params = null, $opts = null)
     {
-        return self::_updateNestedResource($id, static::PATH_REVERSALS, $reversalId, $params, $opts);
+        return self::_update_nested_resource($id, static::PATH_REVERSALS, $reversal_id, $params, $opts);
     }
 }

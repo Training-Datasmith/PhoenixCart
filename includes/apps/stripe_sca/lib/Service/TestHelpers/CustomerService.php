@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
+namespace Stripe\Service\Test_Helpers;
 
-namespace Stripe\Service\TestHelpers;
-
-class CustomerService extends \Stripe\Service\AbstractService
+class Customer_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Create an incoming testmode bank transfer.
@@ -19,8 +17,8 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @return \Stripe\Customer
      */
-    public function fundCashBalance($id, $params = null, $opts = null)
+    public function fund_cash_balance($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/test_helpers/customers/%s/fund_cash_balance', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/test_helpers/customers/%s/fund_cash_balance', $id), $params, $opts);
     }
 }

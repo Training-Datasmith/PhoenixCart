@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
 /**
@@ -15,59 +14,49 @@ namespace Stripe;
  * @property bool $has_more
  * @property TStripeObject[] $data
  */
-class Collection extends StripeObject implements \Countable, \IteratorAggregate
+class Collection extends Stripe_Object implements \Countable, \IteratorAggregate
 {
-    use ApiOperations\Request;
+    use Api_Operations\Request;
     public const OBJECT_NAME = 'list';
-
     /** @var array */
     protected $filters = [];
-
     /**
      * @return string the base URL for the given class
      */
-    public static function baseUrl()
+    public static function base_url()
     {
-        return Stripe::$apiBase;
+        return Stripe::$api_base;
     }
-
     /**
      * Returns the filters.
      *
      * @return array the filters
      */
-    public function getFilters()
+    public function get_filters()
     {
         return $this->filters;
     }
-
     /**
      * Sets the filters, removing paging options.
      *
      * @param array $filters the filters
      */
-    public function setFilters($filters): void
+    public function set_filters($filters): void
     {
         $this->filters = $filters;
     }
-
     /**
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function offsetGet($k)
     {
         if (\is_string($k)) {
             return parent::offsetGet($k);
         }
-        $msg = "You tried to access the {$k} index, but Collection " .
-                   'types only support string keys. (HINT: List calls ' .
-                   'return an object with a `data` (which is the data ' .
-                   "array). You likely want to call ->data[{$k}])";
-
+        $msg = "You tried to access the {$k} index, but Collection " . 'types only support string keys. (HINT: List calls ' . 'return an object with a `data` (which is the data ' . "array). You likely want to call ->data[{$k}])";
         throw new Exception\InvalidArgumentException($msg);
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -78,21 +67,16 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      */
     public function all($params = null, $opts = null): self
     {
-        self::_validateParams($params);
-        [$url, $params] = $this->extractPathAndUpdateParams($params);
-
+        self::_validate_params($params);
+        [$url, $params] = $this->extract_path_and_update_params($params);
         [$response, $opts] = $this->_request('get', $url, $params, $opts);
-        $obj = Util\Util::convertToStripeObject($response, $opts);
-        if (!($obj instanceof \Stripe\Collection)) {
-            throw new \Stripe\Exception\UnexpectedValueException(
-                'Expected type ' . \Stripe\Collection::class . ', got "' . $obj::class . '" instead.'
-            );
+        $obj = Util\Util::convert_to_stripe_object($response, $opts);
+        if (!$obj instanceof \Stripe\Collection) {
+            throw new \Stripe\Exception\UnexpectedValueException('Expected type ' . \Stripe\Collection::class . ', got "' . $obj::class . '" instead.');
         }
-        $obj->setFilters($params);
-
+        $obj->set_filters($params);
         return $obj;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -103,14 +87,11 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      */
     public function create($params = null, $opts = null)
     {
-        self::_validateParams($params);
-        [$url, $params] = $this->extractPathAndUpdateParams($params);
-
+        self::_validate_params($params);
+        [$url, $params] = $this->extract_path_and_update_params($params);
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-
-        return Util\Util::convertToStripeObject($response, $opts);
+        return Util\Util::convert_to_stripe_object($response, $opts);
     }
-
     /**
      * @param string $id
      * @param null|array $params
@@ -122,80 +103,65 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        self::_validateParams($params);
-        [$url, $params] = $this->extractPathAndUpdateParams($params);
-
+        self::_validate_params($params);
+        [$url, $params] = $this->extract_path_and_update_params($params);
         $id = Util\Util::utf8($id);
         $extn = \urlencode((string) $id);
-        [$response, $opts] = $this->_request(
-            'get',
-            "{$url}/{$extn}",
-            $params,
-            $opts
-        );
-
-        return Util\Util::convertToStripeObject($response, $opts);
+        [$response, $opts] = $this->_request('get', "{$url}/{$extn}", $params, $opts);
+        return Util\Util::convert_to_stripe_object($response, $opts);
     }
-
     /**
      * @return int the number of objects in the current page
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function count(): int
     {
         return \count($this->data);
     }
-
     /**
      * @return \ArrayIterator an iterator that can be used to iterate
      *    across objects in the current page
      */
-    #[\ReturnTypeWillChange]
+    #[\Return_Type_Will_Change]
     public function getIterator()
     {
         return new \ArrayIterator($this->data);
     }
-
     /**
      * @return \ArrayIterator an iterator that can be used to iterate
      *    backwards across objects in the current page
      */
-    public function getReverseIterator(): \ArrayIterator
+    public function get_reverse_iterator(): \ArrayIterator
     {
         return new \ArrayIterator(\array_reverse($this->data));
     }
-
     /**
      * @return \Generator|TStripeObject[] A generator that can be used to
      *    iterate across all objects across all pages. As page boundaries are
      *    encountered, the next page will be fetched automatically for
      *    continued iteration.
      */
-    public function autoPagingIterator()
+    public function auto_paging_iterator()
     {
         $page = $this;
-
         while (true) {
             $filters = $this->filters ?: [];
-            if (\array_key_exists('ending_before', $filters)
-                && !\array_key_exists('starting_after', $filters)) {
-                foreach ($page->getReverseIterator() as $item) {
+            if (\array_key_exists('ending_before', $filters) && !\array_key_exists('starting_after', $filters)) {
+                foreach ($page->get_reverse_iterator() as $item) {
                     yield $item;
                 }
-                $page = $page->previousPage();
+                $page = $page->previous_page();
             } else {
                 foreach ($page as $item) {
                     yield $item;
                 }
-                $page = $page->nextPage();
+                $page = $page->next_page();
             }
-
-            if ($page->isEmpty()) {
+            if ($page->is_empty()) {
                 break;
             }
         }
     }
-
     /**
      * Returns an empty collection. This is returned from {@see nextPage()}
      * when we know that there isn't a next page in order to replicate the
@@ -205,19 +171,17 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      *
      * @return Collection
      */
-    public static function emptyCollection($opts = null)
+    public static function empty_collection($opts = null)
     {
-        return Collection::constructFrom(['data' => []], $opts);
+        return Collection::construct_from(['data' => []], $opts);
     }
-
     /**
      * Returns true if the page object contains no element.
      */
-    public function isEmpty(): bool
+    public function is_empty(): bool
     {
         return empty($this->data);
     }
-
     /**
      * Fetches the next page in the resource list (if there is one).
      *
@@ -229,23 +193,15 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      *
      * @return Collection<TStripeObject>
      */
-    public function nextPage($params = null, $opts = null)
+    public function next_page($params = null, $opts = null)
     {
         if (!$this->has_more) {
-            return static::emptyCollection($opts);
+            return static::empty_collection($opts);
         }
-
-        $lastId = \end($this->data)->id;
-
-        $params = \array_merge(
-            $this->filters ?: [],
-            ['starting_after' => $lastId],
-            $params ?: []
-        );
-
+        $last_id = \end($this->data)->id;
+        $params = \array_merge($this->filters ?: [], ['starting_after' => $last_id], $params ?: []);
         return $this->all($params, $opts);
     }
-
     /**
      * Fetches the previous page in the resource list (if there is one).
      *
@@ -257,23 +213,15 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      *
      * @return Collection<TStripeObject>
      */
-    public function previousPage($params = null, $opts = null)
+    public function previous_page($params = null, $opts = null)
     {
         if (!$this->has_more) {
-            return static::emptyCollection($opts);
+            return static::empty_collection($opts);
         }
-
-        $firstId = $this->data[0]->id;
-
-        $params = \array_merge(
-            $this->filters ?: [],
-            ['ending_before' => $firstId],
-            $params ?: []
-        );
-
+        $first_id = $this->data[0]->id;
+        $params = \array_merge($this->filters ?: [], ['ending_before' => $first_id], $params ?: []);
         return $this->all($params, $opts);
     }
-
     /**
      * Gets the first item from the current page. Returns `null` if the current page is empty.
      *
@@ -283,7 +231,6 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
     {
         return \count($this->data) > 0 ? $this->data[0] : null;
     }
-
     /**
      * Gets the last item from the current page. Returns `null` if the current page is empty.
      *
@@ -293,14 +240,12 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
     {
         return \count($this->data) > 0 ? $this->data[\count($this->data) - 1] : null;
     }
-
-    private function extractPathAndUpdateParams($params): array
+    private function extract_path_and_update_params($params): array
     {
         $url = \parse_url($this->url);
         if (!isset($url['path'])) {
             throw new Exception\UnexpectedValueException("Could not parse list url into parts: {$url}");
         }
-
         if (isset($url['query'])) {
             // If the URL contains a query param, parse it out into $params so they
             // don't interact weirdly with each other.
@@ -308,7 +253,6 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
             \parse_str($url['query'], $query);
             $params = \array_merge($params ?: [], $query);
         }
-
         return [$url['path'], $params];
     }
 }

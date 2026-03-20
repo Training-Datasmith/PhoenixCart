@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Issuing;
 
 /**
@@ -28,14 +26,13 @@ namespace Stripe\Issuing;
  * @property string|\Stripe\Issuing\Transaction $transaction The transaction being disputed.
  * @property null|\Stripe\StripeObject $treasury <a href="https://stripe.com/docs/api/treasury">Treasury</a> details related to this dispute if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
  */
-class Dispute extends \Stripe\ApiResource
+class Dispute extends \Stripe\Api_Resource
 {
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Retrieve;
-    use \Stripe\ApiOperations\Update;
+    use \Stripe\Api_Operations\All;
+    use \Stripe\Api_Operations\Create;
+    use \Stripe\Api_Operations\Retrieve;
+    use \Stripe\Api_Operations\Update;
     public const OBJECT_NAME = 'issuing.dispute';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -46,10 +43,9 @@ class Dispute extends \Stripe\ApiResource
      */
     public function submit($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/submit';
+        $url = $this->instance_url() . '/submit';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

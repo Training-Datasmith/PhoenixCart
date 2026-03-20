@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class TokenService extends \Stripe\Service\AbstractService
+class Token_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Creates a single-use token that represents a bank account’s details. This token
@@ -25,7 +23,6 @@ class TokenService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/tokens', $params, $opts);
     }
-
     /**
      * Retrieves the token with the given ID.
      *
@@ -39,6 +36,6 @@ class TokenService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/tokens/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/tokens/%s', $id), $params, $opts);
     }
 }

@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe\Service;
 
-class PayoutService extends \Stripe\Service\AbstractService
+class Payout_Service extends \Stripe\Service\Abstract_Service
 {
     /**
      * Returns a list of existing payouts sent to third-party bank accounts or that
@@ -22,9 +20,8 @@ class PayoutService extends \Stripe\Service\AbstractService
      */
     public function all($params = null, $opts = null)
     {
-        return $this->requestCollection('get', '/v1/payouts', $params, $opts);
+        return $this->request_collection('get', '/v1/payouts', $params, $opts);
     }
-
     /**
      * A previously created payout can be canceled if it has not yet been paid out.
      * Funds will be refunded to your available balance. You may not cancel automatic
@@ -40,9 +37,8 @@ class PayoutService extends \Stripe\Service\AbstractService
      */
     public function cancel($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payouts/%s/cancel', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payouts/%s/cancel', $id), $params, $opts);
     }
-
     /**
      * To send funds to your own bank account, you create a new payout object. Your <a
      * href="#balance">Stripe balance</a> must be able to cover the payout amount, or
@@ -67,7 +63,6 @@ class PayoutService extends \Stripe\Service\AbstractService
     {
         return $this->request('post', '/v1/payouts', $params, $opts);
     }
-
     /**
      * Retrieves the details of an existing payout. Supply the unique payout ID from
      * either a payout creation request or the payout list, and Stripe will return the
@@ -83,9 +78,8 @@ class PayoutService extends \Stripe\Service\AbstractService
      */
     public function retrieve($id, $params = null, $opts = null)
     {
-        return $this->request('get', $this->buildPath('/v1/payouts/%s', $id), $params, $opts);
+        return $this->request('get', $this->build_path('/v1/payouts/%s', $id), $params, $opts);
     }
-
     /**
      * Reverses a payout by debiting the destination bank account. Only payouts for
      * connected accounts to US bank accounts may be reversed at this time. If the
@@ -106,9 +100,8 @@ class PayoutService extends \Stripe\Service\AbstractService
      */
     public function reverse($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payouts/%s/reverse', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payouts/%s/reverse', $id), $params, $opts);
     }
-
     /**
      * Updates the specified payout by setting the values of the parameters passed. Any
      * parameters not provided will be left unchanged. This request accepts only the
@@ -124,6 +117,6 @@ class PayoutService extends \Stripe\Service\AbstractService
      */
     public function update($id, $params = null, $opts = null)
     {
-        return $this->request('post', $this->buildPath('/v1/payouts/%s', $id), $params, $opts);
+        return $this->request('post', $this->build_path('/v1/payouts/%s', $id), $params, $opts);
     }
 }

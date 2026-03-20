@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -60,29 +58,24 @@ namespace Stripe;
  * @property null|string $usage Either <code>reusable</code> or <code>single_use</code>. Whether this source should be reusable or not. Some source types may or may not be reusable by construction, while others may leave the option at creation. If an incompatible value is passed, an error will be returned.
  * @property \Stripe\StripeObject $wechat
  */
-class Source extends ApiResource
+class Source extends Api_Resource
 {
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
-
-    use ApiOperations\NestedResource;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Update;
+    use Api_Operations\Nested_Resource;
     public const OBJECT_NAME = 'source';
-
     public const FLOW_CODE_VERIFICATION = 'code_verification';
     public const FLOW_NONE = 'none';
     public const FLOW_RECEIVER = 'receiver';
     public const FLOW_REDIRECT = 'redirect';
-
     public const STATUS_CANCELED = 'canceled';
     public const STATUS_CHARGEABLE = 'chargeable';
     public const STATUS_CONSUMED = 'consumed';
     public const STATUS_FAILED = 'failed';
     public const STATUS_PENDING = 'pending';
-
     public const USAGE_REUSABLE = 'reusable';
     public const USAGE_SINGLE_USE = 'single_use';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -94,34 +87,25 @@ class Source extends ApiResource
      */
     public function detach($params = null, $opts = null): static
     {
-        self::_validateParams($params);
-
+        self::_validate_params($params);
         $id = $this['id'];
         if (!$id) {
             $class = static::class;
-            $msg = "Could not determine which URL to request: {$class} instance "
-             . "has invalid ID: {$id}";
-
+            $msg = "Could not determine which URL to request: {$class} instance " . "has invalid ID: {$id}";
             throw new Exception\UnexpectedValueException($msg, null);
         }
-
         if ($this['customer']) {
-            $base = Customer::classUrl();
-            $parentExtn = \urlencode((string) Util\Util::utf8($this['customer']));
+            $base = Customer::class_url();
+            $parent_extn = \urlencode((string) Util\Util::utf8($this['customer']));
             $extn = \urlencode((string) Util\Util::utf8($id));
-            $url = "{$base}/{$parentExtn}/sources/{$extn}";
-
+            $url = "{$base}/{$parent_extn}/sources/{$extn}";
             [$response, $opts] = $this->_request('delete', $url, $params, $opts);
-            $this->refreshFrom($response, $opts);
-
+            $this->refresh_from($response, $opts);
             return $this;
         }
-        $message = 'This source object does not appear to be currently attached '
-               . 'to a customer object.';
-
+        $message = 'This source object does not appear to be currently attached ' . 'to a customer object.';
         throw new Exception\UnexpectedValueException($message);
     }
-
     /**
      * @param string $id
      * @param null|array $params
@@ -131,16 +115,14 @@ class Source extends ApiResource
      *
      * @return \Stripe\Collection<\Stripe\SourceTransaction> list of SourceTransactions
      */
-    public static function allSourceTransactions($id, $params = null, $opts = null)
+    public static function all_source_transactions($id, $params = null, $opts = null)
     {
-        $url = static::resourceUrl($id) . '/source_transactions';
-        [$response, $opts] = static::_staticRequest('get', $url, $params, $opts);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
-        $obj->setLastResponse($response);
-
+        $url = static::resource_url($id) . '/source_transactions';
+        [$response, $opts] = static::_static_request('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convert_to_stripe_object($response->json, $opts);
+        $obj->set_last_response($response);
         return $obj;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -151,10 +133,9 @@ class Source extends ApiResource
      */
     public function verify($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/verify';
+        $url = $this->instance_url() . '/verify';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
 }

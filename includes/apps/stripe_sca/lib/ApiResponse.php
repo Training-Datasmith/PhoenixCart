@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe;
 
-use Stripe\Util\CaseInsensitiveArray;
-
+use Stripe\Util\Case_Insensitive_Array;
 /**
  * Class ApiResponse.
  */
-class ApiResponse
+class Api_Response
 {
     /**
      * @param string $body

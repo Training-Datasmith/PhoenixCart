@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -67,19 +65,17 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $transfer_data An optional dictionary including the account to automatically transfer to as part of a destination charge. <a href="https://stripe.com/docs/connect/destination-charges">See the Connect documentation</a> for details.
  * @property null|string $transfer_group A string that identifies this transaction as part of a group. See the <a href="https://stripe.com/docs/connect/charges-transfers#transfer-options">Connect documentation</a> for details.
  */
-class Charge extends ApiResource
+class Charge extends Api_Resource
 {
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Search;
-    use ApiOperations\Update;
+    use Api_Operations\All;
+    use Api_Operations\Create;
+    use Api_Operations\Retrieve;
+    use Api_Operations\Search;
+    use Api_Operations\Update;
     public const OBJECT_NAME = 'charge';
-
     public const STATUS_FAILED = 'failed';
     public const STATUS_PENDING = 'pending';
     public const STATUS_SUCCEEDED = 'succeeded';
-
     /**
      * Possible string representations of decline codes.
      * These strings are applicable to the decline_code property of the \Stripe\Exception\CardException exception.
@@ -132,7 +128,6 @@ class Charge extends ApiResource
     public const DECLINED_TRANSACTION_NOT_ALLOWED = 'transaction_not_allowed';
     public const DECLINED_TRY_AGAIN_LATER = 'try_again_later';
     public const DECLINED_WITHDRAWAL_COUNT_LIMIT_EXCEEDED = 'withdrawal_count_limit_exceeded';
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -143,13 +138,11 @@ class Charge extends ApiResource
      */
     public function capture($params = null, $opts = null): static
     {
-        $url = $this->instanceUrl() . '/capture';
+        $url = $this->instance_url() . '/capture';
         [$response, $opts] = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-
+        $this->refresh_from($response, $opts);
         return $this;
     }
-
     /**
      * @param null|array $params
      * @param null|array|string $opts
@@ -161,7 +154,6 @@ class Charge extends ApiResource
     public static function search($params = null, $opts = null)
     {
         $url = '/v1/charges/search';
-
-        return self::_searchResource($url, $params, $opts);
+        return self::_search_resource($url, $params, $opts);
     }
 }

@@ -1,17 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Stripe\Exception;
 
 /**
  * InvalidRequestException is thrown when a request is initiated with invalid
  * parameters.
  */
-class InvalidRequestException extends ApiErrorException
+class Invalid_Request_Exception extends Api_Error_Exception
 {
-    protected $stripeParam;
-
+    protected $stripe_param;
     /**
      * Creates a new InvalidRequestException exception.
      *
@@ -25,38 +23,28 @@ class InvalidRequestException extends ApiErrorException
      *
      * @return InvalidRequestException
      */
-    public static function factory(
-        $message,
-        $httpStatus = null,
-        $httpBody = null,
-        $jsonBody = null,
-        $httpHeaders = null,
-        $stripeCode = null,
-        $stripeParam = null
-    ) {
-        $instance = parent::factory($message, $httpStatus, $httpBody, $jsonBody, $httpHeaders, $stripeCode);
-        $instance->setStripeParam($stripeParam);
-
+    public static function factory($message, $http_status = null, $http_body = null, $json_body = null, $http_headers = null, $stripe_code = null, $stripe_param = null)
+    {
+        $instance = parent::factory($message, $http_status, $http_body, $json_body, $http_headers, $stripe_code);
+        $instance->set_stripe_param($stripe_param);
         return $instance;
     }
-
     /**
      * Gets the parameter related to the error.
      *
      * @return null|string
      */
-    public function getStripeParam()
+    public function get_stripe_param()
     {
-        return $this->stripeParam;
+        return $this->stripe_param;
     }
-
     /**
      * Sets the parameter related to the error.
      *
      * @param null|string $stripeParam
      */
-    public function setStripeParam($stripeParam): void
+    public function set_stripe_param($stripe_param): void
     {
-        $this->stripeParam = $stripeParam;
+        $this->stripe_param = $stripe_param;
     }
 }

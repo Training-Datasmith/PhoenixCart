@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 // File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
@@ -32,7 +30,7 @@ namespace Stripe;
  * @property string $type A string identifying the type of the source of this line item, either an <code>invoiceitem</code> or a <code>subscription</code>.
  * @property null|string $unit_amount_excluding_tax The amount in %s representing the unit amount for this line item, excluding all tax and discounts.
  */
-class InvoiceLineItem extends ApiResource
+class Invoice_Line_Item extends Api_Resource
 {
     public const OBJECT_NAME = 'line_item';
 }
