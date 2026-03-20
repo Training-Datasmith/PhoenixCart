@@ -25,7 +25,12 @@ class cm_cs_downloads extends abstract_executable_module
     {
         if ('true' === DOWNLOAD_ENABLED) {
             ob_start();
-            extract($GLOBALS, EXTR_SKIP);
+            // Explicit access to globals required by the template:
+            $db        = $GLOBALS['db']        ?? null;
+            $languages_id = $GLOBALS['languages_id'] ?? null;
+            $currency  = $GLOBALS['currency']  ?? null;
+            $customer  = $GLOBALS['customer']  ?? null;
+            $order     = $GLOBALS['order']     ?? null;
 
             $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
             include 'includes/modules/content/cm_template.php';
